@@ -11,6 +11,8 @@ apply plugin: 'idea'
 apply plugin: 'spring-boot'
 apply plugin: 'application'
 
+mainClassName = "de.hhn.labswps.wefactor.Application"
+
 // Uses JDK 8
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
