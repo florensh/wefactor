@@ -28,7 +28,6 @@ dependencies {
     testCompile("org.springframework.boot:spring-boot-starter-test")
 }
 
-defaultTasks "clean", "build", "installApp"
 
 task stage(type: Copy, dependsOn: [clean, build]) {
     from jar.archivePath
