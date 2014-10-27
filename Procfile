@@ -1,1 +1,1 @@
-web: java -Dserver.port=$PORT -jar build/libs/weFactor.jar
+web: java -Dserver.port=$PORT -jar app.jar
