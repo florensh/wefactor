@@ -1,0 +1,50 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="layout :: htmlhead" th:with="title='Hello'"></head>
+<body>
+	<div class="container">
+		<div class="row-fluid">
+			<div class="jumbotron">
+				<h1>login</h1>
+			</div>
+			<table style="border-collapse: separate; border-spacing: 2px">
+				<tr>
+					<td><a th:href="@{/auth/linkedin}"
+						class="ml btn btn-block btn-social btn-sm btn-linkedin"><i
+							class="fa fa-linkedin"></i>LinkedIn</a></td>
+					<td><a th:href="@{/connect/facebook}"
+						class="ml btn btn-block btn-social btn-sm btn-facebook"><i
+							class="fa fa-facebook"></i>Facebook</a></td>
+				</tr>
+				<tr>
+					<td><a th:href="@{/auth/twitter}"
+						class="ml btn btn-block btn-social btn-sm btn-twitter"><i
+							class="fa fa-twitter"></i>Twitter</a></td>
+					<td><a
+						th:href="@{/auth/live(scope='wl.signin,wl.basic',redirect_uri='http://localhost:8080/auth/live')}"
+						class="ml btn btn-block btn-social btn-sm btn-microsoft"><i
+							class="fa fa-windows"></i>Microsoft</a></td>
+				</tr>
+				<tr>
+					<td><a th:href="@{/auth/github}"
+						class="ml btn btn-block btn-social btn-sm btn-github"><i
+							class="fa fa-github"></i>Github</a></td>
+					<td><a th:href="@{/auth/google(scope='profile')}"
+						class="ml btn btn-block btn-social btn-sm btn-google-plus"><i
+							class="fa fa-google-plus"></i>Google+</a></td>
+				</tr>
+			</table>
+			<form th:action="@{/signin/google}" method="post">
+				<input type="hidden" name="scope" value="profile" />
+				<p>You haven't created any connections with Twitter yet. Click
+					the button to create a connection between your account and your
+					Twitter profile. (You'll be redirected to Twitter where you'll be
+					asked to authorize the connection.)</p>
+				<p>
+					<button type="submit">connect</button>
+				</p>
+			</form>
+
+		</div>
+	</div>
+</body>
+</html>

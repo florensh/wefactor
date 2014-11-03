@@ -8,4 +8,5 @@ deploy:
   api_key: fb2289f8-3099-4ae3-a2da-8c1b79434dcc
   strategy: git
   app:
-    master: evening-shelf-2330
+    master: wefactor-customer
+    develop: evening-shelf-2330
