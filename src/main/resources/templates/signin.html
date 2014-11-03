@@ -2,49 +2,89 @@
 <head th:include="layout :: htmlhead" th:with="title='Hello'"></head>
 <body>
 	<div class="container">
-		<div class="row-fluid">
-			<div class="jumbotron">
-				<h1>login</h1>
+
+
+		<div class="omb_login">
+			<h3 class="omb_authTitle">
+				Login or <a href="/signup">Sign
+					up</a>
+			</h3>
+
+			<div class="row omb_row-sm-offset-3">
+				<div class="col-xs-12 col-sm-6">
+					<form class="omb_loginForm" action="" autocomplete="off"
+						method="POST">
+						<div class="input-group">
+							<span class="input-group-addon"><i class="fa fa-user"></i></span>
+							<input type="text" class="form-control" name="username"
+								placeholder="email address"></input>
+						</div>
+						<span class="help-block"></span>
+
+						<div class="input-group">
+							<span class="input-group-addon"><i class="fa fa-lock"></i></span>
+							<input type="password" class="form-control" name="password"
+								placeholder="Password"></input>
+						</div>
+						<span class="help-block">Password error</span>
+
+						<button class="btn btn-lg btn-primary btn-block" type="submit">Login</button>
+					</form>
+				</div>
 			</div>
-			<table style="border-collapse: separate; border-spacing: 2px">
-				<tr>
-					<td><a th:href="@{/auth/linkedin}"
-						class="ml btn btn-block btn-social btn-sm btn-linkedin"><i
-							class="fa fa-linkedin"></i>LinkedIn</a></td>
-					<td><a th:href="@{/connect/facebook}"
-						class="ml btn btn-block btn-social btn-sm btn-facebook"><i
-							class="fa fa-facebook"></i>Facebook</a></td>
-				</tr>
-				<tr>
-					<td><a th:href="@{/auth/twitter}"
-						class="ml btn btn-block btn-social btn-sm btn-twitter"><i
-							class="fa fa-twitter"></i>Twitter</a></td>
-					<td><a
-						th:href="@{/auth/live(scope='wl.signin,wl.basic',redirect_uri='http://localhost:8080/auth/live')}"
-						class="ml btn btn-block btn-social btn-sm btn-microsoft"><i
-							class="fa fa-windows"></i>Microsoft</a></td>
-				</tr>
-				<tr>
-					<td><a th:href="@{/auth/github}"
-						class="ml btn btn-block btn-social btn-sm btn-github"><i
-							class="fa fa-github"></i>Github</a></td>
-					<td><a th:href="@{/auth/google(scope='profile')}"
-						class="ml btn btn-block btn-social btn-sm btn-google-plus"><i
-							class="fa fa-google-plus"></i>Google+</a></td>
-				</tr>
-			</table>
-			<form th:action="@{/signin/google}" method="post">
-				<input type="hidden" name="scope" value="profile" />
-				<p>You haven't created any connections with Twitter yet. Click
-					the button to create a connection between your account and your
-					Twitter profile. (You'll be redirected to Twitter where you'll be
-					asked to authorize the connection.)</p>
-				<p>
-					<button type="submit">connect</button>
-				</p>
-			</form>
+
+			<div class="row omb_row-sm-offset-3">
+				<div class="col-xs-12 col-sm-3">
+					<label> <input class="check-box" value="remember-me"
+						type="checkbox"></input> Remember Me
+					</label>
+				</div>
+				<div class="col-xs-12 col-sm-3">
+					<p class="omb_forgotPwd">
+						<a href="#">Forgot password?</a>
+					</p>
+				</div>
+			</div>
+
+			<div class="row omb_row-sm-offset-3 omb_loginOr">
+				<div class="col-xs-12 col-sm-6">
+					<hr class="omb_hrOr"></hr>
+					<span class="omb_spanOr">or</span>
+				</div>
+			</div>
+
+			<div class="row omb_row-sm-offset-3 omb_socialButtons">
+				<div class="col-xs-2 col-sm-1">
+				<form th:action="@{/signin/google}" method="post">
+					<input type="hidden" name="scope" value="profile"/> 
+					<button type="submit" class="btn btn-mid btn-block omb_btn-google"> <i
+						class="fa fa-google-plus-square fa-4x"></i>
+					</button>
+				</form>	
+				</div>
+				<div class="col-xs-2 col-sm-1">
+					<a href="#" class="btn btn-mid btn-block omb_btn-facebook"> <i
+						class="fa fa-facebook-square fa-4x"></i>
+					</a>
+				</div>
+				<div class="col-xs-2 col-sm-1">
+					<a href="#" class="btn btn-mid btn-block omb_btn-twitter"> <i
+						class="fa fa-twitter-square fa-4x"></i>
+					</a>
+				</div>
+				<div class="col-xs-2 col-sm-1">
+					<a href="#" class="btn btn-mid btn-block omb_btn-linkedin"> <i
+						class="fa fa-linkedin-square fa-4x"></i>
+					</a>
+				</div>
+
+			</div>
+
 
 		</div>
+
+
+
 	</div>
 </body>
 </html>
