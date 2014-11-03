@@ -1,4 +1,4 @@
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head th:fragment="htmlhead">
 <meta charset="utf-8"></meta>
 <meta http-equiv="X-UA-Compatible" content="IE=edge"></meta>
@@ -60,17 +60,21 @@
         <button type="submit" class="btn btn-default">Submit</button>
       </form>
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="#">Link</a></li>
-        <li class="dropdown">
+        <li th:if="${currentUserDisplayName == null}"><a href="/signup">sign up</a></li>
+        <li th:unless="${currentUserDisplayName == null}"><a href="/logout">logout</a></li>
+        <li th:if="${currentUserDisplayName == null}"><a href="/signin">sign in</a></li>
+        <li th:unless="${currentUserDisplayName == null}" class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-          <sec:authorize access="isAuthenticated()"><sec:authentication property="principal.username"/></sec:authorize>
+          <span th:text="${currentUserDisplayName}">Bob</span>
           <span class="caret"></span></a>
+    
+          
           <ul class="dropdown-menu" role="menu">
             <li><a href="#">Action</a></li>
             <li><a href="#">Another action</a></li>
             <li><a href="#">Something else here</a></li>
             <li class="divider"></li>
-            <li><a href="#">Logout</a></li>
+            <li><a href="/logout">Logout</a></li>
           </ul>
         </li>
       </ul>
@@ -89,8 +93,8 @@
 		<div class="container">
 			<p class="muted credit">comming soon ;)</p>
 		</div>
-		<script th:src="@{/webjars/jquery/2.0.3/jquery.min.js}"></script>
-		<script th:src="@{/webjars/bootstrap/3.0.3/js/bootstrap.min.js}"></script>
+		<script th:src="@{/webjars/jquery/2.1.1/jquery.min.js}"></script>
+		<script th:src="@{/webjars/bootstrap/3.2.0/js/bootstrap.min.js}"></script>
 	</div>
 </body>
 </html>

@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.security.crypto.encrypt.TextEncryptor;
 import org.springframework.social.connect.Connection;
 import org.springframework.social.connect.ConnectionData;
@@ -104,9 +103,6 @@ public class ConnectionRepositoryDelegate implements ConnectionRepository {
 
         List<UserConnection> conn = new ArrayList<UserConnection>();
 
-        StringBuilder providerUsersCriteriaSql = new StringBuilder();
-        MapSqlParameterSource parameters = new MapSqlParameterSource();
-        parameters.addValue("userId", userId);
         for (Iterator<Entry<String, List<String>>> it = providerUsers
                 .entrySet().iterator(); it.hasNext();) {
 

@@ -18,6 +18,7 @@ import org.springframework.social.connect.web.ProviderSignInController;
 import org.springframework.social.facebook.connect.FacebookConnectionFactory;
 import org.springframework.social.google.connect.GoogleConnectionFactory;
 import org.springframework.social.security.AuthenticationNameUserIdSource;
+import org.springframework.social.security.SocialUserDetailsService;
 
 import de.hhn.labswps.wefactor.domain.UserConnectionRepository;
 import de.hhn.labswps.wefactor.domain.UserProfileRepository;
@@ -37,6 +38,9 @@ public class SocialConfig implements SocialConfigurer {
 
     @Autowired
     private UserProfileRepository userProfileRepository;
+
+    @Autowired
+    private SocialUserDetailsService socialUserDetailsService;
 
     @Autowired
     private UserConnectionRepository userConnectionRepository;
@@ -79,7 +83,8 @@ public class SocialConfig implements SocialConfigurer {
             ConnectionFactoryLocator connectionFactoryLocator,
             UsersConnectionRepository usersConnectionRepository) {
         return new ProviderSignInController(connectionFactoryLocator,
-                usersConnectionRepository, new SimpleSignInAdapter(
+                usersConnectionRepository,
+                new SimpleSignInAdapter(socialUserDetailsService,
                         new HttpSessionRequestCache()));
     }
 }

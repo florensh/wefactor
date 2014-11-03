@@ -9,7 +9,6 @@ public interface UserProfileRepository extends
 
     UserProfile findByUsername(String u);
 
-    // Set<String> findUserIdsByProviderIdAndProviderUserIds(String providerId,
-    // Set<String> providerUserIds);
+    UserProfile findByUserId(String userId);
 
 }

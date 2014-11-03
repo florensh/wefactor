@@ -1,5 +1,6 @@
 package de.hhn.labswps.wefactor.domain;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -10,22 +11,46 @@ import javax.persistence.Table;
 @Table(name = "userprofile")
 public class UserProfile extends User {
 
-    private final String userId;
+    private String userId;
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
 
     private String name;
 
-    private final String firstName;
+    private String firstName;
 
-    private final String lastName;
+    private String lastName;
 
-    private final String username;
+    private String username;
+
+    public UserProfile() {
+
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    private Long id;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-
     public Long getId() {
         return id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public void setId(Long id) {
@@ -84,6 +109,8 @@ public class UserProfile extends User {
         this.lastName = up.getLastName();
         this.email = up.getEmail();
         this.username = up.getUsername();
+        this.roles = "USER";
+        this.password = up.getUsername(); // TODO improve!!!
     }
 
     public String getUserId() {
@@ -102,8 +129,31 @@ public class UserProfile extends User {
         return lastName;
     }
 
+    @Column(name = "email")
     public String getEmail() {
         return email;
+    }
+
+    @Override
+    @Column(name = "roles")
+    public String getRoles() {
+        return super.getRoles();
+    }
+
+    @Override
+    public void setRoles(String roles) {
+        super.setRoles(roles);
+    }
+
+    @Override
+    @Column(name = "password")
+    public String getPassword() {
+        return super.getPassword();
+    }
+
+    @Override
+    public void setPassword(String password) {
+        super.setPassword(password);
     }
 
     public String getUsername() {

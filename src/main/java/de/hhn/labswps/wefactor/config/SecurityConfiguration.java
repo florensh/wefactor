@@ -41,7 +41,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .logout()
                 .deleteCookies("JSESSIONID")
                 .logoutUrl("/logout")
-                .logoutSuccessUrl("/login")
+                .logoutSuccessUrl("/signin")
                 // Configures url based authorization
                 .and()
                 .authorizeRequests()
@@ -73,7 +73,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Bean
     public SocialUserDetailsService socialUserDetailsService() {
-        return new SimpleSocialUserDetailSevice(userDetailsService());
+        return new SimpleSocialUserDetailSevice();
     }
 
     @Bean

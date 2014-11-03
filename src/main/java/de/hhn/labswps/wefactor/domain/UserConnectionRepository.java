@@ -41,4 +41,8 @@ public interface UserConnectionRepository extends
     UserConnection findByUserIdAndProviderIdAndProviderUserId(String userId,
             String providerId, String providerUserId);
 
+    UserConnection findByUserId(String userId);
+
+    UserConnection findByProviderUserId(String userId);
+
 }

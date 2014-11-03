@@ -31,4 +31,20 @@ public class RepositoryUserDetailsService implements UserDetailsService {
         return securityUser;
     }
 
+    public UserDetails loadUserByUserId(String userId) {
+        User securityUser = null;
+
+        UserProfile user = userRepository.findByUserId(userId);
+
+        if (user == null) {
+            throw new UsernameNotFoundException("UserName " + userId
+                    + " not found");
+        } else {
+            securityUser = new User(user.getUsername(), user.getPassword(),
+                    user.getAuthorities());
+        }
+        return securityUser;
+
+    }
+
 }
