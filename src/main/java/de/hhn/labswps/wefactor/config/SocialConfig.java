@@ -15,7 +15,6 @@ import org.springframework.social.config.annotation.SocialConfigurer;
 import org.springframework.social.connect.ConnectionFactoryLocator;
 import org.springframework.social.connect.UsersConnectionRepository;
 import org.springframework.social.connect.web.ProviderSignInController;
-import org.springframework.social.facebook.connect.FacebookConnectionFactory;
 import org.springframework.social.google.connect.GoogleConnectionFactory;
 import org.springframework.social.security.AuthenticationNameUserIdSource;
 import org.springframework.social.security.SocialUserDetailsService;
@@ -49,11 +48,11 @@ public class SocialConfig implements SocialConfigurer {
     public void addConnectionFactories(
             ConnectionFactoryConfigurer connectionFactoryConfigurer,
             Environment environment) {
-        connectionFactoryConfigurer
-                .addConnectionFactory(new FacebookConnectionFactory(
-                        environment.getProperty("spring.social.facebook.appId"),
-                        environment
-                                .getProperty("spring.social.facebook.appSecret")));
+        // connectionFactoryConfigurer
+        // .addConnectionFactory(new FacebookConnectionFactory(
+        // environment.getProperty("spring.social.facebook.appId"),
+        // environment
+        // .getProperty("spring.social.facebook.appSecret")));
 
         connectionFactoryConfigurer
                 .addConnectionFactory(new GoogleConnectionFactory(environment
