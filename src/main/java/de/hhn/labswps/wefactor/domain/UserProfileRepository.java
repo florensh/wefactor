@@ -11,4 +11,6 @@ public interface UserProfileRepository extends
 
     UserProfile findByUserId(String userId);
 
+    UserProfile findByEmail(String email);
+
 }

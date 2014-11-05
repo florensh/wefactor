@@ -15,6 +15,7 @@ import org.springframework.security.web.WebAttributes;
 import org.springframework.stereotype.Component;
 import org.springframework.ui.Model;
 
+import de.hhn.labswps.wefactor.domain.IUserProfile;
 import de.hhn.labswps.wefactor.domain.UserConnection;
 import de.hhn.labswps.wefactor.domain.UserConnectionRepository;
 import de.hhn.labswps.wefactor.domain.UserProfile;
@@ -53,7 +54,7 @@ public class SocialControllerUtil {
         HttpSession session = request.getSession();
 
         UserConnection connection = null;
-        UserProfile profile = null;
+        IUserProfile profile = null;
         String displayName = null;
 
         // Collect info if the user is logged in, i.e. userId is set
@@ -122,8 +123,8 @@ public class SocialControllerUtil {
      * @param userId
      * @return
      */
-    protected UserProfile getUserProfile(HttpSession session, String userId) {
-        UserProfile profile = (UserProfile) session.getAttribute(USER_PROFILE);
+    protected IUserProfile getUserProfile(HttpSession session, String userId) {
+        IUserProfile profile = (UserProfile) session.getAttribute(USER_PROFILE);
 
         // Reload from persistence storage if not set or invalid (i.e. no valid
         // userId)
@@ -162,11 +163,11 @@ public class SocialControllerUtil {
      * @return
      */
     protected String getDisplayName(UserConnection connection,
-            UserProfile profile) {
+            IUserProfile profile) {
 
         // The name is set differently in different providers so we better look
         // in both places...
-        if (connection.getDisplayName() != null) {
+        if (connection != null && connection.getDisplayName() != null) {
             return connection.getDisplayName();
         } else {
             return profile.getName();

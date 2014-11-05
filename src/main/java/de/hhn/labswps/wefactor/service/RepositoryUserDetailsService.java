@@ -6,7 +6,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
-import de.hhn.labswps.wefactor.domain.UserProfile;
+import de.hhn.labswps.wefactor.domain.IUserProfile;
 import de.hhn.labswps.wefactor.domain.UserProfileRepository;
 
 public class RepositoryUserDetailsService implements UserDetailsService {
@@ -19,7 +19,7 @@ public class RepositoryUserDetailsService implements UserDetailsService {
             throws UsernameNotFoundException {
         User securityUser = null;
 
-        UserProfile user = userRepository.findByUsername(userName);
+        IUserProfile user = userRepository.findByUsername(userName);
 
         if (user == null) {
             throw new UsernameNotFoundException("UserName " + userName
@@ -34,7 +34,7 @@ public class RepositoryUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUserId(String userId) {
         User securityUser = null;
 
-        UserProfile user = userRepository.findByUserId(userId);
+        IUserProfile user = userRepository.findByUserId(userId);
 
         if (user == null) {
             throw new UsernameNotFoundException("UserName " + userId

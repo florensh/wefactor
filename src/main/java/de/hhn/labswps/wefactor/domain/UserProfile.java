@@ -9,7 +9,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "userprofile")
-public class UserProfile extends User {
+public class UserProfile extends User implements IUserProfile {
 
     private String userId;
 
@@ -65,6 +65,18 @@ public class UserProfile extends User {
         this.lastName = lastName;
         this.email = email;
         this.username = username;
+        this.roles = "USER";
+
+        fixName();
+    }
+
+    public UserProfile(String userId, String email, String username,
+            String password) {
+        this.userId = userId;
+        this.email = email;
+        this.username = username;
+        this.password = password;
+        this.roles = "USER";
 
         fixName();
     }
@@ -129,7 +141,7 @@ public class UserProfile extends User {
         return lastName;
     }
 
-    @Column(name = "email")
+    @Column(name = "email", unique = true)
     public String getEmail() {
         return email;
     }
@@ -156,6 +168,7 @@ public class UserProfile extends User {
         super.setPassword(password);
     }
 
+    @Column(unique = true)
     public String getUsername() {
         return username;
     }
