@@ -1,1 +1,1 @@
-web: java -Dserver.port=$PORT -jar app.jar --spring.config.name=customer
+web: java -Dserver.port=$PORT -jar app.jar
