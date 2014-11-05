@@ -58,7 +58,7 @@ dependencies {
 }
 
 
-task stage(type: Copy, dependsOn: [clean, build]) {
+task stage(type: Copy, dependsOn: [clean, assemble]) {
     from jar.archivePath
     into project.rootDir 
     rename {
