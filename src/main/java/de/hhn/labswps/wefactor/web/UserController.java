@@ -41,6 +41,13 @@ public class UserController {
         return "registration";
     }
 
+    @RequestMapping(value = "/user/settings", method = RequestMethod.GET)
+    public String showSettings(Model model) {
+        // model.addAttribute("registerFormDataObject",
+        // new RegisterFormDataObject());
+        return "settings";
+    }
+
     @RequestMapping(value = "/user/register", method = RequestMethod.POST)
     public String submitForm(
             @Valid RegisterFormDataObject registerFormDataObject,
