@@ -25,6 +25,16 @@ public class UserProfile extends User implements IUserProfile {
 
     private String username;
 
+    private String description;
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     public UserProfile() {
 
     }
