@@ -28,7 +28,10 @@ public class AccountConnectionSignUpService implements ConnectionSignUp {
         String userId = UUID.randomUUID().toString();
         // TODO: Or simply use: r = new Random(); r.nextInt(); ???
         LOG.debug("Created user-id: " + userId);
-        userProfileRepository.save(new UserProfile(userId, profile));
+
+        UserProfile userProfile = new UserProfile(userId, profile);
+
+        userProfileRepository.save(userProfile);
         return userId;
     }
 

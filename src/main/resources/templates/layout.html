@@ -31,6 +31,7 @@
 <link th:href="@{/css/starter.css}" rel="stylesheet"></link>
 <link th:href="@{/css/login.css}" rel="stylesheet"></link>
 <link th:href="@{/css/styles.css}" rel="stylesheet"></link>
+<link th:href="@{/css/profile.css}" rel="stylesheet"></link>
 </head>
 <body>
 	<div class="page-container">
@@ -52,18 +53,21 @@
 							navigation</span>
 					</button>
 
+
+<!--  wieder aktivieren wenn suchfunktion implementiert wird
 					<button type="button" class="navbar-toggle collapsed"
 						data-toggle="collapse" data-target="#bs-example-navbar-collapse-2">
 						<span class="sr-only">Toggle navigation</span><i
 							class="fa fa-search fa-fw"></i>
 					</button>
+					-->
 
-					<a class="navbar-brand" href="#">weFactor</a>
+					<a class="navbar-brand" href="/">weFactor</a>
 				</div>
 
 
 
-				<!-- Collect the nav links, forms, and other content for toggling -->
+<!--  wieder aktivieren wenn suchfunktion implementiert wird
 				<div class="collapse navbar-collapse"
 					id="bs-example-navbar-collapse-2">
 
@@ -74,14 +78,9 @@
 								<button class="btn btn-default" type="button">Go!</button>
 							</span> 
 						</div>
-						<!-- /input-group -->
 					</form>
-
-
-
-
 				</div>
-				<!-- /.navbar-collapse -->
+				-->
 
 
 
@@ -96,36 +95,13 @@
 					id="bs-example-navbar-collapse-1">
 
 
-
-					<!--
-					<ul class="nav navbar-nav">
-						
-						<li class="active"><a href="#">Link</a></li>
-						<li><a href="#">Link</a></li>
-						<li class="dropdown"><a href="#" class="dropdown-toggle"
-							data-toggle="dropdown">Dropdown <span class="caret"></span></a>
-							<ul class="dropdown-menu" role="menu">
-								<li><a href="#">Action</a></li>
-								<li><a href="#">Another action</a></li>
-								<li><a href="#">Something else here</a></li>
-								<li class="divider"></li>
-								<li><a href="#">Separated link</a></li>
-								<li class="divider"></li>
-								<li><a href="#">One more separated link</a></li>
-							</ul></li>
-					</ul>
-					-->
-
-
-
-
 					<ul class="nav navbar-nav navbar-right">
 
 						<li th:if="${currentUserDisplayName == null}"><a
-							href="/signup">sign up</a></li>
+							href="/signup">create new account</a></li>
 
 						<li th:if="${currentUserDisplayName == null}"><a
-							href="/signin">sign in</a></li>
+							href="/signin"><i class="fa fa-sign-in fa-fw"></i>log in</a></li>
 						<li th:unless="${currentUserDisplayName == null}" class="dropdown">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown"> <span
 								th:text="${currentUserDisplayName}">Bob</span> <span
@@ -133,8 +109,8 @@
 
 
 							<ul class="dropdown-menu" role="menu">
-								<li><a href="/user/settings"><i
-										class="fa fa-cogs fa-fw"></i>Settings</a></li>
+								<li><a href="/user/profile"><i
+										class="fa fa-user fa-fw"></i>Profile</a></li>
 								<!--<li><a href="#">Another action</a></li>
             <li><a href="#">Something else here</a></li>  -->
 								<li class="divider"></li>
@@ -161,10 +137,7 @@
 					class="col-xs-6 col-sm-3 sidebar-offcanvas" id="sidebar"
 					role="navigation">
 					<ul class="nav">
-						<li class="active"><a href="#">Home</a></li>
-						<li><a href="#">Link 1</a></li>
-						<li><a href="#">Link 2</a></li>
-						<li><a href="#">Link 3</a></li>
+						<li sec:authorize="hasRole('USER')" class="active"><a href="/user/entries">My Entries</a></li>
 					</ul>
 				</div>
 

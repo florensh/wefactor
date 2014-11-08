@@ -21,9 +21,6 @@ import de.hhn.labswps.wefactor.domain.UserConnectionRepository;
 import de.hhn.labswps.wefactor.domain.UserProfile;
 import de.hhn.labswps.wefactor.domain.UserProfileRepository;
 
-/**
- * Created by magnus on 2014-08-24.
- */
 @Component
 public class SocialControllerUtil {
 
@@ -54,7 +51,7 @@ public class SocialControllerUtil {
         HttpSession session = request.getSession();
 
         UserConnection connection = null;
-        IUserProfile profile = null;
+        UserProfile profile = null;
         String displayName = null;
 
         // Collect info if the user is logged in, i.e. userId is set
@@ -79,7 +76,15 @@ public class SocialControllerUtil {
                 exception == null ? null : exception.getMessage());
         model.addAttribute("currentUserId", userId);
         model.addAttribute("currentUserProfile", profile);
-        model.addAttribute("currentUserConnection", connection);
+
+        if (connection != null) {
+            String imageUrl = connection.getImageUrl();
+
+            imageUrl = imageUrl.replace("sz=50", "sz=150");
+            model.addAttribute("currentUserImageUrl", imageUrl);
+
+        }
+
         model.addAttribute("currentUserDisplayName", displayName);
 
         if (LOG.isDebugEnabled()) {
@@ -123,8 +128,8 @@ public class SocialControllerUtil {
      * @param userId
      * @return
      */
-    protected IUserProfile getUserProfile(HttpSession session, String userId) {
-        IUserProfile profile = (UserProfile) session.getAttribute(USER_PROFILE);
+    protected UserProfile getUserProfile(HttpSession session, String userId) {
+        UserProfile profile = (UserProfile) session.getAttribute(USER_PROFILE);
 
         // Reload from persistence storage if not set or invalid (i.e. no valid
         // userId)
@@ -165,12 +170,6 @@ public class SocialControllerUtil {
     protected String getDisplayName(UserConnection connection,
             IUserProfile profile) {
 
-        // The name is set differently in different providers so we better look
-        // in both places...
-        if (connection != null && connection.getDisplayName() != null) {
-            return connection.getDisplayName();
-        } else {
-            return profile.getName();
-        }
+        return profile.getName();
     }
 }

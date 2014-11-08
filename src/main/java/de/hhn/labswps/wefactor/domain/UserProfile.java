@@ -106,14 +106,14 @@ public class UserProfile extends User implements IUserProfile {
                 }
             }
 
-            // Try with email if still null
-            if (name == null) {
-                name = email;
-            }
-
             // Try with username if still null
             if (name == null) {
                 name = username;
+            }
+
+            // Try with email if still null
+            if (name == null) {
+                name = email;
             }
 
             // If still null set name to UNKNOWN
