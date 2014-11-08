@@ -1,0 +1,61 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="layout :: htmlhead" th:with="title='Hello'"></head>
+<body>
+	<div class="page-container">
+
+		<!-- top navbar -->
+		<div th:replace="layout :: top-navbar">(navbar)</div>
+
+		<div class="container">
+			<div class="row row-offcanvas row-offcanvas-left">
+
+				<div th:replace="layout :: sidebar">(navbar)</div>
+
+				<div class="col-xs-12 col-sm-9">
+					<!-- content ############################################################################################################# -->
+					<div class="row">
+						<div class="col-xs-12 col-sm-3">
+							<img th:if="${currentUserImageUrl == null}"
+								src="http://www.localcrimenews.com/wp-content/uploads/2013/07/default-user-icon-profile.png"
+								alt="" class="img-circle img-responsive profile"></img> 
+								
+							<img th:unless="${currentUserImageUrl == null}"
+								th:src="${currentUserImageUrl}"
+								alt="" class="img-circle img-responsive profile"></img>
+						</div>
+						<div class="col-xs-12 col-sm-6">
+							<h2 class="profile"> <span th:text="${currentUserDisplayName}">Bob</span><span th:unless="${currentUserProfile.lastName == null}"><br></br><small><span th:text="${currentUserProfile.firstName}">firstName</span>&nbsp;<span th:text="${currentUserProfile.lastName}">lastName</span></small></span></h2>
+							
+							
+							<!--
+							<p th:text="${currentUserProfile.description}" class="profile">Lorem
+								ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
+								nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam
+								erat, sed diam voluptua</p>
+							  -->
+							<p>
+								<a
+									class="btn btn-default  btn-mid btn-responsive profile"
+									href="/user/profile/edit" role="button"><i class="fa fa-cog"></i> Edit
+									profile</a>
+							</p>
+						</div>
+					</div>
+
+
+
+					<!-- content ############################################################################################################# -->
+				</div>
+			</div>
+			<!--/.row-->
+		</div>
+		<!--/.container-->
+	</div>
+	<!--/.page-container-->
+	<!-- script references -->
+	<script
+		src="//ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
+	<script th:src="@{/webjars/bootstrap/3.2.0/js/bootstrap.min.js}"></script>
+	<script th:src="@{/js/scripts.js}"></script>
+</body>
+</html>

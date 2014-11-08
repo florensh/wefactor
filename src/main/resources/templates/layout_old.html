@@ -1,0 +1,110 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="htmlhead">
+<meta charset="utf-8"></meta>
+<meta http-equiv="X-UA-Compatible" content="IE=edge"></meta>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
+<meta name="description" content=""></meta>
+<meta name="author" content=""></meta>
+<link rel="shortcut icon" type="image/png"
+	th:href="@{/images/favicon.png}"></link>
+<title th:text="${title}">(title)</title>
+
+
+<link th:href="@{/webjars/bootstrap/3.2.0/css/bootstrap.css}"
+	rel="stylesheet"></link>
+<link th:href="@{/webjars/bootstrap/3.2.0/css/bootstrap.min.css}"
+	rel="stylesheet"></link>
+	
+<!--	 
+
+	<link th:href="@{/css/bootstrap.css}"
+	rel="stylesheet"></link>
+<link th:href="@{/css/bootstrap.min.css}"
+	rel="stylesheet"></link>
+ 	-->	
+	
+<link th:href="@{/webjars/font-awesome/4.2.0/css/font-awesome.min.css}"
+	rel="stylesheet"></link>
+<link th:href="@{/webjars/font-awesome/4.2.0/css/font-awesome.css}"
+	rel="stylesheet"></link>
+<link th:href="@{/css/starter.css}" rel="stylesheet"></link>
+<link th:href="@{/css/login.css}" rel="stylesheet"></link>
+</head>
+<body>
+	<div th:fragment="navbar">
+<nav class="navbar navbar-default" role="navigation">
+  <div class="container">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#">weFactor</a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="#">Link</a></li>
+        <li><a href="#">Link</a></li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <span class="caret"></span></a>
+          <ul class="dropdown-menu" role="menu">
+            <li><a href="#">Action</a></li>
+            <li><a href="#">Another action</a></li>
+            <li><a href="#">Something else here</a></li>
+            <li class="divider"></li>
+            <li><a href="#">Separated link</a></li>
+            <li class="divider"></li>
+            <li><a href="#">One more separated link</a></li>
+          </ul>
+        </li>
+      </ul>
+      <form class="navbar-form navbar-left" role="search">
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Search"></input>
+        </div>
+        <button type="submit" class="btn btn-default">Submit</button>
+      </form>
+      <ul class="nav navbar-nav navbar-right">
+        <li th:if="${currentUserDisplayName == null}"><a href="/signup">sign up</a></li>
+        <li th:unless="${currentUserDisplayName == null}"><a href="/logout">logout</a></li>
+        <li th:if="${currentUserDisplayName == null}"><a href="/signin">sign in</a></li>
+        <li th:unless="${currentUserDisplayName == null}" class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+          <span th:text="${currentUserDisplayName}">Bob</span>
+          <span class="caret"></span></a>
+    
+          
+          <ul class="dropdown-menu" role="menu">
+            <li><a href="/user/settings"><i class="fa fa-cogs fa-fw"></i>Settings</a></li>
+            <!--<li><a href="#">Another action</a></li>
+            <li><a href="#">Something else here</a></li>  -->
+            <li class="divider"></li>
+            <li><a href="/logout"><i class="fa fa-sign-out fa-fw"></i>Logout</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+
+	</div>
+	<div class="container">
+		<div class="starter-template">
+			<h1>Spring MVC/Thymeleaf/Bootstrap</h1>
+			<p class="lead" th:text="${greeting}">(greeting)</p>
+		</div>
+	</div>
+	<div th:fragment="footer" id="footer">
+		<div class="container">
+			<!--<p class="muted credit">comming soon ;)</p>  -->
+		</div>
+		<script th:src="@{/webjars/jquery/2.1.1/jquery.min.js}"></script>
+		<script th:src="@{/webjars/bootstrap/3.2.0/js/bootstrap.min.js}"></script>
+	</div>
+</body>
+</html>

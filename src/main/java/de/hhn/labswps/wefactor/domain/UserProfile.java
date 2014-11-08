@@ -25,6 +25,16 @@ public class UserProfile extends User implements IUserProfile {
 
     private String username;
 
+    private String description;
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     public UserProfile() {
 
     }
@@ -96,14 +106,14 @@ public class UserProfile extends User implements IUserProfile {
                 }
             }
 
-            // Try with email if still null
-            if (name == null) {
-                name = email;
-            }
-
             // Try with username if still null
             if (name == null) {
                 name = username;
+            }
+
+            // Try with email if still null
+            if (name == null) {
+                name = email;
             }
 
             // If still null set name to UNKNOWN
