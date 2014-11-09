@@ -1,15 +1,32 @@
 package de.hhn.labswps.wefactor.domain;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "userprofile")
-public class UserProfile extends User implements IUserProfile {
+public class UserProfile extends User implements Serializable {
+
+    private Account account;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "myAccount", nullable = false)
+    public Account getAccount() {
+        return account;
+    }
+
+    public void setAccount(Account account) {
+        this.account = account;
+    }
 
     private String userId;
 
@@ -67,26 +84,28 @@ public class UserProfile extends User implements IUserProfile {
         this.id = id;
     }
 
-    public UserProfile(String userId, String name, String firstName,
-            String lastName, String email, String username) {
+    public UserProfile(Account account, String userId, String name,
+            String firstName, String lastName, String email, String username) {
         this.userId = userId;
         this.name = name;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.username = username;
-        this.roles = "USER";
+        this.account = account;
+        this.account.roles = "USER";
 
         fixName();
     }
 
-    public UserProfile(String userId, String email, String username,
-            String password) {
+    public UserProfile(Account account, String userId, String email,
+            String username, String password) {
         this.userId = userId;
         this.email = email;
         this.username = username;
         this.password = password;
-        this.roles = "USER";
+        this.account = account;
+        this.account.roles = "USER";
 
         fixName();
     }
@@ -123,7 +142,7 @@ public class UserProfile extends User implements IUserProfile {
         }
     }
 
-    public UserProfile(String userId,
+    public UserProfile(Account account, String userId,
             org.springframework.social.connect.UserProfile up) {
         this.userId = userId;
         this.name = up.getName();
@@ -131,7 +150,8 @@ public class UserProfile extends User implements IUserProfile {
         this.lastName = up.getLastName();
         this.email = up.getEmail();
         this.username = up.getUsername();
-        this.roles = "USER";
+        this.account = account;
+        this.account.roles = "USER";
         this.password = up.getUsername(); // TODO improve!!!
     }
 
@@ -154,17 +174,6 @@ public class UserProfile extends User implements IUserProfile {
     @Column(name = "email", unique = true)
     public String getEmail() {
         return email;
-    }
-
-    @Override
-    @Column(name = "roles")
-    public String getRoles() {
-        return super.getRoles();
-    }
-
-    @Override
-    public void setRoles(String roles) {
-        super.setRoles(roles);
     }
 
     @Override

@@ -15,7 +15,6 @@ import org.springframework.security.web.WebAttributes;
 import org.springframework.stereotype.Component;
 import org.springframework.ui.Model;
 
-import de.hhn.labswps.wefactor.domain.IUserProfile;
 import de.hhn.labswps.wefactor.domain.UserConnection;
 import de.hhn.labswps.wefactor.domain.UserConnectionRepository;
 import de.hhn.labswps.wefactor.domain.UserProfile;
@@ -168,7 +167,7 @@ public class SocialControllerUtil {
      * @return
      */
     protected String getDisplayName(UserConnection connection,
-            IUserProfile profile) {
+            UserProfile profile) {
 
         return profile.getName();
     }

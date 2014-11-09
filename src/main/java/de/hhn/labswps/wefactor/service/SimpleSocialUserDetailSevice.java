@@ -7,7 +7,7 @@ import org.springframework.social.security.SocialUser;
 import org.springframework.social.security.SocialUserDetails;
 import org.springframework.social.security.SocialUserDetailsService;
 
-import de.hhn.labswps.wefactor.domain.IUserProfile;
+import de.hhn.labswps.wefactor.domain.UserProfile;
 import de.hhn.labswps.wefactor.domain.UserProfileRepository;
 
 public class SimpleSocialUserDetailSevice implements SocialUserDetailsService {
@@ -23,14 +23,14 @@ public class SimpleSocialUserDetailSevice implements SocialUserDetailsService {
             throws UsernameNotFoundException, DataAccessException {
         SocialUser securityUser = null;
 
-        IUserProfile user = userRepository.findByUserId(userId);
+        UserProfile user = userRepository.findByUserId(userId);
 
         if (user == null) {
             throw new UsernameNotFoundException("UserName " + userId
                     + " not found");
         } else {
             securityUser = new SocialUser(user.getUsername(),
-                    user.getPassword(), user.getAuthorities());
+                    user.getPassword(), user.getAccount().getAuthorities());
         }
         return securityUser;
     }

@@ -19,6 +19,7 @@ import org.springframework.social.google.connect.GoogleConnectionFactory;
 import org.springframework.social.security.AuthenticationNameUserIdSource;
 import org.springframework.social.security.SocialUserDetailsService;
 
+import de.hhn.labswps.wefactor.domain.AccountRepository;
 import de.hhn.labswps.wefactor.domain.UserConnectionRepository;
 import de.hhn.labswps.wefactor.domain.UserProfileRepository;
 import de.hhn.labswps.wefactor.domain.UsersConnectionRepositoryDelegate;
@@ -37,6 +38,9 @@ public class SocialConfig implements SocialConfigurer {
 
     @Autowired
     private UserProfileRepository userProfileRepository;
+
+    @Autowired
+    private AccountRepository accountRepository;
 
     @Autowired
     private SocialUserDetailsService socialUserDetailsService;
@@ -73,7 +77,7 @@ public class SocialConfig implements SocialConfigurer {
                 connectionFactoryLocator, Encryptors.noOpText(),
                 userConnectionRepository);
         repository.setConnectionSignUp(new AccountConnectionSignUpService(
-                userProfileRepository));
+                userProfileRepository, accountRepository));
         return repository;
     }
 
