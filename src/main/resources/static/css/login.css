@@ -9,10 +9,17 @@
 	line-height: 300%;
 }
 
+.input-group .fa {
+  width: 10px;
+}
 .omb_login .omb_socialButtons .omb_btn-google {color: #c32f10;}
+.omb_login .omb_socialButtons .omb_btn-google {background-color: #fff;}
 .omb_login .omb_socialButtons .omb_btn-facebook {color: #3b5998;}
+.omb_login .omb_socialButtons .omb_btn-facebook {background-color: #fff;}
 .omb_login .omb_socialButtons .omb_btn-twitter {color: #00aced;}
-.omb_login .omb-socialButtons .omb_btn-linkedin {color: #4875B4;}
+.omb_login .omb_socialButtons .omb_btn-twitter {background-color: #fff;}
+.omb_login .omb_socialButtons .omb_btn-linkedin {color: #4875B4;}
+.omb_login .omb_socialButtons .omb_btn-linkedin {background-color: #fff;}
 
 .omb_socialButtons {
   margin-top: 1em;

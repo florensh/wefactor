@@ -23,7 +23,7 @@
 
 						<div class="input-group">
 							<span class="input-group-addon"><i class="fa fa-envelope"></i></span>
-							<input type="text" class="form-control" th:field="*{email}"
+							<input type="email" class="form-control" th:field="*{email}"
 								placeholder="Email Address"></input>
 						</div>
 						<span class="help-block"></span>
@@ -42,7 +42,18 @@
 						</div>
 						<span class="help-block">Password disaccorded</span>
 
-						<div th:replace="layout :: validationerror">validation errors</div>
+						<!-- Anzeige der servereitigen Fehler -->
+						<div class="alert alert-danger" th:if="${#fields.hasAnyErrors()}">
+							<ul>
+								<li th:each="e : ${#fields.detailedErrors()}"
+									th:class="${e.global}? globalerr : fielderr"><strong><span
+										th:text="${e.global}? '' : ${e.fieldName}">The field
+											name</span><span th:text="!${e.global}? ' '">blank</span></strong><span
+									th:text="${e.message}">The error message</span></li>
+							</ul>
+						</div>
+
+
 
 						<button class="btn btn-lg btn-primary btn-block" type="submit">Sign
 							Up</button>
@@ -55,7 +66,5 @@
 
 
 	</div>
-
-
 </body>
 </html>
