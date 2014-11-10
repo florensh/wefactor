@@ -6,6 +6,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
@@ -16,6 +18,18 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "entry")
 public final class Entry {
+
+    private Account account;
+
+    @ManyToOne
+    @JoinColumn(name = "myAccount", nullable = false)
+    public Account getAccount() {
+        return account;
+    }
+
+    public void setAccount(Account account) {
+        this.account = account;
+    }
 
     /** The entry code text. */
     private String entryCodeText = null;
