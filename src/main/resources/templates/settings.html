@@ -1,0 +1,58 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="layout :: htmlhead" th:with="title='Hello'"></head>
+<body>
+	<div th:replace="layout :: navbar">(navbar)</div>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-3">
+				<h2>User settings</h2>
+			</div>
+
+		</div>
+		<div class="row">
+			<div class="col-md-3">
+				<ul class="nav nav-pills nav-stacked admin-menu">
+					<li class="active"><a href="#" data-target-id="profile"><i
+							class="fa fa-user fa-fw"></i>Profile</a></li>
+					<li><a href="http://www.jquery2dotnet.com"
+						data-target-id="channels"><i class="fa fa-share fa-fw"></i>Channels</a></li>
+					<li><a href="http://www.jquery2dotnet.com"
+						data-target-id="groups"><i class="fa fa-group fa-fw"></i>Groups</a></li>
+					<li><a href="http://www.jquery2dotnet.com"
+						data-target-id="settings"><i class="fa fa-cogs fa-fw"></i>Settings</a></li>
+				</ul>
+			</div>
+
+			<!-- start profile outline here -->
+			<div class="col-md-9 well admin-content" id="profile">
+
+				<h2>Vertical (basic) form</h2>
+				<form role="form">
+					<div class="form-group">
+						<label for="email">Email:</label> <input type="email"
+							class="form-control" id="email" placeholder="Enter email"></input>
+					</div>
+					<div class="form-group">
+						<label for="pwd">Password:</label> <input type="password"
+							class="form-control" id="pwd" placeholder="Enter password"></input>
+					</div>
+					<div class="checkbox">
+						<label><input type="checkbox"></input> Remember me</label>
+					</div>
+					<button type="submit" class="btn btn-default">Submit</button>
+				</form>
+
+
+			</div>
+			<!-- start profile outline here -->
+			<div class="col-md-9 well admin-content" id="channels">Channels</div>
+			<div class="col-md-9 well admin-content" id="groups">Groups</div>
+			<div class="col-md-9 well admin-content" id="settings">
+				Settings</div>
+		</div>
+	</div>
+
+	<div th:include="layout :: footer" id="footer">(footer)</div>
+	<script th:src="@{/js/settings.js}"></script>
+</body>
+</html>
