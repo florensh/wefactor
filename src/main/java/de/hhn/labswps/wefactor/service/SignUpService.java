@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import de.hhn.labswps.wefactor.domain.Account;
+import de.hhn.labswps.wefactor.domain.AccountRepository;
 import de.hhn.labswps.wefactor.domain.UserProfile;
 import de.hhn.labswps.wefactor.domain.UserProfileRepository;
 
@@ -14,6 +16,9 @@ public class SignUpService {
 
     @Autowired
     private UserProfileRepository userProfileRepository;
+
+    @Autowired
+    private AccountRepository accountRepository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -25,7 +30,9 @@ public class SignUpService {
 
         String userId = UUID.randomUUID().toString();
 
-        UserProfile profile = new UserProfile(userId, email, username,
+        Account account = this.accountRepository.save(new Account());
+
+        UserProfile profile = new UserProfile(account, userId, email, username,
                 passwordEncoder.encode(password));
         this.userProfileRepository.save(profile);
         return userId;

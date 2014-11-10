@@ -38,20 +38,13 @@
 									id="lastname" placeholder="Enter your last name"></input>
 							</div>
 
-							<!-- Anzeige der servereitigen Fehler -->
-							<div class="alert alert-danger" th:if="${#fields.hasAnyErrors()}">
-								<ul>
-									<li th:each="e : ${#fields.detailedErrors()}"
-										th:class="${e.global}? globalerr : fielderr"><strong><span
-											th:text="${e.global}? '' : ${e.fieldName}">The field
-												name</span><span th:text="!${e.global}? ' '">blank</span></strong><span
-										th:text="${e.message}">The error message</span></li>
-								</ul>
-							</div>
+							<div th:replace="layout :: validationerror">validation
+								errors</div>
 
 
 							<button type="submit" class="btn btn-primary btn-lg">Submit</button>
-							<a class="btn btn-default  btn-lg" href="/user/profile" role="button">Cancel</a>
+							<a class="btn btn-default  btn-lg" href="/user/profile"
+								role="button">Cancel</a>
 						</form>
 					</div>
 

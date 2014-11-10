@@ -22,8 +22,8 @@ public class UserProfileRepositoryTest extends BaseTest {
     @Test
     public final void basicTest() {
 
-        IUserProfile userProfile = new UserProfile("1", "name", "firstName",
-                "secondName", "mail@mail.de", "username");
+        UserProfile userProfile = new UserProfile(new Account(), "1", "name",
+                "firstName", "secondName", "mail@mail.de", "username");
         userProfileRepository.save((UserProfile) userProfile);
 
     }

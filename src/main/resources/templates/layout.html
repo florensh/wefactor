@@ -54,7 +54,7 @@
 					</button>
 
 
-<!--  wieder aktivieren wenn suchfunktion implementiert wird
+					<!--  wieder aktivieren wenn suchfunktion implementiert wird
 					<button type="button" class="navbar-toggle collapsed"
 						data-toggle="collapse" data-target="#bs-example-navbar-collapse-2">
 						<span class="sr-only">Toggle navigation</span><i
@@ -67,7 +67,7 @@
 
 
 
-<!--  wieder aktivieren wenn suchfunktion implementiert wird
+				<!--  wieder aktivieren wenn suchfunktion implementiert wird
 				<div class="collapse navbar-collapse"
 					id="bs-example-navbar-collapse-2">
 
@@ -109,8 +109,7 @@
 
 
 							<ul class="dropdown-menu" role="menu">
-								<li><a href="/user/profile"><i
-										class="fa fa-user fa-fw"></i>Profile</a></li>
+								<li><a href="/user/profile"><i class="fa fa-user fa-fw"></i>Profile</a></li>
 								<!--<li><a href="#">Another action</a></li>
             <li><a href="#">Something else here</a></li>  -->
 								<li class="divider"></li>
@@ -137,7 +136,8 @@
 					class="col-xs-6 col-sm-3 sidebar-offcanvas" id="sidebar"
 					role="navigation">
 					<ul class="nav">
-						<li sec:authorize="hasRole('USER')" class="active"><a href="/user/entries">My Entries</a></li>
+						<li sec:authorize="hasRole('USER')" class="active"><a
+							href="/entries/user/0815">My Entries</a></li>
 					</ul>
 				</div>
 
@@ -197,6 +197,17 @@
 			<!--/.row-->
 		</div>
 		<!--/.container-->
+
+		<!-- Anzeige der servereitigen Fehler -->
+		<div th:fragment="validationerror" class="alert alert-danger" th:if="${#fields.hasAnyErrors()}">
+			<ul>
+				<li th:each="e : ${#fields.detailedErrors()}"
+					th:class="${e.global}? globalerr : fielderr"><strong><span
+						th:text="${e.global}? '' : ${e.fieldName}">The field name</span><span
+						th:text="!${e.global}? ' '">blank</span></strong><span
+					th:text="${e.message}">The error message</span></li>
+			</ul>
+		</div>
 	</div>
 	<!--/.page-container-->
 	<!-- script references -->
