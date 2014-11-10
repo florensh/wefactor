@@ -22,6 +22,30 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 @Table(name = "account")
 public class Account {
 
+    private Set<UserProfile> profiles = new HashSet<UserProfile>();
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "account")
+    public Set<UserProfile> getProfiles() {
+        return profiles;
+    }
+
+    public void setProfiles(Set<UserProfile> profiles) {
+        this.profiles = profiles;
+    }
+
+    public void addProfile(UserProfile profile) {
+        this.profiles.add(profile);
+    }
+
+    public void removeProfile(UserProfile profile) {
+        this.profiles.remove(profile);
+    }
+
+    @Transient
+    public UserProfile getPrimaryProfile() {
+        return profiles.iterator().next();
+    }
+
     private Set<Entry> entries = new HashSet<Entry>();
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "account")

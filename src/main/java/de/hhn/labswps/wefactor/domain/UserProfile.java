@@ -26,6 +26,10 @@ public class UserProfile extends User implements Serializable {
 
     public void setAccount(Account account) {
         this.account = account;
+        if (account != null) {
+            account.addProfile(this);
+
+        }
     }
 
     private String userId;
@@ -93,6 +97,7 @@ public class UserProfile extends User implements Serializable {
         this.email = email;
         this.username = username;
         this.account = account;
+        account.addProfile(this);
         this.account.roles = "USER";
 
         fixName();
@@ -105,6 +110,7 @@ public class UserProfile extends User implements Serializable {
         this.username = username;
         this.password = password;
         this.account = account;
+        account.addProfile(this);
         this.account.roles = "USER";
 
         fixName();
@@ -151,6 +157,7 @@ public class UserProfile extends User implements Serializable {
         this.email = up.getEmail();
         this.username = up.getUsername();
         this.account = account;
+        account.addProfile(this);
         this.account.roles = "USER";
         this.password = up.getUsername(); // TODO improve!!!
     }

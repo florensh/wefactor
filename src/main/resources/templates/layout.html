@@ -136,6 +136,9 @@
 					class="col-xs-6 col-sm-3 sidebar-offcanvas" id="sidebar"
 					role="navigation">
 					<ul class="nav">
+						<li><a href="/entries/explore">Explore</a></li>
+					</ul>
+					<ul class="nav">
 						<li sec:authorize="hasRole('USER')" class="active"><a
 							href="/entries/user/0815">My Entries</a></li>
 					</ul>
@@ -199,7 +202,8 @@
 		<!--/.container-->
 
 		<!-- Anzeige der servereitigen Fehler -->
-		<div th:fragment="validationerror" class="alert alert-danger" th:if="${#fields.hasAnyErrors()}">
+		<div th:fragment="validationerror" class="alert alert-danger"
+			th:if="${#fields.hasAnyErrors()}">
 			<ul>
 				<li th:each="e : ${#fields.detailedErrors()}"
 					th:class="${e.global}? globalerr : fielderr"><strong><span

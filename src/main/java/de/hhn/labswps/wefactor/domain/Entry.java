@@ -1,5 +1,7 @@
 package de.hhn.labswps.wefactor.domain;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.persistence.Entity;
@@ -9,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 /**
  * The Class Entry.
@@ -21,18 +24,10 @@ public final class Entry {
 
     private Account account;
 
-    @ManyToOne
-    @JoinColumn(name = "myAccount", nullable = false)
-    public Account getAccount() {
-        return account;
-    }
-
-    public void setAccount(Account account) {
-        this.account = account;
-    }
-
     /** The entry code text. */
     private String entryCodeText = null;
+
+    private String name = null;
 
     /** The entry date. */
     private Date entryDate;
@@ -42,6 +37,18 @@ public final class Entry {
 
     /** The id. */
     private Long id;
+
+    @ManyToOne
+    @JoinColumn(name = "myAccount", nullable = false)
+    public Account getAccount() {
+        return account;
+    }
+
+    @Transient
+    public String getEntryDateAsString() {
+        DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+        return df.format(this.entryDate);
+    }
 
     /**
      * Gets the entry code text.
@@ -79,6 +86,14 @@ public final class Entry {
     @GeneratedValue(strategy = GenerationType.AUTO)
     public Long getId() {
         return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setAccount(Account account) {
+        this.account = account;
     }
 
     /**
@@ -119,5 +134,9 @@ public final class Entry {
      */
     public void setId(final Long idParam) {
         this.id = idParam;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

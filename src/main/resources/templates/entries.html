@@ -15,35 +15,74 @@
 					<!-- content ############################################################################################################# -->
 					<div class="col-xs-12">
 						<div class="row">
-							<span>Results</span>
+							<div class="col-xs-12">
+								<div class="row">
 
-							<button type="button" class="btn btn-default pull-right"
-								data-toggle="collapse" data-target="#filter">
-								<i class="fa fa-filter fa-fw"></i>
-							</button>
+									<button type="button" class="btn btn-default pull-right"
+										data-toggle="collapse" data-target="#filter">
+										<i class="fa fa-filter fa-fw"></i>
+									</button>
 
-						</div>
-
-						<div id="filter" class="collapse row">
-							<form role="form" th:action="@{/entries/user/0815/filtered}"
-								method="post" th:object="${entriesFilterDataObject}">
-								<div class="form-group">
-									<label for="displayname">Language:</label> <input
-										th:field="*{language}" type="text" class="form-control"
-										id="language" placeholder="Language"></input> <span
-										class="help-block hidden-xs">Select the language of the
-										entries</span>
 								</div>
 
-								<div th:replace="layout :: validationerror">validation
-									errors</div>
+								<div id="filter" class="collapse row">
+									<form role="form" th:action="@{/entries/user/0815/filtered}"
+										method="post" th:object="${entriesFilterDataObject}">
+										<div class="form-group">
+											<label for="displayname">Language:</label> <input
+												th:field="*{language}" type="text" class="form-control"
+												id="language" placeholder="Language"></input> <span
+												class="help-block hidden-xs">Select the language of
+												the entries</span>
+										</div>
+
+										<div th:replace="layout :: validationerror">validation
+											errors</div>
 
 
-								<button type="submit" class="btn btn-primary">Filter</button>
-								<button type="reset" class="btn btn-default">Clear</button>
-							</form>
+										<button type="submit" class="btn btn-primary">Filter</button>
+										<button type="reset" class="btn btn-default">Clear</button>
+									</form>
+								</div>
+
+							</div>
 						</div>
+					</div>
+					<!-- end filter -->
 
+					<!-- start entries -->
+					<div class="col">
+						<div class="row" th:each="entry : ${entries}">
+							<div class="col-xs-4 col-sm-2 col-lg-2">
+								<img
+									src="http://www.localcrimenews.com/wp-content/uploads/2013/07/default-user-icon-profile.png"
+									alt="" class="img-circle img-responsive"></img>
+									
+							</div>
+							<div class="col-xs-8 col-sm-8">
+								<h5>
+									by&nbsp;<span th:text="${entry.account.primaryProfile.name}">udo</span>
+									&nbsp;<small th:text="${entry.entryDateAsString}">10.11.2014</small>
+								</h5>
+							</div>
+							
+							<div class="col-xs-4 col-sm-2">
+									<a class="btn btn-default btn-sm btn-block"
+									href="/user/profile/edit" role="button"><i class="fa fa-file-text-o"></i></a>
+							</div>
+															
+							
+							<div class="col-xs-12 col-sm-10">
+								<h3 th:text="${entry.name}">Hello World example</h3>
+								<p th:text="${entry.entryDescription}">alkjd ajkfjsfd
+									kjasdfö ljasölfd jöalsfjk dölasjkfdölskjfd</p>
+							</div>
+
+							<div class="col-xs-12 col-sm-12">
+								<hr></hr>
+							</div>
+
+						</div>
 					</div>
 
 
