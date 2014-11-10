@@ -51,7 +51,9 @@ dependencies {
     compile("org.webjars:bootstrap:3.2.0")
     compile("org.webjars:jquery:2.1.1")
     compile("org.webjars:font-awesome:4.2.0")
-
+    compile("org.webjars:tinymce-jquery:4.0.16")
+    compile("org.webjars:fuelux:3.0.2")
+    compile("org.webjars:ace:01.08.2014")
 
     testCompile("org.springframework.boot:spring-boot-starter-test")
     testCompile("org.hsqldb:hsqldb:2.3.2");

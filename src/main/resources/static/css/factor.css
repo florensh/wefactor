@@ -1,0 +1,46 @@
+#titleInput {
+  max-width: 831px;
+}
+
+#titleInput .col-md-12 {
+  padding-left: 0px;
+}
+
+#tinyMCE {
+  max-width: 831px;
+  margin-bottom: 15px;
+}
+
+#bar .container {
+  margin-bottom: 0px;
+  padding: 0px;
+}
+
+#bar .container .fa {
+  padding: 3px 0px 0px 6px;
+}
+
+#changecolor {
+  color: #848484;
+}
+
+@media (min-width: 20px) {
+  #editor {
+    height: 250px;
+  }
+
+}
+@media (min-width: 500px) {
+  #editor {
+    height: 450px;
+  }
+}
+@media (min-width: 1200px) {
+  #editor {
+    height: 750px;
+  }
+}
+
+#tinyEdior {
+  max-width: 803px;
+}

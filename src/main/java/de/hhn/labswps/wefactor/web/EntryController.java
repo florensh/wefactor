@@ -43,4 +43,18 @@ public class EntryController {
         return "entries";
     }
 
+    @RequestMapping(value = "/user/entry", method = RequestMethod.GET)
+    public String showEntry(final HttpServletRequest request,
+            final Principal currentUser, final Model model) {
+
+        return "entrydetails";
+    }
+
+    @RequestMapping(value = "/entries/edittest", method = RequestMethod.GET)
+    public String showEditEntryPage(final HttpServletRequest request,
+            final Principal currentUser, final Model model) {
+
+        return "entryedit";
+    }
+
 }
