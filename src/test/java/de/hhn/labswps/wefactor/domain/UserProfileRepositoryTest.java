@@ -16,14 +16,19 @@ public class UserProfileRepositoryTest extends BaseTest {
     @Autowired
     private UserProfileRepository userProfileRepository;
 
+    @Autowired
+    private AccountRepository accountRepository;
+
     /**
      * Basic test.
      */
     @Test
     public final void basicTest() {
 
-        UserProfile userProfile = new UserProfile(new Account(), "1", "name",
-                "firstName", "secondName", "mail@mail.de", "username");
+        Account account = new Account();
+        UserProfile userProfile = new UserProfile(
+                accountRepository.save(account), "1", "name", "firstName",
+                "secondName", "mail@mail.de", "username");
         userProfileRepository.save((UserProfile) userProfile);
 
     }
