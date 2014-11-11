@@ -9,8 +9,6 @@ public interface UserProfileRepository extends
 
     UserProfile findByUsername(String u);
 
-    UserProfile findByUserId(String userId);
-
     UserProfile findByEmail(String email);
 
 }

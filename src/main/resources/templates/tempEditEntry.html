@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="de" xmlns:th="http://www.thymeleaf.org">
+<head th:include="layout :: htmlhead" th:with="title='Hello'"></head>
+<body>
+	<div class="page-container">
+
+		<!-- top navbar -->
+		<div th:replace="layout :: top-navbar">(navbar)</div>
+
+		<div class="container">
+			<div class="row row-offcanvas row-offcanvas-left">
+
+				<div th:replace="layout :: sidebar">(navbar)</div>
+
+				<div class="col-xs-12 col-sm-9">
+					<!-- content ############################################################################################################# -->
+
+
+					<div class="col-md-12">
+
+						<div class="row">
+							<div class="col-md-4">
+								<span class="fa-stack fa-lg" id="userPic"> <i
+									class="fa fa-circle fa-stack-2x"></i> <i
+									class="fa fa-user fa-stack-1x fa-inverse"></i>
+								</span>
+							</div>
+							<div class="btn-toolbar col-md-3 col-md-offset-6 pull-right">
+								<button
+									class="btn btn-primary btn-md col-md-5 col-xs-5 pull-right">Save</button>
+								<button
+									class="btn btn-default btn-md col-md-5 col-xs-5 pull-right">Cancel</button>
+							</div>
+						</div>
+
+
+						<div class="row">
+							<div class="form-group col-md-9" id="titleInput">
+								<label for="title" id="titleLabel">Title:</label> 
+								<input id="title"
+									class="form-control col-md-12 col-sm-12 col-xs-12" type="text"
+									placeholder="Enter your title"></input>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-md-9" id="tinyMCE">
+								<h4 id="header2">Description</h4>
+								<input id="tinyEditor"></input>
+							</div>
+						</div>
+
+						<div class="row" id="bar">
+							<div class="col-md-9 col-sm-9">
+								<i class="fa fa-pencil fa-2x"></i>
+
+								<div
+									class="col-md-3 col-xs-7 pull-right input-group input-append dropdown combobox"
+									data-initialize="combobox" id="myCombobox">
+									<input type="text" class="form-control" placeholder="Language"></input>
+									<div class="input-group-btn">
+										<button type="button" class="btn btn-default dropdown-toggle"
+											data-toggle="dropdown">
+											<span class="caret"></span>
+										</button>
+										<ul class="dropdown-menu dropdown-menu-right">
+											<li data-value="1"><a href="#">Java</a></li>
+										</ul>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="row" id="editorRow">
+							<div class="container-fluid col-md-9 col-sm-9 well" id="editor"></div>
+							<div class="col-md-3 col-sm-3">
+								<h5>Edit Tags</h5>
+								<h5>Edit Properties</h5>
+							</div>
+						</div>
+
+					</div>
+
+
+					<!-- content ############################################################################################################# -->
+				</div>
+			</div>
+			<!--/.row-->
+		</div>
+		<!--/.container-->
+	</div>
+	<!--/.page-container-->
+	<!-- script references -->
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	<script th:src="@{/webjars/bootstrap/3.2.0/js/bootstrap.min.js}"></script>
+	<script th:src="@{/js/scripts.js}"></script>
+	<script
+		th:src="@{/webjars/ace/01.08.2014/src-min-noconflict/ace.js}"></script>
+	<script th:src="@{/webjars/tinymce-jquery/4.0.16/tinymce.min.js}"></script>
+	
+	 <script>tinymce.init({
+        			mode : "exact",
+        			elements : "tinyEditor",
+    			});
+	</script>
+
+	<script>
+		var editor = ace.edit("editor");
+		editor.setTheme("ace/theme/eclipse");
+		editor.setValue("Your Code! :-)"); // or session.setValue
+		editor.getValue(); // or session.getValue
+		editor.getSession().setMode("ace/mode/java");
+		editor.setFontSize("12px");
+	</script>
+</body>
+</html>

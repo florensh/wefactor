@@ -27,7 +27,7 @@ public class UserProfileRepositoryTest extends BaseTest {
 
         Account account = new Account();
         UserProfile userProfile = new UserProfile(
-                accountRepository.save(account), "1", "name", "firstName",
+                accountRepository.save(account), "name", "firstName",
                 "secondName", "mail@mail.de", "username");
         userProfileRepository.save((UserProfile) userProfile);
 

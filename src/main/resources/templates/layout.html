@@ -15,6 +15,9 @@
 	rel="stylesheet"></link>
 <link th:href="@{/webjars/bootstrap/3.2.0/css/bootstrap.min.css}"
 	rel="stylesheet"></link>
+<link th:href="@{/webjars/fuelux/3.0.2/css/fuelux.min.css}"
+	rel="stylesheet"></link>
+
 
 <!--	 
 
@@ -32,6 +35,7 @@
 <link th:href="@{/css/login.css}" rel="stylesheet"></link>
 <link th:href="@{/css/styles.css}" rel="stylesheet"></link>
 <link th:href="@{/css/profile.css}" rel="stylesheet"></link>
+<link th:href="@{/css/factor.css}" rel="stylesheet"></link>
 </head>
 <body>
 	<div class="page-container">
@@ -85,11 +89,6 @@
 
 
 
-
-
-
-
-
 				<!-- Collect the nav links, forms, and other content for toggling -->
 				<div class="collapse navbar-collapse"
 					id="bs-example-navbar-collapse-1">
@@ -107,9 +106,10 @@
 								th:text="${currentUserDisplayName}">Bob</span> <span
 								class="caret"></span></a>
 
-
 							<ul class="dropdown-menu" role="menu">
-								<li><a href="/user/profile"><i class="fa fa-user fa-fw"></i>Profile</a></li>
+								<li><a
+									th:href="@{/user/profile/details(id=${currentUserProfile.id})}"><i
+										class="fa fa-user fa-fw"></i>Profile</a></li>
 								<!--<li><a href="#">Another action</a></li>
             <li><a href="#">Something else here</a></li>  -->
 								<li class="divider"></li>
@@ -136,11 +136,12 @@
 					class="col-xs-6 col-sm-3 sidebar-offcanvas" id="sidebar"
 					role="navigation">
 					<ul class="nav">
-						<li><a href="/entries/explore">Explore</a></li>
-					</ul>
-					<ul class="nav">
 						<li sec:authorize="hasRole('USER')" class="active"><a
-							href="/entries/user/0815">My Entries</a></li>
+							th:href="@{/user/entry/add}">Add new Entry</a></li>
+						<li><a href="/entries/all">Explore</a></li>
+						<li sec:authorize="hasRole('USER')" class="active"><a
+							th:href="@{/entries/user(id=${currentUserProfile.account.id})}">My
+								Entries</a></li>
 					</ul>
 				</div>
 

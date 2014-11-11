@@ -23,7 +23,8 @@ public class SimpleSocialUserDetailSevice implements SocialUserDetailsService {
             throws UsernameNotFoundException, DataAccessException {
         SocialUser securityUser = null;
 
-        UserProfile user = userRepository.findByUserId(userId);
+        // UserProfile user = userRepository.findByUserId(userId);
+        UserProfile user = userRepository.findOne(Long.parseLong(userId));
 
         if (user == null) {
             throw new UsernameNotFoundException("UserName " + userId
