@@ -23,8 +23,9 @@
   padding: 3px 0px 0px 6px;
 }
 
-#editor {
-  width: 606px;
+#editorRow {
+  margin-left: 0px;
+  margin-right: 0px;
 }
 
 @media (min-width: 20px) {
@@ -40,6 +41,7 @@
 }
 @media (min-width: 1200px) {
   #editor {
+    width: 606px;
     height: 750px;
   }
 }
