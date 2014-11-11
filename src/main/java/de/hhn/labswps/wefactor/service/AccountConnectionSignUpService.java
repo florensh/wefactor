@@ -1,7 +1,5 @@
 package de.hhn.labswps.wefactor.service;
 
-import java.util.UUID;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.social.connect.Connection;
@@ -31,15 +29,11 @@ public class AccountConnectionSignUpService implements ConnectionSignUp {
         org.springframework.social.connect.UserProfile profile = connection
                 .fetchUserProfile();
 
-        String userId = UUID.randomUUID().toString();
-        // TODO: Or simply use: r = new Random(); r.nextInt(); ???
-        LOG.debug("Created user-id: " + userId);
-
         UserProfile userProfile = new UserProfile(
-                accountRepository.save(new Account()), userId, profile);
+                accountRepository.save(new Account()), profile);
 
-        userProfileRepository.save(userProfile);
-        return userId;
+        userProfile = userProfileRepository.save(userProfile);
+        return userProfile.getUserId();
     }
 
 }

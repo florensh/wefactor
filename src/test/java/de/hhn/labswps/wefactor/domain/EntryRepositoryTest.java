@@ -30,8 +30,8 @@ public class EntryRepositoryTest extends BaseTest {
 
         Account account = new Account();
         accountRepository.save(account);
-        UserProfile profile = new UserProfile(account, "0815", "hallo@gmx.de",
-                "max", "12345678");
+        UserProfile profile = new UserProfile(account, "hallo@gmx.de", "max",
+                "12345678");
 
         userProfileRepository.save(profile);
 

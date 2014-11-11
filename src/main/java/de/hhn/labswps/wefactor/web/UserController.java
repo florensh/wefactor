@@ -71,7 +71,7 @@ public class UserController {
     }
 
     @RequestMapping(value = "/user/profile/save", method = RequestMethod.POST)
-    public String submitUserEditProfileForm(
+    public String submitUserEditProfileForm(@RequestParam("id") String id,
             @Valid UserProfileFormDataObject userProfileFormDataObject,
             BindingResult result, Model m, Principal currentUser) {
         if (result.hasErrors()) {
@@ -87,7 +87,7 @@ public class UserController {
 
         this.userProfileRepository.save(up);
 
-        return "redirect:/user/profile";
+        return "redirect:/user/profile/details?id=" + id;
     }
 
     @RequestMapping(value = "/user/register", method = RequestMethod.POST)

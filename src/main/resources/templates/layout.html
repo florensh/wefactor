@@ -139,14 +139,10 @@
 					class="col-xs-6 col-sm-3 sidebar-offcanvas" id="sidebar"
 					role="navigation">
 					<ul class="nav">
-						<li><a href="/entries/explore">Explore</a></li>
-					</ul>
-					<ul class="nav">
+						<li><a href="/entries/all">Explore</a></li>
 						<li><a href="/entries/edittest">edit test</a></li>
-					</ul>
-					<ul class="nav">
 						<li sec:authorize="hasRole('USER')" class="active"><a
-							href="/entries/user/0815">My Entries</a></li>
+							th:href="@{/entries/user(id=${currentUserProfile.account.id})}">My Entries</a></li>
 					</ul>
 				</div>
 

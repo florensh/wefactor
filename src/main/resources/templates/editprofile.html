@@ -16,7 +16,7 @@
 
 					<div class="col-xs-12 col-sm-6">
 						<h2>Edit your Profile</h2>
-						<form role="form" th:action="@{/user/profile/save}" method="post"
+						<form role="form" th:action="@{/user/profile/save(id=${currentUserProfile.id})}" method="post"
 							th:object="${userProfileFormDataObject}">
 							<div class="form-group">
 								<label for="displayname">Display Name:</label> <input
@@ -43,7 +43,7 @@
 
 
 							<button type="submit" class="btn btn-primary btn-lg">Submit</button>
-							<a class="btn btn-default  btn-lg" href="/user/profile"
+							<a class="btn btn-default  btn-lg" th:href="@{/user/profile/details(id=${currentUserProfile.id})}"
 								role="button">Cancel</a>
 						</form>
 					</div>

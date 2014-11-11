@@ -61,22 +61,33 @@
 							</div>
 							<div class="col-xs-8 col-sm-8">
 								<h5>
-									by&nbsp;<a th:href="@{/user/profile/details(id=${entry.account.primaryProfile.id})}"><span th:text="${entry.account.primaryProfile.name}">udo</span></a>
+									by&nbsp;<a
+										th:href="@{/user/profile/details(id=${entry.account.primaryProfile.id})}"><span
+										th:text="${entry.account.primaryProfile.name}">udo</span></a>
 									&nbsp;<small th:text="${entry.entryDateAsString}">10.11.2014</small>
 								</h5>
 							</div>
 
 							<div class="col-xs-8 col-sm-2">
-								<a class="btn btn-primary btn-lg" href="/user/entry"
-									role="button"><i class="fa fa-file-text-o"></i></a> <a
-									class="btn btn-info btn-lg" href="/user/entry" role="button"><i
-									class="fa fa-edit"></i></a>
+
+								<span class="pull-right"> <a class="btn btn-primary btn-lg"
+									th:href="@{/entry/details(id=${entry.id})}" role="button"><i
+										class="fa fa-file-text-o"></i></a> <a
+									th:if="${entry.account.primaryProfile.id == currentUserProfile.id}"
+									class="btn btn-info btn-lg" th:href="@{/entry/edit(id=${entry.id})}" role="button"><i
+										class="fa fa-edit"></i></a>
+								</span>
 							</div>
 
 
 							<div class="col-xs-12 col-sm-10">
-								<h3><a th:href="@{/entry/details(id=${entry.id})}"><span th:text="${entry.name}">name</span></a></h3>
-								<h3><small th:text="${entry.entryDescription}">description</small></h3>
+								<h3>
+									<a th:href="@{/entry/details(id=${entry.id})}"><span
+										th:text="${entry.name}">name</span></a>
+								</h3>
+								<h3>
+									<small th:text="${entry.entryDescription}">description</small>
+								</h3>
 							</div>
 
 							<div class="col-xs-12 col-sm-12">
