@@ -57,25 +57,26 @@
 								<img
 									src="http://www.localcrimenews.com/wp-content/uploads/2013/07/default-user-icon-profile.png"
 									alt="" class="img-circle img-responsive"></img>
-									
+
 							</div>
 							<div class="col-xs-8 col-sm-8">
 								<h5>
-									by&nbsp;<span th:text="${entry.account.primaryProfile.name}">udo</span>
+									by&nbsp;<a th:href="@{/user/profile/details(id=${entry.account.primaryProfile.id})}"><span th:text="${entry.account.primaryProfile.name}">udo</span></a>
 									&nbsp;<small th:text="${entry.entryDateAsString}">10.11.2014</small>
 								</h5>
 							</div>
-							
-							<div class="col-xs-4 col-sm-2">
-									<a class="btn btn-default btn-sm btn-block"
-									href="/user/entry" role="button"><i class="fa fa-file-text-o"></i></a>
+
+							<div class="col-xs-8 col-sm-2">
+								<a class="btn btn-primary btn-lg" href="/user/entry"
+									role="button"><i class="fa fa-file-text-o"></i></a> <a
+									class="btn btn-info btn-lg" href="/user/entry" role="button"><i
+									class="fa fa-edit"></i></a>
 							</div>
-															
-							
+
+
 							<div class="col-xs-12 col-sm-10">
-								<h3 th:text="${entry.name}">Hello World example</h3>
-								<p th:text="${entry.entryDescription}">alkjd ajkfjsfd
-									kjasdfö ljasölfd jöalsfjk dölasjkfdölskjfd</p>
+								<h3><a th:href="@{/entry/details(id=${entry.id})}"><span th:text="${entry.name}">name</span></a></h3>
+								<h3><small th:text="${entry.entryDescription}">description</small></h3>
 							</div>
 
 							<div class="col-xs-12 col-sm-12">
@@ -84,7 +85,6 @@
 
 						</div>
 					</div>
-
 
 
 					<!-- content ############################################################################################################# -->

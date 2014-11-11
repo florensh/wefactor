@@ -7,9 +7,11 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import de.hhn.labswps.wefactor.domain.EntryRepository;
 import de.hhn.labswps.wefactor.web.DataObjects.EntriesFilterDataObject;
@@ -55,6 +57,12 @@ public class EntryController {
             final Principal currentUser, final Model model) {
 
         return "entryedit";
+    }
+
+    @RequestMapping(value = "/entry/details", method = RequestMethod.GET)
+    public String showEntryDetails(@RequestParam("id") int id, ModelMap model) {
+        System.out.println(id);
+        return "entrydetails";
     }
 
 }

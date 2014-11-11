@@ -24,7 +24,7 @@
 								alt="" class="img-circle img-responsive profile"></img>
 						</div>
 						<div class="col-xs-12 col-sm-6">
-							<h2 class="profile"> <span th:text="${currentUserDisplayName}">Bob</span><span th:unless="${currentUserProfile.lastName == null}"><br></br><small><span th:text="${currentUserProfile.firstName}">firstName</span>&nbsp;<span th:text="${currentUserProfile.lastName}">lastName</span></small></span></h2>
+							<h2 class="profile"> <span th:text="${profile.name}">Bob</span><span th:unless="${profile.lastName == null}"><br></br><small><span th:text="${profile.firstName}">firstName</span>&nbsp;<span th:text="${profile.lastName}">lastName</span></small></span></h2>
 							
 							
 							<!--
@@ -33,7 +33,7 @@
 								nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam
 								erat, sed diam voluptua</p>
 							  -->
-							<p>
+							<p th:if="${profile.id == currentUserProfile.id}">
 								<a
 									class="btn btn-default  btn-mid btn-responsive profile"
 									href="/user/profile/edit" role="button"><i class="fa fa-cog"></i> Edit

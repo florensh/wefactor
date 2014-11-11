@@ -111,9 +111,8 @@
 								th:text="${currentUserDisplayName}">Bob</span> <span
 								class="caret"></span></a>
 
-
 							<ul class="dropdown-menu" role="menu">
-								<li><a href="/user/profile"><i class="fa fa-user fa-fw"></i>Profile</a></li>
+								<li><a th:href="@{/user/profile/details(id=${currentUserProfile.id})}"><i class="fa fa-user fa-fw"></i>Profile</a></li>
 								<!--<li><a href="#">Another action</a></li>
             <li><a href="#">Something else here</a></li>  -->
 								<li class="divider"></li>

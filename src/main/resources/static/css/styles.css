@@ -1,7 +1,7 @@
 .text-center {
   padding-top: 20px;
 }
-.col-xs-12 {
+#sidebar .col-xs-12 {
   background-color: #fff;
 }
 #sidebar {
