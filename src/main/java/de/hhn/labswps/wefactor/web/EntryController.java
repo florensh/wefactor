@@ -1,16 +1,18 @@
 package de.hhn.labswps.wefactor.web;
 
 import java.security.Principal;
+import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -21,6 +23,7 @@ import de.hhn.labswps.wefactor.domain.EntryRepository;
 import de.hhn.labswps.wefactor.domain.UserProfile;
 import de.hhn.labswps.wefactor.domain.UserProfileRepository;
 import de.hhn.labswps.wefactor.web.DataObjects.EntriesFilterDataObject;
+import de.hhn.labswps.wefactor.web.DataObjects.EntryDataObject;
 
 @Controller
 public class EntryController {
@@ -92,11 +95,12 @@ public class EntryController {
     }
 
     @RequestMapping(value = "/entry/details", method = RequestMethod.GET)
-    public String showEntryDetails(@RequestParam("id") Long id, ModelMap model) {
+    public String showEntryDetails(@RequestParam("id") Long id, ModelMap model,
+            Principal currentUser) {
         Entry entry = this.entryRepository.findOne(id);
 
         model.addAttribute("entry", entry);
-        return "tempEntryDetails";
+        return "entrydetails";
     }
 
     @Secured({ "USER" })
@@ -104,9 +108,9 @@ public class EntryController {
     public String showEntryEditPage(@RequestParam("id") Long id,
             ModelMap model, Principal currentUser) {
 
-        UserDetails secUser = (UserDetails) currentUser;
-        UserProfile profile = this.userProfileRepository.findByUsername(secUser
-                .getUsername());
+        String secUser = currentUser.getName();
+        UserProfile profile = this.userProfileRepository
+                .findByUsername(secUser);
 
         Entry entry = this.entryRepository.findOne(id);
 
@@ -115,9 +119,47 @@ public class EntryController {
                     "na na na na, wer wird denn hier!!!");
         }
 
-        model.addAttribute("entry", entry);
+        EntryDataObject entryDataObject = new EntryDataObject();
+        entryDataObject.setCode(entry.getEntryCodeText());
+        entryDataObject.setDescription(entry.getEntryDescription());
+        entryDataObject.setTitle(entry.getName());
+        entryDataObject.setId(entry.getId());
 
-        return "tempEditEntry";
+        model.addAttribute("entryDataObject", entryDataObject);
+
+        return "entryedit";
+    }
+
+    @RequestMapping(value = "/user/entry/add", method = RequestMethod.GET)
+    public String showAddEntryPage(final HttpServletRequest request,
+            final Principal currentUser, final Model model) {
+
+        model.addAttribute("entryDataObject", new EntryDataObject());
+
+        return "entryedit";
+    }
+
+    @RequestMapping(value = "/user/entry/save", method = RequestMethod.POST)
+    public String submitEntryForm(@Valid EntryDataObject entryDataObject,
+            BindingResult result, Model m, Principal currentUser) {
+        if (result.hasErrors()) {
+            return "editprofile";
+        }
+
+        String secUser = currentUser.getName();
+        UserProfile profile = this.userProfileRepository
+                .findByUsername(secUser);
+
+        Entry toSave = new Entry();
+        toSave.setEntryCodeText(entryDataObject.getCode());
+        toSave.setEntryDate(new Date());
+        toSave.setEntryDescription(entryDataObject.getDescription());
+        toSave.setName(entryDataObject.getTitle());
+        toSave.setAccount(profile.getAccount());
+
+        toSave = this.entryRepository.save(toSave);
+
+        return "redirect:/entry/details?id=" + String.valueOf(toSave.getId());
     }
 
 }

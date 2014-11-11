@@ -74,7 +74,7 @@
 									th:href="@{/entry/details(id=${entry.id})}" role="button"><i
 										class="fa fa-file-text-o"></i></a> <a
 									th:if="${entry.account.primaryProfile.id == currentUserProfile.id}"
-									class="btn btn-info btn-lg" th:href="@{/entry/edit(id=${entry.id})}" role="button"><i
+									class="btn btn-info btn-lg" th:href="@{/user/entry/edit(id=${entry.id})}" role="button"><i
 										class="fa fa-edit"></i></a>
 								</span>
 							</div>

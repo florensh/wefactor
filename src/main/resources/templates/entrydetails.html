@@ -26,14 +26,17 @@
 								</span>
 							</div>
 							<div class="btn-toolbar col-md-3 col-md-offset-6 pull-right">
-								<button
-									class="btn btn-primary btn-md col-md-5 col-xs-12 pull-right">Edit</button>
+								<!--  <button th:href="@{/user/entry/edit(id=${entry.id})}" class="btn btn-primary btn-md col-md-5 col-xs-12 pull-right">Edit</button>-->
+								
+								<a
+									class="btn btn-primary btn-md col-md-5 col-xs-12 pull-right"
+									th:href="@{/user/entry/edit(id=${entry.id})}" role="button"><i class="fa fa-wrench"></i> Edit</a>
 							</div>
 						</div>
 
 						<div class="row">
 							<div class="col-md-9">
-								<h3 id="header1">Title</h3>
+								<h3 id="header1" th:text="${entry.name}">Title</h3>
 							</div>
 						</div>
 
@@ -70,17 +73,26 @@
 		src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 	<script th:src="@{/webjars/bootstrap/3.2.0/js/bootstrap.min.js}"></script>
 	<script th:src="@{/js/scripts.js}"></script>
-	<script
-		th:src="@{/webjars/ace/01.08.2014/src-min-noconflict/ace.js}"></script>
+	<script th:src="@{/webjars/ace/01.08.2014/src-min-noconflict/ace.js}"></script>
 	<script th:src="@{/webjars/tinymce-jquery/4.0.16/tinymce.min.js}"></script>
 
-	<script>
+
+	<script th:inline="javascript">
+	/*<![CDATA[*/
 		var editor = ace.edit("editor");
+		 var modelAttributeValue = /*[[${entry.entryCodeText}]]*/ 'Code';
 		editor.setTheme("ace/theme/eclipse");
-		editor.setValue("Your Code! :-)"); // or session.setValue
+		editor.setValue(modelAttributeValue); // or session.setValue
 		editor.getValue(); // or session.getValue
 		editor.getSession().setMode("ace/mode/java");
 		editor.setFontSize("15px");
+		editor.setOptions({
+			readOnly: true,
+			})
+			editor.renderer.$cursorLayer.element.style.opacity=0;
+		
+		
+		/*]]>*/
 	</script>
 </body>
 </html>
