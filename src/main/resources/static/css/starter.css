@@ -1,0 +1,20 @@
+.fa-fw {
+	width: 2em;
+}
+
+@media ( min-width : 768px) {
+	.navbar {
+		margin-bottom: 50px;
+	}
+}
+
+@media ( max-width : 768px) {
+	.btn-responsive {
+		display: block;
+		width: 100%;
+	}
+}
+
+.entryList {
+	margin-top: 3em;
+}

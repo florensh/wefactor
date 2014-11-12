@@ -4,6 +4,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import de.hhn.labswps.wefactor.web.validation.constraints.FieldMatch;
 import de.hhn.labswps.wefactor.web.validation.constraints.UniqueEmail;
@@ -18,6 +19,7 @@ public class RegisterFormDataObject {
 
     @Email
     @UniqueEmail(message = "already exists")
+    @NotEmpty
     private String email;
 
     @Min(8)

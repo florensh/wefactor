@@ -1,8 +1,6 @@
 package de.hhn.labswps.wefactor.web;
 
 import java.security.Principal;
-import java.text.DateFormat;
-import java.util.Date;
 import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
@@ -26,13 +24,14 @@ public class IndexController {
     @RequestMapping(method = RequestMethod.GET)
     public String index(HttpServletRequest request, HttpSession session,
             Principal currentUser, Locale locale, Model model) {
-        Date date = new Date();
-        DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG,
-                DateFormat.LONG, locale);
-        String formattedDate = dateFormat.format(date);
-        model.addAttribute("currentTime", formattedDate);
 
-        util.setModel(request, currentUser, model);
-        return "index";
+        if (currentUser == null) {
+            return "landing";
+        } else {
+
+            util.setModel(request, currentUser, model);
+            return "forward:/entries/all";
+        }
+
     }
 }

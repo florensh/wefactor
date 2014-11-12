@@ -1,11 +1,11 @@
 package de.hhn.labswps.wefactor.service;
 
-import java.util.UUID;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import de.hhn.labswps.wefactor.domain.Account;
+import de.hhn.labswps.wefactor.domain.AccountRepository;
 import de.hhn.labswps.wefactor.domain.UserProfile;
 import de.hhn.labswps.wefactor.domain.UserProfileRepository;
 
@@ -16,6 +16,9 @@ public class SignUpService {
     private UserProfileRepository userProfileRepository;
 
     @Autowired
+    private AccountRepository accountRepository;
+
+    @Autowired
     private PasswordEncoder passwordEncoder;
 
     public String execute(String username, String email, String password) {
@@ -23,12 +26,12 @@ public class SignUpService {
             throw new IllegalArgumentException();
         }
 
-        String userId = UUID.randomUUID().toString();
+        Account account = this.accountRepository.save(new Account());
 
-        UserProfile profile = new UserProfile(userId, email, username,
+        UserProfile profile = new UserProfile(account, email, username,
                 passwordEncoder.encode(password));
-        this.userProfileRepository.save(profile);
-        return userId;
+        profile = this.userProfileRepository.save(profile);
+        return profile.getUserId();
 
     }
 

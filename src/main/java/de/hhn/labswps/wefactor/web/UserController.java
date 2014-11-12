@@ -12,18 +12,26 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import de.hhn.labswps.wefactor.domain.UserProfile;
+import de.hhn.labswps.wefactor.domain.UserProfileRepository;
 import de.hhn.labswps.wefactor.service.SignUpService;
 import de.hhn.labswps.wefactor.web.DataObjects.RegisterFormDataObject;
+import de.hhn.labswps.wefactor.web.DataObjects.UserProfileFormDataObject;
 
 @Controller
 public class UserController {
 
     @Autowired
     private UserDetailsService userDetailsService;
+
+    @Autowired
+    private UserProfileRepository userProfileRepository;
 
     @Autowired
     private SignUpService signUpService;
@@ -41,8 +49,49 @@ public class UserController {
         return "registration";
     }
 
+    // @RequestMapping(value = "/user/profile", method = RequestMethod.GET)
+    // public String showSettings(Model model) {
+    // return "profile";
+    // }
+
+    @RequestMapping(value = "/user/profile/edit", method = RequestMethod.GET)
+    public String showEditProfilePage(Model model, Principal currentUser) {
+
+        UserProfileFormDataObject data = new UserProfileFormDataObject();
+
+        UserProfile up = this.userProfileRepository.findByUsername(currentUser
+                .getName());
+
+        data.setDisplayName(up.getName());
+        data.setFirstName(up.getFirstName());
+        data.setLastName(up.getLastName());
+
+        model.addAttribute("userProfileFormDataObject", data);
+        return "editprofile";
+    }
+
+    @RequestMapping(value = "/user/profile/save", method = RequestMethod.POST)
+    public String submitUserEditProfileForm(@RequestParam("id") String id,
+            @Valid UserProfileFormDataObject userProfileFormDataObject,
+            BindingResult result, Model m, Principal currentUser) {
+        if (result.hasErrors()) {
+            return "editprofile";
+        }
+
+        UserProfile up = this.userProfileRepository.findByUsername(currentUser
+                .getName());
+
+        up.setName(userProfileFormDataObject.getDisplayName());
+        up.setFirstName(userProfileFormDataObject.getFirstName());
+        up.setLastName(userProfileFormDataObject.getLastName());
+
+        this.userProfileRepository.save(up);
+
+        return "redirect:/user/profile/details?id=" + id;
+    }
+
     @RequestMapping(value = "/user/register", method = RequestMethod.POST)
-    public String submitForm(
+    public String submitRegisterForm(
             @Valid RegisterFormDataObject registerFormDataObject,
             BindingResult result, Model m) {
         if (result.hasErrors()) {
@@ -65,6 +114,15 @@ public class UserController {
                         .getAuthorities()));
 
         return "redirect:/";
+    }
+
+    @RequestMapping(value = "/user/profile/details", method = RequestMethod.GET)
+    public String showUserProfile(@RequestParam("id") Long id, ModelMap model) {
+        System.out.println(id);
+
+        UserProfile profile = this.userProfileRepository.findOne(id);
+        model.addAttribute("profile", profile);
+        return "profile";
     }
 
 }

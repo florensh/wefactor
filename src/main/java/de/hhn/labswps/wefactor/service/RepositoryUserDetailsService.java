@@ -6,7 +6,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
-import de.hhn.labswps.wefactor.domain.IUserProfile;
+import de.hhn.labswps.wefactor.domain.UserProfile;
 import de.hhn.labswps.wefactor.domain.UserProfileRepository;
 
 public class RepositoryUserDetailsService implements UserDetailsService {
@@ -19,14 +19,14 @@ public class RepositoryUserDetailsService implements UserDetailsService {
             throws UsernameNotFoundException {
         User securityUser = null;
 
-        IUserProfile user = userRepository.findByUsername(userName);
+        UserProfile user = userRepository.findByUsername(userName);
 
         if (user == null) {
             throw new UsernameNotFoundException("UserName " + userName
                     + " not found");
         } else {
             securityUser = new User(user.getUsername(), user.getPassword(),
-                    user.getAuthorities());
+                    user.getAccount().getAuthorities());
         }
         return securityUser;
     }
@@ -34,14 +34,15 @@ public class RepositoryUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUserId(String userId) {
         User securityUser = null;
 
-        IUserProfile user = userRepository.findByUserId(userId);
+        // UserProfile user = userRepository.findByUserId(userId);
+        UserProfile user = userRepository.findOne(Long.parseLong(userId));
 
         if (user == null) {
             throw new UsernameNotFoundException("UserName " + userId
                     + " not found");
         } else {
             securityUser = new User(user.getUsername(), user.getPassword(),
-                    user.getAuthorities());
+                    user.getAccount().getAuthorities());
         }
         return securityUser;
 

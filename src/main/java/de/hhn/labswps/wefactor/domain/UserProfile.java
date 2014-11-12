@@ -1,21 +1,28 @@
 package de.hhn.labswps.wefactor.domain;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "userprofile")
-public class UserProfile extends User implements IUserProfile {
+public class UserProfile extends User implements Serializable {
 
-    private String userId;
+    /**
+     *
+     */
+    private static final long serialVersionUID = 4919241877246969045L;
 
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
+    private Account account;
 
     private String name;
 
@@ -25,136 +32,136 @@ public class UserProfile extends User implements IUserProfile {
 
     private String username;
 
+    private String description;
+
+    private Long id;
+
+    private String imageUrl;
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    public static long getSerialversionuid() {
+        return serialVersionUID;
+    }
+
     public UserProfile() {
 
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    private Long id;
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    public Long getId() {
-        return id;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public UserProfile(String userId, String name, String firstName,
-            String lastName, String email, String username) {
-        this.userId = userId;
-        this.name = name;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.username = username;
-        this.roles = "USER";
-
-        fixName();
-    }
-
-    public UserProfile(String userId, String email, String username,
-            String password) {
-        this.userId = userId;
-        this.email = email;
-        this.username = username;
-        this.password = password;
-        this.roles = "USER";
-
-        fixName();
-    }
-
-    private void fixName() {
-        // Is the name null?
-        if (name == null) {
-
-            // Ok, lets try with first and last name...
-            name = firstName;
-
-            if (lastName != null) {
-                if (name == null) {
-                    name = lastName;
-                } else {
-                    name += " " + lastName;
-                }
-            }
-
-            // Try with email if still null
-            if (name == null) {
-                name = email;
-            }
-
-            // Try with username if still null
-            if (name == null) {
-                name = username;
-            }
-
-            // If still null set name to UNKNOWN
-            if (name == null) {
-                name = "UNKNOWN";
-            }
-        }
-    }
-
-    public UserProfile(String userId,
-            org.springframework.social.connect.UserProfile up) {
-        this.userId = userId;
+    public UserProfile(final Account account,
+            final org.springframework.social.connect.UserProfile up,
+            String imageUrl) {
         this.name = up.getName();
         this.firstName = up.getFirstName();
         this.lastName = up.getLastName();
         this.email = up.getEmail();
         this.username = up.getUsername();
-        this.roles = "USER";
+
+        imageUrl = imageUrl.replace("sz=50", "sz=150");
+        this.imageUrl = imageUrl;
+        this.account = account;
+        account.addProfile(this);
+        this.account.roles = "USER";
         this.password = up.getUsername(); // TODO improve!!!
     }
 
-    public String getUserId() {
-        return userId;
+    public UserProfile(final Account account, final String email,
+            final String username, final String password) {
+        this.email = email;
+        this.username = username;
+        this.password = password;
+        this.account = account;
+        account.addProfile(this);
+        this.account.roles = "USER";
+
+        this.fixName();
     }
 
-    public String getName() {
-        return name;
+    public UserProfile(final Account account, final String name,
+            final String firstName, final String lastName, final String email,
+            final String username) {
+        this.name = name;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.username = username;
+        this.account = account;
+        account.addProfile(this);
+        this.account.roles = "USER";
+
+        this.fixName();
+    }
+
+    private void fixName() {
+        // Is the name null?
+        if (this.name == null) {
+
+            // Ok, lets try with first and last name...
+            this.name = this.firstName;
+
+            if (this.lastName != null) {
+                if (this.name == null) {
+                    this.name = this.lastName;
+                } else {
+                    this.name += " " + this.lastName;
+                }
+            }
+
+            // Try with username if still null
+            if (this.name == null) {
+                this.name = this.username;
+            }
+
+            // Try with email if still null
+            if (this.name == null) {
+                this.name = this.email;
+            }
+
+            // If still null set name to UNKNOWN
+            if (this.name == null) {
+                this.name = "UNKNOWN";
+            }
+        }
+    }
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "myAccount", nullable = false)
+    public Account getAccount() {
+        return this.account;
+    }
+
+    public String getDescription() {
+        return this.description;
+    }
+
+    @Override
+    @Column(name = "email", unique = true)
+    public String getEmail() {
+        return this.email;
     }
 
     public String getFirstName() {
-        return firstName;
+        return this.firstName;
+    }
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    public Long getId() {
+        return this.id;
     }
 
     public String getLastName() {
-        return lastName;
+        return this.lastName;
     }
 
-    @Column(name = "email", unique = true)
-    public String getEmail() {
-        return email;
-    }
-
-    @Override
-    @Column(name = "roles")
-    public String getRoles() {
-        return super.getRoles();
-    }
-
-    @Override
-    public void setRoles(String roles) {
-        super.setRoles(roles);
+    public String getName() {
+        return this.name;
     }
 
     @Override
@@ -163,19 +170,57 @@ public class UserProfile extends User implements IUserProfile {
         return super.getPassword();
     }
 
-    @Override
-    public void setPassword(String password) {
-        super.setPassword(password);
+    @Transient
+    public String getUserId() {
+        return String.valueOf(this.id);
     }
 
     @Column(unique = true)
     public String getUsername() {
-        return username;
+        return this.username;
     }
 
+    public void setAccount(final Account account) {
+        this.account = account;
+        if (account != null) {
+            account.addProfile(this);
+
+        }
+    }
+
+    public void setDescription(final String description) {
+        this.description = description;
+    }
+
+    public void setFirstName(final String firstName) {
+        this.firstName = firstName;
+    }
+
+    public void setId(final Long id) {
+        this.id = id;
+    }
+
+    public void setLastName(final String lastName) {
+        this.lastName = lastName;
+    }
+
+    public void setName(final String name) {
+        this.name = name;
+    }
+
+    @Override
+    public void setPassword(final String password) {
+        super.setPassword(password);
+    }
+
+    public void setUsername(final String username) {
+        this.username = username;
+    }
+
+    @Override
     public String toString() {
-        return "name = " + name + ", firstName = " + firstName
-                + ", lastName = " + lastName + ", email = " + email
-                + ", username = " + username;
+        return "name = " + this.name + ", firstName = " + this.firstName
+                + ", lastName = " + this.lastName + ", email = " + this.email
+                + ", username = " + this.username;
     }
 }

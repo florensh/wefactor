@@ -1,0 +1,67 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="layout :: htmlhead" th:with="title='Hello'"></head>
+<body>
+	<div class="page-container">
+
+		<!-- top navbar -->
+		<div th:replace="layout :: top-navbar">(navbar)</div>
+
+		<div class="container">
+			<div class="row row-offcanvas row-offcanvas-left">
+
+				<div th:replace="layout :: sidebar">(navbar)</div>
+
+				<div class="col-xs-12 col-sm-9">
+					<!-- content ############################################################################################################# -->
+
+					<div class="col-xs-12 col-sm-6">
+						<h2>Edit your Profile</h2>
+						<form role="form" th:action="@{/user/profile/save(id=${currentUserProfile.id})}" method="post"
+							th:object="${userProfileFormDataObject}">
+							<div class="form-group">
+								<label for="displayname">Display Name:</label> <input
+									th:field="*{displayName}" type="text"
+									class="form-control input-lg" id="displayname"
+									placeholder="Enter your display name"></input> <span
+									class="help-block hidden-xs">This is how you will be
+									seen by other users</span>
+							</div>
+							<div class="form-group">
+								<label for="firstname">First Name:</label> <input
+									th:field="*{firstName}" type="text" class="form-control"
+									id="firstname" placeholder="Enter your first name"></input>
+							</div>
+
+							<div class="form-group">
+								<label for="lastname">Last Name:</label> <input
+									th:field="*{lastName}" type="text" class="form-control"
+									id="lastname" placeholder="Enter your last name"></input>
+							</div>
+
+							<div th:replace="layout :: validationerror">validation
+								errors</div>
+
+
+							<button type="submit" class="btn btn-primary btn-lg">Submit</button>
+							<a class="btn btn-default  btn-lg" th:href="@{/user/profile/details(id=${currentUserProfile.id})}"
+								role="button">Cancel</a>
+						</form>
+					</div>
+
+
+
+					<!-- content ############################################################################################################# -->
+				</div>
+			</div>
+			<!--/.row-->
+		</div>
+		<!--/.container-->
+	</div>
+	<!--/.page-container-->
+	<!-- script references -->
+	<script
+		src="//ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
+	<script th:src="@{/webjars/bootstrap/3.2.0/js/bootstrap.min.js}"></script>
+	<script th:src="@{/js/scripts.js}"></script>
+</body>
+</html>
