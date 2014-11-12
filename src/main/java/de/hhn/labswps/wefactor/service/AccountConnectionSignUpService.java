@@ -30,7 +30,8 @@ public class AccountConnectionSignUpService implements ConnectionSignUp {
                 .fetchUserProfile();
 
         UserProfile userProfile = new UserProfile(
-                accountRepository.save(new Account()), profile);
+                accountRepository.save(new Account()), profile,
+                connection.getImageUrl());
 
         userProfile = userProfileRepository.save(userProfile);
         return userProfile.getUserId();

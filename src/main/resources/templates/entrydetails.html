@@ -27,10 +27,11 @@
 							</div>
 							<div class="btn-toolbar col-md-3 col-md-offset-6 pull-right">
 								<!--  <button th:href="@{/user/entry/edit(id=${entry.id})}" class="btn btn-primary btn-md col-md-5 col-xs-12 pull-right">Edit</button>-->
-								
-								<a
+
+								<a th:if="${entry.account.primaryProfile.id == currentUserProfile.id}"
 									class="btn btn-primary btn-md col-md-5 col-xs-12 pull-right"
-									th:href="@{/user/entry/edit(id=${entry.id})}" role="button"><i class="fa fa-wrench"></i> Edit</a>
+									th:href="@{/user/entry/edit(id=${entry.id})}" role="button"><i
+									class="fa fa-wrench"></i> Edit</a>
 							</div>
 						</div>
 
@@ -41,8 +42,7 @@
 						</div>
 
 						<div class="row">
-							<div class="col-md-9">
-								<h4 id="header2">Description</h4>
+							<div class="col-md-9" th:utext="${entry.entryDescription}">
 							</div>
 						</div>
 
@@ -50,8 +50,10 @@
 						<div class="row col-md-12">
 							<div class="container-fluid col-md-9 col-sm-9 well" id="editor"></div>
 							<div class="col-md-3 col-sm-3">
+							<!-- 
 								<h5>Created just now</h5>
 								<h5>Modified just now</h5>
+								 -->
 							</div>
 						</div>
 
@@ -78,20 +80,19 @@
 
 
 	<script th:inline="javascript">
-	/*<![CDATA[*/
+		/*<![CDATA[*/
 		var editor = ace.edit("editor");
-		 var modelAttributeValue = /*[[${entry.entryCodeText}]]*/ 'Code';
+		var modelAttributeValue = /*[[${entry.entryCodeText}]]*/'Code';
 		editor.setTheme("ace/theme/eclipse");
 		editor.setValue(modelAttributeValue); // or session.setValue
 		editor.getValue(); // or session.getValue
 		editor.getSession().setMode("ace/mode/java");
 		editor.setFontSize("15px");
 		editor.setOptions({
-			readOnly: true,
-			})
-			editor.renderer.$cursorLayer.element.style.opacity=0;
-		
-		
+			readOnly : true,
+		})
+		editor.renderer.$cursorLayer.element.style.opacity = 0;
+
 		/*]]>*/
 	</script>
 </body>

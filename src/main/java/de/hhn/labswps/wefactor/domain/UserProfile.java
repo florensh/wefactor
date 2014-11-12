@@ -36,17 +36,35 @@ public class UserProfile extends User implements Serializable {
 
     private Long id;
 
+    private String imageUrl;
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    public static long getSerialversionuid() {
+        return serialVersionUID;
+    }
+
     public UserProfile() {
 
     }
 
     public UserProfile(final Account account,
-            final org.springframework.social.connect.UserProfile up) {
+            final org.springframework.social.connect.UserProfile up,
+            String imageUrl) {
         this.name = up.getName();
         this.firstName = up.getFirstName();
         this.lastName = up.getLastName();
         this.email = up.getEmail();
         this.username = up.getUsername();
+
+        imageUrl = imageUrl.replace("sz=50", "sz=150");
+        this.imageUrl = imageUrl;
         this.account = account;
         account.addProfile(this);
         this.account.roles = "USER";
