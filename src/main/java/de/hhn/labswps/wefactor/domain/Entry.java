@@ -21,7 +21,7 @@ import javax.persistence.Transient;
  */
 @Entity
 @Table(name = "entry")
-public final class Entry {
+public final class Entry extends BaseEntity {
 
     private Account account;
 

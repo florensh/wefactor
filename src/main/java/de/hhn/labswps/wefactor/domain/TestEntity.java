@@ -8,7 +8,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "test")
-public class TestEntity extends BaseEntity {
+public class TestEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
