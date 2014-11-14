@@ -45,4 +45,12 @@ public class WeFactorValues {
         /** The Objective_ c. */
         Objective_C
     }
+
+    public enum ProviderIdentification {
+        GOOGLE, WEFACTOR;
+    }
+
+    public enum Role {
+        USER, ADMIN, MODERATOR
+    }
 }

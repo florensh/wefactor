@@ -74,22 +74,24 @@
 							</div>
 							<div class="col-xs-8 col-sm-8">
 								<h5>
-									by&nbsp;<a
+									<small>by&nbsp;</small><a
 										th:href="@{/user/profile/details(id=${entry.account.primaryProfile.id})}"><span
-										th:text="${entry.account.primaryProfile.name}">udo</span></a>
-									&nbsp;<small th:text="${entry.entryDateAsString}">10.11.2014</small>
+										th:text="${entry.account.primaryProfile.name}">udo</span></a><small>&nbsp;created</small>
+									<small style="color: black;" th:text="${beans.dateFormatter.format(entry.entryDate)}">10.11.2014</small>
 								</h5>
+								<kbd>java</kbd>
 							</div>
 
 							<div class="col-xs-8 col-sm-2">
 
-								<span class="pull-right"> <a class="btn btn-primary btn-lg"
+								<span class="pull-right"> <a class="btn btn-primary btn-md"
 									th:href="@{/entry/details(id=${entry.id})}" role="button"><i
 										class="fa fa-file-text-o"></i></a> <a
 									th:if="${entry.account.primaryProfile.id == currentUserProfile.id}"
-									class="btn btn-info btn-lg" th:href="@{/user/entry/edit(id=${entry.id})}" role="button"><i
+									class="btn btn-info btn-md" th:href="@{/user/entry/edit(id=${entry.id})}" role="button"><i
 										class="fa fa-edit"></i></a>
 								</span>
+								
 							</div>
 
 

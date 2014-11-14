@@ -15,12 +15,12 @@
 					<!-- content ############################################################################################################# -->
 					<div class="row">
 						<div class="col-xs-12 col-sm-3">
-							<img th:if="${currentUserImageUrl == null}"
+							<img th:if="${profile.imageUrl == null}"
 								src="http://www.localcrimenews.com/wp-content/uploads/2013/07/default-user-icon-profile.png"
 								alt="" class="img-circle img-responsive profile"></img> 
 								
-							<img th:unless="${currentUserImageUrl == null}"
-								th:src="${currentUserImageUrl}"
+							<img th:unless="${profile.imageUrl == null}"
+								th:src="${profile.imageUrl}"
 								alt="" class="img-circle img-responsive profile"></img>
 						</div>
 						<div class="col-xs-12 col-sm-6">
