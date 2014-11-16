@@ -13,6 +13,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import de.hhn.labswps.wefactor.specification.WeFactorValues;
 import de.hhn.labswps.wefactor.specification.WeFactorValues.ProviderIdentification;
 
 @Entity
@@ -77,6 +78,7 @@ public class UserProfile extends User implements Serializable {
         account.addProfile(this);
         this.account.roles = "USER";
         this.providerId = providerIdentification.name();
+        this.imageUrl = WeFactorValues.DEFAULT_IMAGE_URL;
 
         this.fixName();
     }

@@ -71,6 +71,7 @@
 
 
 
+				<!-- evtl mit float:left arbeiten -->
 				<!--  wieder aktivieren wenn suchfunktion implementiert wird
 				<div class="collapse navbar-collapse"
 					id="bs-example-navbar-collapse-2">
@@ -102,7 +103,11 @@
 						<li th:if="${currentUserDisplayName == null}"><a
 							href="/signin"><i class="fa fa-sign-in fa-fw"></i>log in</a></li>
 						<li th:unless="${currentUserDisplayName == null}" class="dropdown">
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown"> <span
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown"> <img
+								style="height: 20px; float: left; margin-right: 5px;"
+								th:unless="${currentUserProfile.imageUrl == null}"
+								th:src="${currentUserProfile.imageUrl}" alt=""
+								class="img-rounded img-responsive"></img> <span
 								th:text="${currentUserDisplayName}">Bob</span> <span
 								class="caret"></span></a>
 
@@ -135,7 +140,8 @@
 				<div th:fragment="sidebar"
 					class="col-xs-6 col-sm-3 sidebar-offcanvas" id="sidebar"
 					role="navigation">
-					<a sec:authorize="hasRole('USER')" th:href="@{/user/entry/add}" class="btn btn-primary btn-md" role="button"><i
+					<a sec:authorize="hasRole('USER')" th:href="@{/user/entry/add}"
+						class="btn btn-primary btn-md" role="button"><i
 						class="fa fa-plus"></i> New entry</a>
 					<ul class="nav">
 						<li><a href="/entries/all">Explore</a></li>
