@@ -8,6 +8,7 @@ import de.hhn.labswps.wefactor.domain.Account;
 import de.hhn.labswps.wefactor.domain.AccountRepository;
 import de.hhn.labswps.wefactor.domain.UserProfile;
 import de.hhn.labswps.wefactor.domain.UserProfileRepository;
+import de.hhn.labswps.wefactor.specification.WeFactorValues.ProviderIdentification;
 import de.hhn.labswps.wefactor.specification.WeFactorValues.Role;
 
 @Service
@@ -32,7 +33,8 @@ public class SignUpService {
                 Role.USER));
 
         UserProfile profile = new UserProfile(account, email, username,
-                this.passwordEncoder.encode(password));
+                this.passwordEncoder.encode(password),
+                ProviderIdentification.WEFACTOR);
         profile = this.userProfileRepository.save(profile);
         return profile.getUserId();
 

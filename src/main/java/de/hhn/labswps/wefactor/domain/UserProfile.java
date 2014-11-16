@@ -68,13 +68,15 @@ public class UserProfile extends User implements Serializable {
     }
 
     public UserProfile(final Account account, final String email,
-            final String username, final String password) {
+            final String username, final String password,
+            ProviderIdentification providerIdentification) {
         this.email = email;
         this.username = username;
         this.password = password;
         this.account = account;
         account.addProfile(this);
         this.account.roles = "USER";
+        this.providerId = providerIdentification.name();
 
         this.fixName();
     }
