@@ -8,6 +8,8 @@ import de.hhn.labswps.wefactor.domain.Account;
 import de.hhn.labswps.wefactor.domain.AccountRepository;
 import de.hhn.labswps.wefactor.domain.UserProfile;
 import de.hhn.labswps.wefactor.domain.UserProfileRepository;
+import de.hhn.labswps.wefactor.specification.WeFactorValues.ProviderIdentification;
+import de.hhn.labswps.wefactor.specification.WeFactorValues.Role;
 
 @Service
 public class SignUpService {
@@ -21,15 +23,18 @@ public class SignUpService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    public String execute(String username, String email, String password) {
-        if (username == null || email == null || password == null) {
+    public String execute(final String username, final String email,
+            final String password) {
+        if ((username == null) || (email == null) || (password == null)) {
             throw new IllegalArgumentException();
         }
 
-        Account account = this.accountRepository.save(new Account());
+        final Account account = this.accountRepository.save(new Account(
+                Role.USER));
 
         UserProfile profile = new UserProfile(account, email, username,
-                passwordEncoder.encode(password));
+                this.passwordEncoder.encode(password),
+                ProviderIdentification.WEFACTOR);
         profile = this.userProfileRepository.save(profile);
         return profile.getUserId();
 

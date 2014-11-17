@@ -13,9 +13,16 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import de.hhn.labswps.wefactor.specification.WeFactorValues;
+import de.hhn.labswps.wefactor.specification.WeFactorValues.ProviderIdentification;
+
 @Entity
 @Table(name = "userprofile")
 public class UserProfile extends User implements Serializable {
+
+    public static long getSerialversionuid() {
+        return serialVersionUID;
+    }
 
     /**
      *
@@ -34,33 +41,44 @@ public class UserProfile extends User implements Serializable {
 
     private String description;
 
+    private String providerId;
+
     private Long id;
+
+    private String imageUrl;
 
     public UserProfile() {
 
     }
 
     public UserProfile(final Account account,
-            final org.springframework.social.connect.UserProfile up) {
+            final org.springframework.social.connect.UserProfile up,
+            String imageUrl, ProviderIdentification providerId) {
+        account.addProfile(this);
         this.name = up.getName();
         this.firstName = up.getFirstName();
         this.lastName = up.getLastName();
         this.email = up.getEmail();
         this.username = up.getUsername();
+        this.providerId = providerId.name();
+        this.imageUrl = fixImageUrl(imageUrl);
+
         this.account = account;
-        account.addProfile(this);
         this.account.roles = "USER";
         this.password = up.getUsername(); // TODO improve!!!
     }
 
     public UserProfile(final Account account, final String email,
-            final String username, final String password) {
+            final String username, final String password,
+            ProviderIdentification providerIdentification) {
         this.email = email;
         this.username = username;
         this.password = password;
         this.account = account;
         account.addProfile(this);
         this.account.roles = "USER";
+        this.providerId = providerIdentification.name();
+        this.imageUrl = WeFactorValues.DEFAULT_IMAGE_URL;
 
         this.fixName();
     }
@@ -78,6 +96,23 @@ public class UserProfile extends User implements Serializable {
         this.account.roles = "USER";
 
         this.fixName();
+    }
+
+    private String fixImageUrl(String imageUrl) {
+
+        ProviderIdentification providerId = getProviderIdAsType();
+        String retVal = null;
+
+        switch (providerId) {
+            case GOOGLE:
+                retVal = imageUrl.replace("sz=50", "sz=150");
+                break;
+
+            default:
+                break;
+        }
+
+        return retVal;
     }
 
     private void fixName() {
@@ -138,6 +173,10 @@ public class UserProfile extends User implements Serializable {
         return this.id;
     }
 
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
     public String getLastName() {
         return this.lastName;
     }
@@ -150,6 +189,17 @@ public class UserProfile extends User implements Serializable {
     @Column(name = "password")
     public String getPassword() {
         return super.getPassword();
+    }
+
+    @Column(name = "providerId")
+    public String getProviderId() {
+        return providerId;
+    }
+
+    @Transient
+    public ProviderIdentification getProviderIdAsType() {
+        return ProviderIdentification.valueOf(this.providerId);
+
     }
 
     @Transient
@@ -182,6 +232,10 @@ public class UserProfile extends User implements Serializable {
         this.id = id;
     }
 
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
     public void setLastName(final String lastName) {
         this.lastName = lastName;
     }
@@ -193,6 +247,10 @@ public class UserProfile extends User implements Serializable {
     @Override
     public void setPassword(final String password) {
         super.setPassword(password);
+    }
+
+    public void setProviderId(String providerId) {
+        this.providerId = providerId;
     }
 
     public void setUsername(final String username) {

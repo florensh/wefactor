@@ -7,19 +7,20 @@
 		<div class="navbar navbar-default" role="navigation">
 			<div class="container">
 				<div class="navbar-header">
-					<a class="navbar-brand" href="/">weFactor</a>
+					<a class="navbar-brand" href="/" th:text="#{app.name}">brand</a>
 				</div>
 			</div>
 		</div>
 
 		<div class="container">
-			<h1>welcome to weFactor</h1>
-			<p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed
-				diam nonumy eirmod tempor invidunt ut labore et dolore magna
-				aliquyam erat, sed diam voluptua.</p>
-			<a class="btn btn-primary  btn-lg" href="/signup"
-				role="button">Create Account</a> <a
-				class="btn btn-default  btn-lg" href="/signin" role="button">Log in</a>
+			<div class="jumbotron">
+				<h1 th:text="#{app.name}">name</h1>
+
+				<p th:text="#{landing.welcome}">welcome</p>
+				<a class="btn btn-primary  btn-lg" href="/signup" role="button"
+					th:text="#{signup}">signup</a> <a class="btn btn-default  btn-lg"
+					href="/signin" role="button" th:text="#{signin}">signin</a>
+			</div>
 		</div>
 
 		<!--/.container-->

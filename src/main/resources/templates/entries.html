@@ -13,6 +13,7 @@
 
 				<div class="col-xs-12 col-sm-9">
 					<!-- content ############################################################################################################# -->
+					<!--  
 					<div class="col-xs-12">
 						<div class="row">
 							<div class="col-xs-12">
@@ -48,35 +49,49 @@
 							</div>
 						</div>
 					</div>
+					-->
 					<!-- end filter -->
 
 					<!-- start entries -->
 					<div class="col">
 						<div class="row" th:each="entry : ${entries}">
 							<div class="col-xs-4 col-sm-2 col-lg-2">
+							
+							<!-- 
 								<img
 									src="http://www.localcrimenews.com/wp-content/uploads/2013/07/default-user-icon-profile.png"
 									alt="" class="img-circle img-responsive"></img>
+									 -->
+									
+							<img th:if="${entry.account.primaryProfile.imageUrl == null}"
+								src="http://www.localcrimenews.com/wp-content/uploads/2013/07/default-user-icon-profile.png"
+								alt="" class="img-circle img-responsive"></img> 
+								
+							<img th:unless="${entry.account.primaryProfile.imageUrl == null}"
+								th:src="${entry.account.primaryProfile.imageUrl}"
+								alt="" class="img-circle img-responsive profile"></img>
 
 							</div>
 							<div class="col-xs-8 col-sm-8">
 								<h5>
-									by&nbsp;<a
+									<small>by&nbsp;</small><a
 										th:href="@{/user/profile/details(id=${entry.account.primaryProfile.id})}"><span
-										th:text="${entry.account.primaryProfile.name}">udo</span></a>
-									&nbsp;<small th:text="${entry.entryDateAsString}">10.11.2014</small>
+										th:text="${entry.account.primaryProfile.name}">udo</span></a><small>&nbsp;created</small>
+									<small style="color: black;" th:text="${beans.dateFormatter.format(entry.entryDate)}">10.11.2014</small>
 								</h5>
+								<kbd>java</kbd>
 							</div>
 
 							<div class="col-xs-8 col-sm-2">
 
-								<span class="pull-right"> <a class="btn btn-primary btn-lg"
+								<span class="pull-right"> <a class="btn btn-primary btn-md"
 									th:href="@{/entry/details(id=${entry.id})}" role="button"><i
 										class="fa fa-file-text-o"></i></a> <a
 									th:if="${entry.account.primaryProfile.id == currentUserProfile.id}"
-									class="btn btn-info btn-lg" th:href="@{/user/entry/edit(id=${entry.id})}" role="button"><i
+									class="btn btn-info btn-md" th:href="@{/user/entry/edit(id=${entry.id})}" role="button"><i
 										class="fa fa-edit"></i></a>
 								</span>
+								
 							</div>
 
 
@@ -86,7 +101,7 @@
 										th:text="${entry.name}">name</span></a>
 								</h3>
 								<h3>
-									<small th:text="${entry.entryDescription}">description</small>
+									<small th:text="${entry.descriptionShort}">description</small>
 								</h3>
 							</div>
 

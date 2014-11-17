@@ -7,6 +7,8 @@ package de.hhn.labswps.wefactor.specification;
  */
 public class WeFactorValues {
 
+    public static final String DEFAULT_IMAGE_URL = "http://www.localcrimenews.com/wp-content/uploads/2013/07/default-user-icon-profile.png";
+
     /**
      * The Enum ProgrammingLanguage.
      */
@@ -44,5 +46,13 @@ public class WeFactorValues {
         Haskell,
         /** The Objective_ c. */
         Objective_C
+    }
+
+    public enum ProviderIdentification {
+        GOOGLE, WEFACTOR;
+    }
+
+    public enum Role {
+        USER, ADMIN, MODERATOR
     }
 }

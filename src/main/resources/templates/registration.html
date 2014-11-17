@@ -43,15 +43,8 @@
 						<span class="help-block"></span>
 
 						<!-- Anzeige der servereitigen Fehler -->
-						<div class="alert alert-danger" th:if="${#fields.hasAnyErrors()}">
-							<ul>
-								<li th:each="e : ${#fields.detailedErrors()}"
-									th:class="${e.global}? globalerr : fielderr"><strong><span
-										th:text="${e.global}? '' : ${e.fieldName}">The field
-											name</span><span th:text="!${e.global}? ' '">blank</span></strong><span
-									th:text="${e.message}">The error message</span></li>
-							</ul>
-						</div>
+								<div th:replace="layout :: validationerror">validation
+								errors</div>
 
 
 

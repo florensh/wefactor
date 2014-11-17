@@ -30,7 +30,7 @@ public class IndexController {
         } else {
 
             util.setModel(request, currentUser, model);
-            return "index";
+            return "forward:/entries/all";
         }
 
     }

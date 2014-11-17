@@ -143,14 +143,21 @@ public class EntryController {
     public String submitEntryForm(@Valid EntryDataObject entryDataObject,
             BindingResult result, Model m, Principal currentUser) {
         if (result.hasErrors()) {
-            return "editprofile";
+            return "entryedit";
+        }
+
+        Entry toSave;
+        if (entryDataObject.getId() != null) {
+            toSave = this.entryRepository.findOne(entryDataObject.getId());
+
+        } else {
+            toSave = new Entry();
         }
 
         String secUser = currentUser.getName();
         UserProfile profile = this.userProfileRepository
                 .findByUsername(secUser);
 
-        Entry toSave = new Entry();
         toSave.setEntryCodeText(entryDataObject.getCode());
         toSave.setEntryDate(new Date());
         toSave.setEntryDescription(entryDataObject.getDescription());

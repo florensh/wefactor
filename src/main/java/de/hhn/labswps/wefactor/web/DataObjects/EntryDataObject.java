@@ -1,13 +1,19 @@
 package de.hhn.labswps.wefactor.web.DataObjects;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 public class EntryDataObject {
 
+    @NotEmpty
     private String description;
 
+    @NotEmpty
+    // @Max(50)
     private String title;
 
     private Long id;
 
+    @NotEmpty
     private String code;
 
     public String getCode() {
