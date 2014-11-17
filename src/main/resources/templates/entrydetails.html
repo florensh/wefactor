@@ -29,10 +29,10 @@
 								<!--  <button th:href="@{/user/entry/edit(id=${entry.id})}" class="btn btn-primary btn-md col-md-5 col-xs-12 pull-right">Edit</button>-->
 								
 								<a
-									class="btn btn-primary btn-md col-md-5 col-xs-12 pull-right"
+									class="btn btn-primary btn-md col-md-5 col-xs-5 pull-right"
 									th:href="@{/user/entry/edit(id=${entry.id})}" role="button"><i class="fa fa-wrench"></i> Edit</a>
 								<button type="submit"
-										class="btn btn-danger btn-md col-md-5 col-xs-5 pull-right">
+										class="btn btn-danger btn-md pull-right">
 										<i class="fa fa-times"></i> Delete
 								</button>
 							</div>
@@ -46,7 +46,7 @@
 
 						<div class="row">
 							<div class="col-md-9">
-								<h4 id="header2">Description</h4>
+								<span th:utext="${entry.entryDescription}">Description</span>
 							</div>
 						</div>
 						
