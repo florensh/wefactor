@@ -39,14 +39,13 @@
   padding-top: 2px;
 }
 
-#editorRow {
-  margin-left: 0px;
-  margin-right: 10px;
-}
-
 @media (min-width: 20px) {
   #editor {
     height: 250px;
+  }
+  #editorRow {
+  	margin-left: 0px;
+  	margin-right: 0px;
   }
 
 }
@@ -54,10 +53,18 @@
   #editor {
     height: 450px;
   }
+  #editorRow {
+  	margin-left: 0px;
+  	margin-right: 0px;
+  }
 }
 @media (min-width: 1200px) {
   #editor {
     height: 750px;
+  }
+  #editorRow {
+  	margin-left: 0px;
+  	margin-right: 10px;
   }
 }
 
