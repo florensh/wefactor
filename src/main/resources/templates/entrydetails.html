@@ -2,12 +2,14 @@
 <html lang="de" xmlns:th="http://www.thymeleaf.org">
 <head th:include="layout :: htmlhead" th:with="title='Hello'"></head>
 <body>
+
 	<div class="page-container">
 
 		<!-- top navbar -->
 		<div th:replace="layout :: top-navbar">(navbar)</div>
 
 		<div class="container">
+		
 			<div class="row row-offcanvas row-offcanvas-left">
 
 				<div th:replace="layout :: sidebar">(navbar)</div>
@@ -34,12 +36,12 @@
 								<!--  <button th:href="@{/user/entry/edit(id=${entry.id})}" class="btn btn-primary btn-md col-md-5 col-xs-12 pull-right">Edit</button>-->
 								
 								<a
-									class="btn btn-primary btn-md col-md-5 col-xs-5 pull-right"
+									class="btn btn-primary btn-md col-md-5 col-xs-5 pull-right" th:if="${entry.account.primaryProfile.id == currentUserProfile.id}"
 									th:href="@{/user/entry/edit(id=${entry.id})}" role="button"><i class="fa fa-wrench"></i> Edit</a>
-								<button type="submit"
-										class="btn btn-danger btn-md pull-right">
+								<a
+										class="btn btn-danger btn-md pull-right" th:if="${entry.account.primaryProfile.id == currentUserProfile.id}">
 										<i class="fa fa-times"></i> Delete
-								</button>
+								</a>
 							</div>
 						</div>
 
@@ -97,12 +99,14 @@
 		src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 	<script th:src="@{/webjars/bootstrap/3.2.0/js/bootstrap.min.js}"></script>
 	<script th:src="@{/js/scripts.js}"></script>
+			<script th:src="@{/webjars/fuelux/3.0.2/js/fuelux.min.js}"></script>
 	<script th:src="@{/webjars/ace/01.08.2014/src-min-noconflict/ace.js}"></script>
 	<script th:src="@{/webjars/tinymce-jquery/4.0.16/tinymce.min.js}"></script>
 
 
 	<script th:inline="javascript">
 	/*<![CDATA[*/
+
 		var editor = ace.edit("editor");
 		 var modelAttributeValue = /*[[${entry.entryCodeText}]]*/ 'Code';
 		editor.setTheme("ace/theme/eclipse");
@@ -114,6 +118,7 @@
 			readOnly: true,
 			})
 			editor.renderer.$cursorLayer.element.style.opacity=0;
+		
 		
 		
 		/*]]>*/

@@ -7,7 +7,8 @@
 		<!-- top navbar -->
 		<div th:replace="layout :: top-navbar">(navbar)</div>
 
-		<div class="container">
+		<div class="container fuelux">
+		<div class="loader" data-initialize="loader" id="myLoader"></div>
 			<div class="row row-offcanvas row-offcanvas-left">
 
 				<div th:replace="layout :: sidebar">(navbar)</div>
@@ -127,10 +128,12 @@
 	
 
 	<script>
+    $('#myLoader').loader('play');
 		tinymce.init({
 			mode : "exact",
 			elements : "tinyEditor",
 		});
+		$('#myLoader').loader('pause');
 	</script>
 
 	<script th:inline="javascript">
