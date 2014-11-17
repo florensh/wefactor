@@ -1,6 +1,5 @@
 package de.hhn.labswps.wefactor.web.DataObjects;
 
-import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.Email;
@@ -22,7 +21,7 @@ public class RegisterFormDataObject {
     @NotEmpty
     private String email;
 
-    @Min(8)
+    @Size(min = 8, max = 30)
     private String password;
 
     private String repeatPassword;
