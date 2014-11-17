@@ -126,6 +126,7 @@ public class EntryController {
         entryDataObject.setId(entry.getId());
 
         model.addAttribute("entryDataObject", entryDataObject);
+        model.addAttribute("entry", entry);
 
         return "entryedit";
     }

@@ -19,12 +19,17 @@
 					<div class="col-md-12">
 
 						<div class="row">
-							<div class="col-md-4">
-								<span class="fa-stack fa-lg" id="userPic"> <i
-									class="fa fa-circle fa-stack-2x"></i> <i
-									class="fa fa-user fa-stack-1x fa-inverse"></i>
-								</span>
+							<div class="col-xs-4 col-sm-2 col-md-1">
+																
+								<img th:unless="${entry.account.primaryProfile.imageUrl == null}"
+									th:src="${entry.account.primaryProfile.imageUrl}"
+									alt="" class="img-circle img-responsive profile"></img>
 							</div>
+							
+							<div class="col-xs-4 col-md-4 pull-left" id="userNameProfil">
+								<h4><span th:text="${currentUserProfile.name}">name</span></h4>
+							</div>
+							
 							<div class="btn-toolbar col-md-3 col-md-offset-6 pull-right">
 								<!--  <button th:href="@{/user/entry/edit(id=${entry.id})}" class="btn btn-primary btn-md col-md-5 col-xs-12 pull-right">Edit</button>-->
 								
@@ -44,12 +49,13 @@
 							</div>
 						</div>
 
-						<div class="row">
+						<div class="row" style="margin-bottom: 30px;">
 							<div class="col-md-9">
 								<span th:utext="${entry.entryDescription}">Description</span>
 							</div>
 						</div>
 						
+						<!-- 
 						<div class="row" id="bar">
 								<div class="col-md-9 col-sm-9">
 									<i class="fa fa-search fa-2x"></i>
@@ -62,12 +68,14 @@
 									</div>
 								</div>
 						</div>
+						-->
 
 						<div class="row" id="editorRow">
 							<div class="container-fluid col-md-9 col-sm-9 well" id="editor"></div>
 							<div class="col-md-3 col-sm-3">
-								<h5>Created just now</h5>
-								<h5>Modified just now</h5>
+								<h4><small>Created <span style="color: black;" th:text="${beans.dateFormatter.format(entry.entryDate)}">Created just now</span></small></h4>
+								<h4 th:unless="${entry.createdDate==entry.lastModifiedDate}"><small>Modified <span style="color: black;" th:text="${beans.dateFormatter.format(entry.lastModifiedDate)}">Modified just now</span></small></h4>
+								<kbd>java</kbd>
 							</div>
 						</div>
 

@@ -1,5 +1,9 @@
+#userNameProfil {
+  padding-left: 0px;
+}
+
 #titleInput {
-  margin-bottom: 0px;
+  margin-bottom: 15px;
   margin-top: 20px;
 }
 
@@ -10,16 +14,16 @@
 }
 
 #tinyMCE {
+  margin-bottom: 50px;
+}
+
+#bar {
   margin-bottom: 15px;
 }
 
 #bar .container {
   margin-bottom: 0px;
   padding: 0px;
-}
-
-#bar .container .fa {
-  padding: 3px 0px 0px 6px;
 }
 
 #bar .form-group {
