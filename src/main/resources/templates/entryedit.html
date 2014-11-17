@@ -22,15 +22,17 @@
 
 							<div class="row">
 								<div class="col-xs-4 col-sm-2 col-md-1">
-									<img th:if="${entry == null}"
-										th:src="${currentUserProfile.imageUrl}"
-										class="img-circle img-responsive"></img> 
-									<img th:unless="${entry == null}"
-										th:src="${entry.account.primaryProfile.imageUrl}"
-										class="img-circle img-responsive"></img>
+									<a th:if="${entry == null}" th:href="@{/user/profile/details(id=${currentUserProfile.id})}">
+									<img 
+										th:src="${currentUserProfile.imageUrl}"										
+										class="img-circle img-responsive"></img></a>
+									<a th:unless="${entry == null}" th:href="@{/user/profile/details(id=${entry.account.primaryProfile.id})}">	 
+									<img 
+										th:src="${entry.account.primaryProfile.imageUrl}"										
+										class="img-circle img-responsive"></img></a>
 								</div>
 								<div class="col-xs-4 col-md-4 pull-left" id="userNameProfil">
-									<h4><span th:text="${currentUserProfile.name}">name</span></h4>
+									<h4><a th:href="@{/user/profile/details(id=${currentUserProfile.id})}"><span th:text="${currentUserProfile.name}">name</span></a></h4>
 								</div>
 								<div class="btn-toolbar col-md-3 col-md-offset-6 pull-right">
 									<button type="submit"
