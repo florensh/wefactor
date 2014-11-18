@@ -22,6 +22,7 @@ import de.hhn.labswps.wefactor.domain.Entry;
 import de.hhn.labswps.wefactor.domain.EntryRepository;
 import de.hhn.labswps.wefactor.domain.UserProfile;
 import de.hhn.labswps.wefactor.domain.UserProfileRepository;
+import de.hhn.labswps.wefactor.specification.WeFactorValues;
 import de.hhn.labswps.wefactor.web.DataObjects.EntriesFilterDataObject;
 import de.hhn.labswps.wefactor.web.DataObjects.EntryDataObject;
 
@@ -87,13 +88,6 @@ public class EntryController {
         return "entrydetails";
     }
 
-    @RequestMapping(value = "/entries/edittest", method = RequestMethod.GET)
-    public String showEditEntryPage(final HttpServletRequest request,
-            final Principal currentUser, final Model model) {
-
-        return "entryedit";
-    }
-
     @RequestMapping(value = "/entry/details", method = RequestMethod.GET)
     public String showEntryDetails(@RequestParam("id") Long id, ModelMap model,
             Principal currentUser) {
@@ -124,11 +118,25 @@ public class EntryController {
         entryDataObject.setDescription(entry.getEntryDescription());
         entryDataObject.setTitle(entry.getName());
         entryDataObject.setId(entry.getId());
+        entryDataObject.setTeaser(entry.getTeaser());
+        entryDataObject.setLanguage(entry.getLanguage());
 
         model.addAttribute("entryDataObject", entryDataObject);
         model.addAttribute("entry", entry);
+        model.addAttribute("languages",
+                WeFactorValues.ProgrammingLanguage.valuesAsEditorMode());
 
         return "entryedit";
+    }
+
+    @Secured({ "USER" })
+    @RequestMapping(value = "user/entry/remove", method = RequestMethod.GET)
+    public String deleteEntryPage(@RequestParam("id") Long id, ModelMap model,
+            Principal currentUser) {
+
+        this.entryRepository.delete(id);
+
+        return "forward:/";
     }
 
     @RequestMapping(value = "/user/entry/add", method = RequestMethod.GET)
@@ -136,6 +144,8 @@ public class EntryController {
             final Principal currentUser, final Model model) {
 
         model.addAttribute("entryDataObject", new EntryDataObject());
+        model.addAttribute("languages",
+                WeFactorValues.ProgrammingLanguage.valuesAsEditorMode());
 
         return "entryedit";
     }
@@ -144,6 +154,8 @@ public class EntryController {
     public String submitEntryForm(@Valid EntryDataObject entryDataObject,
             BindingResult result, Model m, Principal currentUser) {
         if (result.hasErrors()) {
+            m.addAttribute("languages",
+                    WeFactorValues.ProgrammingLanguage.valuesAsEditorMode());
             return "entryedit";
         }
 
@@ -160,6 +172,8 @@ public class EntryController {
                 .findByUsername(secUser);
 
         toSave.setEntryCodeText(entryDataObject.getCode());
+        toSave.setLanguage(entryDataObject.getLanguage());
+        toSave.setTeaser(entryDataObject.getTeaser());
         toSave.setEntryDate(new Date());
         toSave.setEntryDescription(entryDataObject.getDescription());
         toSave.setName(entryDataObject.getTitle());

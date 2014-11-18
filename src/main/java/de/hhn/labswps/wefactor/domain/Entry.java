@@ -14,6 +14,10 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import org.hibernate.annotations.Where;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 /**
  * The Class Entry.
  * 
@@ -21,7 +25,10 @@ import javax.persistence.Transient;
  */
 @Entity
 @Table(name = "entry")
-public final class Entry extends BaseEntity {
+@Where(clause = "inactive = 'N'")
+// @SQLDelete(sql = "UPDATE entry set inactive = 'Y' WHERE Id = ?")
+@JsonIgnoreProperties({ "id", "softDeleted" })
+public final class Entry extends BaseSoftDeletableEntity {
 
     private Account account;
 
@@ -32,6 +39,26 @@ public final class Entry extends BaseEntity {
 
     /** The entry date. */
     private Date entryDate;
+
+    private String language;
+
+    private String teaser;
+
+    public String getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(String language) {
+        this.language = language;
+    }
+
+    public String getTeaser() {
+        return teaser;
+    }
+
+    public void setTeaser(String teaser) {
+        this.teaser = teaser;
+    }
 
     /** The entry description. */
     private String entryDescription = null;

@@ -77,9 +77,9 @@
 									<small>by&nbsp;</small><a
 										th:href="@{/user/profile/details(id=${entry.account.primaryProfile.id})}"><span
 										th:text="${entry.account.primaryProfile.name}">udo</span></a><small>&nbsp;created</small>
-									<small style="color: black;" th:text="${beans.dateFormatter.format(entry.entryDate)}">10.11.2014</small>
+									<small style="color: black;" th:text="${beans.dateFormatter.format(entry.createdDate)}">10.11.2014</small>
 								</h5>
-								<kbd>java</kbd>
+								<kbd th:text="${entry.language}">language</kbd>
 							</div>
 
 							<div class="col-xs-8 col-sm-2">
@@ -101,7 +101,7 @@
 										th:text="${entry.name}">name</span></a>
 								</h3>
 								<h3>
-									<small th:text="${entry.descriptionShort}">description</small>
+									<small th:text="${entry.teaser}">description</small>
 								</h3>
 							</div>
 

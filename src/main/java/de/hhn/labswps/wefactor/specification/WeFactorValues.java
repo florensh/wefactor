@@ -1,5 +1,8 @@
 package de.hhn.labswps.wefactor.specification;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * The Class WeFactorValues.
  * 
@@ -15,37 +18,67 @@ public class WeFactorValues {
     public enum ProgrammingLanguage {
 
         /** The Java. */
-        Java,
+        Java("java", "java"),
         /** The html. */
-        HTML,
+        HTML("html", "html"),
         /** The css. */
-        CSS,
+        CSS("css", "css"),
         /** The xml. */
-        XML,
-        /** The C_ sharp. */
-        C_Sharp,
-        /** The C_ plus plus. */
-        C_PlusPlus,
-        /** The sql. */
-        SQL,
-        /** The php. */
-        PHP,
-        /** The Bash. */
-        Bash,
-        /** The c. */
-        C,
-        /** The Python. */
-        Python,
-        /** The Groovy. */
-        Groovy,
-        /** The Ruby. */
-        Ruby,
-        /** The Scala. */
-        Scala,
-        /** The Haskell. */
-        Haskell,
-        /** The Objective_ c. */
-        Objective_C
+        XML("xml", "xml")
+        // /** The C_ sharp. */
+        // C_Sharp("C#"),
+        // /** The C_ plus plus. */
+        // C_PlusPlus("C++"),
+        // /** The sql. */
+        // SQL("sql"),
+        // /** The php. */
+        // PHP("PHP"),
+        // /** The Bash. */
+        // Bash("Bash"),
+        // /** The c. */
+        // C("C"),
+        // /** The Python. */
+        // Python("Python"),
+        // /** The Groovy. */
+        // Groovy("Groovy"),
+        // /** The Ruby. */
+        // Ruby("Ruby"),
+        // /** The Scala. */
+        // Scala("Scala"),
+        // /** The Haskell. */
+        // Haskell("Haskell"),
+        // /** The Objective_ c. */
+        // Objective_C("Objectiv-C")
+        ;
+
+        private String mode;
+        private String displayName;
+
+        ProgrammingLanguage(String displayName, String mode) {
+            this.mode = mode;
+            this.displayName = displayName;
+        }
+
+        public String getMode() {
+            return mode;
+        }
+
+        public static ProgrammingLanguage getLanguageForDisplayname(String name) {
+            for (ProgrammingLanguage pl : ProgrammingLanguage.values()) {
+                if (pl.displayName.equalsIgnoreCase(name)) {
+                    return pl;
+                }
+            }
+            return null;
+        }
+
+        public static List<String> valuesAsEditorMode() {
+            List<String> retVal = new ArrayList<String>();
+            for (ProgrammingLanguage pl : ProgrammingLanguage.values()) {
+                retVal.add(pl.mode);
+            }
+            return retVal;
+        }
     }
 
     public enum ProviderIdentification {

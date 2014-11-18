@@ -39,7 +39,7 @@
 									class="btn btn-primary btn-md col-md-5 col-xs-5 pull-right" th:if="${entry.account.primaryProfile.id == currentUserProfile.id}"
 									th:href="@{/user/entry/edit(id=${entry.id})}" role="button"><i class="fa fa-wrench"></i> Edit</a>
 								<a
-										class="btn btn-danger btn-md pull-right" th:if="${entry.account.primaryProfile.id == currentUserProfile.id}">
+										class="btn btn-danger btn-md pull-right" th:if="${entry.account.primaryProfile.id == currentUserProfile.id}" th:href="@{/user/entry/remove(id=${entry.id})}">
 										<i class="fa fa-times"></i> Delete
 								</a>
 							</div>
@@ -75,9 +75,9 @@
 						<div class="row" id="editorRow">
 							<div class="container-fluid col-md-9 col-sm-9 well" id="editor"></div>
 							<div class="col-md-3 col-sm-3">
-								<h4><small>Created <span style="color: black;" th:text="${beans.dateFormatter.format(entry.entryDate)}">Created just now</span></small></h4>
+								<h4><small>Created <span style="color: black;" th:text="${beans.dateFormatter.format(entry.createdDate)}">Created just now</span></small></h4>
 								<h4 th:unless="${entry.createdDate==entry.lastModifiedDate}"><small>Modified <span style="color: black;" th:text="${beans.dateFormatter.format(entry.lastModifiedDate)}">Modified just now</span></small></h4>
-								<kbd>java</kbd>
+								<kbd th:text="${entry.language}">java</kbd>
 							</div>
 						</div>
 
@@ -109,10 +109,11 @@
 
 		var editor = ace.edit("editor");
 		 var modelAttributeValue = /*[[${entry.entryCodeText}]]*/ 'Code';
-		editor.setTheme("ace/theme/eclipse");
+		 var language = /*[[${entry.language}]]*/ 'language';
+		editor.setTheme("ace/theme/github");
 		editor.setValue(modelAttributeValue); // or session.setValue
 		editor.getValue(); // or session.getValue
-		editor.getSession().setMode("ace/mode/java");
+		editor.getSession().setMode("ace/mode/"+language);
 		editor.setFontSize("15px");
 		editor.setOptions({
 			readOnly: true,
