@@ -23,22 +23,4 @@ public class UserControllerTest extends BaseTest {
 
     }
 
-    // @Test
-    // public void signIn() throws Exception {
-    // UserProfile userProfile = new UserProfile("1", "name", "firstName",
-    // "secondName", "mail@mail.de", "testuser");
-    //
-    // userProfile.setPassword("123");
-    //
-    // userProfileRepository.save((UserProfile) userProfile);
-    //
-    // getMockMvc()
-    // .perform(
-    // post("/login/authenticate").param("username",
-    // "testuser").param("password", "123"))
-    //
-    // .andExpect(status().isOk()).andExpect(view().name("/"));
-    //
-    // }
-
 }

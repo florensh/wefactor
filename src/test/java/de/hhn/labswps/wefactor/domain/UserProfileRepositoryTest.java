@@ -25,11 +25,14 @@ public class UserProfileRepositoryTest extends BaseTest {
     @Test
     public final void basicTest() {
 
-        // Account account = new Account();
-        // UserProfile userProfile = new UserProfile(
-        // accountRepository.save(account), "name", "firstName",
-        // "secondName", "mail@mail.de", "username");
-        // userProfileRepository.save((UserProfile) userProfile);
+        long currentTime = System.currentTimeMillis();
+
+        Account account = new Account();
+        UserProfile userProfile = new UserProfile(
+                accountRepository.save(account), "name", "firstName",
+                "secondName", currentTime + "@mail.de", "username_"
+                        + currentTime);
+        userProfileRepository.save((UserProfile) userProfile);
 
     }
 

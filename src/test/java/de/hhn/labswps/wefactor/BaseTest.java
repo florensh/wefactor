@@ -79,13 +79,7 @@ public class BaseTest {
 
     @Test
     public void testSomething() throws Exception {
-        Principal principal = new Principal() {
-            @Override
-            public String getName() {
-                return "weFactor_testuser";
-            }
-        };
-        getMockMvc().perform(get("/").principal(principal))
+        getMockMvc().perform(get("/").principal(getTestPrincipal()))
                 .andExpect(status().isOk())
                 .andExpect(view().name("forward:/entries/all"));
 
@@ -93,6 +87,16 @@ public class BaseTest {
 
     protected UserProfile getTestProfile() {
         return this.userProfileRepository.findByUsername("weFactor_testuser");
+
+    }
+
+    protected Principal getTestPrincipal() {
+        return new Principal() {
+            @Override
+            public String getName() {
+                return "weFactor_testuser";
+            }
+        };
 
     }
 
