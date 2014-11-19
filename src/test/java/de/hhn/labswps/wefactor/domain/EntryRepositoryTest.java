@@ -1,5 +1,9 @@
 package de.hhn.labswps.wefactor.domain;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.empty;
+import static org.hamcrest.Matchers.not;
+
 import java.util.Date;
 
 import org.junit.Test;
@@ -14,7 +18,10 @@ public class EntryRepositoryTest extends BaseTest {
 
     /** The entry repository. */
     @Autowired
-    private EntryRepository entryRepository;
+    private MasterEntryRepository masterEntryRepository;
+
+    @Autowired
+    private VersionEntryRepository versionEntryRepository;
 
     @Autowired
     AccountRepository accountRepository;
@@ -29,15 +36,46 @@ public class EntryRepositoryTest extends BaseTest {
     public final void basicTest() {
         UserProfile profile = getTestProfile();
 
-        Entry entry = new Entry();
+        MasterEntry masterEntry = new MasterEntry();
 
-        entry.setAccount(profile.getAccount());
-        entry.setEntryCodeText("bla");
-        entry.setEntryDate(new Date());
-        entry.setEntryDescription("bla bla");
+        masterEntry.setAccount(profile.getAccount());
+        masterEntry.setEntryCodeText("bla");
+        masterEntry.setEntryDate(new Date());
+        masterEntry.setEntryDescription("bla bla");
+        masterEntryRepository.save(masterEntry);
 
-        entryRepository.save(entry);
-        entryRepository.delete(entry);
+        masterEntryRepository.delete(masterEntry);
+
+    }
+
+    @Test
+    public final void testNewVersion() {
+        UserProfile profile = getTestProfile();
+
+        MasterEntry masterEntry = new MasterEntry();
+
+        masterEntry.setAccount(profile.getAccount());
+        masterEntry.setEntryCodeText("bla");
+        masterEntry.setEntryDate(new Date());
+        masterEntry.setEntryDescription("bla bla");
+        masterEntryRepository.save(masterEntry);
+
+        VersionEntry versionEntry = new VersionEntry();
+
+        versionEntry.setAccount(profile.getAccount());
+        versionEntry.setEntryCodeText("bla");
+        versionEntry.setEntryDate(new Date());
+        versionEntry.setEntryDescription("bla bla");
+
+        versionEntryRepository.save(versionEntry);
+        masterEntry.addVersion(versionEntry);
+
+        masterEntry = masterEntryRepository.save(masterEntry);
+
+        assertThat(masterEntry.getVersions(), not(empty()));
+
+        versionEntryRepository.delete(versionEntry);
+        masterEntryRepository.delete(masterEntry);
 
     }
 }

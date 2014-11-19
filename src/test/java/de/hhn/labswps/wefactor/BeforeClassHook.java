@@ -5,7 +5,7 @@ import org.springframework.test.context.support.AbstractTestExecutionListener;
 
 import de.hhn.labswps.wefactor.domain.Account;
 import de.hhn.labswps.wefactor.domain.AccountRepository;
-import de.hhn.labswps.wefactor.domain.EntryRepository;
+import de.hhn.labswps.wefactor.domain.MasterEntryRepository;
 import de.hhn.labswps.wefactor.domain.UserProfile;
 import de.hhn.labswps.wefactor.domain.UserProfileRepository;
 import de.hhn.labswps.wefactor.specification.WeFactorValues.ProviderIdentification;
@@ -41,8 +41,8 @@ public class BeforeClassHook extends AbstractTestExecutionListener {
 
         userProfileRepository.deleteAll();
 
-        EntryRepository entryRepository = testContext.getApplicationContext()
-                .getBean(EntryRepository.class);
+        MasterEntryRepository entryRepository = testContext.getApplicationContext()
+                .getBean(MasterEntryRepository.class);
 
         entryRepository.deleteAll();
 

@@ -10,7 +10,7 @@ public class EntryDataObject {
     private String description;
 
     @NotEmpty
-    @Size(min = 5, max = 30)
+    @Size(min = 5, max = 50)
     private String title;
 
     private Long id;

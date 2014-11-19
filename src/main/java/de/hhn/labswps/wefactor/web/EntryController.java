@@ -19,7 +19,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import de.hhn.labswps.wefactor.domain.Entry;
-import de.hhn.labswps.wefactor.domain.EntryRepository;
+import de.hhn.labswps.wefactor.domain.MasterEntry;
+import de.hhn.labswps.wefactor.domain.MasterEntryRepository;
 import de.hhn.labswps.wefactor.domain.UserProfile;
 import de.hhn.labswps.wefactor.domain.UserProfileRepository;
 import de.hhn.labswps.wefactor.specification.WeFactorValues;
@@ -34,7 +35,7 @@ public class EntryController {
     }
 
     @Autowired
-    private EntryRepository entryRepository;
+    private MasterEntryRepository entryRepository;
 
     @Autowired
     private UserProfileRepository userProfileRepository;
@@ -159,12 +160,12 @@ public class EntryController {
             return "entryedit";
         }
 
-        Entry toSave;
+        MasterEntry toSave;
         if (entryDataObject.getId() != null) {
             toSave = this.entryRepository.findOne(entryDataObject.getId());
 
         } else {
-            toSave = new Entry();
+            toSave = new MasterEntry();
         }
 
         String secUser = currentUser.getName();

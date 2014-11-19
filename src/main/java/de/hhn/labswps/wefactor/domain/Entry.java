@@ -4,10 +4,13 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
@@ -28,7 +31,9 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @Where(clause = "inactive = 'N'")
 // @SQLDelete(sql = "UPDATE entry set inactive = 'Y' WHERE Id = ?")
 @JsonIgnoreProperties({ "id", "softDeleted" })
-public final class Entry extends BaseSoftDeletableEntity {
+@DiscriminatorColumn(name = "ENTRY_TYPE")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+public abstract class Entry extends BaseSoftDeletableEntity {
 
     private Account account;
 
@@ -44,22 +49,6 @@ public final class Entry extends BaseSoftDeletableEntity {
 
     private String teaser;
 
-    public String getLanguage() {
-        return language;
-    }
-
-    public void setLanguage(String language) {
-        this.language = language;
-    }
-
-    public String getTeaser() {
-        return teaser;
-    }
-
-    public void setTeaser(String teaser) {
-        this.teaser = teaser;
-    }
-
     /** The entry description. */
     private String entryDescription = null;
 
@@ -73,9 +62,18 @@ public final class Entry extends BaseSoftDeletableEntity {
     }
 
     @Transient
-    public String getEntryDateAsString() {
-        DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
-        return df.format(this.entryDate);
+    public String getDescriptionShort() {
+        int maxLength = 100;
+        if (this.entryDescription != null) {
+            if (this.entryDescription.length() > maxLength) {
+                return this.entryDescription.substring(0, maxLength) + "...";
+
+            } else {
+                return this.entryDescription;
+            }
+        } else {
+            return "";
+        }
     }
 
     /**
@@ -95,6 +93,12 @@ public final class Entry extends BaseSoftDeletableEntity {
      */
     public Date getEntryDate() {
         return this.entryDate;
+    }
+
+    @Transient
+    public String getEntryDateAsString() {
+        DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+        return df.format(this.entryDate);
     }
 
     /**
@@ -118,8 +122,16 @@ public final class Entry extends BaseSoftDeletableEntity {
         return id;
     }
 
+    public String getLanguage() {
+        return language;
+    }
+
     public String getName() {
         return name;
+    }
+
+    public String getTeaser() {
+        return teaser;
     }
 
     public void setAccount(Account account) {
@@ -166,22 +178,16 @@ public final class Entry extends BaseSoftDeletableEntity {
         this.id = idParam;
     }
 
+    public void setLanguage(String language) {
+        this.language = language;
+    }
+
     public void setName(String name) {
         this.name = name;
     }
 
-    @Transient
-    public String getDescriptionShort() {
-        int maxLength = 100;
-        if (this.entryDescription != null) {
-            if (this.entryDescription.length() > maxLength) {
-                return this.entryDescription.substring(0, maxLength) + "...";
-
-            } else {
-                return this.entryDescription;
-            }
-        } else {
-            return "";
-        }
+    public void setTeaser(String teaser) {
+        this.teaser = teaser;
     }
+
 }
