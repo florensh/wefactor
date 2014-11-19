@@ -64,7 +64,8 @@
 			<div class="row omb_row-sm-offset-3 omb_socialButtons">
 				<div class="col-xs-3 col-sm-1" id="googleButton">
 					<form th:action="@{/signin/google}" method="post">
-						<input type="hidden" name="scope" value="profile" />
+					<!--  	<input type="hidden" name="scope" value="profile" />-->
+						<input type="hidden" name="scope" value="https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile" />  
 						<button type="submit" class="btn btn-mid btn-block omb_btn-google">
 							<i class="fa fa-google-plus-square fa-4x"></i>
 						</button>

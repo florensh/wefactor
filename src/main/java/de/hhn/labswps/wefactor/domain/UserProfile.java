@@ -55,7 +55,7 @@ public class UserProfile extends User implements Serializable {
             final org.springframework.social.connect.UserProfile up,
             String imageUrl, ProviderIdentification providerId) {
         account.addProfile(this);
-        this.name = up.getName();
+        // this.name = up.getName();
         this.firstName = up.getFirstName();
         this.lastName = up.getLastName();
         this.email = up.getEmail();
@@ -66,6 +66,7 @@ public class UserProfile extends User implements Serializable {
         this.account = account;
         this.account.roles = "USER";
         this.password = up.getUsername(); // TODO improve!!!
+        fixName();
     }
 
     public UserProfile(final Account account, final String email,
@@ -119,31 +120,14 @@ public class UserProfile extends User implements Serializable {
         // Is the name null?
         if (this.name == null) {
 
-            // Ok, lets try with first and last name...
-            this.name = this.firstName;
-
-            if (this.lastName != null) {
-                if (this.name == null) {
-                    this.name = this.lastName;
-                } else {
-                    this.name += " " + this.lastName;
-                }
-            }
-
-            // Try with username if still null
-            if (this.name == null) {
+            if (ProviderIdentification.WEFACTOR.equals(this
+                    .getProviderIdAsType())) {
                 this.name = this.username;
-            }
 
-            // Try with email if still null
-            if (this.name == null) {
+            } else {
                 this.name = this.email;
             }
 
-            // If still null set name to UNKNOWN
-            if (this.name == null) {
-                this.name = "UNKNOWN";
-            }
         }
     }
 
