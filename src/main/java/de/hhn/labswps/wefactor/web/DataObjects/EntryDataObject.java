@@ -24,6 +24,16 @@ public class EntryDataObject {
     @Size(min = 10, max = 200)
     private String teaser;
 
+    private String editMode;
+
+    public String getEditMode() {
+        return editMode;
+    }
+
+    public void setEditMode(String editMode) {
+        this.editMode = editMode;
+    }
+
     public String getLanguage() {
         return language;
     }
