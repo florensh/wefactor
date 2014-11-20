@@ -95,6 +95,9 @@ public class EntryController {
         Entry entry = this.entryRepository.findOne(id);
 
         model.addAttribute("entry", entry);
+
+        String[] array = { "hallo", "tschüss" };
+        model.addAttribute("testarray", array);
         return "entrydetails";
     }
 

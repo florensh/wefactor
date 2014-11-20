@@ -51,9 +51,52 @@
 							</div>
 						</div>
 
+						<div class="row">
+							<div class="tabbable custom-tabs tabs-animated col-md-9" style="margin-top: 30px; margin-bottom: 30px;">
+								<ul class="nav nav-tabs test" id="tabsDesktop">
+							
+									<li data-toggle="tab" th:each="version : ${entry.orderedVersions}" th:attr="data-test-attr=${entry.orderedVersions.indexOf(version)}"><a th:text="${version.id}" href="#"></a></li>
+									<li role="presentation" class="dropdown"><a
+										class="dropdown-toggle" data-toggle="dropdown" href="#"
+										role="button" aria-expanded="false"> More <span
+											class="caret"></span>
+									</a>
+										<ul class="dropdown-menu" role="menu">
+											<li role="presentation"><a role="menuitem" tabindex="-1"
+												href="#">Dropdown Desktop Device</a></li>
+										</ul>
+									</li>									
+								</ul>
+								<div class="tab-content">
+									<div class="tab-pane active" id="tab1">
+										<!-- Ace Code Content -->
+									</div>
+									<div class="tab-pane" id="tab2">
+										<!-- Ace Code Content -->
+									</div>
+									<div class="tab-pane" id="tab3">
+										<!-- Ace Code Content -->
+									</div>
+								</div>
+								
+								<ul class="nav nav-tabs" id="tabsMobile">
+									<li role="presentation" class="dropdown"><a
+										class="dropdown-toggle" data-toggle="dropdown" href="#"
+										role="button" aria-expanded="false"> Versions <span
+											class="caret"></span>
+									</a>
+										<ul class="dropdown-menu" role="menu">
+											<li role="presentation"><a role="menuitem" tabindex="-1"
+												href="#">Dropdown Mobile Device</a></li>
+										</ul>
+									</li>
+								</ul>
+							</div>
+						</div>
+
 						<div class="row" style="margin-bottom: 30px;">
 							<div class="col-md-9">
-								<span th:utext="${entry.entryDescription}">Description</span>
+								<span th:utext="${entry.entryDescription}" id="description">Description</span>
 							</div>
 						</div>
 						
@@ -123,6 +166,22 @@
 		
 		
 		/*]]>*/
+	</script>	
+
+	<script th:inline="javascript">
+		/*<![CDATA[*/
+		$(document).ready(function () {
+			$("ul[id*=tabsDesktop] li").click(function () {
+				var array = /*[[${testarray}]]*/ 'Code';
+				$("#description").hide().html(array[0]).fadeIn('slow'); 
+			});
+		});
+		
+		
+		
+		/*]]>*/
 	</script>
+
+
 </body>
 </html>

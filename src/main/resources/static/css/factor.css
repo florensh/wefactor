@@ -51,7 +51,6 @@
   	margin-left: 0px;
   	margin-right: 0px;
   }
-
 }
 @media (min-width: 500px) {
   #editor {
@@ -60,6 +59,9 @@
   #editorRow {
   	margin-left: 0px;
   	margin-right: 0px;
+  }
+  #dropdownMobile {
+   	display: none;
   }
 }
 @media (min-width: 1200px) {
@@ -70,5 +72,12 @@
   	margin-left: 0px;
   	margin-right: 10px;
   }
+  #tabsMobile {
+   	display: none;
+  }
 }
-
+@media (max-width: 500px) {
+  #tabsDesktop {
+  	display: none;
+  }
+}

@@ -1,11 +1,14 @@
 package de.hhn.labswps.wefactor.domain;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.Where;
 
@@ -36,6 +39,16 @@ public class MasterEntry extends Entry {
 
     public void setVersions(Set<VersionEntry> versions) {
         this.versions = versions;
+    }
+
+    @Transient
+    public List<Entry> getOrderedVersions() {
+        List<Entry> retVal = new ArrayList<Entry>();
+        retVal.add(this);
+        if (this.versions != null && !this.versions.isEmpty()) {
+            retVal.addAll(this.versions);
+        }
+        return retVal;
     }
 
 }
