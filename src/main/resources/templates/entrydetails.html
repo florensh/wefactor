@@ -55,7 +55,7 @@
 							<div class="tabbable custom-tabs tabs-animated col-md-9" style="margin-top: 30px; margin-bottom: 30px;">
 								<ul class="nav nav-tabs test" id="tabsDesktop">
 							
-									<li data-toggle="tab" th:each="version : ${entry.orderedVersions}" th:attr="data-test-attr=${entry.orderedVersions.indexOf(version)}"><a th:text="${version.id}" href="#"></a></li>
+									<li data-toggle="tab" th:each="version : ${entry.OrderedVersions}" th:attr="data-entryid=${version.id}, data-entrytype=${version.class.simpleName}"><a th:text="${beans.dateFormatter.format(version.createdDate)}" href="#"></a></li>
 									<li role="presentation" class="dropdown"><a
 										class="dropdown-toggle" data-toggle="dropdown" href="#"
 										role="button" aria-expanded="false"> More <span
@@ -96,7 +96,7 @@
 
 						<div class="row" style="margin-bottom: 30px;">
 							<div class="col-md-9">
-								<span th:utext="${entry.entryDescription}" id="description">Description</span>
+								<span th:utext="${entry.orderedVersions.get(0).entryDescription}" id="description">Description</span>
 							</div>
 						</div>
 						
@@ -150,21 +150,20 @@
 	<script th:inline="javascript">
 	/*<![CDATA[*/
 
+
 		var editor = ace.edit("editor");
-		 var modelAttributeValue = /*[[${entry.entryCodeText}]]*/ 'Code';
-		 var language = /*[[${entry.language}]]*/ 'language';
+		var modelAttributeValue = /*[[${entry.orderedVersions.get(0).entryCodeText}]]*/'Code';
+		var language = /*[[${entry.language}]]*/'language';
 		editor.setTheme("ace/theme/github");
 		editor.setValue(modelAttributeValue); // or session.setValue
 		editor.getValue(); // or session.getValue
-		editor.getSession().setMode("ace/mode/"+language);
+		editor.getSession().setMode("ace/mode/" + language);
 		editor.setFontSize("15px");
 		editor.setOptions({
-			readOnly: true,
-			})
-			editor.renderer.$cursorLayer.element.style.opacity=0;
-		
-		
-		
+			readOnly : true,
+		})
+		editor.renderer.$cursorLayer.element.style.opacity = 0;
+
 		/*]]>*/
 	</script>	
 
@@ -172,8 +171,16 @@
 		/*<![CDATA[*/
 		$(document).ready(function () {
 			$("ul[id*=tabsDesktop] li").click(function () {
-				var array = /*[[${testarray}]]*/ 'Code';
-				$("#description").hide().html(array[0]).fadeIn('slow'); 
+				var url = "http://localhost:8080/entryajax/"+$(this).attr("data-entrytype") +"/" +$(this).attr("data-entryid");
+				
+				 $.ajax({
+				        url: url
+				    }).then(function(data) {
+				   			$("#description").hide().html(data.entryDescription).fadeIn('slow'); 
+				   			var editor = ace.edit("editor");
+				   			editor.setValue(data.entryCodeText);
+				    });
+				
 			});
 		});
 		
