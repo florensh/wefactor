@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="de" xmlns:th="http://www.thymeleaf.org">
+<head th:include="layout :: htmlhead" th:with="title='Hello'"></head>
+<body>
+	<div class="page-container">
+
+		<!-- top navbar -->
+		<div th:replace="layout :: top-navbar">(navbar)</div>
+
+		<div class="container fuelux">
+		<!--  <div class="loader" data-initialize="loader" id="myLoader"></div>-->
+			<div class="row row-offcanvas row-offcanvas-left">
+
+				<div th:replace="layout :: sidebar">(navbar)</div>
+
+				<div class="col-xs-12 col-sm-9">
+					<!-- content ############################################################################################################# -->
+
+					<form role="form" th:action="@{/user/entry/save}" method="post"
+						th:object="${entryDataObject}">
+						<div class="col-md-12">
+
+							<div class="row">
+								<div class="col-xs-4 col-sm-2 col-md-1">
+									<a th:if="${entry == null}" th:href="@{/user/profile/details(id=${currentUserProfile.id})}">
+									<img 
+										th:src="${currentUserProfile.imageUrl}"										
+										class="img-circle img-responsive"></img></a>
+									<a th:unless="${entry == null}" th:href="@{/user/profile/details(id=${entry.account.primaryProfile.id})}">	 
+									<img 
+										th:src="${entry.account.primaryProfile.imageUrl}"										
+										class="img-circle img-responsive"></img></a>
+								</div>
+								<div class="col-xs-4 col-md-4 pull-left" id="userNameProfil">
+									<h4><a th:href="@{/user/profile/details(id=${currentUserProfile.id})}"><span th:text="${currentUserProfile.name}">name</span></a></h4>
+								</div>
+								<div class="btn-toolbar col-md-3 col-md-offset-6 pull-right">
+									<button type="submit"
+										class="btn btn-primary btn-md col-md-5 col-xs-5 pull-right">
+										<i class="fa fa-floppy-o"></i> Save
+									</button>
+
+									<!--
+									<button
+										class="btn btn-default btn-md col-md-5 col-xs-5 pull-right">Cancel</button>
+										
+										  -->
+
+									<a th:if="${entryDataObject.id}"
+										class="btn btn-default btn-md pull-right"
+										th:href="@{/entry/details(id=${entryDataObject.id})}"
+										role="button"><i class="fa fa-times"></i> Cancel</a> <a
+										th:unless="${entryDataObject.id}"
+										class="btn btn-default btn-md pull-right"
+										th:href="@{/entries/user(id=${currentUserProfile.account.id})}"
+										role="button"><i class="fa fa-times"></i> Cancel</a>
+								</div>
+							</div>
+
+
+							<div class="row">
+								<div class="col-md-9">
+									<div th:replace="layout :: validationerror">validation
+										errors</div>
+								</div>
+
+								<div class="form-group col-md-9" id="titleInput">
+									<label for="title" id="titleLabel">Title</label> <input
+										th:field="*{title}" id="title"
+										class="form-control input-lg col-md-12 col-sm-12 col-xs-12" type="text"
+										placeholder="Enter your title"></input> <input
+										th:field="*{id}" id="id" class="hidden" type="text"></input>
+								</div>
+							</div>
+
+							<div class="row">
+							<div class="form-group col-md-9" id="teaserInput">
+									<h4 id="header2">Teaser</h4> <textarea
+										th:field="*{teaser}" id="title"
+										class="form-control col-md-12 col-sm-12 col-xs-12" placeholder="Enter your teaser"></textarea>
+								</div>
+							</div>
+							
+
+							<div class="row">
+								<div class="col-md-9" id="tinyMCE">
+									<h4 id="header2">Description</h4>
+									<input th:field="*{description}" id="tinyEditor"></input>
+								</div>
+							</div>
+							
+			
+
+							<div class="row" id="bar">
+								<div class="col-md-9 col-sm-9">
+								<h4 style="float:left;">Code</h4>
+									<div class="col-md-3 col-xs-7 pull-right input-group input-append dropdown combobox"
+										data-initialize="combobox" id="myCombobox">
+										<input th:field="*{language}" type="text" class="form-control" placeholder="Language"></input>
+										<div class="input-group-btn">
+											<button type="button" class="btn btn-default dropdown-toggle"
+												data-toggle="dropdown">
+												<span class="caret"></span>
+											</button>
+											<ul class="dropdown-menu dropdown-menu-right">
+											<!-- <li><a href="#">java</a></li>
+												<li><a href="#">html</a></li> -->	
+												<li  th:each="lang : ${languages}"><a th:text="${lang}" href="#">java</a></li>
+											</ul>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<textarea class="hidden" th:field="*{code}" name="acearea"
+								id="acearea"></textarea>
+							<div class="row" id="editorRow">
+								<div class="container-fluid col-md-9 col-sm-9 well" id="editor"></div>
+								<div class="col-md-3 col-sm-3">
+									<h5>Edit Tags</h5>
+									<h5>Edit Properties</h5>
+								</div>
+							</div>
+
+						</div>
+
+					</form>
+					<!-- content ############################################################################################################# -->
+				</div>
+			</div>
+			<!--/.row-->
+		</div>
+		<!--/.container-->
+	</div>
+	<!--/.page-container-->
+	<!-- script references -->
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	<script th:src="@{/webjars/bootstrap/3.2.0/js/bootstrap.min.js}"></script>
+	<script th:src="@{/js/scripts.js}"></script>
+	<script th:src="@{/webjars/fuelux/3.0.2/js/fuelux.min.js}"></script>
+	<script th:src="@{/webjars/tinymce-jquery/4.0.16/tinymce.min.js}"></script>
+	<script th:src="@{/webjars/ace/01.08.2014/src-min-noconflict/ace.js}"></script>
+	
+
+	<script>
+		tinymce.init({
+			mode : "exact",
+			elements : "tinyEditor",
+		});
+	</script>
+
+	<script th:inline="javascript">
+		/*<![CDATA[*/
+		var editor = ace.edit("editor");
+		var textarea = $('textarea[name="acearea"]').hide();
+		var modelAttributeValue = /*[[${entryDataObject.code}]]*/'Code';
+		editor.setTheme("ace/theme/github");
+		editor.setValue(modelAttributeValue); // or session.setValue
+		editor.getValue(); // or session.getValue
+		editor.getSession().setMode("ace/mode/html");
+		editor.setFontSize("12px");
+
+		editor.getSession().on('change', function() {
+			document.getElementById("acearea").value = editor.getValue();
+		});
+		
+		$('#myCombobox').on('changed.fu.combobox', function (evt, data) {
+			var mode = "ace/mode/"+data.text;
+			editor.getSession().setMode(mode);
+			});
+		
+		/*]]>*/
+	</script>
+</body>
+</html>

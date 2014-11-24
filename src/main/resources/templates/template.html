@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="de" xmlns:th="http://www.thymeleaf.org">
+<head th:include="layout :: htmlhead" th:with="title='Hello'"></head>
+<body>
+	<div class="page-container">
+
+		<!-- top navbar -->
+		<div th:replace="layout :: top-navbar">(navbar)</div>
+
+		<div class="container">
+			<div class="row row-offcanvas row-offcanvas-left">
+
+				<div th:replace="layout :: sidebar">(navbar)</div>
+
+				<div class="col-xs-12 col-sm-9">
+				<!-- content ############################################################################################################# -->
+	
+
+
+				<!-- content ############################################################################################################# -->
+				</div>
+			</div>
+			<!--/.row-->
+		</div>
+		<!--/.container-->
+	</div>
+	<!--/.page-container-->
+	<!-- script references -->
+	<script
+		src="//ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
+	<script th:src="@{/webjars/bootstrap/3.2.0/js/bootstrap.min.js}"></script>
+	<script th:src="@{/js/scripts.js}"></script>
+</body>
+</html>

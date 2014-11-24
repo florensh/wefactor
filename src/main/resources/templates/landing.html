@@ -1,0 +1,35 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="layout :: htmlhead" th:with="title='Hello'"></head>
+<body>
+	<div class="page-container">
+
+		<!-- top navbar -->
+		<div class="navbar navbar-default" role="navigation">
+			<div class="container">
+				<div class="navbar-header">
+					<a class="navbar-brand" href="/" th:text="#{app.name}">brand</a>
+				</div>
+			</div>
+		</div>
+
+		<div class="container">
+			<div class="jumbotron">
+				<h1 th:text="#{app.name}">name</h1>
+
+				<p th:text="#{landing.welcome}">welcome</p>
+				<a class="btn btn-primary  btn-lg" href="/signup" role="button"
+					th:text="#{signup}">signup</a> <a class="btn btn-default  btn-lg"
+					href="/signin" role="button" th:text="#{signin}">signin</a>
+			</div>
+		</div>
+
+		<!--/.container-->
+	</div>
+	<!--/.page-container-->
+	<!-- script references -->
+	<script
+		src="//ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
+	<script th:src="@{/webjars/bootstrap/3.2.0/js/bootstrap.min.js}"></script>
+	<script th:src="@{/js/scripts.js}"></script>
+</body>
+</html>

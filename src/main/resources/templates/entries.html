@@ -1,0 +1,130 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="layout :: htmlhead" th:with="title='Hello'"></head>
+<body>
+	<div class="page-container">
+
+		<!-- top navbar -->
+		<div th:replace="layout :: top-navbar">(navbar)</div>
+
+		<div class="container">
+			<div class="row row-offcanvas row-offcanvas-left">
+
+				<div th:replace="layout :: sidebar">(navbar)</div>
+
+				<div class="col-xs-12 col-sm-9">
+					<!-- content ############################################################################################################# -->
+					<!--  
+					<div class="col-xs-12">
+						<div class="row">
+							<div class="col-xs-12">
+								<div class="row">
+
+									<button type="button" class="btn btn-default pull-right"
+										data-toggle="collapse" data-target="#filter">
+										<i class="fa fa-filter fa-fw"></i>
+									</button>
+
+								</div>
+
+								<div id="filter" class="collapse row">
+									<form role="form" th:action="@{/entries/user/0815/filtered}"
+										method="post" th:object="${entriesFilterDataObject}">
+										<div class="form-group">
+											<label for="displayname">Language:</label> <input
+												th:field="*{language}" type="text" class="form-control"
+												id="language" placeholder="Language"></input> <span
+												class="help-block hidden-xs">Select the language of
+												the entries</span>
+										</div>
+
+										<div th:replace="layout :: validationerror">validation
+											errors</div>
+
+
+										<button type="submit" class="btn btn-primary">Filter</button>
+										<button type="reset" class="btn btn-default">Clear</button>
+									</form>
+								</div>
+
+							</div>
+						</div>
+					</div>
+					-->
+					<!-- end filter -->
+
+					<!-- start entries -->
+					<div class="col">
+						<div class="row" th:each="entry : ${entries}">
+							<div class="col-xs-4 col-sm-2 col-lg-2">
+							
+							<!-- 
+								<img
+									src="http://www.localcrimenews.com/wp-content/uploads/2013/07/default-user-icon-profile.png"
+									alt="" class="img-circle img-responsive"></img>
+									 -->
+									
+							<img th:if="${entry.account.primaryProfile.imageUrl == null}"
+								src="http://www.localcrimenews.com/wp-content/uploads/2013/07/default-user-icon-profile.png"
+								alt="" class="img-circle img-responsive"></img> 
+								
+							<img th:unless="${entry.account.primaryProfile.imageUrl == null}"
+								th:src="${entry.account.primaryProfile.imageUrl}"
+								alt="" class="img-circle img-responsive"></img>
+
+							</div>
+							<div class="col-xs-8 col-sm-8">
+								<h5>
+									<small>by&nbsp;</small><a
+										th:href="@{/user/profile/details(id=${entry.account.primaryProfile.id})}"><span
+										th:text="${entry.account.primaryProfile.name}">udo</span></a><small>&nbsp;created</small>
+									<small style="color: black;" th:text="${beans.dateFormatter.format(entry.createdDate)}">10.11.2014</small>
+								</h5>
+								<kbd th:text="${entry.language}">language</kbd>
+							</div>
+
+							<div class="col-xs-8 col-sm-2">
+
+								<span class="pull-right"> <a class="btn btn-primary btn-md"
+									th:href="@{/entry/details(id=${entry.id})}" role="button"><i
+										class="fa fa-file-text-o"></i></a> <a
+									th:if="${entry.account.primaryProfile.id == currentUserProfile.id}"
+									class="btn btn-info btn-md" th:href="@{/user/entry/edit(id=${entry.id})}" role="button"><i
+										class="fa fa-edit"></i></a>
+								</span>
+								
+							</div>
+
+
+							<div class="col-xs-12 col-sm-10">
+								<h3>
+									<a th:href="@{/entry/details(id=${entry.id})}"><span
+										th:text="${entry.name}">name</span></a>
+								</h3>
+								<h3>
+									<small th:text="${entry.teaser}">description</small>
+								</h3>
+							</div>
+
+							<div class="col-xs-12 col-sm-12">
+								<hr></hr>
+							</div>
+
+						</div>
+					</div>
+
+
+					<!-- content ############################################################################################################# -->
+				</div>
+			</div>
+			<!--/.row-->
+		</div>
+		<!--/.container-->
+	</div>
+	<!--/.page-container-->
+	<!-- script references -->
+	<script
+		src="//ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
+	<script th:src="@{/webjars/bootstrap/3.2.0/js/bootstrap.min.js}"></script>
+	<script th:src="@{/js/scripts.js}"></script>
+</body>
+</html>
