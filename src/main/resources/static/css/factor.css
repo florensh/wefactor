@@ -2,10 +2,20 @@
   padding-left: 0px;
 }
 
+#userNameProfil h4 {
+	margin-top: 0px;
+	margin-bottom: 0px;
+}
+
+#userNameProfil h4 small{
+	margin-bottom: 10px;
+}
+
 #titleInput {
   margin-bottom: 15px;
   margin-top: 20px;
 }
+
 
 #titleLabel {
   font-size: 24px;
@@ -45,7 +55,7 @@
 
 @media (min-width: 20px) {
   #editor {
-    height: 250px;
+    min-height: 100px;
   }
   #editorRow {
   	margin-left: 0px;
@@ -54,7 +64,7 @@
 }
 @media (min-width: 500px) {
   #editor {
-    height: 450px;
+    min-height: 100px;
   }
   #editorRow {
   	margin-left: 0px;
@@ -66,7 +76,7 @@
 }
 @media (min-width: 1200px) {
   #editor {
-    height: 750px;
+    min-height: 100px;
   }
   #editorRow {
   	margin-left: 0px;
