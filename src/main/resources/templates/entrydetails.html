@@ -25,35 +25,85 @@
 								<a th:unless="${entry.account.primaryProfile.imageUrl == null}" th:href="@{/user/profile/details(id=${entry.account.primaryProfile.id})}">								
 								<img 
 									th:src="${entry.account.primaryProfile.imageUrl}"
-									alt="" class="img-circle img-responsive"></img></a>
+									alt="" class="img-rounded img-responsive"></img></a>
 							</div>
 							
-							<div class="col-xs-4 col-md-4 pull-left" id="userNameProfil">
-								<h4><a th:href="@{/user/profile/details(id=${entry.account.primaryProfile.id})}"> <span  th:text="${entry.account.primaryProfile.name}">name</span></a></h4>
+							<div class="col-xs-4 col-md-5 pull-left" id="userNameProfil">
+								<h4><a th:href="@{/user/profile/details(id=${entry.account.primaryProfile.id})}"> <span  th:text="${entry.account.primaryProfile.name}">name</span></a><span> / </span><strong><a th:href="@{/entry/details(id=${entry.id})}"> <span  th:text="${entry.name}">name</span></a></strong></h4>
+								<h4><small>created just now</small></h4>
 							</div>
 							
-							<div class="btn-toolbar col-md-3 col-md-offset-6 pull-right">
+							<div class="btn-toolbar col-md-4 col-md-offset-6 pull-right">
 								<!--  <button th:href="@{/user/entry/edit(id=${entry.id})}" class="btn btn-primary btn-md col-md-5 col-xs-12 pull-right">Edit</button>-->
 								
 								<a
-									class="btn btn-primary btn-md col-md-5 col-xs-5 pull-right" th:if="${entry.account.primaryProfile.id == currentUserProfile.id}"
+										class="btn btn-default btn-md pull-right" th:unless="${entry.account.primaryProfile.id == currentUserProfile.id}" th:href="@{/user/entry/remove(id=${entry.id})}">
+										<i class="fa fa-code-fork"></i> New version</a>
+								<a
+									class="btn btn-default btn-md pull-right" th:if="${entry.account.primaryProfile.id == currentUserProfile.id}"
 									th:href="@{/user/entry/edit(id=${entry.id})}" role="button"><i class="fa fa-wrench"></i> Edit</a>
 								<a
-										class="btn btn-danger btn-md pull-right" th:if="${entry.account.primaryProfile.id == currentUserProfile.id}" th:href="@{/user/entry/remove(id=${entry.id})}">
-										<i class="fa fa-times"></i> Delete
+										class="btn btn-default btn-md pull-right" th:if="${entry.account.primaryProfile.id == currentUserProfile.id}" th:href="@{/user/entry/remove(id=${entry.id})}">
+										<i class="fa fa-trash"></i> Delete
 								</a>
 							</div>
 						</div>
 
+
+
+						<!--  
 						<div class="row">
 							<div class="col-md-9">
 								<h3 id="header1" th:text="${entry.name}">Title</h3>
 							</div>
 						</div>
+-->
+						<div class="row">
+							<div id="versiontabs" class="tabbable custom-tabs tabs-animated col-md-9" style="margin-top: 30px; margin-bottom: 30px;">
+								<ul class="nav nav-tabs test" id="tabsDesktop">
+							
+									<li class="versionli" data-toggle="tab" th:each="version : ${entry.OrderedVersions}" th:attr="data-entryid=${version.id}, data-entrytype=${version.class.simpleName}" th:classappend="${entry.OrderedVersions.indexOf(version)==0} ? active" th:if="${entry.OrderedVersions.indexOf(version)&lt;4}"><a th:text="${beans.dateFormatter.format(version.createdDate)}" href="#"></a></li>
+									<li role="presentation" class="dropdown"  th:if="${entry.OrderedVersions.size()&gt;4}" ><a
+										class="dropdown-toggle" data-toggle="dropdown" href="#"
+										role="button" aria-expanded="false"> More <span
+											class="caret"></span>
+									</a>
+										<ul class="dropdown-menu" role="menu">
+											<li  class="versionli" th:each="version : ${entry.OrderedVersions}" role="presentation" th:if="${entry.OrderedVersions.indexOf(version)&gt;3}" th:attr="data-entryid=${version.id}, data-entrytype=${version.class.simpleName}"><a role="menuitem" tabindex="-1"
+												href="#" th:text="${beans.dateFormatter.format(version.createdDate)}">Dropdown Desktop Device</a></li>
+										</ul>
+									</li>									
+								</ul>
+								<div class="tab-content">
+									<div class="tab-pane active" id="tab1">
+										<!-- Ace Code Content -->
+									</div>
+									<div class="tab-pane" id="tab2">
+										<!-- Ace Code Content -->
+									</div>
+									<div class="tab-pane" id="tab3">
+										<!-- Ace Code Content -->
+									</div>
+								</div>
+								
+								<ul class="nav nav-tabs" id="tabsMobile">
+									<li role="presentation" class="dropdown"><a
+										class="dropdown-toggle" data-toggle="dropdown" href="#"
+										role="button" aria-expanded="false"> Versions <span
+											class="caret"></span>
+									</a>
+										<ul class="dropdown-menu" role="menu">
+											<li  class="versionli" th:each="version : ${entry.OrderedVersions}" th:attr="data-entryid=${version.id}, data-entrytype=${version.class.simpleName}" role="presentation"><a th:text="${beans.dateFormatter.format(version.createdDate)}" role="menuitem" tabindex="-1"
+												href="#">Dropdown Mobile Device</a></li>
+										</ul>
+									</li>
+								</ul>
+							</div>
+						</div>
 
 						<div class="row" style="margin-bottom: 30px;">
 							<div class="col-md-9">
-								<span th:utext="${entry.entryDescription}">Description</span>
+								<span th:utext="${entry.orderedVersions.get(0).entryDescription}" id="description">Description</span>
 							</div>
 						</div>
 						
@@ -71,13 +121,24 @@
 								</div>
 						</div>
 						-->
-
 						<div class="row" id="editorRow">
-							<div class="container-fluid col-md-9 col-sm-9 well" id="editor"></div>
+						<div class="col-md-9 col-sm-9" style="padding-left: 0px; padding-right:0px;">
+							<div class="panel panel-default ">
+								<div class="panel-heading">
+									your code<kbd class="pull-right" th:text="${entry.language}">java</kbd>
+								</div>
+								<div class="panel-body" id="editor">Panel content
+								
+								</div>
+							</div>
+						</div>
+
+						
+					<!-- 		<div class="container-fluid col-md-9 col-sm-9 well" id="editor"></div> -->
 							<div class="col-md-3 col-sm-3">
 								<h4><small>Created <span style="color: black;" th:text="${beans.dateFormatter.format(entry.createdDate)}">Created just now</span></small></h4>
 								<h4 th:unless="${entry.createdDate==entry.lastModifiedDate}"><small>Modified <span style="color: black;" th:text="${beans.dateFormatter.format(entry.lastModifiedDate)}">Modified just now</span></small></h4>
-								<kbd th:text="${entry.language}">java</kbd>
+								<!--<kbd th:text="${entry.language}">java</kbd>  -->
 							</div>
 						</div>
 
@@ -107,22 +168,49 @@
 	<script th:inline="javascript">
 	/*<![CDATA[*/
 
+
 		var editor = ace.edit("editor");
-		 var modelAttributeValue = /*[[${entry.entryCodeText}]]*/ 'Code';
-		 var language = /*[[${entry.language}]]*/ 'language';
-		editor.setTheme("ace/theme/github");
+		var modelAttributeValue = /*[[${entry.orderedVersions.get(0).entryCodeText}]]*/'Code';
+		var language = /*[[${entry.language}]]*/'language';
+/*		editor.setTheme("ace/theme/wefactor");*/
 		editor.setValue(modelAttributeValue); // or session.setValue
 		editor.getValue(); // or session.getValue
-		editor.getSession().setMode("ace/mode/"+language);
-		editor.setFontSize("15px");
+		editor.setValue(editor.getValue(), 1);
+		editor.getSession().setMode("ace/mode/" + language);
+		editor.setTheme("ace/theme/github");
+		editor.setFontSize("13px");
 		editor.setOptions({
-			readOnly: true,
-			})
-			editor.renderer.$cursorLayer.element.style.opacity=0;
+			readOnly : true,
+			highlightActiveLine : false
+		})
+		editor.renderer.$cursorLayer.element.style.opacity = 0;
+
+		/*]]>*/
+	</script>	
+
+	<script th:inline="javascript">
+		/*<![CDATA[*/
+		$(document).ready(function () {
+			$("div[id*=versiontabs] li[class*=versionli]").click(function () {
+				var url = "http://localhost:8080/entryajax/"+$(this).attr("data-entrytype") +"/" +$(this).attr("data-entryid");
+				
+				 $.ajax({
+				        url: url
+				    }).then(function(data) {
+				   			$("#description").hide().html(data.entryDescription).fadeIn('slow'); 
+				   			var editor = ace.edit("editor");
+				   			editor.setValue(data.entryCodeText);
+				   			editor.setValue(editor.getValue(), 1);
+				    });
+				
+			});
+		});
 		
 		
 		
 		/*]]>*/
 	</script>
+
+
 </body>
 </html>

@@ -17,12 +17,15 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import de.hhn.labswps.wefactor.domain.Entry;
 import de.hhn.labswps.wefactor.domain.MasterEntry;
 import de.hhn.labswps.wefactor.domain.MasterEntryRepository;
 import de.hhn.labswps.wefactor.domain.UserProfile;
 import de.hhn.labswps.wefactor.domain.UserProfileRepository;
+import de.hhn.labswps.wefactor.domain.VersionEntry;
+import de.hhn.labswps.wefactor.domain.VersionEntryRepository;
 import de.hhn.labswps.wefactor.specification.WeFactorValues;
 import de.hhn.labswps.wefactor.web.DataObjects.EntriesFilterDataObject;
 import de.hhn.labswps.wefactor.web.DataObjects.EntryDataObject;
@@ -36,6 +39,9 @@ public class EntryController {
 
     @Autowired
     private MasterEntryRepository entryRepository;
+
+    @Autowired
+    private VersionEntryRepository versionEntryRepository;
 
     @Autowired
     private UserProfileRepository userProfileRepository;
@@ -95,6 +101,9 @@ public class EntryController {
         Entry entry = this.entryRepository.findOne(id);
 
         model.addAttribute("entry", entry);
+
+        String[] array = { "hallo", "tschüss" };
+        model.addAttribute("testarray", array);
         return "entrydetails";
     }
 
@@ -183,6 +192,23 @@ public class EntryController {
         toSave = this.entryRepository.save(toSave);
 
         return "redirect:/entry/details?id=" + String.valueOf(toSave.getId());
+    }
+
+    @RequestMapping(value = "/entryajax/{type}/{id}")
+    public @ResponseBody Entry getEntry(@PathVariable String type,
+            @PathVariable Long id) {
+
+        Entry entry = null;
+        if (MasterEntry.class.getSimpleName().equals(type)) {
+            entry = this.entryRepository.findOne(id);
+
+        } else if (VersionEntry.class.getSimpleName().equals(type)) {
+            entry = this.versionEntryRepository.findOne(id);
+
+        }
+
+        return entry;
+
     }
 
 }

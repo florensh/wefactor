@@ -30,7 +30,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @Table(name = "entry")
 @Where(clause = "inactive = 'N'")
 // @SQLDelete(sql = "UPDATE entry set inactive = 'Y' WHERE Id = ?")
-@JsonIgnoreProperties({ "id", "softDeleted" })
+@JsonIgnoreProperties({ "id", "softDeleted", "Account", "createdBy",
+        "lastModifiedBy" })
 @DiscriminatorColumn(name = "ENTRY_TYPE")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public abstract class Entry extends BaseSoftDeletableEntity {
