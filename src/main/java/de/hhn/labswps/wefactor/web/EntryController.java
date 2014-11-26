@@ -39,7 +39,7 @@ public class EntryController {
     }
 
     private enum EntryEditMode {
-        PROPOSE, MASTER;
+        PROPOSAL, MASTER;
     }
 
     @Autowired
@@ -123,7 +123,7 @@ public class EntryController {
     public String showEntryEditPageForNewPropose(@RequestParam("id") Long id,
             ModelMap model, Principal currentUser) {
 
-        fillupModelForEntryEdit(model, currentUser, id, EntryEditMode.PROPOSE);
+        fillupModelForEntryEdit(model, currentUser, id, EntryEditMode.PROPOSAL);
         return "entryedit";
     }
 
@@ -206,9 +206,10 @@ public class EntryController {
 
                 break;
 
-            case PROPOSE:
+            case PROPOSAL:
                 ProposalEntry pe = saveAsProposalEntry(entryDataObject,
                         currentUser);
+                retVal = pe;
 
                 break;
 
