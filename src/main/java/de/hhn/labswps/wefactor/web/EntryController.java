@@ -8,7 +8,6 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -23,6 +22,7 @@ import de.hhn.labswps.wefactor.domain.Entry;
 import de.hhn.labswps.wefactor.domain.MasterEntry;
 import de.hhn.labswps.wefactor.domain.MasterEntryRepository;
 import de.hhn.labswps.wefactor.domain.ProposalEntry;
+import de.hhn.labswps.wefactor.domain.ProposalEntryRepository;
 import de.hhn.labswps.wefactor.domain.UserProfile;
 import de.hhn.labswps.wefactor.domain.UserProfileRepository;
 import de.hhn.labswps.wefactor.domain.VersionEntry;
@@ -47,6 +47,9 @@ public class EntryController {
 
     @Autowired
     private VersionEntryRepository versionEntryRepository;
+
+    @Autowired
+    private ProposalEntryRepository proposalEntryRepository;
 
     @Autowired
     private UserProfileRepository userProfileRepository;
@@ -135,10 +138,10 @@ public class EntryController {
 
         Entry entry = this.entryRepository.findOne(id);
 
-        if (entry.getAccount().getId() != profile.getAccount().getId()) {
-            throw new BadCredentialsException(
-                    "na na na na, wer wird denn hier!!!");
-        }
+        // if (entry.getAccount().getId() != profile.getAccount().getId()) {
+        // throw new BadCredentialsException(
+        // "na na na na, wer wird denn hier!!!");
+        // }
 
         EntryDataObject entryDataObject = new EntryDataObject();
         entryDataObject.setCode(entry.getEntryCodeText());
@@ -207,9 +210,9 @@ public class EntryController {
                 break;
 
             case PROPOSAL:
-                ProposalEntry pe = saveAsProposalEntry(entryDataObject,
-                        currentUser);
-                retVal = pe;
+                MasterEntry entryWithProposal = saveAsProposalEntry(
+                        entryDataObject, currentUser);
+                retVal = entryWithProposal;
 
                 break;
 
@@ -220,10 +223,35 @@ public class EntryController {
         return retVal;
     }
 
-    private ProposalEntry saveAsProposalEntry(EntryDataObject entryDataObject,
+    private MasterEntry saveAsProposalEntry(EntryDataObject entryDataObject,
             Principal currentUser) {
-        // TODO Auto-generated method stub
-        return null;
+        MasterEntry toSave;
+        if (entryDataObject.getId() != null) {
+            toSave = this.entryRepository.findOne(entryDataObject.getId());
+
+        } else {
+            throw new IllegalArgumentException();
+        }
+
+        String secUser = currentUser.getName();
+        UserProfile profile = this.userProfileRepository
+                .findByUsername(secUser);
+
+        ProposalEntry pe = new ProposalEntry();
+
+        pe.setEntryCodeText(entryDataObject.getCode());
+        pe.setLanguage(entryDataObject.getLanguage());
+        pe.setTeaser(entryDataObject.getTeaser());
+        pe.setEntryDate(new Date());
+        pe.setEntryDescription(entryDataObject.getDescription());
+        pe.setName(entryDataObject.getTitle());
+        pe.setAccount(profile.getAccount());
+
+        this.proposalEntryRepository.save(pe);
+        toSave.addProposal(pe);
+
+        toSave = this.entryRepository.save(toSave);
+        return toSave;
     }
 
     private MasterEntry saveAsMasterEntry(EntryDataObject entryDataObject,
@@ -262,6 +290,9 @@ public class EntryController {
 
         } else if (VersionEntry.class.getSimpleName().equals(type)) {
             entry = this.versionEntryRepository.findOne(id);
+
+        } else if (ProposalEntry.class.getSimpleName().equals(type)) {
+            entry = this.proposalEntryRepository.findOne(id);
 
         }
 

@@ -37,7 +37,7 @@
 								<!--  <button th:href="@{/user/entry/edit(id=${entry.id})}" class="btn btn-primary btn-md col-md-5 col-xs-12 pull-right">Edit</button>-->
 								
 								<a
-										class="btn btn-default btn-md pull-right" th:unless="${entry.account.primaryProfile.id == currentUserProfile.id}" th:href="@{/user/entry/remove(id=${entry.id})}">
+										class="btn btn-default btn-md pull-right" th:unless="${entry.account.primaryProfile.id == currentUserProfile.id}" th:href="@{/user/entry/propose(id=${entry.id})}">
 										<i class="fa fa-code-fork"></i> New version</a>
 								<a
 									class="btn btn-default btn-md pull-right" th:if="${entry.account.primaryProfile.id == currentUserProfile.id}"
@@ -62,29 +62,38 @@
 							<div id="versiontabs" class="tabbable custom-tabs tabs-animated col-md-9" style="margin-top: 30px; margin-bottom: 30px;">
 								<ul class="nav nav-tabs test" id="tabsDesktop">
 							
-									<li class="versionli" data-toggle="tab" th:each="version : ${entry.OrderedVersions}" th:attr="data-entryid=${version.id}, data-entrytype=${version.class.simpleName}" th:classappend="${entry.OrderedVersions.indexOf(version)==0} ? active" th:if="${entry.OrderedVersions.indexOf(version)&lt;4}"><a th:text="${beans.dateFormatter.format(version.createdDate)}" href="#"></a></li>
-									<li role="presentation" class="dropdown"  th:if="${entry.OrderedVersions.size()&gt;4}" ><a
+									<li class="versionli" data-toggle="tab" th:each="version : ${entry.OrderedVersions}" th:attr="data-entryid=${version.id}, data-entrytype=${version.class.simpleName}" th:classappend="${entry.OrderedVersions.indexOf(version)==0} ? active" th:if="${entry.OrderedVersions.indexOf(version)&lt;3}"><a th:text="${beans.dateFormatter.format(version.createdDate)}" href="#"></a></li>
+									
+									<li role="presentation" class="dropdown"  th:if="${entry.OrderedVersions.size()&gt;3}" ><a
 										class="dropdown-toggle" data-toggle="dropdown" href="#"
 										role="button" aria-expanded="false"> More <span
 											class="caret"></span>
 									</a>
 										<ul class="dropdown-menu" role="menu">
-											<li  class="versionli" th:each="version : ${entry.OrderedVersions}" role="presentation" th:if="${entry.OrderedVersions.indexOf(version)&gt;3}" th:attr="data-entryid=${version.id}, data-entrytype=${version.class.simpleName}"><a role="menuitem" tabindex="-1"
+											<li  class="versionli" th:each="version : ${entry.OrderedVersions}" role="presentation" th:if="${entry.OrderedVersions.indexOf(version)&gt;2}" th:attr="data-entryid=${version.id}, data-entrytype=${version.class.simpleName}"><a role="menuitem" tabindex="-1"
 												href="#" th:text="${beans.dateFormatter.format(version.createdDate)}">Dropdown Desktop Device</a></li>
 										</ul>
-									</li>									
+									</li>
+									
+									<li role="presentation" class="dropdown" th:if="${entry.proposals.size()&gt;0}"><a
+										class="dropdown-toggle" data-toggle="dropdown" href="#"
+										role="button" aria-expanded="false"> Proposals <span class="badge" th:text="${entry.proposals.size()}">4</span><span
+											class="caret"></span>
+									</a>
+										<ul class="dropdown-menu" role="menu">
+											<li class="versionli"
+												th:each="proposal : ${entry.proposals}"
+												th:attr="data-entryid=${proposal.id}, data-entrytype=${proposal.class.simpleName}"
+												role="presentation"><a
+												th:text="${beans.dateFormatter.format(proposal.createdDate)}"
+												role="menuitem" tabindex="-1" href="#">Dropdown proposals</a></li>
+										</ul></li>
+									
+									
+																		
 								</ul>
-								<div class="tab-content">
-									<div class="tab-pane active" id="tab1">
-										<!-- Ace Code Content -->
-									</div>
-									<div class="tab-pane" id="tab2">
-										<!-- Ace Code Content -->
-									</div>
-									<div class="tab-pane" id="tab3">
-										<!-- Ace Code Content -->
-									</div>
-								</div>
+
+
 								
 								<ul class="nav nav-tabs" id="tabsMobile">
 									<li role="presentation" class="dropdown"><a
@@ -98,6 +107,7 @@
 										</ul>
 									</li>
 								</ul>
+	
 							</div>
 						</div>
 

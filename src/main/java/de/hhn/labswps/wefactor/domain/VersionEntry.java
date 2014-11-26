@@ -15,19 +15,19 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @Where(clause = "inactive = 'N'")
 // @SQLDelete(sql = "UPDATE entry set inactive = 'Y' WHERE Id = ?")
 @JsonIgnoreProperties({ "id", "softDeleted", "account", "createdBy",
-        "lastModifiedBy", "masterEntry" })
+        "lastModifiedBy", "masterOfVersion" })
 public class VersionEntry extends Entry {
 
-    private MasterEntry masterEntry;
+    private MasterEntry masterOfVersion;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "masterEntry")
-    public MasterEntry getMasterEntry() {
-        return masterEntry;
+    @JoinColumn(name = "masterOfVersion")
+    public MasterEntry getMasterOfVersion() {
+        return masterOfVersion;
     }
 
-    public void setMasterEntry(MasterEntry masterEntry) {
-        this.masterEntry = masterEntry;
+    public void setMasterOfVersion(MasterEntry masterEntry) {
+        this.masterOfVersion = masterEntry;
     }
 
 }
