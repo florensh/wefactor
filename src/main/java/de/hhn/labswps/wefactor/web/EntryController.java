@@ -39,7 +39,7 @@ public class EntryController {
     }
 
     private enum EntryEditMode {
-        EDIT, PROPOSE, MASTER;
+        PROPOSE, MASTER;
     }
 
     @Autowired
@@ -114,7 +114,7 @@ public class EntryController {
     public String showEntryEditPage(@RequestParam("id") Long id,
             ModelMap model, Principal currentUser) {
 
-        fillupModelForEntryEdit(model, currentUser, id, EntryEditMode.EDIT);
+        fillupModelForEntryEdit(model, currentUser, id, EntryEditMode.MASTER);
         return "entryedit";
     }
 
@@ -170,7 +170,9 @@ public class EntryController {
     public String showAddEntryPage(final HttpServletRequest request,
             final Principal currentUser, final Model model) {
 
-        model.addAttribute("entryDataObject", new EntryDataObject());
+        EntryDataObject ed = new EntryDataObject();
+        ed.setEditMode(EntryEditMode.MASTER.name());
+        model.addAttribute("entryDataObject", ed);
         model.addAttribute("languages",
                 WeFactorValues.ProgrammingLanguage.values());
 
@@ -197,7 +199,7 @@ public class EntryController {
         Entry retVal = null;
 
         switch (EntryEditMode.valueOf(entryDataObject.getEditMode())) {
-            case EDIT:
+            case MASTER:
                 MasterEntry toSave = saveAsMasterEntry(entryDataObject,
                         currentUser);
                 retVal = toSave;
