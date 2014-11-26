@@ -52,4 +52,23 @@ public class MasterEntry extends Entry {
         return retVal;
     }
 
+    private Set<ProposalEntry> proposals = new HashSet<ProposalEntry>();
+
+    public void addProposal(ProposalEntry proposal) {
+        proposal.setMasterEntry(this);
+        this.proposals.add(proposal);
+    }
+
+    @OneToMany(mappedBy = "masterEntry")
+    public Set<ProposalEntry> getProposals() {
+        return proposals;
+    }
+
+    public void removeProposal(ProposalEntry proposal) {
+        this.proposals.remove(proposal);
+    }
+
+    public void setProposals(Set<ProposalEntry> proposals) {
+        this.proposals = proposals;
+    }
 }

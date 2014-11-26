@@ -11,12 +11,11 @@ import org.hibernate.annotations.Where;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
-@DiscriminatorValue(value = "Version")
+@DiscriminatorValue(value = "Proposal")
 @Where(clause = "inactive = 'N'")
 // @SQLDelete(sql = "UPDATE entry set inactive = 'Y' WHERE Id = ?")
-@JsonIgnoreProperties({ "id", "softDeleted", "account", "createdBy",
-        "lastModifiedBy", "masterEntry" })
-public class VersionEntry extends Entry {
+@JsonIgnoreProperties({ "id", "softDeleted" })
+public class ProposalEntry extends Entry {
 
     private MasterEntry masterEntry;
 
