@@ -106,9 +106,6 @@ public class EntryController {
         Entry entry = this.entryRepository.findOne(id);
 
         model.addAttribute("entry", entry);
-
-        String[] array = { "hallo", "tschüss" };
-        model.addAttribute("testarray", array);
         return "entrydetails";
     }
 
@@ -155,7 +152,7 @@ public class EntryController {
         model.addAttribute("entryDataObject", entryDataObject);
         model.addAttribute("entry", entry);
         model.addAttribute("languages",
-                WeFactorValues.ProgrammingLanguage.valuesAsEditorMode());
+                WeFactorValues.ProgrammingLanguage.values());
 
     }
 
@@ -175,7 +172,7 @@ public class EntryController {
 
         model.addAttribute("entryDataObject", new EntryDataObject());
         model.addAttribute("languages",
-                WeFactorValues.ProgrammingLanguage.valuesAsEditorMode());
+                WeFactorValues.ProgrammingLanguage.values());
 
         return "entryedit";
     }
@@ -185,7 +182,7 @@ public class EntryController {
             BindingResult result, Model m, Principal currentUser) {
         if (result.hasErrors()) {
             m.addAttribute("languages",
-                    WeFactorValues.ProgrammingLanguage.valuesAsEditorMode());
+                    WeFactorValues.ProgrammingLanguage.values());
             return "entryedit";
         }
 

@@ -17,39 +17,25 @@ public class WeFactorValues {
      */
     public enum ProgrammingLanguage {
 
-        /** The Java. */
-        Java("java", "java"),
-        /** The html. */
-        HTML("html", "html"),
-        /** The css. */
-        CSS("css", "css"),
-        /** The xml. */
-        XML("xml", "xml")
-        // /** The C_ sharp. */
+        //@formatter:off
+        Java("Java", "java"),
+        HTML("HTML", "html"),
+        CSS("CSS", "css"),
+        XML("XML", "xml")
         // C_Sharp("C#"),
-        // /** The C_ plus plus. */
         // C_PlusPlus("C++"),
-        // /** The sql. */
         // SQL("sql"),
-        // /** The php. */
         // PHP("PHP"),
-        // /** The Bash. */
         // Bash("Bash"),
-        // /** The c. */
         // C("C"),
-        // /** The Python. */
         // Python("Python"),
-        // /** The Groovy. */
         // Groovy("Groovy"),
-        // /** The Ruby. */
         // Ruby("Ruby"),
-        // /** The Scala. */
         // Scala("Scala"),
-        // /** The Haskell. */
         // Haskell("Haskell"),
-        // /** The Objective_ c. */
         // Objective_C("Objectiv-C")
         ;
+        //@formatter:on
 
         private String mode;
         private String displayName;
@@ -61,6 +47,10 @@ public class WeFactorValues {
 
         public String getMode() {
             return mode;
+        }
+
+        public String getDisplayName() {
+            return displayName;
         }
 
         public static ProgrammingLanguage getLanguageForDisplayname(String name) {

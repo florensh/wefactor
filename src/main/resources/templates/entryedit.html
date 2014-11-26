@@ -106,7 +106,7 @@
 											<ul class="dropdown-menu dropdown-menu-right">
 											<!-- <li><a href="#">java</a></li>
 												<li><a href="#">html</a></li> -->	
-												<li  th:each="lang : ${languages}"><a th:text="${lang}" href="#">java</a></li>
+												<li  th:each="lang : ${languages}"><a th:text="${lang.mode}" th:attr="data-langMode=${lang.mode}" href="#">java</a></li>
 											</ul>
 										</div>
 									</div>
