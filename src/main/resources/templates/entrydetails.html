@@ -192,7 +192,9 @@
 		/*<![CDATA[*/
 		$(document).ready(function () {
 			$("div[id*=versiontabs] li[class*=versionli]").click(function () {
-				var url = "http://localhost:8080/entryajax/"+$(this).attr("data-entrytype") +"/" +$(this).attr("data-entryid");
+				var server_url  = /*[[@{~/entryajax/}]]*/'url';
+				var relative_url = $(this).attr("data-entrytype") +"/" +$(this).attr("data-entryid");
+				var url = server_url + relative_url;
 				
 				 $.ajax({
 				        url: url
