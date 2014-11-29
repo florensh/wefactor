@@ -191,4 +191,9 @@ public abstract class Entry extends BaseSoftDeletableEntity {
         this.teaser = teaser;
     }
 
+    @Transient
+    public String getType() {
+        return this.getClass().getSimpleName();
+    }
+
 }

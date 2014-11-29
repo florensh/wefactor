@@ -50,22 +50,59 @@
 						</div>
 
 						<div class="row">
-							<div id="versiontabs" class="tabpanel col-md-12"
-								style="margin-top: 50px;">
-								<!-- Nav tabs -->
-								<ul class="nav nav-tabs" role="tablist">
-									<li role="presentation" class="active"><a href="#entry" aria-controls="entry" role="tab" data-toggle="tab">Entry</a></li>
-									<li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Profile</a></li>
-									<li role="presentation"><a href="#messages" aria-controls="messages" role="tab" data-toggle="tab">Messages</a></li>
-									<li role="presentation"><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab">Settings</a></li>
+							<div id="versiontabs" class="tabbable custom-tabs tabs-animated col-md-10" style="margin-top: 30px; margin-bottom: 30px;">
+								<ul class="nav nav-tabs test" id="tabsDesktop">
+							
+									<li class="versionli" data-toggle="tab" th:each="version : ${entry.OrderedVersions}" th:attr="data-entryid=${version.id}, data-entrytype=${version.class.simpleName}" th:classappend="${entry.OrderedVersions.indexOf(version)==0} ? active" th:if="${entry.OrderedVersions.indexOf(version)&lt;3}"><a th:text="${beans.dateFormatter.format(version.createdDate)}" href="#"></a></li>
+									
+									<li role="presentation" class="dropdown"  th:if="${entry.OrderedVersions.size()&gt;3}" ><a
+										class="dropdown-toggle" data-toggle="dropdown" href="#"
+										role="button" aria-expanded="false"> More <span
+											class="caret"></span>
+									</a>
+										<ul class="dropdown-menu" role="menu">
+											<li  class="versionli" th:each="version : ${entry.OrderedVersions}" role="presentation" th:if="${entry.OrderedVersions.indexOf(version)&gt;2}" th:attr="data-entryid=${version.id}, data-entrytype=${version.class.simpleName}"><a role="menuitem" tabindex="-1"
+												href="#" th:text="${beans.dateFormatter.format(version.createdDate)}">Dropdown Desktop Device</a></li>
+										</ul>
+									</li>
+									
+									<li role="presentation" class="dropdown" th:if="${entry.proposals.size()&gt;0}"><a
+										class="dropdown-toggle" data-toggle="dropdown" href="#"
+										role="button" aria-expanded="false"> Proposals <span class="badge" th:text="${entry.proposals.size()}">4</span><span
+											class="caret"></span>
+									</a>
+										<ul class="dropdown-menu" role="menu">
+											<li class="versionli"
+												th:each="proposal : ${entry.proposals}"
+												th:attr="data-entryid=${proposal.id}, data-entrytype=${proposal.class.simpleName}"
+												role="presentation"><a
+												th:text="${beans.dateFormatter.format(proposal.createdDate)}"
+												role="menuitem" tabindex="-1" href="#">Dropdown proposals</a></li>
+										</ul></li>
 								</ul>
 
-								<!-- Tab panes -->
-								<div class="tab-content" style="margin-top:20px;">
+
 								
-									<!-- start tab content for entry -->
-									<div role="tabpanel" class="tab-pane fade in active" id="entry">
-															<div class="col-md-10" id="entry-content">
+								<ul class="nav nav-tabs" id="tabsMobile">
+									<li role="presentation" class="dropdown"><a
+										class="dropdown-toggle" data-toggle="dropdown" href="#"
+										role="button" aria-expanded="false"> Versions <span
+											class="caret"></span>
+									</a>
+										<ul class="dropdown-menu" role="menu">
+											<li  class="versionli" th:each="version : ${entry.OrderedVersions}" th:attr="data-entryid=${version.id}, data-entrytype=${version.class.simpleName}" role="presentation"><a th:text="${beans.dateFormatter.format(version.createdDate)}" role="menuitem" tabindex="-1"
+												href="#">Dropdown Mobile Device</a></li>
+										</ul>
+									</li>
+								</ul>
+	
+							</div>
+						</div>
+						<!-- end tabs -->
+						
+						
+
+						<div class="col-md-10">
 
 
 
@@ -74,7 +111,7 @@
 							
 								<!-- versions panel -->
 							
-								<div class="panel panel-default" id="version-panel" th:attr="data-versionindex=0, data-entrytype=${entry.orderedVersions.get(0).class.simpleName}">
+								<div class="panel panel-default ">
 									<div class="panel-heading" style="padding-top: 4px; padding-bottom:4px">
 										<a style="vertical-align: middle;"
 											th:unless="${entry.account.primaryProfile.imageUrl == null}"
@@ -93,11 +130,11 @@
 										<div class="btn-toolbar pull-right" role="toolbar"
 											aria-label="...">
 											<div class="btn-group" role="group" aria-label="...">
-												<button id="next-version" type="button" class="btn btn-link btn-sm">
+												<button type="button" class="btn btn-link btn-sm">
 													<span class="glyphicon glyphicon-chevron-left"
 														aria-hidden="true"></span>
 												</button>
-												<button id="prev-version" type="button" class="btn btn-link btn-sm">
+												<button type="button" class="btn btn-link btn-sm">
 													<span class="glyphicon glyphicon-chevron-right"
 														aria-hidden="true"></span>
 												</button>
@@ -116,7 +153,7 @@
 
 
 							<div class="row">
-								<div class="panel panel-default " id="description-panel">
+								<div class="panel panel-default ">
 									<div class="panel-heading">Description</div>
 									<div class="panel-body" style="padding:30px;">
 										<span
@@ -142,7 +179,7 @@
 						</div>
 						-->
 							<div class="row">
-								<div class="panel panel-default" id="editor-panel">
+								<div class="panel panel-default ">
 									<div class="panel-heading">
 										your code
 										<kbd class="pull-right" th:text="${entry.language}">java</kbd>
@@ -154,7 +191,7 @@
 
 
 							<!-- 		<div class="container-fluid col-md-9 col-sm-9 well" id="editor"></div> -->
-							<div class="col-md-2 col-sm-2" id="right-sidebar">
+							<div class="col-md-2 col-sm-2">
 								<h4>
 									<small>Created <span style="color: black;"
 										th:text="${beans.dateFormatter.format(entry.createdDate)}">Created
@@ -167,17 +204,10 @@
 								</h4>
 								<!--<kbd th:text="${entry.language}">java</kbd>  -->
 							</div>
-									
-									
-									</div>
-									<!-- end tab content for entry -->
-									<div role="tabpanel" class="tab-pane fade" id="profile">...</div>
-									<div role="tabpanel" class="tab-pane fade" id="messages">...</div>
-									<div role="tabpanel" class="tab-pane fade" id="settings">...</div>
-								</div>
-							</div>
-						</div>
-						<!-- end tabs -->
+						
+
+
+
 					</div>
 
 
@@ -221,74 +251,26 @@
 
 		/*]]>*/
 	</script>	
-	
-	<!-- TODO: attr von id zu index umbenennen. attr nicht in button speichern sondern in übergeordnettes element. index verändern -->
 
 	<script th:inline="javascript">
 		/*<![CDATA[*/
-		           
-	function updateVersion(prev) {
-		var versionsize = /*[[${entry.orderedVersions.size()}]]*/'size';
-		var ids = /*[[${entry.orderedVersionIds}]]*/'ids';
-		var types = /*[[${entry.orderedVersionTypes}]]*/'types';
-		var currentIndex = $("div[id*=version-panel]").attr("data-versionindex");
-		
-		var nextIndex;
-		
-		if(prev){
-			if(parseInt(currentIndex) + 1 > versionsize-1){
-				nextIndex = parseInt(currentIndex);
-				
-			}else{
-				nextIndex = parseInt(currentIndex)+1;
-			}
-			
-		}else{
-			if(parseInt(currentIndex) - 1 < 0){
-				nextIndex = parseInt(currentIndex);
-				
-			}else{
-				nextIndex = parseInt(currentIndex)-1;
-			}
-		}
-		
-		var currentId = ids[nextIndex];
-		var nextType = types[nextIndex];
-		var server_url  = /*[[@{~/entryajax/}]]*/'url';
-		var relative_url = nextType +"/" + currentId;
-		var url = server_url + relative_url;
-		
-		 $.ajax({
-		        url: url
-		    }).then(function(data) {
-		   			$("#entry-content").hide(); 
-		   			$("#right-sidebar").hide(); 
-		   			$("#description").html(data.entryDescription); 
-		   			var editor = ace.edit("editor");
-		   			editor.setValue(data.entryCodeText);
-		   			editor.setValue(editor.getValue(), 1);
-		   			$("#right-sidebar").fadeIn('fast');
-		   			$("#entry-content").fadeIn('fast');
-		   			$("div[id*=version-panel]").attr("data-versionindex",nextIndex);
-		   			$("div[id*=version-panel]").attr("data-entrytype",data.type);
-		    });
-}
-		           
-		           
 		$(document).ready(function () {
-			$("button[id*=next-version]").click(function () {
-				updateVersion(false);
+			$("div[id*=versiontabs] li[class*=versionli]").click(function () {
+				var server_url  = /*[[@{~/entryajax/}]]*/'url';
+				var relative_url = $(this).attr("data-entrytype") +"/" +$(this).attr("data-entryid");
+				var url = server_url + relative_url;
+				
+				 $.ajax({
+				        url: url
+				    }).then(function(data) {
+				   			$("#description").hide().html(data.entryDescription).fadeIn('slow'); 
+				   			var editor = ace.edit("editor");
+				   			editor.setValue(data.entryCodeText);
+				   			editor.setValue(editor.getValue(), 1);
+				    });
 				
 			});
 		});
-		
-		$(document).ready(function () {
-			$("button[id*=prev-version]").click(function () {
-				updateVersion(true);
-				
-			});
-		});
-		
 		
 		
 		

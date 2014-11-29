@@ -19,7 +19,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @Where(clause = "inactive = 'N'")
 // @SQLDelete(sql = "UPDATE entry set inactive = 'Y' WHERE Id = ?")
 @JsonIgnoreProperties({ "id", "softDeleted", "account", "createdBy",
-        "lastModifiedBy", "orderedVersions", "versions", "proposals" })
+        "lastModifiedBy", "orderedVersions", "orderedVersionIds",
+        "orderedVersionTypes", "versions", "proposals" })
 public class MasterEntry extends Entry {
 
     private Set<VersionEntry> versions = new HashSet<VersionEntry>();
@@ -50,6 +51,30 @@ public class MasterEntry extends Entry {
             retVal.addAll(this.versions);
         }
         return retVal;
+    }
+
+    @Transient
+    public String[] getOrderedVersionIds() {
+        List<Entry> orderedVersions = getOrderedVersions();
+        String[] ids = new String[orderedVersions.size()];
+
+        for (int i = 0; i < orderedVersions.size(); i++) {
+            ids[i] = orderedVersions.get(i).getId().toString();
+        }
+
+        return ids;
+    }
+
+    @Transient
+    public String[] getOrderedVersionTypes() {
+        List<Entry> orderedVersions = getOrderedVersions();
+        String[] ids = new String[orderedVersions.size()];
+
+        for (int i = 0; i < orderedVersions.size(); i++) {
+            ids[i] = orderedVersions.get(i).getClass().getSimpleName();
+        }
+
+        return ids;
     }
 
     private Set<ProposalEntry> proposals = new HashSet<ProposalEntry>();
