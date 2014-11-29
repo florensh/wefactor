@@ -50,6 +50,16 @@ public abstract class Entry extends BaseSoftDeletableEntity {
 
     private String teaser;
 
+    private String changes;
+
+    public String getChanges() {
+        return changes;
+    }
+
+    public void setChanges(String changes) {
+        this.changes = changes;
+    }
+
     /** The entry description. */
     private String entryDescription = null;
 
