@@ -22,6 +22,7 @@ import de.hhn.labswps.wefactor.domain.Entry;
 import de.hhn.labswps.wefactor.domain.MasterEntry;
 import de.hhn.labswps.wefactor.domain.MasterEntryRepository;
 import de.hhn.labswps.wefactor.domain.ProposalEntry;
+import de.hhn.labswps.wefactor.domain.ProposalEntry.Status;
 import de.hhn.labswps.wefactor.domain.ProposalEntryRepository;
 import de.hhn.labswps.wefactor.domain.UserProfile;
 import de.hhn.labswps.wefactor.domain.UserProfileRepository;
@@ -112,6 +113,15 @@ public class EntryController {
         return "entrydetails";
     }
 
+    @RequestMapping(value = "/proposal/details", method = RequestMethod.GET)
+    public String showProposalDetails(@RequestParam("id") Long id,
+            ModelMap model, Principal currentUser) {
+        Entry entry = this.proposalEntryRepository.findOne(id);
+
+        model.addAttribute("entry", entry);
+        return "proposaldetails";
+    }
+
     @Secured({ "USER" })
     @RequestMapping(value = "user/entry/edit", method = RequestMethod.GET)
     public String showEntryEditPage(@RequestParam("id") Long id,
@@ -165,6 +175,23 @@ public class EntryController {
             Principal currentUser) {
 
         this.entryRepository.delete(id);
+
+        return "forward:/";
+    }
+
+    @RequestMapping(value = "/proposal/accept", method = RequestMethod.GET)
+    public String acceptProposal(@RequestParam("id") Long id, ModelMap model,
+            Principal currentUser) {
+
+        ProposalEntry pe = this.proposalEntryRepository.findOne(id);
+
+        MasterEntry me = pe.getMasterOfProposal();
+        VersionEntry ve = new VersionEntry(pe);
+        pe.setStatus(Status.ACCEPTED.name());
+
+        this.proposalEntryRepository.save(pe);
+        this.versionEntryRepository.save(ve);
+        this.entryRepository.save(me);
 
         return "forward:/";
     }
@@ -246,6 +273,7 @@ public class EntryController {
         pe.setEntryDescription(entryDataObject.getDescription());
         pe.setName(entryDataObject.getTitle());
         pe.setAccount(profile.getAccount());
+        pe.setStatus(Status.NEW.name());
 
         this.proposalEntryRepository.save(pe);
         toSave.addProposal(pe);

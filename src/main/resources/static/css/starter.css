@@ -28,3 +28,17 @@ kbd{
 	-webkit-box-shadow:inset 0 -1px 0 rgba(0,0,0,.25);
 	box-shadow:inset 0 -1px 0 rgba(0,0,0,.25)
 }
+
+.table  tbody  tr  td {
+	padding: 4px 15px;
+	vertical-align: middle;
+}
+
+.badge-light{
+	background-color:#EEE;
+	color:#777;
+}
+
+.badge-text-light{
+	color:#777;
+}

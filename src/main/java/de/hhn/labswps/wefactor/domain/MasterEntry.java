@@ -53,30 +53,6 @@ public class MasterEntry extends Entry {
         return retVal;
     }
 
-    @Transient
-    public String[] getOrderedVersionIds() {
-        List<Entry> orderedVersions = getOrderedVersions();
-        String[] ids = new String[orderedVersions.size()];
-
-        for (int i = 0; i < orderedVersions.size(); i++) {
-            ids[i] = orderedVersions.get(i).getId().toString();
-        }
-
-        return ids;
-    }
-
-    @Transient
-    public String[] getOrderedVersionTypes() {
-        List<Entry> orderedVersions = getOrderedVersions();
-        String[] ids = new String[orderedVersions.size()];
-
-        for (int i = 0; i < orderedVersions.size(); i++) {
-            ids[i] = orderedVersions.get(i).getClass().getSimpleName();
-        }
-
-        return ids;
-    }
-
     private Set<ProposalEntry> proposals = new HashSet<ProposalEntry>();
 
     public void addProposal(ProposalEntry proposal) {
@@ -96,4 +72,21 @@ public class MasterEntry extends Entry {
     public void setProposals(Set<ProposalEntry> proposals) {
         this.proposals = proposals;
     }
+
+    public int getAmountOfProposalsByType(String status) {
+        int amount = 0;
+
+        if (!getProposals().isEmpty()) {
+            for (ProposalEntry proposal : getProposals()) {
+                if (status.equals(proposal.getStatus())) {
+                    amount++;
+                }
+            }
+
+        }
+
+        return amount;
+
+    }
+
 }
