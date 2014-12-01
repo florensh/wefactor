@@ -21,9 +21,22 @@
 					<div class="col-md-12">
 
 						<div class="row" style="margin-bottom: 50px;">
-							<div th:replace="entrydetails_template :: entry_head (${entry.orderedVersions.get(0)})">(description)</div>
+						<div th:fragment="entry_head (the_entry)">
+							<div class="col-xs-4 col-sm-2 col-md-1">
+								<a th:unless="${the_entry.account.primaryProfile.imageUrl == null}" th:href="@{/user/profile/details(id=${the_entry.account.primaryProfile.id})}">								
+								<img 
+									th:src="${the_entry.account.primaryProfile.imageUrl}"
+									alt="" class="img-rounded img-responsive"></img></a>
+							</div>
+							
+							<div class="col-xs-4 col-md-5 pull-left" id="userNameProfil">
+								<h4><a th:href="@{/user/profile/details(id=${the_entry.account.primaryProfile.id})}"> <span  th:text="${the_entry.account.primaryProfile.name}">name</span></a><span> / </span><strong><a th:href="@{/entry/details(id=${entry.id})}"> <span  th:text="${entry.name}">name</span></a></strong></h4>
+								<h4><small th:text="${beans.dateFormatter.format(the_entry.createdDate)}">created just now</small></h4>
+							</div>
+							</div>
 							
 							<div class="btn-toolbar col-md-4 col-md-offset-6 pull-right">
+								<!--  <button th:href="@{/user/entry/edit(id=${entry.id})}" class="btn btn-primary btn-md col-md-5 col-xs-12 pull-right">Edit</button>-->
 								
 								<a
 										class="btn btn-default btn-md pull-right" th:unless="${entry.account.primaryProfile.id == currentUserProfile.id}" th:href="@{/user/entry/propose(id=${entry.id})}">
@@ -43,7 +56,7 @@
 								<!-- Nav tabs -->
 								<ul class="nav nav-tabs" role="tablist">
 									<li role="presentation" class="active"><a href="#entry" aria-controls="entry" role="tab" data-toggle="tab">Entry</a></li>
-									<li role="presentation"><a href="#proposals" aria-controls="proposals" role="tab" data-toggle="tab">Proposals <span th:unless="${entry.getAmountOfProposalsByType('NEW')==0}" class="badge" th:text="${entry.getAmountOfProposalsByType('NEW')}">4</span></a></li>
+									<li role="presentation"><a href="#proposals" aria-controls="proposals" role="tab" data-toggle="tab">Proposals <span class="badge" th:text="${entry.proposals.size()}">4</span></a></li>
 								</ul>
 
 								<!-- Tab panes -->
@@ -59,23 +72,96 @@
 
 
 												<!-- versions panel -->
-											<div th:replace="entrydetails_template :: version_panel (${entry.orderedVersions.get(0)})">(description)</div>
+
+												<div th:fragment="version_panel (the_entry)" class="panel panel-default" id="version-panel"
+													th:attr="data-versionindex=0, data-entrytype=${the_entry.orderedVersions.get(0).class.simpleName}">
+													<div class="panel-heading"
+														style="padding-top: 4px; padding-bottom: 4px">
+														<a id="version-userimage-link"
+															style="vertical-align: middle;"
+															th:unless="${the_entry.orderedVersions.get(0).account.primaryProfile.imageUrl == null}"
+															th:href="@{/user/profile/details(id=${the_entry.orderedVersions.get(0).account.primaryProfile.id})}">
+															<img id="version-userimage"
+															th:src="${the_entry.orderedVersions.get(0).account.primaryProfile.imageUrl}"
+															alt="" class="img-rounded"
+															style="height: 23px; margin-top: 4px"></img>
+														</a> <a id="version-user-link"
+															style="padding-top: 4px; vertical-align: middle; color: black; font-size: 16px;"
+															th:text="${the_entry.orderedVersions.get(0).account.primaryProfile.name}"
+															th:href="@{/user/profile/details(id=${the_entry.orderedVersions.get(0).account.primaryProfile.id})}">user
+														</a> <span style="padding-top: 4px; vertical-align: middle;">created
+														</span> <span id="version-createdate"
+															style="padding-top: 4px; vertical-align: middle;"
+															th:text="${beans.dateFormatter.format(the_entry.orderedVersions.get(0).createdDate)}">created
+															just now</span>
+
+
+
+
+														<div class="btn-toolbar pull-right" role="toolbar"
+															aria-label="...">
+															<div class="btn-group" role="group" aria-label="...">
+																<button id="next-version" type="button"
+																	class="btn btn-link btn-sm">
+																	<span class="glyphicon glyphicon-chevron-left"
+																		aria-hidden="true"></span>
+																</button>
+																<button id="prev-version" type="button"
+																	class="btn btn-link btn-sm">
+																	<span class="glyphicon glyphicon-chevron-right"
+																		aria-hidden="true"></span>
+																</button>
+															</div>
+														</div>
+														<span class="clearfix"></span>
+
+													</div>
+													<div id="version-changes" class="panel-body">
+														<span th:text="${the_entry.orderedVersions.get(0).changes}">First
+															Version of the snippet</span>
+													</div>
+												</div>
 												<!-- end versions panel -->
 
 											</div>
 
 
 											<div class="row">
-												<div th:replace="entrydetails_template :: description (${entry.orderedVersions.get(0)})">(description)</div>
+												<div th:fragment="description (the_entry)" class="panel panel-default " id="description-panel">
+													<div class="panel-heading">Description</div>
+													<div class="panel-body" style="padding: 30px;">
+														<span
+															th:utext="${the_entry.entryDescription}"
+															id="description">Description</span>
+
+													</div>
+												</div>
 											</div>
 
 											<div class="row">
-												<div th:replace="entrydetails_template :: editor (${entry.orderedVersions.get(0)})">(description)</div>
+												<div th:fragment="editor (the_entry)" class="panel panel-default" id="editor-panel">
+													<div class="panel-heading">
+														your code
+														<kbd class="pull-right" th:text="${the_entry.language}">java</kbd>
+													</div>
+													<div class="panel-body" id="editor">Panel content</div>
+												</div>
 											</div>
 										</div>
 
 
-										<div th:replace="entrydetails_template :: right_sidebar (${entry.orderedVersions.get(0)})">(description)</div>
+										<div th:fragment="right_sidebar (the_entry)" class="col-md-2 col-sm-2" id="right-sidebar">
+											<h4>
+												<small>Created <span style="color: black;"
+													th:text="${beans.dateFormatter.format(the_entry.createdDate)}">Created
+														just now</span></small>
+											</h4>
+											<h4 th:unless="${the_entry.createdDate==entry.lastModifiedDate}">
+												<small>Modified <span style="color: black;"
+													th:text="${beans.dateFormatter.format(the_entry.lastModifiedDate)}">Modified
+														just now</span></small>
+											</h4>
+										</div>
 
 
 									</div>
@@ -114,13 +200,13 @@
 																				<strong
 																				th:text="${proposal.account.primaryProfile.name}">Mark</strong>
 																		</a></td>
-																		<td><a  style="color: #999;" th:text="${proposal.changes}" th:href="@{/proposal/details(id=${proposal.id})}">Otto</a></td>
+																		<td><a  style="color: #999;" th:text="${proposal.changes}" th:href="@{/entry/details(id=${proposal.id})}">Otto</a></td>
 																		<td style="text-align: right;"><span
 																			style="color: #999;"
 																			th:text="${beans.dateFormatter.format(proposal.createdDate)}">just
 																				now</span></td>
 																				
-																	   <td style="text-align: left;">
+																	   <td style="text-align: right;">
 																	   <span th:if="${proposal.status=='ACCEPTED'}" class="label label-success" style="vertical-align:middle;" th:text="${proposal.statusAsType.displayName}">Accepted</span>
 																	   <span th:if="${proposal.status=='NEW'}" class="label label-info" style="vertical-align:middle;" th:text="${proposal.statusAsType.displayName}">Accepted</span>
 																	   <span th:if="${proposal.status=='REJECTED'}" class="label label-danger" style="vertical-align:middle;" th:text="${proposal.statusAsType.displayName}">Accepted</span>

@@ -3,6 +3,7 @@ package de.hhn.labswps.wefactor.domain;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
@@ -49,6 +50,16 @@ public abstract class Entry extends BaseSoftDeletableEntity {
     private String language;
 
     private String teaser;
+
+    private String changes;
+
+    public String getChanges() {
+        return changes;
+    }
+
+    public void setChanges(String changes) {
+        this.changes = changes;
+    }
 
     /** The entry description. */
     private String entryDescription = null;
@@ -189,6 +200,38 @@ public abstract class Entry extends BaseSoftDeletableEntity {
 
     public void setTeaser(String teaser) {
         this.teaser = teaser;
+    }
+
+    @Transient
+    public String getType() {
+        return this.getClass().getSimpleName();
+    }
+
+    @Transient
+    public abstract List<Entry> getOrderedVersions();
+
+    @Transient
+    public String[] getOrderedVersionIds() {
+        List<Entry> orderedVersions = getOrderedVersions();
+        String[] ids = new String[orderedVersions.size()];
+
+        for (int i = 0; i < orderedVersions.size(); i++) {
+            ids[i] = orderedVersions.get(i).getId().toString();
+        }
+
+        return ids;
+    }
+
+    @Transient
+    public String[] getOrderedVersionTypes() {
+        List<Entry> orderedVersions = getOrderedVersions();
+        String[] ids = new String[orderedVersions.size()];
+
+        for (int i = 0; i < orderedVersions.size(); i++) {
+            ids[i] = orderedVersions.get(i).getClass().getSimpleName();
+        }
+
+        return ids;
     }
 
 }

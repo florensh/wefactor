@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="de" xmlns:th="http://www.thymeleaf.org">
+<head th:include="layout :: htmlhead" th:with="title='Hello'"></head>
+<body>
+
+	<div class="page-container">
+
+		<!-- top navbar -->
+		<div th:replace="layout :: top-navbar">(navbar)</div>
+
+		<div class="container">
+		
+			<div class="row row-offcanvas row-offcanvas-left">
+
+				<div th:replace="layout :: sidebar">(navbar)</div>
+
+				<div class="col-xs-12 col-sm-10">
+					<!-- content ############################################################################################################# -->
+
+
+					<div class="col-md-12">
+
+						<div class="row" style="margin-bottom: 50px;">
+							<div
+								th:replace="entrydetails_template :: entry_head (${entry.orderedVersions.get(0)})">(description)</div>
+						</div>
+						<div th:if="${entry.status == 'NEW'}" class="row" style="margin-bottom: 20px;">
+							<div class="col-md-10">
+							<h4 class="pull-left">Do you like that solution?</h4>
+								<div class=" pull-right">
+									<a class="btn btn-link btn-md"
+										th:href="@{/entry/details(id=${entry.masterOfProposal.id})}"> Cancel
+									</a>
+									<a class="btn btn-success btn-md"
+										th:href="@{/proposal/accept(id=${entry.id})}"> <i
+										class="fa fa-check"></i> Accept
+									</a> 
+									<a class="btn btn-danger btn-md"
+										th:href="@{/proposal/reject(id=${entry.id})}"> <i
+										class="fa fa-times"></i> Reject
+									</a>
+								</div>
+							</div>
+						</div>
+
+						<div class="row">
+						<div class="col-md-12">
+							<div class="col-md-10" id="entry-content">
+
+
+								<div class="row">
+
+
+									<!-- versions panel -->
+									<div
+										th:replace="entrydetails_template :: version_panel (${entry.orderedVersions.get(0)})">(description)</div>
+									<!-- end versions panel -->
+
+								</div>
+
+
+								<div class="row">
+									<div
+										th:replace="entrydetails_template :: description (${entry.orderedVersions.get(0)})">(description)</div>
+								</div>
+
+								<div class="row">
+									<div
+										th:replace="entrydetails_template :: editor (${entry.orderedVersions.get(0)})">(description)</div>
+								</div>
+							</div>
+
+
+							<div
+								th:replace="entrydetails_template :: right_sidebar (${entry.orderedVersions.get(0)})">(description)</div>
+
+
+						</div>
+					</div>
+					</div>
+
+
+					<!-- content ############################################################################################################# -->
+				</div>
+			</div>
+			<!--/.row-->
+		</div>
+		<!--/.container-->
+	</div>
+	<!--/.page-container-->
+	<!-- script references -->
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	<script th:src="@{/webjars/bootstrap/3.2.0/js/bootstrap.min.js}"></script>
+	<script th:src="@{/js/scripts.js}"></script>
+			<script th:src="@{/webjars/fuelux/3.0.2/js/fuelux.min.js}"></script>
+	<script th:src="@{/webjars/ace/01.08.2014/src-min-noconflict/ace.js}"></script>
+	<script th:src="@{/webjars/tinymce-jquery/4.0.16/tinymce.min.js}"></script>
+
+
+	<script th:inline="javascript">
+	/*<![CDATA[*/
+
+
+		var editor = ace.edit("editor");
+		var modelAttributeValue = /*[[${entry.orderedVersions.get(0).entryCodeText}]]*/'Code';
+		var language = /*[[${entry.language}]]*/'language';
+/*		editor.setTheme("ace/theme/wefactor");*/
+		editor.setValue(modelAttributeValue); // or session.setValue
+		editor.getValue(); // or session.getValue
+		editor.setValue(editor.getValue(), 1);
+		editor.getSession().setMode("ace/mode/" + language);
+		editor.setTheme("ace/theme/github");
+		editor.setFontSize("13px");
+		editor.setOptions({
+			readOnly : true,
+			highlightActiveLine : false
+		})
+		editor.renderer.$cursorLayer.element.style.opacity = 0;
+
+		/*]]>*/
+	</script>	
+	
+	<!-- TODO: attr von id zu index umbenennen. attr nicht in button speichern sondern in übergeordnettes element. index verändern -->
+
+	<script th:inline="javascript">
+		/*<![CDATA[*/
+		           
+	function updateVersion(prev) {
+		var versionsize = /*[[${entry.orderedVersions.size()}]]*/'size';
+		var ids = /*[[${entry.orderedVersionIds}]]*/'ids';
+		var types = /*[[${entry.orderedVersionTypes}]]*/'types';
+		var currentIndex = $("div[id*=version-panel]").attr("data-versionindex");
+		
+		var nextIndex;
+		
+		if(prev){
+			if(parseInt(currentIndex) + 1 > versionsize-1){
+				nextIndex = parseInt(currentIndex);
+				
+			}else{
+				nextIndex = parseInt(currentIndex)+1;
+			}
+			
+		}else{
+			if(parseInt(currentIndex) - 1 < 0){
+				nextIndex = parseInt(currentIndex);
+				
+			}else{
+				nextIndex = parseInt(currentIndex)-1;
+			}
+		}
+		
+		var currentId = ids[nextIndex];
+		var nextType = types[nextIndex];
+		var server_url  = /*[[@{~/entryajax/}]]*/'url';
+		var relative_url = nextType +"/" + currentId;
+		var url = server_url + relative_url;
+		
+		 $.ajax({
+		        url: url
+		    }).then(function(data) {
+		   			$("#entry-content").fadeOut('fast'); 
+		   			$("#right-sidebar").fadeOut('fast');  
+		   			$("#description").html(data.entryDescription); 
+		   			$("#version-changes").html(data.changes);
+		   			var editor = ace.edit("editor");
+		   			editor.setValue(data.entryCodeText);
+		   			editor.setValue(editor.getValue(), 1);
+		   			$("#right-sidebar").fadeIn('fast');
+		   			$("#entry-content").fadeIn('fast');
+		   			$("div[id*=version-panel]").attr("data-versionindex",nextIndex);
+		   			$("div[id*=version-panel]").attr("data-entrytype",data.type);
+		   			$('#version-userimage-link').attr('href','/');/*todo*/
+		   			$('#version-user-link').attr('href','/');/*todo*/
+		   			$('#version-createdate').html('just now');/*todo*/
+		   			$('#version-userimage').attr('src',data.account.primaryProfile.imageUrl);/*geht nicht. evtl load image function*/
+		   			
+		   			
+		   			
+		   			
+		   			
+		    });
+}
+		           
+		           
+		$(document).ready(function () {
+			$("button[id*=next-version]").click(function () {
+				updateVersion(false);
+				
+			});
+		});
+		
+		$(document).ready(function () {
+			$("button[id*=prev-version]").click(function () {
+				updateVersion(true);
+				
+			});
+		});
+		
+		
+		
+		
+		/*]]>*/
+	</script>
+
+
+</body>
+</html>

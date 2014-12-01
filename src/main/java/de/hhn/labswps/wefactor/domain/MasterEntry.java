@@ -19,17 +19,18 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @Where(clause = "inactive = 'N'")
 // @SQLDelete(sql = "UPDATE entry set inactive = 'Y' WHERE Id = ?")
 @JsonIgnoreProperties({ "id", "softDeleted", "account", "createdBy",
-        "lastModifiedBy", "orderedVersions", "versions", "proposals" })
+        "lastModifiedBy", "orderedVersions", "orderedVersionIds",
+        "orderedVersionTypes", "versions", "proposals" })
 public class MasterEntry extends Entry {
 
     private Set<VersionEntry> versions = new HashSet<VersionEntry>();
 
     public void addVersion(VersionEntry version) {
-        version.setMasterEntry(this);
+        version.setMasterOfVersion(this);
         this.versions.add(version);
     }
 
-    @OneToMany(mappedBy = "masterEntry")
+    @OneToMany(mappedBy = "masterOfVersion")
     public Set<VersionEntry> getVersions() {
         return versions;
     }
@@ -55,11 +56,11 @@ public class MasterEntry extends Entry {
     private Set<ProposalEntry> proposals = new HashSet<ProposalEntry>();
 
     public void addProposal(ProposalEntry proposal) {
-        proposal.setMasterEntry(this);
+        proposal.setMasterOfProposal(this);
         this.proposals.add(proposal);
     }
 
-    @OneToMany(mappedBy = "masterEntry")
+    @OneToMany(mappedBy = "masterOfProposal")
     public Set<ProposalEntry> getProposals() {
         return proposals;
     }
@@ -71,4 +72,21 @@ public class MasterEntry extends Entry {
     public void setProposals(Set<ProposalEntry> proposals) {
         this.proposals = proposals;
     }
+
+    public int getAmountOfProposalsByType(String status) {
+        int amount = 0;
+
+        if (!getProposals().isEmpty()) {
+            for (ProposalEntry proposal : getProposals()) {
+                if (status.equals(proposal.getStatus())) {
+                    amount++;
+                }
+            }
+
+        }
+
+        return amount;
+
+    }
+
 }
