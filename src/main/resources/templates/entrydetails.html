@@ -43,7 +43,7 @@
 								<!-- Nav tabs -->
 								<ul class="nav nav-tabs" role="tablist">
 									<li role="presentation" class="active"><a href="#entry" aria-controls="entry" role="tab" data-toggle="tab">Entry</a></li>
-									<li role="presentation"><a href="#proposals" aria-controls="proposals" role="tab" data-toggle="tab">Proposals <span class="badge" th:text="${entry.proposals.size()}">4</span></a></li>
+									<li role="presentation"><a href="#proposals" aria-controls="proposals" role="tab" data-toggle="tab">Proposals <span th:unless="${entry.getAmountOfProposalsByType('NEW')==0}" class="badge" th:text="${entry.getAmountOfProposalsByType('NEW')}">4</span></a></li>
 								</ul>
 
 								<!-- Tab panes -->

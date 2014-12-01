@@ -193,7 +193,22 @@ public class EntryController {
         this.versionEntryRepository.save(ve);
         this.entryRepository.save(me);
 
-        return "forward:/";
+        return "forward:/entry/details?id="
+                + String.valueOf(pe.getMasterOfProposal().getId());
+    }
+
+    @RequestMapping(value = "/proposal/reject", method = RequestMethod.GET)
+    public String rejectProposal(@RequestParam("id") Long id, ModelMap model,
+            Principal currentUser) {
+
+        ProposalEntry pe = this.proposalEntryRepository.findOne(id);
+
+        pe.setStatus(Status.REJECTED.name());
+
+        this.proposalEntryRepository.save(pe);
+
+        return "forward:/entry/details?id="
+                + String.valueOf(pe.getMasterOfProposal().getId());
     }
 
     @RequestMapping(value = "/user/entry/add", method = RequestMethod.GET)
@@ -323,7 +338,6 @@ public class EntryController {
             entry = this.proposalEntryRepository.findOne(id);
 
         }
-
         return entry;
 
     }

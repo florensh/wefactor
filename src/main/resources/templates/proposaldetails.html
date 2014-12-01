@@ -24,12 +24,22 @@
 							<div
 								th:replace="entrydetails_template :: entry_head (${entry.orderedVersions.get(0)})">(description)</div>
 						</div>
-						<div class="row" style="margin-bottom: 20px;">
+						<div th:if="${entry.status == 'NEW'}" class="row" style="margin-bottom: 20px;">
 							<div class="col-md-10">
-								<a class="btn btn-success btn-md pull-right"
-									th:href="@{/proposal/accept(id=${entry.id})}"> <i
-									class="fa fa-check"></i> Accept
-								</a>
+							<h4 class="pull-left">Do you like that solution?</h4>
+								<div class=" pull-right">
+									<a class="btn btn-link btn-md"
+										th:href="@{/entry/details(id=${entry.masterOfProposal.id})}"> Cancel
+									</a>
+									<a class="btn btn-success btn-md"
+										th:href="@{/proposal/accept(id=${entry.id})}"> <i
+										class="fa fa-check"></i> Accept
+									</a> 
+									<a class="btn btn-danger btn-md"
+										th:href="@{/proposal/reject(id=${entry.id})}"> <i
+										class="fa fa-times"></i> Reject
+									</a>
+								</div>
 							</div>
 						</div>
 
