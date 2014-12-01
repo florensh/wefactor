@@ -1,0 +1,123 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="layout :: htmlhead" th:with="title='Hello'">
+	
+</head>
+<body>
+	<div class="page-container">
+
+		<!-- top navbar -->
+		<div th:replace="layout :: top-navbar">(navbar)</div>
+
+		<div class="container fuelux">
+			<div class="row row-offcanvas row-offcanvas-left">
+
+				<div th:replace="layout :: sidebar">(navbar)</div>
+
+				<div class="col-xs-12 col-sm-9">
+					<!-- content ############################################################################################################# -->
+				
+					
+					<div class="col" id="wrap">
+						<div th:each="event : ${events}">
+							<div th:replace="timelineEntry :: timelineEntry (${event})" ></div>
+							
+						</div>
+					</div>
+					<div class="loader" data-initialize="loader" id="myLoader" style="height: 30px; width: 30px; margin: auto;"></div>
+				
+					<!-- content ############################################################################################################# -->
+				</div>
+			</div>
+			<!--/.row-->
+		</div>
+		<!--/.container-->
+	</div>
+	
+	<!--/.page-container-->
+	<!-- script references -->
+	<script	src="//ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
+	<script th:src="@{/webjars/bootstrap/3.2.0/js/bootstrap.min.js}"></script>
+	<script th:src="@{/js/scripts.js}"></script>
+	<script th:src="@{/webjars/fuelux/3.0.2/js/fuelux.min.js}"></script>
+	<script th:src="@{/js/infinite-scroll.js}"></script>
+	<script th:src="@{jscroll-master/jquery.jscroll.min.js}"></script>
+	
+	<script type="text/javascript">
+	
+			var currentRequest = false;
+	
+		function yHandler(){
+			
+			
+			var wrap = document.getElementById('wrap');
+			var contentHeight = wrap.offsetHeight;
+			var yOffset = window.pageYOffset; 
+			var y = yOffset + window.innerHeight;
+			if(y >= contentHeight-100){
+				
+				/*
+				if(currentRequest == true){
+					return
+				}*/
+				if($(window).scrollTop() == $(document).height() - $(window).height()){
+				
+				currentRequest = true;
+				$('#myLoader').show();
+				
+				$.ajax({
+			       		 url: '/timelineAjax'
+			    		}).then(function(data) {
+			    			// Ajax call to get more dynamic data goes here
+			    			
+			    			if(data){
+			    			$('#wrap').append($(data).hide().fadeIn(2000, function(){
+			    				currentRequest = false;
+			    				}));
+			    			$('#myLoader').hide();
+			    			}
+			    			else{
+			    				$('#wrap').append('<center>errrroooooooooorrrr</center>')
+			    			}
+			    		});
+					
+				
+				}
+				
+				
+			}
+		}
+		window.onscroll = yHandler;
+	</script>
+	<style type="text/css">
+		div#wrap{width:800px; margin:0px auto;}
+		div.newData{height:1000px; background:#09F; margin:10px 0px;}
+	</style>
+	
+	<!--  
+	<script>
+		$('.scroll').jscroll({
+			autoTrigger : false
+		});
+	</script>
+	-->
+
+	<!--  
+	<script th:inline="javascript">
+		/*<![CDATA[*/
+		$('#myInfiniteScroll').infinitescroll({
+			//dataSource is required to append additional content
+			dataSource : function(helpers, callback) {
+				//passing back more content
+				callback({
+					content : '<h1>new hallo</h1>'
+				});
+			}
+		});
+
+		/*]]>*/
+	</script>
+	-->
+
+</body>
+</html>

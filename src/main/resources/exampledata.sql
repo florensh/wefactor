@@ -12,3 +12,28 @@ INSERT INTO entry (id, entry_type, teaser, language, entry_code_text, entry_date
 INSERT INTO entry (id, entry_type, teaser, language, entry_code_text, entry_date, entry_description, name, my_account, created_date, last_modified_date,created_by_id,last_modified_by_id,inactive,master_entry) VALUES ('10','Version','This is a new version of an auto generated example of an entry in weFactor','java', 'public', '2014-01-01', '<p>This is a new version of an auto generated example of an entry in weFactor</p>','Run a java application', '1','2014-01-01','2014-01-01','1','1','N','1');
 INSERT INTO entry (id, entry_type, teaser, language, entry_code_text, entry_date, entry_description, name, my_account, created_date, last_modified_date,created_by_id,last_modified_by_id,inactive,master_entry) VALUES ('11','Version','This is an auto generated example of an entry in weFactor','java', 'public static void main', '2014-01-01', '<p>This is an auto generated example of an entry in weFactor</p>','Run a java application', '1','2014-01-01','2014-01-01','1','1','N','1');
 INSERT INTO entry (id, entry_type, teaser, language, entry_code_text, entry_date, entry_description, name, my_account, created_date, last_modified_date,created_by_id,last_modified_by_id,inactive,master_entry) VALUES ('12','Proposal','This is an auto generated example of an entry in weFactor','java', 'public static void main', '2014-01-01', '<p>This is an auto generated example of an entry in weFactor</p>','Run a java application', '1','2014-01-01','2014-01-01','1','1','N','1');
+
+INSERT INTO timeline_event (id, action, source, target, event_date) values ('1','erste', '1', '1','2014-01-01');
+INSERT INTO timeline_event (id, action, source, target, event_date) values ('2','zweite', '1', '1','2014-01-01');
+INSERT INTO timeline_event (id, action, source, target, event_date) values ('3','dritte', '1', '1','2014-01-01');
+INSERT INTO timeline_event (id, action, source, target, event_date) values ('4','vierte', '1', '1','2014-01-01');
+INSERT INTO timeline_event (id, action, source, target, event_date) values ('5','fünfte', '1', '1','2014-01-01');
+INSERT INTO timeline_event (id, action, source, target, event_date) values ('6','sechste', '1', '1','2014-01-01');
+INSERT INTO timeline_event (id, action, source, target, event_date) values ('7','siebte', '1', '1','2014-01-01');
+INSERT INTO timeline_event (id, action, source, target, event_date) values ('8','achte', '1', '1','2014-01-01');
+INSERT INTO timeline_event (id, action, source, target, event_date) values ('9','neunte', '1', '1','2014-01-01');
+INSERT INTO timeline_event (id, action, source, target, event_date) values ('10','zehnte', '1', '1','2014-01-01');
+INSERT INTO timeline_event (id, action, source, target, event_date) values ('11','elfte', '1', '1','2014-01-01');
+INSERT INTO timeline_event (id, action, source, target, event_date) values ('12','zwölfte', '1', '1','2014-01-01');
+INSERT INTO timeline_event (id, action, source, target, event_date) values ('13','dreizehnte', '1', '1','2014-01-01');
+INSERT INTO timeline_event (id, action, source, target, event_date) values ('14','vierzehnte', '1', '1','2014-01-01');
+INSERT INTO timeline_event (id, action, source, target, event_date) values ('15','fünfzehnte', '1', '1','2014-01-01');
+INSERT INTO timeline_event (id, action, source, target, event_date) values ('16','sechszehnte', '1', '1','2014-01-01');
+INSERT INTO timeline_event (id, action, source, target, event_date) values ('17','siebzehnte', '1', '1','2014-01-01');
+INSERT INTO timeline_event (id, action, source, target, event_date) values ('18','achtzehnte', '1', '1','2014-01-01');
+INSERT INTO timeline_event (id, action, source, target, event_date) values ('19','neunzehnte', '1', '1','2014-01-01');
+INSERT INTO timeline_event (id, action, source, target, event_date) values ('20','zwanzigste', '1', '1','2014-01-01');
+INSERT INTO timeline_event (id, action, source, target, event_date) values ('21','einundzwanzigste', '1', '1','2014-01-01');
+INSERT INTO timeline_event (id, action, source, target, event_date) values ('22','zweiundzwanziste', '1', '1','2014-01-01');
+INSERT INTO timeline_event (id, action, source, target, event_date) values ('23','dreiundzwanzigste', '1', '1','2014-01-01');
+INSERT INTO timeline_event (id, action, source, target, event_date) values ('24','vierundzwanzigste', '1', '1','2014-01-01');

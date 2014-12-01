@@ -1,0 +1,6 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:each="event : ${events}">
+	<div th:replace="timelineEntry :: timelineEntry (${event})"></div>
+
+</div>
+</html>
