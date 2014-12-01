@@ -147,6 +147,13 @@ public class UserProfile extends User implements Serializable {
         return this.email;
     }
 
+    public String getEmailShort(String email) {
+
+        String dotted = "...";
+        return email.substring(0, 20) + dotted;
+
+    }
+
     public String getFirstName() {
         return this.firstName;
     }

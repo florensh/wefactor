@@ -24,32 +24,31 @@ public class WeFactorValues {
         /** The css. */
         CSS("css", "css"),
         /** The xml. */
-        XML("xml", "xml")
-        // /** The C_ sharp. */
-        // C_Sharp("C#"),
-        // /** The C_ plus plus. */
-        // C_PlusPlus("C++"),
-        // /** The sql. */
-        // SQL("sql"),
-        // /** The php. */
-        // PHP("PHP"),
-        // /** The Bash. */
-        // Bash("Bash"),
-        // /** The c. */
-        // C("C"),
-        // /** The Python. */
-        // Python("Python"),
-        // /** The Groovy. */
-        // Groovy("Groovy"),
-        // /** The Ruby. */
-        // Ruby("Ruby"),
-        // /** The Scala. */
-        // Scala("Scala"),
-        // /** The Haskell. */
-        // Haskell("Haskell"),
-        // /** The Objective_ c. */
-        // Objective_C("Objectiv-C")
-        ;
+        XML("xml", "xml"),
+        /** The C_ sharp. */
+        CSHARP("csharp", "csharp"),
+
+        /** The C_ plus plus. */
+        C_CPP("C_CPP", "C_CPP"),
+        /** The sql. */
+        SQL("sql", "sql"),
+        /** The php. */
+        PHP("php", "php"),
+        /** The Bash. */
+        BASH("bash", "bash"),
+
+        /** The Python. */
+        PYTHON("python", "python"),
+        /** The Groovy. */
+        GROOVY("groovy", "groovy"),
+        /** The Ruby. */
+        RUBY("ruby", "ruby"),
+        /** The Scala. */
+        SCALA("scala", "scala"),
+        /** The Haskell. */
+        HASKELL("haskell", "haskell"),
+        /** The Objective_ c. */
+        OBJECTIVEC("objectivec", "objektivec"), ;
 
         private String mode;
         private String displayName;
