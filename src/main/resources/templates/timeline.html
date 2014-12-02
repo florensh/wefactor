@@ -1,0 +1,98 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="layout :: htmlhead" th:with="title='Hello'">
+	
+</head>
+<body>
+	<div class="page-container">
+
+		<!-- top navbar -->
+		<div th:replace="layout :: top-navbar">(navbar)</div>
+
+		<div class="container fuelux">
+			<div class="row row-offcanvas row-offcanvas-left">
+
+				<div th:replace="layout :: sidebar">(navbar)</div>
+
+				<div class="col-xs-12 col-sm-9">
+					<!-- content ############################################################################################################# -->
+				
+					
+					<div class="col" id="wrap" style="margin-bottom:30px;">
+						<div th:each="event : ${events}">
+							<div th:replace="timelineEntry :: timelineEntry (${event})" ></div>
+							
+						</div>
+					</div>
+				
+					<!-- content ############################################################################################################# -->
+				</div>
+			</div>
+			<!--/.row-->
+		</div>
+		<!--/.container-->
+	</div>
+	
+	<!--/.page-container-->
+	<!-- script references -->
+	<script	src="//ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
+	<script th:src="@{/webjars/bootstrap/3.2.0/js/bootstrap.min.js}"></script>
+	<script th:src="@{/js/scripts.js}"></script>
+	<script th:src="@{/webjars/fuelux/3.0.2/js/fuelux.min.js}"></script>
+	<script th:src="@{/js/infinite-scroll.js}"></script>
+	<script th:src="@{jscroll-master/jquery.jscroll.min.js}"></script>
+
+	<script type="text/javascript">
+	
+			var currentRequest = false;
+			var currentPage = "1";
+	
+		function scrollHandler(){
+				
+				if(currentRequest == true){
+					return
+				}
+				if($(window).scrollTop() + $(window).height() >= $(document).height() - 1){
+				currentRequest = true;
+				$('#wrap').append($('<div class="loader" data-initialize="loader" id="myLoader" style="font-size:30px; height: 30px; width: 30px; margin: auto;"></div>').hide());
+					$('#myLoader').loader('reset');
+					$('#myLoader').fadeIn(500, function(){
+						
+						
+						currentPage++;
+						var url = '/timelineAjax/' + parseInt(currentPage);
+					
+				$.ajax({
+			       		url: url,
+			       		success: function (data) {
+			    				currentRequest = false;
+			    			// Ajax call to get more dynamic data goes here
+			    			
+			    			$('#myLoader').loader('destroy');
+			    			$('#wrap').append($(data).hide().fadeIn(2000, function(){
+			    				}));
+			    			$(window).scrollTop($(window).scrollTop()-20);
+			    			
+			    			
+			    		},
+			    		
+			    		error: function (xhr, ajaxOptions, thrownError) {
+			    			$('#myLoader').loader('destroy');
+			    			$('#wrap').append('<center><div class="alert alert-info" role="alert">no data left</div></center>');
+			    	      }
+			    		
+			    		
+			    		
+			    		});
+				});
+				
+				}
+				
+				
+		}
+		window.onscroll = scrollHandler;
+	</script>
+
+
+</body>
+</html>
