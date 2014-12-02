@@ -510,6 +510,6 @@
     $('#input-id').rating('update', 3);
 
     $('#input-id').on('rating.change', function(event, value) {
-      console.log(value);
+    	saveRating(value);
     });
 }(jQuery)); 

@@ -20,8 +20,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 // @SQLDelete(sql = "UPDATE entry set inactive = 'Y' WHERE Id = ?")
 @JsonIgnoreProperties({ "id", "softDeleted", "account", "createdBy",
         "lastModifiedBy", "orderedVersions", "orderedVersionIds",
-        "orderedVersionTypes", "versions", "proposals" })
-public class MasterEntry extends Entry {
+        "orderedVersionTypes", "versions", "proposals", "ratings" })
+public class MasterEntry extends RatableEntry {
 
     private Set<VersionEntry> versions = new HashSet<VersionEntry>();
 
