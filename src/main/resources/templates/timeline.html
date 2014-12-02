@@ -18,7 +18,7 @@
 					<!-- content ############################################################################################################# -->
 				
 					
-					<div class="col" id="wrap">
+					<div class="col" id="wrap" style="margin-bottom:30px;">
 						<div th:each="event : ${events}">
 							<div th:replace="timelineEntry :: timelineEntry (${event})" ></div>
 							
@@ -41,85 +41,58 @@
 	<script th:src="@{/webjars/fuelux/3.0.2/js/fuelux.min.js}"></script>
 	<script th:src="@{/js/infinite-scroll.js}"></script>
 	<script th:src="@{jscroll-master/jquery.jscroll.min.js}"></script>
-	
+
 	<script type="text/javascript">
 	
 			var currentRequest = false;
+			var currentPage = "1";
 	
-		function yHandler(){
-			
-			
-			var wrap = document.getElementById('wrap');
-			var contentHeight = wrap.offsetHeight;
-			var yOffset = window.pageYOffset; 
-			var y = yOffset + window.innerHeight;
-			if(y >= contentHeight-100){
-				
+		function scrollHandler(){
 				
 				if(currentRequest == true){
 					return
 				}
 				if($(window).scrollTop() + $(window).height() >= $(document).height() - 1){
 				currentRequest = true;
-				$('#wrap').append($('<div class="loader" data-initialize="loader" id="myLoader" style="height: 30px; width: 30px; margin: auto;"></div>').hide());
+				$('#wrap').append($('<div class="loader" data-initialize="loader" id="myLoader" style="font-size:30px; height: 30px; width: 30px; margin: auto;"></div>').hide());
 					$('#myLoader').loader('reset');
 					$('#myLoader').fadeIn(500, function(){
+						
+						
+						currentPage++;
+						var url = '/timelineAjax/' + parseInt(currentPage);
 					
 				$.ajax({
-			       		 url: '/timelineAjax'
-			    		}).then(function(data) {
+			       		url: url,
+			       		success: function (data) {
 			    				currentRequest = false;
 			    			// Ajax call to get more dynamic data goes here
 			    			
-			    			if(data){
 			    			$('#myLoader').loader('destroy');
 			    			$('#wrap').append($(data).hide().fadeIn(2000, function(){
 			    				}));
 			    			$(window).scrollTop($(window).scrollTop()-20);
 			    			
-			    			}
-			    			else{
-			    				$('#wrap').append('<center>errrroooooooooorrrr</center>')
-			    			}
+			    			
+			    		},
+			    		
+			    		error: function (xhr, ajaxOptions, thrownError) {
+			    			$('#myLoader').loader('destroy');
+			    			$('#wrap').append('<center><div class="alert alert-info" role="alert">no data left</div></center>');
+			    	      }
+			    		
+			    		
+			    		
 			    		});
 				});
 				
 				}
 				
 				
-			}
 		}
-		window.onscroll = yHandler;
+		window.onscroll = scrollHandler;
 	</script>
-	<style type="text/css">
-		div#wrap{width:800px; margin:0px auto;}
-		div.newData{height:1000px; background:#09F; margin:10px 0px;}
-	</style>
-	
-	<!--  
-	<script>
-		$('.scroll').jscroll({
-			autoTrigger : false
-		});
-	</script>
-	-->
 
-	<!--  
-	<script th:inline="javascript">
-		/*<![CDATA[*/
-		$('#myInfiniteScroll').infinitescroll({
-			//dataSource is required to append additional content
-			dataSource : function(helpers, callback) {
-				//passing back more content
-				callback({
-					content : '<h1>new hallo</h1>'
-				});
-			}
-		});
-
-		/*]]>*/
-	</script>
-	-->
 
 </body>
 </html>

@@ -13,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.social.ResourceNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import de.hhn.labswps.wefactor.domain.Account;
@@ -43,7 +44,7 @@ public class TimelineController {
 
         Account a = this.accountRepository.findOne(1l);
 
-        Pageable topFive = new PageRequest(0, 5);
+        Pageable topFive = new PageRequest(0, 6);
 
         model.addAttribute("events", this.timelineEventRepository
                 .findByTargetOrderByEventDateDesc(a, topFive));
@@ -52,14 +53,14 @@ public class TimelineController {
 
     }
 
-    @RequestMapping("/timelineAjax")
-    public String getTimelineEntry(HttpServletRequest request,
-            HttpSession session, Principal currentUser, Locale locale,
-            Model model) {
+    @RequestMapping("/timelineAjax/{currentPage}")
+    public String getTimelineEntry(@PathVariable int currentPage,
+            HttpServletRequest request, HttpSession session,
+            Principal currentUser, Locale locale, Model model) {
 
         Account a = this.accountRepository.findOne(1l);
 
-        Pageable topTwo = new PageRequest(0, 3);
+        Pageable topTwo = new PageRequest(currentPage, 3);
 
         List<TimelineEvent> result = this.timelineEventRepository
                 .findByTargetOrderByEventDateDesc(a, topTwo);
