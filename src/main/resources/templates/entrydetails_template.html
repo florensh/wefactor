@@ -151,19 +151,12 @@
 
 
 										<div th:fragment="right_sidebar (the_entry)" class="col-md-2 col-sm-2" id="right-sidebar">
-											<h4>
-												<small>Created <span style="color: black;"
-													th:text="${beans.dateFormatter.format(the_entry.createdDate)}">Created
-														just now</span></small>
-											</h4>
-											<h4 th:unless="${the_entry.createdDate==entry.lastModifiedDate}">
-												<small>Modified <span style="color: black;"
-													th:text="${beans.dateFormatter.format(the_entry.lastModifiedDate)}">Modified
-														just now</span></small>
-											</h4>
+											<span>
+												<a th:if="${entry.account.primaryProfile.id != currentUserProfile.id}">
+                                    				<input id="input-id" type="number" class="rating" min="0" max="5" step="1" data-size="xs"></input>
+                                				</a>
+                                			</span>
 										</div>
-
-
 									</div>
 									<!-- end tab content for entry -->
 									<div role="tabpanel" class="tab-pane fade" id="proposals">
@@ -259,6 +252,8 @@
 			<script th:src="@{/webjars/fuelux/3.0.2/js/fuelux.min.js}"></script>
 	<script th:src="@{/webjars/ace/01.08.2014/src-min-noconflict/ace.js}"></script>
 	<script th:src="@{/webjars/tinymce-jquery/4.0.16/tinymce.min.js}"></script>
+	<script th:src="@{/js/star-rating.js}"></script>
+
 
 
 	<script th:inline="javascript">
@@ -284,7 +279,7 @@
 		/*]]>*/
 	</script>	
 	
-	<!-- TODO: attr von id zu index umbenennen. attr nicht in button speichern sondern in übergeordnettes element. index verändern -->
+	<!-- TODO: attr von id zu index umbenennen. attr nicht in button speichern sondern in Ã¼bergeordnettes element. index verÃ¤ndern -->
 
 	<script th:inline="javascript">
 		/*<![CDATA[*/

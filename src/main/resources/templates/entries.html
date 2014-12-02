@@ -1,5 +1,6 @@
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:include="layout :: htmlhead" th:with="title='Hello'"></head>
+<head th:include="layout :: htmlhead" th:with="title='Hello'">
+</head>
 <body>
 	<div class="page-container">
 
@@ -93,13 +94,23 @@
 								</span>
 								
 							</div>
-
-
-							<div class="col-xs-12 col-sm-10">
+							<div class="col-xs-12 col-sm-8">
 								<h3>
 									<a th:href="@{/entry/details(id=${entry.id})}"><span
 										th:text="${entry.name}">name</span></a>
 								</h3>
+							</div>
+							<div class="col-xs-8 col-sm-2">
+								
+                                <span>
+                                	<a th:if="${entry.account.primaryProfile.id != currentUserProfile.id}">
+                                    	<input id="input-id" type="number" class="rating" min="0" max="5" step="1" data-size="xs"></input>
+                                    </a>
+                                </span>
+                                
+                            </div>
+                            
+							<div class="col-xs-12 col-sm-10">
 								<h3>
 									<small th:text="${entry.teaser}">description</small>
 								</h3>
@@ -126,5 +137,6 @@
 		src="//ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
 	<script th:src="@{/webjars/bootstrap/3.2.0/js/bootstrap.min.js}"></script>
 	<script th:src="@{/js/scripts.js}"></script>
+	<script th:src="@{/js/star-rating.js}"></script>
 </body>
 </html>
