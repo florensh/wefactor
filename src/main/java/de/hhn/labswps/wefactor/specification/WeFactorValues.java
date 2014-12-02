@@ -78,4 +78,19 @@ public class WeFactorValues {
     public enum Role {
         USER, ADMIN, MODERATOR
     }
+
+    public enum EventType {
+        MADE_PROPOSAL("made a new proposal");
+
+        private String text;
+
+        EventType(String text) {
+            this.text = text;
+
+        }
+
+        public String getText() {
+            return this.text;
+        }
+    }
 }

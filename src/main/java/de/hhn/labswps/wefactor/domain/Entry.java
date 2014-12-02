@@ -6,9 +6,6 @@ import java.util.Date;
 
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
@@ -52,9 +49,6 @@ public abstract class Entry extends BaseSoftDeletableEntity {
 
     /** The entry description. */
     private String entryDescription = null;
-
-    /** The id. */
-    private Long id;
 
     @ManyToOne
     @JoinColumn(name = "myAccount", nullable = false)
@@ -112,17 +106,6 @@ public abstract class Entry extends BaseSoftDeletableEntity {
         return this.entryDescription;
     }
 
-    /**
-     * Gets the id.
-     *
-     * @return the id
-     */
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    public Long getId() {
-        return id;
-    }
-
     public String getLanguage() {
         return language;
     }
@@ -167,16 +150,6 @@ public abstract class Entry extends BaseSoftDeletableEntity {
      */
     public void setEntryDescription(final String entryDescriptionParam) {
         this.entryDescription = entryDescriptionParam;
-    }
-
-    /**
-     * Sets the id.
-     *
-     * @param idParam
-     *            the new id
-     */
-    public void setId(final Long idParam) {
-        this.id = idParam;
     }
 
     public void setLanguage(String language) {
