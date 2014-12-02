@@ -59,7 +59,7 @@ public class TimelineController {
 
         Account a = this.accountRepository.findOne(1l);
 
-        Pageable topTwo = new PageRequest(0, 2);
+        Pageable topTwo = new PageRequest(0, 3);
 
         List<TimelineEvent> result = this.timelineEventRepository
                 .findByTargetOrderByEventDateDesc(a, topTwo);

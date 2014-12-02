@@ -24,7 +24,6 @@
 							
 						</div>
 					</div>
-					<div class="loader" data-initialize="loader" id="myLoader" style="height: 30px; width: 30px; margin: auto;"></div>
 				
 					<!-- content ############################################################################################################# -->
 				</div>
@@ -56,31 +55,34 @@
 			var y = yOffset + window.innerHeight;
 			if(y >= contentHeight-100){
 				
-				/*
+				
 				if(currentRequest == true){
 					return
-				}*/
-				if($(window).scrollTop() == $(document).height() - $(window).height()){
-				
+				}
+				if($(window).scrollTop() + $(window).height() >= $(document).height() - 1){
 				currentRequest = true;
-				$('#myLoader').show();
-				
+				$('#wrap').append($('<div class="loader" data-initialize="loader" id="myLoader" style="height: 30px; width: 30px; margin: auto;"></div>').hide());
+					$('#myLoader').loader('reset');
+					$('#myLoader').fadeIn(500, function(){
+					
 				$.ajax({
 			       		 url: '/timelineAjax'
 			    		}).then(function(data) {
+			    				currentRequest = false;
 			    			// Ajax call to get more dynamic data goes here
 			    			
 			    			if(data){
+			    			$('#myLoader').loader('destroy');
 			    			$('#wrap').append($(data).hide().fadeIn(2000, function(){
-			    				currentRequest = false;
 			    				}));
-			    			$('#myLoader').hide();
+			    			$(window).scrollTop($(window).scrollTop()-20);
+			    			
 			    			}
 			    			else{
 			    				$('#wrap').append('<center>errrroooooooooorrrr</center>')
 			    			}
 			    		});
-					
+				});
 				
 				}
 				
