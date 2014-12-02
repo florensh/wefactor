@@ -2,40 +2,54 @@ package de.hhn.labswps.wefactor.domain;
 
 import java.util.Date;
 
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+
+import de.hhn.labswps.wefactor.specification.WeFactorValues;
 
 @Entity
 @Table(name = "timelineEvent")
-public class TimelineEvent {
-
-    /** The id. */
-    private Long id;
+public class TimelineEvent extends BaseEntity {
 
     private Date eventDate;
-    private String action;
     private UserProfile source;
     private Account target;
+    private String eventType;
+
+    public String getEventType() {
+        return eventType;
+    }
+
+    public void setEventType(String type) {
+        this.eventType = type;
+    }
+
+    private ObjectIdentification objectReference;
 
     public Date getEventDate() {
         return eventDate;
+    }
+
+    @Embedded
+    public ObjectIdentification getObjectReference() {
+        return objectReference;
+    }
+
+    public void setObjectReference(ObjectIdentification objectReference) {
+        this.objectReference = objectReference;
     }
 
     public void setEventDate(Date eventDate) {
         this.eventDate = eventDate;
     }
 
+    @Transient
     public String getAction() {
-        return action;
-    }
-
-    public void setAction(String action) {
-        this.action = action;
+        return WeFactorValues.EventType.valueOf(eventType).getText();
     }
 
     @ManyToOne
@@ -56,27 +70,6 @@ public class TimelineEvent {
 
     public void setTarget(Account target) {
         this.target = target;
-    }
-
-    /**
-     * Gets the id.
-     *
-     * @return the id
-     */
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    public Long getId() {
-        return id;
-    }
-
-    /**
-     * Sets the id.
-     *
-     * @param idParam
-     *            the new id
-     */
-    public void setId(final Long idParam) {
-        this.id = idParam;
     }
 
 }
