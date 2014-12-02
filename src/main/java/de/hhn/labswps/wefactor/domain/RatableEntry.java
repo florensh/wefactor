@@ -30,7 +30,14 @@ public abstract class RatableEntry extends Entry {
     @Transient
     @JsonProperty("rankingValue")
     private Double getRankingValue() {
-        return 4.2d;
+        Double d = new Double("0.0");
+        int a = 0;
+        for (EntryRating ra : ratings) {
+            d = d + ra.getValue();
+            a++;
+        }
+
+        return d / a;
     }
 
 }

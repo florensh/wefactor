@@ -507,7 +507,7 @@
         }
     });
     
-    $('#input-id').rating('update', 3);
+    $('#input-id').rating('update', 0);
 
     $('#input-id').on('rating.change', function(event, value) {
     	saveRating(value);
