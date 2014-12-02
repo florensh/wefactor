@@ -10,21 +10,35 @@
 			<div class="row row-offcanvas row-offcanvas-left">
 
 				<div th:replace="layout :: sidebar">(navbar)</div>
-
+				
 				<div class="col-xs-12 col-sm-9">
 					<!-- content ############################################################################################################# -->
+					
+					<!-- hier mach ich irgendeinen Blödsinn-->
+					
+					
+					<!-- Hier hört mein blödsinn auf -->
+					
+					
 					<div class="row">
 						<div class="col-xs-12 col-sm-3">
 							<img th:if="${profile.imageUrl == null}"
 								src="http://www.localcrimenews.com/wp-content/uploads/2013/07/default-user-icon-profile.png"
-								alt="" class="img-circle img-responsive profile"></img> 
+								alt="" class="img-thumbnail img-responsive profile"></img> 
 								
 							<img th:unless="${profile.imageUrl == null}"
 								th:src="${profile.imageUrl}"
-								alt="" class="img-circle img-responsive profile"></img>
+								alt="" class="img-thumbnail img-responsive profile"></img>
+							
 						</div>
 						<div class="col-xs-12 col-sm-6">
 							<h2 class="profile"> <span th:text="${profile.name}">Bob</span><span th:unless="${profile.lastName == null}"><br></br><small><span th:text="${profile.firstName}">firstName</span>&nbsp;<span th:text="${profile.lastName}">lastName</span></small></span></h2>
+							<ul class="nav nav-pills" style="margin-bottom: 30px; margin-top: 45px;">
+ 								<li role="presentation" class="active"><a href="#">Info</a></li>
+  								<li role="presentation"><a href="#">Statistics</a></li>
+  								<li role="presentation"><a href="#">more...</a></li>
+							</ul>
+							
 							
 							
 							<!--
@@ -33,14 +47,41 @@
 								nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam
 								erat, sed diam voluptua</p>
 							  -->
-							<p th:if="${profile.id == currentUserProfile.id}">
-								<a
-									class="btn btn-default  btn-mid btn-responsive profile"
-									href="/user/profile/edit" role="button"><i class="fa fa-cog"></i> Edit
-									profile</a>
-							</p>
+							  
+							
 						</div>
+						
+							<div class="col-xs-12 col-sm-9">
+								<div class="row">
+									<div class="col-xs-12 col-sm-3">
+										<h5 style="font-weight: 700">First Name:</h5>
+										<h5 style="font-weight: 700">Last Name:</h5>
+										<h5 style="font-weight: 700">E-Mail:</h5>
+										<h5 style="font-weight: 700">Description:</h5>
+									</div>
+									<div class="col-xs-12 col-sm-9">
+										<h5 class="profile"><span th:text="${profile.firstName}">firstName</span></h5>
+										<h5 class="profile"><span th:text="${profile.lastName}">lastName</span></h5>
+										<h5 class="profile"><span th:text="${profile.email}">default@weFactor.com</span></h5>
+										<h5 class="profile"><span th:text="${profile.description}"></span></h5>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-xs-12 col-sm-3">
+										<p th:if="${profile.id == currentUserProfile.id}">
+											<a
+											class="btn btn-default  btn-mid btn-responsive profile"
+											href="/user/profile/edit" role="button"><i class="fa fa-cog"></i> Edit
+											profile</a>
+										</p>
+									</div>
+								</div>
+							</div>
+						
+						
+						
 					</div>
+					
 
 
 

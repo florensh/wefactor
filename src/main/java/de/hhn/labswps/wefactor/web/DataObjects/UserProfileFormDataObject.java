@@ -13,6 +13,9 @@ public class UserProfileFormDataObject {
     @Size(max = 30)
     private String lastName;
 
+    @Size(max = 300)
+    private String description;
+
     public String getFirstName() {
         return firstName;
     }
@@ -35,6 +38,14 @@ public class UserProfileFormDataObject {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
 }
