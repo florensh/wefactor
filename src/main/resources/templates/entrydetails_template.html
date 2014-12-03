@@ -151,9 +151,13 @@
 
 
 										<div th:fragment="right_sidebar (the_entry)" class="col-md-2 col-sm-2" id="right-sidebar">
-											<span>
-												<a th:if="${entry.account.primaryProfile.id != currentUserProfile.id}">
-                                    				<input id="input-id" type="number" class="rating" min="0" max="5" step="1" data-size="xs"></input>
+										<p style="margin-bottom: 0px;">
+													<span id="ratingcount" class="badge badge-light" th:text="${the_entry.orderedVersions.get(0).ratingCount}">0</span> <span
+														class="badge-text-light">Ratings</span>
+												</p>
+											<span class="pull-left">
+												<a>
+                                    				<input id="input-id" type="number" class="rating" min="0" max="5" step="1"  data-size="xs"></input>
                                 				</a>
                                 			</span>
 										</div>
@@ -341,6 +345,7 @@
 		   			$("#right-sidebar").fadeOut('fast');  
 		   			$("#description").html(data.entryDescription); 
 		   			$("#version-changes").html(data.changes);
+		   			$("#ratingcount").html(data.ratingCount);
 		   			var editor = ace.edit("editor");
 		   			editor.setValue(data.entryCodeText);
 		   			editor.setValue(editor.getValue(), 1);

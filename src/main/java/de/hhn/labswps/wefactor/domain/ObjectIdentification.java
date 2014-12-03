@@ -9,7 +9,7 @@ public class ObjectIdentification {
 
     private String oidName;
 
-    private String oidIdentification;
+    private Long oidIdentification;
 
     public String getOidType() {
         return oidType;
@@ -27,11 +27,11 @@ public class ObjectIdentification {
         this.oidName = oidName;
     }
 
-    public String getOidIdentification() {
+    public Long getOidIdentification() {
         return oidIdentification;
     }
 
-    public void setOidIdentification(String oidIdentification) {
+    public void setOidIdentification(Long oidIdentification) {
         this.oidIdentification = oidIdentification;
     }
 

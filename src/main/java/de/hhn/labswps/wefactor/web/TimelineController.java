@@ -42,7 +42,7 @@ public class TimelineController {
         UserProfile profile = this.userProfileRepository
                 .findByUsername(currentUser.getName());
 
-        Account a = this.accountRepository.findOne(1l);
+        Account a = profile.getAccount();
 
         Pageable topFive = new PageRequest(0, 6);
 
@@ -58,7 +58,10 @@ public class TimelineController {
             HttpServletRequest request, HttpSession session,
             Principal currentUser, Locale locale, Model model) {
 
-        Account a = this.accountRepository.findOne(1l);
+        UserProfile profile = this.userProfileRepository
+                .findByUsername(currentUser.getName());
+
+        Account a = profile.getAccount();
 
         Pageable topTwo = new PageRequest(currentPage, 3);
 
@@ -69,15 +72,6 @@ public class TimelineController {
         }
 
         model.addAttribute("events", result);
-
-        System.out.println("request");
-
-        // try {
-        // Thread.sleep(1000);
-        // } catch (InterruptedException e) {
-        // // TODO Auto-generated catch block
-        // e.printStackTrace();
-        // }
 
         return "timelineEntryList";
     }

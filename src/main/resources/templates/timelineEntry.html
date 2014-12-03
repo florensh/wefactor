@@ -13,15 +13,15 @@
 
 							</div>
 							<div class="col-xs-8 col-sm-8">
-								<h4><a th:href="@{/user/profile/details(id=${event.source.id})}"><span th:text="${event.source.name}">max</span></a>&nbsp;<span th:text="${event.action}">user hat was gemacht</span></h4>
+								<h5><a th:href="@{/user/profile/details(id=${event.source.id})}"><span th:text="${event.source.primaryProfile.name}">max</span></a>&nbsp;<span th:text="${event.action}">user hat was gemacht</span></h5>
 							</div>
 
 
 
 							<div class="col-xs-12 col-sm-10">
-								<h3 style="margin-top:4px;">
+								<h4 style="margin-top:4px;">
 									<a th:href="@{/entry/details(id=${event.objectReference.oidIdentification})}"><span th:text="${event.objectReference.oidType}"></span> &gt; <strong><span th:text="${event.objectReference.oidName}"></span></strong></a>
-								</h3>
+								</h4>
 								<h4 style="margin-top:4px;">
 									<small th:text="${beans.dateFormatter.format(event.eventDate)}">5 min ago</small>
 								</h4>

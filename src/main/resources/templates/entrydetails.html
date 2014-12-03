@@ -43,7 +43,7 @@
 								<!-- Nav tabs -->
 								<ul class="nav nav-tabs" role="tablist">
 									<li role="presentation" class="active"><a href="#entry" aria-controls="entry" role="tab" data-toggle="tab">Entry</a></li>
-									<li role="presentation"><a href="#proposals" aria-controls="proposals" role="tab" data-toggle="tab">Proposals <span th:unless="${entry.getAmountOfProposalsByType('NEW')==0}" class="badge" th:text="${entry.getAmountOfProposalsByType('NEW')}">4</span></a></li>
+									<li th:if="${entry.account.primaryProfile.id == currentUserProfile.id}" role="presentation"><a href="#proposals" aria-controls="proposals" role="tab" data-toggle="tab">Proposals <span th:unless="${entry.getAmountOfProposalsByType('NEW')==0}" class="badge" th:text="${entry.getAmountOfProposalsByType('NEW')}">4</span></a></li>
 								</ul>
 
 								<!-- Tab panes -->
@@ -92,8 +92,7 @@
 
 
 												<div class="panel panel-default">
-													<div class="panel-heading">Panel heading without
-														title</div>
+													<div class="panel-heading">Proposals</div>
 													<div class="panel-body" style="padding: 0px;">
 														<div class="table-responsive">
 															<table class="table"
@@ -179,16 +178,27 @@
 		<script th:inline="javascript">
 	/*<![CDATA[*/
 	           
-	    var entryId = /*[[${entry.id}]]*/'id';
-	    var type = /*[[${entry.type}]]*/'type';
+	    var ra = /*[[${entry.orderedVersions.get(0).rankingValue}]]*/'rating';
+		$('#input-id').rating('update', ra);
+	           
+	    
 		function saveRating(rating) {
 			
-			var url = "/rating/save/" + type + "/" + entryId +"/" + rating;
+			var idArray = /*[[${entry.orderedVersionIds}]]*/'ids';
+			var typesArray = /*[[${entry.orderedVersionTypes}]]*/'types';
+			var index = $("div[id*=version-panel]").attr("data-versionindex");
+			var id = idArray[index];
+			var type = typesArray[index];
+			
+			var url = "/rating/save/" + type + "/" + id +"/" + rating;
 			
 			 $.ajax({
 			        url: url
 			    }).then(function(data) {
 			    	$('#input-id').rating('update', data.rankingValue);
+			    	$("#ratingcount").fadeOut('fast', function(){
+			    		$("#ratingcount").html(data.rankingCount).fadeIn('fast');
+			    	}); 
 			    });
 
 		}
@@ -265,6 +275,8 @@
 		   			var editor = ace.edit("editor");
 		   			editor.setValue(data.entryCodeText);
 		   			editor.setValue(editor.getValue(), 1);
+		   			$('#input-id').rating('update', data.rankingValue);
+		   			$("#ratingcount").html(data.rankingCount);
 		   			$("#right-sidebar").fadeIn('fast');
 		   			$("#entry-content").fadeIn('fast');
 		   			$("div[id*=version-panel]").attr("data-versionindex",nextIndex);

@@ -55,7 +55,7 @@
 
 @media (min-width: 20px) {
   #editor {
-    min-height: 100px;
+    min-height: 500px;
   }
   #editorRow {
   	margin-left: 0px;
@@ -64,7 +64,7 @@
 }
 @media (min-width: 500px) {
   #editor {
-    min-height: 100px;
+    min-height: 500px;
   }
   #editorRow {
   	margin-left: 0px;
@@ -76,7 +76,7 @@
 }
 @media (min-width: 1200px) {
   #editor {
-    min-height: 100px;
+    min-height: 500px;
   }
   #editorRow {
   	margin-left: 0px;

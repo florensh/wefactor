@@ -2,9 +2,6 @@ package de.hhn.labswps.wefactor.domain;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -32,30 +29,6 @@ public class EntryRating extends BaseEntity {
 
     public void setAccount(Account account) {
         this.account = account;
-    }
-
-    /** The id. */
-    private Long id;
-
-    /**
-     * Gets the id.
-     *
-     * @return the id
-     */
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    public Long getId() {
-        return id;
-    }
-
-    /**
-     * Sets the id.
-     *
-     * @param idParam
-     *            the new id
-     */
-    public void setId(final Long idParam) {
-        this.id = idParam;
     }
 
     private Entry entry;

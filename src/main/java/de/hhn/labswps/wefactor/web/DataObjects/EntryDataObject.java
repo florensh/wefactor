@@ -24,6 +24,17 @@ public class EntryDataObject {
     @Size(min = 10, max = 200)
     private String teaser;
 
+    @Size(min = 10, max = 200)
+    private String changes;
+
+    public String getChanges() {
+        return changes;
+    }
+
+    public void setChanges(String changes) {
+        this.changes = changes;
+    }
+
     private String editMode;
 
     public String getEditMode() {

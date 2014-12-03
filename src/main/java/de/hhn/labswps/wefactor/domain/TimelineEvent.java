@@ -10,15 +10,31 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import de.hhn.labswps.wefactor.specification.WeFactorValues;
+import de.hhn.labswps.wefactor.specification.WeFactorValues.EventType;
 
 @Entity
 @Table(name = "timelineEvent")
 public class TimelineEvent extends BaseEntity {
 
     private Date eventDate;
-    private UserProfile source;
+    private Account source;
     private Account target;
     private String eventType;
+
+    public TimelineEvent() {
+
+    }
+
+    public TimelineEvent(Date eventDate, Account source, Account target,
+            EventType type, ObjectIdentification objectReference) {
+
+        this.eventDate = eventDate;
+        this.source = source;
+        this.target = target;
+        this.eventType = type.name();
+        this.objectReference = objectReference;
+
+    }
 
     public String getEventType() {
         return eventType;
@@ -54,11 +70,11 @@ public class TimelineEvent extends BaseEntity {
 
     @ManyToOne
     @JoinColumn(name = "source", nullable = false)
-    public UserProfile getSource() {
+    public Account getSource() {
         return source;
     }
 
-    public void setSource(UserProfile source) {
+    public void setSource(Account source) {
         this.source = source;
     }
 

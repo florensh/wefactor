@@ -24,17 +24,21 @@ import de.hhn.labswps.wefactor.domain.EntryRating;
 import de.hhn.labswps.wefactor.domain.EntryRatingRepository;
 import de.hhn.labswps.wefactor.domain.MasterEntry;
 import de.hhn.labswps.wefactor.domain.MasterEntryRepository;
+import de.hhn.labswps.wefactor.domain.ObjectIdentification;
 import de.hhn.labswps.wefactor.domain.ProposalEntry;
 import de.hhn.labswps.wefactor.domain.ProposalEntry.Status;
 import de.hhn.labswps.wefactor.domain.ProposalEntryRepository;
-import de.hhn.labswps.wefactor.domain.RatableEntry;
+import de.hhn.labswps.wefactor.domain.TimelineEvent;
+import de.hhn.labswps.wefactor.domain.TimelineEventRepository;
 import de.hhn.labswps.wefactor.domain.UserProfile;
 import de.hhn.labswps.wefactor.domain.UserProfileRepository;
 import de.hhn.labswps.wefactor.domain.VersionEntry;
 import de.hhn.labswps.wefactor.domain.VersionEntryRepository;
 import de.hhn.labswps.wefactor.specification.WeFactorValues;
+import de.hhn.labswps.wefactor.specification.WeFactorValues.EventType;
 import de.hhn.labswps.wefactor.web.DataObjects.EntriesFilterDataObject;
 import de.hhn.labswps.wefactor.web.DataObjects.EntryDataObject;
+import de.hhn.labswps.wefactor.web.util.DataUtils;
 
 @Controller
 public class EntryController {
@@ -61,6 +65,9 @@ public class EntryController {
 
     @Autowired
     private UserProfileRepository userProfileRepository;
+
+    @Autowired
+    private TimelineEventRepository timelineEventRepository;
 
     @RequestMapping(value = "/entries/{scope}", method = RequestMethod.GET)
     public String showEntries(
@@ -168,9 +175,14 @@ public class EntryController {
         entryDataObject.setTeaser(entry.getTeaser());
         entryDataObject.setLanguage(entry.getLanguage());
         entryDataObject.setEditMode(editMode.name());
+        if (editMode.equals(EntryEditMode.MASTER)) {
+            entryDataObject.setChanges(entry.getChanges());
+
+        }
 
         model.addAttribute("entryDataObject", entryDataObject);
         model.addAttribute("entry", entry);
+        model.addAttribute("editMode", editMode.name());
         model.addAttribute("languages",
                 WeFactorValues.ProgrammingLanguage.values());
 
@@ -192,6 +204,10 @@ public class EntryController {
 
         ProposalEntry pe = this.proposalEntryRepository.findOne(id);
 
+        UserProfile up = this.userProfileRepository.findByUsername(currentUser
+                .getName());
+        Account account = up.getAccount();
+
         MasterEntry me = pe.getMasterOfProposal();
         VersionEntry ve = new VersionEntry(pe);
         pe.setStatus(Status.ACCEPTED.name());
@@ -199,6 +215,13 @@ public class EntryController {
         this.proposalEntryRepository.save(pe);
         this.versionEntryRepository.save(ve);
         this.entryRepository.save(me);
+
+        ObjectIdentification oid = DataUtils.createObjectIdentification(me,
+                MasterEntry.class.getSimpleName());
+        TimelineEvent event = new TimelineEvent(new Date(), account,
+                pe.getAccount(), EventType.PROPOSAL_ACCEPTED, oid);
+
+        this.timelineEventRepository.save(event);
 
         return "forward:/entry/details?id="
                 + String.valueOf(pe.getMasterOfProposal().getId());
@@ -208,11 +231,22 @@ public class EntryController {
     public String rejectProposal(@RequestParam("id") Long id, ModelMap model,
             Principal currentUser) {
 
+        UserProfile up = this.userProfileRepository.findByUsername(currentUser
+                .getName());
+        Account account = up.getAccount();
+
         ProposalEntry pe = this.proposalEntryRepository.findOne(id);
 
         pe.setStatus(Status.REJECTED.name());
 
         this.proposalEntryRepository.save(pe);
+
+        ObjectIdentification oid = DataUtils.createObjectIdentification(
+                pe.getMasterOfProposal(), MasterEntry.class.getSimpleName());
+        TimelineEvent event = new TimelineEvent(new Date(), account,
+                pe.getAccount(), EventType.PROPOSAL_REJECTED, oid);
+
+        this.timelineEventRepository.save(event);
 
         return "forward:/entry/details?id="
                 + String.valueOf(pe.getMasterOfProposal().getId());
@@ -227,6 +261,8 @@ public class EntryController {
         model.addAttribute("entryDataObject", ed);
         model.addAttribute("languages",
                 WeFactorValues.ProgrammingLanguage.values());
+
+        model.addAttribute("editMode", EntryEditMode.MASTER.name());
 
         return "entryedit";
     }
@@ -296,11 +332,20 @@ public class EntryController {
         pe.setName(entryDataObject.getTitle());
         pe.setAccount(profile.getAccount());
         pe.setStatus(Status.NEW.name());
+        pe.setChanges(entryDataObject.getChanges());
 
         this.proposalEntryRepository.save(pe);
         toSave.addProposal(pe);
 
         toSave = this.entryRepository.save(toSave);
+
+        ObjectIdentification oid = DataUtils.createObjectIdentification(
+                pe.getMasterOfProposal(), MasterEntry.class.getSimpleName());
+        TimelineEvent event = new TimelineEvent(new Date(),
+                profile.getAccount(), pe.getMasterOfProposal().getAccount(),
+                EventType.MADE_PROPOSAL, oid);
+        this.timelineEventRepository.save(event);
+
         return toSave;
     }
 
@@ -325,6 +370,7 @@ public class EntryController {
         toSave.setEntryDescription(entryDataObject.getDescription());
         toSave.setName(entryDataObject.getTitle());
         toSave.setAccount(profile.getAccount());
+        toSave.setChanges(entryDataObject.getChanges());
 
         toSave = this.entryRepository.save(toSave);
         return toSave;
@@ -358,7 +404,7 @@ public class EntryController {
                 .getName());
         Account account = up.getAccount();
 
-        RatableEntry entry = null;
+        Entry entry = null;
         EntryRating entryRating = new EntryRating();
         entryRating.setValue(rating);
         entryRating.setAccount(account);

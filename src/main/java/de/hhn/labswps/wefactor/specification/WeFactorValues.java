@@ -80,7 +80,13 @@ public class WeFactorValues {
     }
 
     public enum EventType {
-        MADE_PROPOSAL("made a new proposal");
+
+        //@formatter:off
+        MADE_PROPOSAL("made a new proposal"),
+        PROPOSAL_ACCEPTED("accepted your proposal"),
+        PROPOSAL_REJECTED("rejected your proposal"),
+        ;
+        //@formatter:on
 
         private String text;
 

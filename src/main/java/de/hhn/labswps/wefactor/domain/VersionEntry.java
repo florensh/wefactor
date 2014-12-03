@@ -21,7 +21,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @JsonIgnoreProperties({ "id", "softDeleted", "account", "createdBy",
         "lastModifiedBy", "orderedVersions", "orderedVersionIds",
         "orderedVersionTypes", "masterOfVersion", "ratings" })
-public class VersionEntry extends RatableEntry {
+public class VersionEntry extends Entry {
 
     public VersionEntry() {
 

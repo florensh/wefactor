@@ -1,5 +1,6 @@
 package de.hhn.labswps.wefactor.domain;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.MappedSuperclass;
@@ -11,7 +12,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @MappedSuperclass
 public abstract class RatableEntry extends Entry {
 
-    private Set<EntryRating> ratings;
+    private Set<EntryRating> ratings = new HashSet<EntryRating>();
 
     @OneToMany(mappedBy = "entry")
     public Set<EntryRating> getRatings() {
@@ -29,7 +30,12 @@ public abstract class RatableEntry extends Entry {
 
     @Transient
     @JsonProperty("rankingValue")
-    private Double getRankingValue() {
+    public Double getRankingValue() {
+
+        if (this.ratings.isEmpty()) {
+            return new Double("0.0");
+        }
+
         Double d = new Double("0.0");
         int a = 0;
         for (EntryRating ra : ratings) {
