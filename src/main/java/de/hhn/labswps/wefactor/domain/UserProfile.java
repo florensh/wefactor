@@ -9,13 +9,21 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import de.hhn.labswps.wefactor.specification.WeFactorValues;
+import de.hhn.labswps.wefactor.specification.WeFactorValues.ProviderIdentification;
+
 @Entity
 @Table(name = "userprofile")
 public class UserProfile extends User implements Serializable {
+
+    public static long getSerialversionuid() {
+        return serialVersionUID;
+    }
 
     /**
      *
@@ -34,21 +42,11 @@ public class UserProfile extends User implements Serializable {
 
     private String description;
 
+    private String providerId;
+
     private Long id;
 
     private String imageUrl;
-
-    public String getImageUrl() {
-        return imageUrl;
-    }
-
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
-    }
-
-    public static long getSerialversionuid() {
-        return serialVersionUID;
-    }
 
     public UserProfile() {
 
@@ -56,29 +54,33 @@ public class UserProfile extends User implements Serializable {
 
     public UserProfile(final Account account,
             final org.springframework.social.connect.UserProfile up,
-            String imageUrl) {
-        this.name = up.getName();
+            String imageUrl, ProviderIdentification providerId) {
+        account.addProfile(this);
+        // this.name = up.getName();
         this.firstName = up.getFirstName();
         this.lastName = up.getLastName();
         this.email = up.getEmail();
         this.username = up.getUsername();
+        this.providerId = providerId.name();
+        this.imageUrl = fixImageUrl(imageUrl);
 
-        imageUrl = imageUrl.replace("sz=50", "sz=150");
-        this.imageUrl = imageUrl;
         this.account = account;
-        account.addProfile(this);
         this.account.roles = "USER";
         this.password = up.getUsername(); // TODO improve!!!
+        fixName();
     }
 
     public UserProfile(final Account account, final String email,
-            final String username, final String password) {
+            final String username, final String password,
+            ProviderIdentification providerIdentification) {
         this.email = email;
         this.username = username;
         this.password = password;
         this.account = account;
         account.addProfile(this);
         this.account.roles = "USER";
+        this.providerId = providerIdentification.name();
+        this.imageUrl = WeFactorValues.DEFAULT_IMAGE_URL;
 
         this.fixName();
     }
@@ -98,35 +100,35 @@ public class UserProfile extends User implements Serializable {
         this.fixName();
     }
 
+    private String fixImageUrl(String imageUrl) {
+
+        ProviderIdentification providerId = getProviderIdAsType();
+        String retVal = null;
+
+        switch (providerId) {
+            case GOOGLE:
+                retVal = imageUrl.replace("sz=50", "sz=150");
+                break;
+
+            default:
+                break;
+        }
+
+        return retVal;
+    }
+
     private void fixName() {
         // Is the name null?
         if (this.name == null) {
 
-            // Ok, lets try with first and last name...
-            this.name = this.firstName;
-
-            if (this.lastName != null) {
-                if (this.name == null) {
-                    this.name = this.lastName;
-                } else {
-                    this.name += " " + this.lastName;
-                }
-            }
-
-            // Try with username if still null
-            if (this.name == null) {
+            if (ProviderIdentification.WEFACTOR.equals(this
+                    .getProviderIdAsType())) {
                 this.name = this.username;
-            }
 
-            // Try with email if still null
-            if (this.name == null) {
+            } else {
                 this.name = this.email;
             }
 
-            // If still null set name to UNKNOWN
-            if (this.name == null) {
-                this.name = "UNKNOWN";
-            }
         }
     }
 
@@ -136,6 +138,7 @@ public class UserProfile extends User implements Serializable {
         return this.account;
     }
 
+    @Lob
     public String getDescription() {
         return this.description;
     }
@@ -156,6 +159,10 @@ public class UserProfile extends User implements Serializable {
         return this.id;
     }
 
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
     public String getLastName() {
         return this.lastName;
     }
@@ -168,6 +175,17 @@ public class UserProfile extends User implements Serializable {
     @Column(name = "password")
     public String getPassword() {
         return super.getPassword();
+    }
+
+    @Column(name = "providerId")
+    public String getProviderId() {
+        return providerId;
+    }
+
+    @Transient
+    public ProviderIdentification getProviderIdAsType() {
+        return ProviderIdentification.valueOf(this.providerId);
+
     }
 
     @Transient
@@ -200,6 +218,10 @@ public class UserProfile extends User implements Serializable {
         this.id = id;
     }
 
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
     public void setLastName(final String lastName) {
         this.lastName = lastName;
     }
@@ -211,6 +233,10 @@ public class UserProfile extends User implements Serializable {
     @Override
     public void setPassword(final String password) {
         super.setPassword(password);
+    }
+
+    public void setProviderId(String providerId) {
+        this.providerId = providerId;
     }
 
     public void setUsername(final String username) {

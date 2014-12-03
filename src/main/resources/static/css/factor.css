@@ -1,48 +1,93 @@
+#userNameProfil {
+  padding-left: 0px;
+}
+
+#userNameProfil h4 {
+	margin-top: 0px;
+	margin-bottom: 0px;
+}
+
+#userNameProfil h4 small{
+	margin-bottom: 10px;
+}
+
 #titleInput {
-  margin-bottom: 0px;
+  margin-bottom: 15px;
   margin-top: 20px;
 }
 
+
 #titleLabel {
-	font-size: 24px;
-	font-weight: 500;
-	color: inherit;
+  font-size: 24px;
+  font-weight: 500;
+  color: inherit;
 }
 
 #tinyMCE {
+  margin-bottom: 50px;
+}
+
+#bar {
   margin-bottom: 15px;
 }
 
 #bar .container {
-  max-width: 604px;
   margin-bottom: 0px;
   padding: 0px;
 }
 
-#bar .container .fa {
-  padding: 3px 0px 0px 6px;
+#bar .form-group {
+  margin-bottom: 0px;
+  padding-right: 0px;
 }
 
-#editorRow {
-  margin-left: 0px;
-  margin-right: 0px;
+#languageSpan {
+  padding-right: 0px;
+}
+
+#titleSpan {
+  font-size: 20px;
+  font-weight: 500;
+  color: inherit;
+  margin-bottom: 0px;
+  padding-top: 2px;
 }
 
 @media (min-width: 20px) {
   #editor {
-    height: 250px;
+    min-height: 500px;
   }
-
+  #editorRow {
+  	margin-left: 0px;
+  	margin-right: 0px;
+  }
 }
 @media (min-width: 500px) {
   #editor {
-    height: 450px;
+    min-height: 500px;
+  }
+  #editorRow {
+  	margin-left: 0px;
+  	margin-right: 0px;
+  }
+  #dropdownMobile {
+   	display: none;
   }
 }
 @media (min-width: 1200px) {
   #editor {
-    width: 606px;
-    height: 750px;
+    min-height: 500px;
+  }
+  #editorRow {
+  	margin-left: 0px;
+  	margin-right: 10px;
+  }
+  #tabsMobile {
+   	display: none;
   }
 }
-
+@media (max-width: 500px) {
+  #tabsDesktop {
+  	display: none;
+  }
+}

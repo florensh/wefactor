@@ -65,6 +65,7 @@ public class UserController {
         data.setDisplayName(up.getName());
         data.setFirstName(up.getFirstName());
         data.setLastName(up.getLastName());
+        data.setDescription(up.getDescription());
 
         model.addAttribute("userProfileFormDataObject", data);
         return "editprofile";
@@ -84,6 +85,7 @@ public class UserController {
         up.setName(userProfileFormDataObject.getDisplayName());
         up.setFirstName(userProfileFormDataObject.getFirstName());
         up.setLastName(userProfileFormDataObject.getLastName());
+        up.setDescription(userProfileFormDataObject.getDescription());
 
         this.userProfileRepository.save(up);
 
@@ -118,8 +120,6 @@ public class UserController {
 
     @RequestMapping(value = "/user/profile/details", method = RequestMethod.GET)
     public String showUserProfile(@RequestParam("id") Long id, ModelMap model) {
-        System.out.println(id);
-
         UserProfile profile = this.userProfileRepository.findOne(id);
         model.addAttribute("profile", profile);
         return "profile";

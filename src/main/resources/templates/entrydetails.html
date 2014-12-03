@@ -2,67 +2,161 @@
 <html lang="de" xmlns:th="http://www.thymeleaf.org">
 <head th:include="layout :: htmlhead" th:with="title='Hello'"></head>
 <body>
+
 	<div class="page-container">
 
 		<!-- top navbar -->
 		<div th:replace="layout :: top-navbar">(navbar)</div>
 
 		<div class="container">
+		
 			<div class="row row-offcanvas row-offcanvas-left">
 
 				<div th:replace="layout :: sidebar">(navbar)</div>
 
-				<div class="col-xs-12 col-sm-9">
+				<div class="col-xs-12 col-sm-10">
 					<!-- content ############################################################################################################# -->
 
 
 					<div class="col-md-12">
 
-						<div class="row">
-							<div class="col-md-4">
-								<span class="fa-stack fa-lg" id="userPic"> <i
-									class="fa fa-circle fa-stack-2x"></i> <i
-									class="fa fa-user fa-stack-1x fa-inverse"></i>
-								</span>
-							</div>
-							<div class="btn-toolbar col-md-3 col-md-offset-6 pull-right">
-								<!--  <button th:href="@{/user/entry/edit(id=${entry.id})}" class="btn btn-primary btn-md col-md-5 col-xs-12 pull-right">Edit</button>-->
-
-								<a th:if="${entry.account.primaryProfile.id == currentUserProfile.id}"
-									class="btn btn-primary btn-md col-md-5 col-xs-12 pull-right"
-									th:href="@{/user/entry/edit(id=${entry.id})}" role="button"><i
-									class="fa fa-wrench"></i> Edit</a>
-							</div>
-						</div>
-
-						<div class="row">
-							<div class="col-md-9">
-								<h3 id="header1" th:text="${entry.name}">Title</h3>
+						<div class="row" style="margin-bottom: 50px;">
+							<div th:replace="entrydetails_template :: entry_head (${entry.orderedVersions.get(0)})">(description)</div>
+							
+							<div class="btn-toolbar col-md-4 col-md-offset-6 pull-right">
+								
+								<a
+										class="btn btn-default btn-md pull-right" th:unless="${entry.account.primaryProfile.id == currentUserProfile.id}" th:href="@{/user/entry/propose(id=${entry.id})}">
+										<i class="fa fa-code-fork"></i> New version</a>
+								<a
+									class="btn btn-default btn-md pull-right" th:if="${entry.account.primaryProfile.id == currentUserProfile.id}"
+									th:href="@{/user/entry/edit(id=${entry.id})}" role="button"><i class="fa fa-wrench"></i> Edit</a>
+								<a
+										class="btn btn-default btn-md pull-right" th:if="${entry.account.primaryProfile.id == currentUserProfile.id}" th:href="@{/user/entry/remove(id=${entry.id})}">
+										<i class="fa fa-trash"></i> Delete
+								</a>
 							</div>
 						</div>
 
 						<div class="row">
-							<div class="col-md-9" th:utext="${entry.entryDescription}">
+							<div id="versiontabs" class="tabpanel col-md-12">
+								<!-- Nav tabs -->
+								<ul class="nav nav-tabs" role="tablist">
+									<li role="presentation" class="active"><a href="#entry" aria-controls="entry" role="tab" data-toggle="tab">Entry</a></li>
+									<li th:if="${entry.account.primaryProfile.id == currentUserProfile.id}" role="presentation"><a href="#proposals" aria-controls="proposals" role="tab" data-toggle="tab">Proposals <span th:unless="${entry.getAmountOfProposalsByType('NEW')==0}" class="badge" th:text="${entry.getAmountOfProposalsByType('NEW')}">4</span></a></li>
+								</ul>
+
+								<!-- Tab panes -->
+								<div class="tab-content" style="margin-top:20px;">
+								
+									<!-- start tab content for entry -->
+									<div role="tabpanel" class="tab-pane fade in active" id="entry">
+										<div class="col-md-10" id="entry-content">
+
+
+
+											<div class="row">
+
+
+												<!-- versions panel -->
+											<div th:replace="entrydetails_template :: version_panel (${entry.orderedVersions.get(0)})">(description)</div>
+												<!-- end versions panel -->
+
+											</div>
+
+
+											<div class="row">
+												<div th:replace="entrydetails_template :: description (${entry.orderedVersions.get(0)})">(description)</div>
+											</div>
+
+											<div class="row">
+												<div th:replace="entrydetails_template :: editor (${entry.orderedVersions.get(0)})">(description)</div>
+											</div>
+										</div>
+
+
+										<div th:replace="entrydetails_template :: right_sidebar (${entry.orderedVersions.get(0)})">(description)</div>
+
+
+									</div>
+									<!-- end tab content for entry -->
+									<div role="tabpanel" class="tab-pane fade" id="proposals">
+										<div class="row">
+											<div class="col-md-12">
+												<div class="alert alert-warning" role="alert"><strong>you have
+													new proposals.</strong><span> Proposals are refactored versions of your code.</span></div>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-md-10">
+
+
+												<div class="panel panel-default">
+													<div class="panel-heading">Proposals</div>
+													<div class="panel-body" style="padding: 0px;">
+														<div class="table-responsive">
+															<table class="table"
+																style="margin-bottom: 0px; font-size: 13px;">
+																<tbody>
+																	<tr th:each="proposal : ${entry.proposals}">
+																		<td style="width: 20px; padding-right: 0px;"><a
+																			style="vertical-align: middle;"
+																			th:unless="${proposal.account.primaryProfile.imageUrl == null}"
+																			th:href="@{/user/profile/details(id=${proposal.account.primaryProfile.id})}">
+																				<img
+																				th:src="${proposal.account.primaryProfile.imageUrl}"
+																				alt="" class="img-rounded"
+																				style="height: 23px; margin-top: 4px"></img>
+																		</a></td>
+																		<td style="vertical-align: middle;"><a
+																			th:href="@{/user/profile/details(id=${proposal.account.primaryProfile.id})}">
+																				<strong
+																				th:text="${proposal.account.primaryProfile.name}">Mark</strong>
+																		</a></td>
+																		<td><a  style="color: #999;" th:text="${proposal.changes}" th:href="@{/proposal/details(id=${proposal.id})}">Otto</a></td>
+																		<td style="text-align: right;"><span
+																			style="color: #999;"
+																			th:text="${beans.dateFormatter.format(proposal.createdDate)}">just
+																				now</span></td>
+																				
+																	   <td style="text-align: left;">
+																	   <span th:if="${proposal.status=='ACCEPTED'}" class="label label-success" style="vertical-align:middle;" th:text="${proposal.statusAsType.displayName}">Accepted</span>
+																	   <span th:if="${proposal.status=='NEW'}" class="label label-info" style="vertical-align:middle;" th:text="${proposal.statusAsType.displayName}">Accepted</span>
+																	   <span th:if="${proposal.status=='REJECTED'}" class="label label-danger" style="vertical-align:middle;" th:text="${proposal.statusAsType.displayName}">Accepted</span>
+																	   </td>
+																	</tr>
+																</tbody>
+															</table>
+														</div>
+													</div>
+												</div>
+											</div>
+
+											<div class="col-md-2">
+												<p>
+													<span class="badge badge-light" th:text="${entry.getAmountOfProposalsByType('NEW')}">0</span> <span
+														class="badge-text-light">new</span>
+												</p>
+												<p>
+													<span class="badge badge-light" th:text="${entry.getAmountOfProposalsByType('ACCEPTED')}">0</span> <span
+														class="badge-text-light">accepted</span>
+												</p>
+												<p>
+													<span class="badge badge-light" th:text="${entry.getAmountOfProposalsByType('REJECTED')}">0</span> <span
+														class="badge-text-light">rejected</span>
+												</p>
+											</div>
+										</div>
+
+									</div>
+								</div>
 							</div>
 						</div>
-
-
-						<div class="row col-md-12">
-							<div class="container-fluid col-md-9 col-sm-9 well" id="editor"></div>
-							<div class="col-md-3 col-sm-3">
-							<!-- 
-								<h5>Created just now</h5>
-								<h5>Modified just now</h5>
-								 -->
-							</div>
-						</div>
-
-
-
+						<!-- end tabs -->
 					</div>
 
 
-					<!-- content ############################################################################################################# -->
+						<!-- content ############################################################################################################# -->
 				</div>
 			</div>
 			<!--/.row-->
@@ -75,25 +169,151 @@
 		src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 	<script th:src="@{/webjars/bootstrap/3.2.0/js/bootstrap.min.js}"></script>
 	<script th:src="@{/js/scripts.js}"></script>
+			<script th:src="@{/webjars/fuelux/3.0.2/js/fuelux.min.js}"></script>
 	<script th:src="@{/webjars/ace/01.08.2014/src-min-noconflict/ace.js}"></script>
 	<script th:src="@{/webjars/tinymce-jquery/4.0.16/tinymce.min.js}"></script>
+	<script th:src="@{/js/star-rating.js}"></script>
+	
+	
+		<script th:inline="javascript">
+	/*<![CDATA[*/
+	           
+	    var ra = /*[[${entry.orderedVersions.get(0).rankingValue}]]*/'rating';
+		$('#input-id').rating('update', ra);
+	           
+	    
+		function saveRating(rating) {
+			
+			var idArray = /*[[${entry.orderedVersionIds}]]*/'ids';
+			var typesArray = /*[[${entry.orderedVersionTypes}]]*/'types';
+			var index = $("div[id*=version-panel]").attr("data-versionindex");
+			var id = idArray[index];
+			var type = typesArray[index];
+			
+			var url = "/rating/save/" + type + "/" + id +"/" + rating;
+			
+			 $.ajax({
+			        url: url
+			    }).then(function(data) {
+			    	$('#input-id').rating('update', data.rankingValue);
+			    	$("#ratingcount").fadeOut('fast', function(){
+			    		$("#ratingcount").html(data.rankingCount).fadeIn('fast');
+			    	}); 
+			    });
 
+		}
+
+		/*]]>*/
+	</script>	
 
 	<script th:inline="javascript">
-		/*<![CDATA[*/
+	/*<![CDATA[*/
+
+
 		var editor = ace.edit("editor");
-		var modelAttributeValue = /*[[${entry.entryCodeText}]]*/'Code';
-		editor.setTheme("ace/theme/eclipse");
+		var modelAttributeValue = /*[[${entry.orderedVersions.get(0).entryCodeText}]]*/'Code';
+		var language = /*[[${entry.language}]]*/'language';
+/*		editor.setTheme("ace/theme/wefactor");*/
 		editor.setValue(modelAttributeValue); // or session.setValue
 		editor.getValue(); // or session.getValue
-		editor.getSession().setMode("ace/mode/java");
-		editor.setFontSize("15px");
+		editor.setValue(editor.getValue(), 1);
+		editor.getSession().setMode("ace/mode/" + language);
+		editor.setTheme("ace/theme/github");
+		editor.setFontSize("13px");
 		editor.setOptions({
 			readOnly : true,
+			highlightActiveLine : false
 		})
 		editor.renderer.$cursorLayer.element.style.opacity = 0;
 
 		/*]]>*/
+	</script>	
+	
+	<!-- TODO: attr von id zu index umbenennen. attr nicht in button speichern sondern in übergeordnettes element. index verändern -->
+
+	<script th:inline="javascript">
+		/*<![CDATA[*/
+		           
+	function updateVersion(prev) {
+		var versionsize = /*[[${entry.orderedVersions.size()}]]*/'size';
+		var ids = /*[[${entry.orderedVersionIds}]]*/'ids';
+		var types = /*[[${entry.orderedVersionTypes}]]*/'types';
+		var currentIndex = $("div[id*=version-panel]").attr("data-versionindex");
+		
+		var nextIndex;
+		
+		if(prev){
+			if(parseInt(currentIndex) + 1 > versionsize-1){
+				nextIndex = parseInt(currentIndex);
+				
+			}else{
+				nextIndex = parseInt(currentIndex)+1;
+			}
+			
+		}else{
+			if(parseInt(currentIndex) - 1 < 0){
+				nextIndex = parseInt(currentIndex);
+				
+			}else{
+				nextIndex = parseInt(currentIndex)-1;
+			}
+		}
+		
+		var currentId = ids[nextIndex];
+		var nextType = types[nextIndex];
+		var server_url  = /*[[@{~/entryajax/}]]*/'url';
+		var relative_url = nextType +"/" + currentId;
+		var url = server_url + relative_url;
+		
+		 $.ajax({
+		        url: url
+		    }).then(function(data) {
+		   			$("#entry-content").fadeOut('fast'); 
+		   			$("#right-sidebar").fadeOut('fast');  
+		   			$("#description").html(data.entryDescription); 
+		   			$("#version-changes").html(data.changes);
+		   			var editor = ace.edit("editor");
+		   			editor.setValue(data.entryCodeText);
+		   			editor.setValue(editor.getValue(), 1);
+		   			$('#input-id').rating('update', data.rankingValue);
+		   			$("#ratingcount").html(data.rankingCount);
+		   			$("#right-sidebar").fadeIn('fast');
+		   			$("#entry-content").fadeIn('fast');
+		   			$("div[id*=version-panel]").attr("data-versionindex",nextIndex);
+		   			$("div[id*=version-panel]").attr("data-entrytype",data.type);
+		   			$('#version-userimage-link').attr('href','/');/*todo*/
+		   			$('#version-user-link').attr('href','/');/*todo*/
+		   			$('#version-createdate').html('just now');/*todo*/
+		   			$('#version-userimage').attr('src',data.account.primaryProfile.imageUrl);/*geht nicht. evtl load image function*/
+		   			
+		   			
+		   			
+		   			
+		   			
+		    });
+}
+		           
+		           
+		$(document).ready(function () {
+			$("button[id*=next-version]").click(function () {
+				updateVersion(false);
+				
+			});
+		});
+		
+		$(document).ready(function () {
+			$("button[id*=prev-version]").click(function () {
+				updateVersion(true);
+				
+			});
+		});
+		
+		
+		
+		
+		/*]]>*/
 	</script>
+
+
 </body>
 </html>

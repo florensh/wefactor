@@ -7,7 +7,8 @@ import org.springframework.data.repository.CrudRepository;
 /**
  * The Interface EntryRepository.
  */
-public interface EntryRepository extends CrudRepository<Entry, Long> {
+public interface MasterEntryRepository extends
+        CrudRepository<MasterEntry, Long> {
 
     // @Modifying
     // @Transactional

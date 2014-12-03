@@ -4,6 +4,9 @@ import java.util.Date;
 
 import javax.persistence.EntityListeners;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
@@ -18,7 +21,10 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
-public class BaseEntity {
+public abstract class BaseEntity {
+
+    /** The id. */
+    private Long id;
 
     @CreatedDate
     private Date createdDate = new Date();
@@ -37,6 +43,27 @@ public class BaseEntity {
     @NotNull
     public Account getCreatedBy() {
         return createdBy;
+    }
+
+    /**
+     * Gets the id.
+     *
+     * @return the id
+     */
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    public Long getId() {
+        return id;
+    }
+
+    /**
+     * Sets the id.
+     *
+     * @param idParam
+     *            the new id
+     */
+    public void setId(final Long idParam) {
+        this.id = idParam;
     }
 
     @NotNull

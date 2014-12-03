@@ -3,16 +3,25 @@ package de.hhn.labswps.wefactor.domain;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
+import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+
+import org.hibernate.annotations.Where;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * The Class Entry.
@@ -21,7 +30,13 @@ import javax.persistence.Transient;
  */
 @Entity
 @Table(name = "entry")
-public final class Entry extends BaseEntity {
+@Where(clause = "inactive = 'N'")
+// @SQLDelete(sql = "UPDATE entry set inactive = 'Y' WHERE Id = ?")
+@JsonIgnoreProperties({ "id", "softDeleted", "Account", "createdBy",
+        "lastModifiedBy" })
+@DiscriminatorColumn(name = "ENTRY_TYPE")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+public abstract class Entry extends BaseSoftDeletableEntity {
 
     private Account account;
 
@@ -33,11 +48,22 @@ public final class Entry extends BaseEntity {
     /** The entry date. */
     private Date entryDate;
 
+    private String language;
+
+    private String teaser;
+
+    private String changes;
+
+    public String getChanges() {
+        return changes;
+    }
+
+    public void setChanges(String changes) {
+        this.changes = changes;
+    }
+
     /** The entry description. */
     private String entryDescription = null;
-
-    /** The id. */
-    private Long id;
 
     @ManyToOne
     @JoinColumn(name = "myAccount", nullable = false)
@@ -46,9 +72,18 @@ public final class Entry extends BaseEntity {
     }
 
     @Transient
-    public String getEntryDateAsString() {
-        DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
-        return df.format(this.entryDate);
+    public String getDescriptionShort() {
+        int maxLength = 100;
+        if (this.entryDescription != null) {
+            if (this.entryDescription.length() > maxLength) {
+                return this.entryDescription.substring(0, maxLength) + "...";
+
+            } else {
+                return this.entryDescription;
+            }
+        } else {
+            return "";
+        }
     }
 
     /**
@@ -70,6 +105,12 @@ public final class Entry extends BaseEntity {
         return this.entryDate;
     }
 
+    @Transient
+    public String getEntryDateAsString() {
+        DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+        return df.format(this.entryDate);
+    }
+
     /**
      * Gets the entry description.
      *
@@ -80,19 +121,16 @@ public final class Entry extends BaseEntity {
         return this.entryDescription;
     }
 
-    /**
-     * Gets the id.
-     *
-     * @return the id
-     */
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    public Long getId() {
-        return id;
+    public String getLanguage() {
+        return language;
     }
 
     public String getName() {
         return name;
+    }
+
+    public String getTeaser() {
+        return teaser;
     }
 
     public void setAccount(Account account) {
@@ -129,32 +167,93 @@ public final class Entry extends BaseEntity {
         this.entryDescription = entryDescriptionParam;
     }
 
-    /**
-     * Sets the id.
-     *
-     * @param idParam
-     *            the new id
-     */
-    public void setId(final Long idParam) {
-        this.id = idParam;
+    public void setLanguage(String language) {
+        this.language = language;
     }
 
     public void setName(String name) {
         this.name = name;
     }
 
-    @Transient
-    public String getDescriptionShort() {
-        int maxLength = 100;
-        if (this.entryDescription != null) {
-            if (this.entryDescription.length() > maxLength) {
-                return this.entryDescription.substring(0, maxLength) + "...";
-
-            } else {
-                return this.entryDescription;
-            }
-        } else {
-            return "";
-        }
+    public void setTeaser(String teaser) {
+        this.teaser = teaser;
     }
+
+    @Transient
+    public String getType() {
+        return this.getClass().getSimpleName();
+    }
+
+    @Transient
+    public abstract List<Entry> getOrderedVersions();
+
+    @Transient
+    public String[] getOrderedVersionIds() {
+        List<Entry> orderedVersions = getOrderedVersions();
+        String[] ids = new String[orderedVersions.size()];
+
+        for (int i = 0; i < orderedVersions.size(); i++) {
+            ids[i] = orderedVersions.get(i).getId().toString();
+        }
+
+        return ids;
+    }
+
+    @Transient
+    public String[] getOrderedVersionTypes() {
+        List<Entry> orderedVersions = getOrderedVersions();
+        String[] ids = new String[orderedVersions.size()];
+
+        for (int i = 0; i < orderedVersions.size(); i++) {
+            ids[i] = orderedVersions.get(i).getClass().getSimpleName();
+        }
+
+        return ids;
+    }
+
+    private Set<EntryRating> ratings = new HashSet<EntryRating>();
+
+    @OneToMany(mappedBy = "entry")
+    public Set<EntryRating> getRatings() {
+        return ratings;
+    }
+
+    public void setRatings(Set<EntryRating> ratings) {
+        this.ratings = ratings;
+    }
+
+    public void addRating(EntryRating rating) {
+        this.ratings.add(rating);
+        rating.setEntry(this);
+    }
+
+    @Transient
+    @JsonProperty("rankingValue")
+    public Double getRankingValue() {
+
+        if (this.ratings.isEmpty()) {
+            return new Double("0.0");
+        }
+
+        Double d = new Double("0.0");
+        int a = 0;
+        for (EntryRating ra : ratings) {
+            d = d + ra.getValue();
+            a++;
+        }
+
+        return d / a;
+    }
+
+    @Transient
+    @JsonProperty("rankingCount")
+    public int getRatingCount() {
+        return this.ratings.size();
+    }
+
+    @Override
+    public String toString() {
+        return this.name;
+    }
+
 }

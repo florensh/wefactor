@@ -8,7 +8,7 @@
 <meta name="author" content=""></meta>
 <link rel="shortcut icon" type="image/png"
 	th:href="@{/images/favicon.png}"></link>
-<title th:text="${title}">(title)</title>
+<title th:text="#{page.title}">(title)</title>
 
 
 <link th:href="@{/webjars/bootstrap/3.2.0/css/bootstrap.css}"
@@ -36,6 +36,8 @@
 <link th:href="@{/css/styles.css}" rel="stylesheet"></link>
 <link th:href="@{/css/profile.css}" rel="stylesheet"></link>
 <link th:href="@{/css/factor.css}" rel="stylesheet"></link>
+<link th:href="@{/css/custom-ace.css}" rel="stylesheet"></link>
+<link th:href="@{/css/star-rating.css}" rel="stylesheet"></link>
 </head>
 <body>
 	<div class="page-container">
@@ -71,6 +73,7 @@
 
 
 
+				<!-- evtl mit float:left arbeiten -->
 				<!--  wieder aktivieren wenn suchfunktion implementiert wird
 				<div class="collapse navbar-collapse"
 					id="bs-example-navbar-collapse-2">
@@ -102,7 +105,11 @@
 						<li th:if="${currentUserDisplayName == null}"><a
 							href="/signin"><i class="fa fa-sign-in fa-fw"></i>log in</a></li>
 						<li th:unless="${currentUserDisplayName == null}" class="dropdown">
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown"> <span
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown"> <img
+								style="height: 20px; float: left; margin-right: 5px;"
+								th:unless="${currentUserProfile.imageUrl == null}"
+								th:src="${currentUserProfile.imageUrl}" alt=""
+								class="img-rounded img-responsive"></img> <span
 								th:text="${currentUserDisplayName}">Bob</span> <span
 								class="caret"></span></a>
 
@@ -133,20 +140,22 @@
 
 				<!-- sidebar -->
 				<div th:fragment="sidebar"
-					class="col-xs-6 col-sm-3 sidebar-offcanvas" id="sidebar"
+					class="col-xs-6 col-sm-2 sidebar-offcanvas" id="sidebar"
 					role="navigation">
+					<a sec:authorize="hasRole('USER')" th:href="@{/user/entry/add}"
+						class="btn btn-primary btn-md" role="button"><i
+						class="fa fa-plus"></i> New entry</a>
 					<ul class="nav">
-						<li sec:authorize="hasRole('USER')" class="active"><a
-							th:href="@{/user/entry/add}">Add new Entry</a></li>
 						<li><a href="/entries/all">Explore</a></li>
 						<li sec:authorize="hasRole('USER')" class="active"><a
 							th:href="@{/entries/user(id=${currentUserProfile.account.id})}">My
 								Entries</a></li>
+						<li><a href="/user/timeline">Timeline</a></li>
 					</ul>
 				</div>
 
 				<!-- main area -->
-				<div class="col-xs-12 col-sm-9">
+				<div class="col-xs-12 col-sm-12">
 					<h1>Shrink Width to Collapse Sidebar</h1>
 					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 						Phasellus in nisi eu arcu tempus vehicula. Nulla faucibus cursus
@@ -205,6 +214,8 @@
 		<!-- Anzeige der servereitigen Fehler -->
 		<div th:fragment="validationerror" class="alert alert-danger"
 			th:if="${#fields.hasAnyErrors()}">
+			<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+			<span class="sr-only">Error:</span> Oops, something went wrong:
 			<ul>
 				<li th:each="e : ${#fields.detailedErrors()}"
 					th:class="${e.global}? globalerr : fielderr"><strong><span
@@ -220,5 +231,6 @@
 		src="//ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
 	<script th:src="@{/webjars/bootstrap/3.2.0/js/bootstrap.min.js}"></script>
 	<script th:src="@{/js/scripts.js}"></script>
+	<script th:src="@{Validation/dist/js/bootstrapValidator.js}"></script>
 </body>
 </html>

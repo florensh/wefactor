@@ -1,5 +1,7 @@
 package de.hhn.labswps.wefactor.web.DataObjects;
 
+import javax.validation.constraints.Size;
+
 import org.hibernate.validator.constraints.NotEmpty;
 
 public class EntryDataObject {
@@ -8,13 +10,56 @@ public class EntryDataObject {
     private String description;
 
     @NotEmpty
-    // @Max(50)
+    @Size(min = 5, max = 50)
     private String title;
 
     private Long id;
 
     @NotEmpty
     private String code;
+
+    @NotEmpty
+    private String language;
+
+    @Size(min = 10, max = 200)
+    private String teaser;
+
+    @Size(min = 10, max = 200)
+    private String changes;
+
+    public String getChanges() {
+        return changes;
+    }
+
+    public void setChanges(String changes) {
+        this.changes = changes;
+    }
+
+    private String editMode;
+
+    public String getEditMode() {
+        return editMode;
+    }
+
+    public void setEditMode(String editMode) {
+        this.editMode = editMode;
+    }
+
+    public String getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(String language) {
+        this.language = language;
+    }
+
+    public String getTeaser() {
+        return teaser;
+    }
+
+    public void setTeaser(String teaser) {
+        this.teaser = teaser;
+    }
 
     public String getCode() {
         return this.code;

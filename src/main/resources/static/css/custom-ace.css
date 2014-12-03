@@ -1,0 +1,57 @@
+/*
+*   Ace Theme
+*/
+.ace_gutter {
+   background: #ffffff!important;
+   border-right: 1px solid #DDD !important;
+}
+
+.ace_active_line {
+  
+}
+
+.ace_cursor {
+	background: #ffffff !important;
+	border-left: 1px solid #f7f7f7 !important;
+}
+
+.ace_content {
+	margin: 10px;
+}
+
+/*
+.ace_scroller {
+   background-color: #ffffff !important;
+}
+
+.ace_editor, .ace_editor * {
+  font-family: "Meslo LG M" !important;
+  font-size: 13px !important;
+}
+
+.ace_text-layer {
+   color: #ffffff!important;
+}
+
+
+.ace_print_margin {
+   background: #E6E6E6 !important;
+}
+.ace_string {
+  color: #8df653 !important;
+}
+.ace_constant.ace_numeric {
+  color: #00a1fd !important;
+}
+.ace_keyword {
+  color: #ff3d50 !important;
+}
+.ace_keyword.ace_operator {
+  color: #ff3d50 !important;
+}
+
+.ace_selection {
+  background: #3A3C4D !important;
+}
+
+*/

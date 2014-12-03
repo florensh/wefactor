@@ -11,5 +11,5 @@
 </listAttribute>
 <stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="de.hhn.labswps.wefactor.Application"/>
 <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="weFactor"/>
-<stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Dspring.profiles.active=&quot;dev&quot;"/>
+<stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Dspring.profiles.active=&quot;dev&quot; &quot;-Dfile.encoding=UTF-8"/>
 </launchConfiguration>

@@ -34,6 +34,7 @@ dependencies {
     compile("org.springframework.social:spring-social-config:1.1.0.RELEASE")
     compile("org.springframework.social:spring-social-core:1.1.0.RELEASE")
     compile("org.springframework.social:spring-social-web:1.1.0.RELEASE")
+    compile("org.springframework.security:spring-security-test:4.0.0.M1")
 
  //   compile('org.springframework.boot:spring-boot-starter-social-facebook:1.1.5.RELEASE')
     compile("org.springframework.social:spring-social-google:1.0.0.RELEASE")
@@ -60,7 +61,7 @@ dependencies {
 }
 
 
-task stage(type: Copy, dependsOn: [clean, build]) {
+task stage(type: Copy, dependsOn: [clean, assemble]) {
     from jar.archivePath
     into project.rootDir 
     rename {

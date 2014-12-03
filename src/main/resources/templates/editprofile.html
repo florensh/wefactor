@@ -37,6 +37,12 @@
 									th:field="*{lastName}" type="text" class="form-control"
 									id="lastname" placeholder="Enter your last name"></input>
 							</div>
+							
+							<div class="form-group" style="margin-bottom: 30px;">
+								<label for="description">Description:</label> <textarea
+									th:field="*{description}" type="text" class="form-control"
+									id="description" placeholder="Geben Sie hier Ihre Profilbschreibung ein" maxlength="300"></textarea>
+							</div>
 
 							<div th:replace="layout :: validationerror">validation
 								errors</div>
@@ -63,5 +69,25 @@
 		src="//ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
 	<script th:src="@{/webjars/bootstrap/3.2.0/js/bootstrap.min.js}"></script>
 	<script th:src="@{/js/scripts.js}"></script>
+	<script th:src="@{/TextCounter/bootstrap-maxlength.js}"></script>
+	 
+
+
+	
+	<script>
+		$(document).ready(function(){
+			$('textarea#description').maxlength({
+				alwaysShow: false,
+				threshold: 280,
+				warningClass: "label label-success",
+				limitReachedClass: "label label-important label-danger",
+				separator: ' of ',
+				preText: 'You have ',
+				postText: ' chars remaining.',
+				showCharsTyped: false,
+				validate: true
+			});
+		});
+	</script>
 </body>
 </html>

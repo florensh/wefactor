@@ -29,6 +29,27 @@
 
 }
 
+#googleButton {
+  padding-left: 0px;
+  padding-right: 0px;
+}
+
+#facebookButton {
+  padding-left: 0px;
+  padding-right: 0px;
+}
+
+#twitterButton {
+  padding-left: 0px;
+  padding-right: 0px;
+}
+
+#linkedinButton {
+  padding-left: 0px;
+  padding-right: 0px;
+}
+
+
 .omb_login .omb_loginOr {
 	position: relative;
 	font-size: 1.5em;

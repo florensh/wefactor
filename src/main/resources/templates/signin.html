@@ -62,16 +62,17 @@
 			</div>
 
 			<div class="row omb_row-sm-offset-3 omb_socialButtons">
-				<div class="col-xs-2 col-sm-1">
+				<div class="col-xs-3 col-sm-1" id="googleButton">
 					<form th:action="@{/signin/google}" method="post">
-						<input type="hidden" name="scope" value="profile" />
+					<!--  	<input type="hidden" name="scope" value="profile" />-->
+						<input type="hidden" name="scope" value="https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile" />  
 						<button type="submit" class="btn btn-mid btn-block omb_btn-google">
 							<i class="fa fa-google-plus-square fa-4x"></i>
 						</button>
 					</form>
 				</div>
 				<!--
-				<div class="col-xs-2 col-sm-1">
+				<div class="col-xs-3 col-sm-1" id="facebookButton">
 					<form>
 						<button type="submit"
 							class="btn btn-mid btn-block omb_btn-facebook">
@@ -79,7 +80,7 @@
 						</button>
 					</form>
 				</div>
-				<div class="col-xs-2 col-sm-1">
+				<div class="col-xs-3 col-sm-1" id="twitterButton">
 					<form>
 						<button type="submit"
 							class="btn btn-mid btn-block omb_btn-twitter">
@@ -87,7 +88,7 @@
 						</button>
 					</form>
 				</div>
-				<div class="col-xs-2 col-sm-1">
+				<div class="col-xs-3 col-sm-1" id="linkedinButton">
 					<form>
 						<button type="submit"
 							class="btn btn-mid btn-block omb_btn-linkedin">
@@ -96,7 +97,7 @@
 					</form>
 				</div>
 				-->
-
+				
 			</div>
 
 
