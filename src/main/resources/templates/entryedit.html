@@ -75,7 +75,7 @@
 							</div>
 
 							<div  class="row">
-							<div class="form-group col-md-9" id="teaserInput">
+							<div th:if="*{editMode}=='MASTER'" class="form-group col-md-9" id="teaserInput">
 									<h4 id="header2">Teaser</h4> <textarea
 										th:field="*{teaser}" id="title"
 										class="form-control col-md-12 col-sm-12 col-xs-12" placeholder="Enter your teaser"></textarea>
@@ -83,10 +83,14 @@
 							</div>
 							
 							<div  class="row">
-							<div class="form-group col-md-9" id="changesInput">
+							
+							<div th:unless="*{editMode}=='MASTER'" class="form-group col-md-9" id="changesInput">
 									<h4 id="header2">Changes</h4> <textarea
 										th:field="*{changes}" id="changes"
 										class="form-control col-md-12 col-sm-12 col-xs-12" placeholder="Enter your changes"></textarea>
+								         
+								
+					
 								</div>
 							</div>
 							
