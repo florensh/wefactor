@@ -6,20 +6,22 @@
    border-right: 1px solid #DDD !important;
 }
 
-.ace_active_line {
-  
-}
 
-.ace_cursor {
-	background: #ffffff !important;
-	border-left: 1px solid #f7f7f7 !important;
-}
 
 .ace_content {
 	margin: 10px;
 }
 
+
 /*
+.ace_active_line {
+  
+}
+.ace_cursor {
+	background: #ffffff !important;
+	border-left: 1px solid #f7f7f7 !important;
+}
+
 .ace_scroller {
    background-color: #ffffff !important;
 }
