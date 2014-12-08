@@ -81,7 +81,7 @@
 									</div>
 									<!-- end tab content for entry -->
 									<div role="tabpanel" class="tab-pane fade" id="proposals">
-										<div class="row">
+										<div th:if="${entry.getAmountOfProposalsByType('NEW')&gt; 0}" class="row">
 											<div class="col-md-12">
 												<div class="alert alert-warning" role="alert"><strong>you have
 													new proposals.</strong><span> Proposals are refactored versions of your code.</span></div>
