@@ -208,7 +208,7 @@
                 self.$element.attr('dir', 'rtl');
             }
             self.showClear = !options.showClear;
-            self.showCaption = !options.showCaption;
+            self.showCaption = options.showCaption;
             self.size = options.size;
             self.stars = options.stars;
             self.defaultCaption = options.defaultCaption;
@@ -509,7 +509,42 @@
     
     $('#input-id').rating('update', 0);
 
-    $('#input-id').on('rating.change', function(event, value) {
+    $('#input-1').on('rating.change', function(event, value) {
     	saveRating(value);
+    });
+
+    $("#input-1").rating({
+        starCaptions: function(val) {
+            userRating = 2
+            if (val > 0) {
+                return 'You gave ' + userRating + ' Star';
+            } else {
+                return 'No Rating';
+            }
+        },
+        starCaptionClasses: function(val) {
+            userRating = 2
+            if (userRating == 0) {
+                return 'label label-default';
+            }
+            if (userRating <= 1) {
+                return 'label label-danger';
+            }
+            if (userRating <= 2) {
+                return 'label label-warning';
+            }
+            if (userRating <= 3) {
+                return 'label label-info';
+            }
+            if (userRating <= 4) {
+                return 'label label-primary';
+            }
+            if (userRating <= 5) {
+                return 'label label-success';
+            }
+            else {
+                return 'label label-default';
+            }
+        }
     });
 }(jQuery)); 

@@ -157,7 +157,7 @@
 												</p>
 											<span class="pull-left">
 												<a>
-                                    				<input id="input-id" type="number" class="rating" min="0" max="5" step="1"  data-size="xs"></input>
+                                    				<input id="input-1" type="number" class="rating" min="0" max="5" step="1"  data-size="xs"></input>
                                 				</a>
                                 			</span>
 										</div>
@@ -271,7 +271,7 @@
 			 $.ajax({
 			        url: url
 			    }).then(function(data) {
-			    	$('#input-id').rating('update', data.rankingValue);
+			    	$('#input-1').rating('update', data.rankingValue);
 			    });
 
 		}

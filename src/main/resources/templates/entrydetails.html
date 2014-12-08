@@ -179,7 +179,7 @@
 	/*<![CDATA[*/
 	           
 	    var ra = /*[[${entry.orderedVersions.get(0).rankingValue}]]*/'rating';
-		$('#input-id').rating('update', ra);
+		$('#input-1').rating('update', ra);
 	           
 	    
 		function saveRating(rating) {
@@ -195,7 +195,7 @@
 			 $.ajax({
 			        url: url
 			    }).then(function(data) {
-			    	$('#input-id').rating('update', data.rankingValue);
+			    	$('#input-1').rating('update', data.rankingValue);
 			    	$("#ratingcount").fadeOut('fast', function(){
 			    		$("#ratingcount").html(data.rankingCount).fadeIn('fast');
 			    	}); 
@@ -275,7 +275,7 @@
 		   			var editor = ace.edit("editor");
 		   			editor.setValue(data.entryCodeText);
 		   			editor.setValue(editor.getValue(), 1);
-		   			$('#input-id').rating('update', data.rankingValue);
+		   			$('#input-1').rating('update', data.rankingValue);
 		   			$("#ratingcount").html(data.rankingCount);
 		   			$("#right-sidebar").fadeIn('fast');
 		   			$("#entry-content").fadeIn('fast');
