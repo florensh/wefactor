@@ -106,7 +106,7 @@
 																	<span class="glyphicon glyphicon-chevron-left"
 																		aria-hidden="true"></span>
 																</button>
-																<span class="badge"><span id="versionnumber" th:text="${the_entry.orderedVersions.size() - the_entry.orderedVersions.indexOf(the_entry)}">1</span>&nbsp;/&nbsp;<span th:text="${the_entry.orderedVersions.size()}">2</span></span>
+																<span class="badge"><span id="versionnumber" th:text="${the_entry.parent.orderedVersions.size() - the_entry.orderedVersions.indexOf(the_entry)}">1</span>&nbsp;/&nbsp;<span th:text="${the_entry.parent.orderedVersions.size()}">2</span></span>
 																<button id="prev-version" type="button"
 																	class="btn btn-link btn-sm" style="margin-left: 0px;">
 																	<span class="glyphicon glyphicon-chevron-right"

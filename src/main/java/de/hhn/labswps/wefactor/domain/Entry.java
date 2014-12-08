@@ -264,14 +264,14 @@ public abstract class Entry extends BaseSoftDeletableEntity implements
     }
 
     @Transient
-    protected abstract Entry getParent();
+    public abstract Entry getParent();
 
     @Override
     public int compareTo(Entry o) {
         if (this.entryDate.before(o.entryDate)) {
-            return -1;
-        } else if (this.entryDate.after(o.entryDate)) {
             return 1;
+        } else if (this.entryDate.after(o.entryDate)) {
+            return -1;
         } else {
             return 0;
         }

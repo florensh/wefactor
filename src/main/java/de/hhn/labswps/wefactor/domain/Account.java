@@ -25,7 +25,8 @@ import de.hhn.labswps.wefactor.specification.WeFactorValues.Role;
 
 @Entity
 @Table(name = "account")
-@JsonIgnoreProperties({ "id", "entries", "createdBy", "lastModifiedBy" })
+@JsonIgnoreProperties({ "id", "entries", "createdBy", "lastModifiedBy",
+        "hibernateLazyInitializer", "handler" })
 public class Account {
 
     private Set<UserProfile> profiles = new HashSet<UserProfile>();

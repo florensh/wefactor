@@ -19,9 +19,10 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @DiscriminatorValue(value = "Master")
 @Where(clause = "inactive = 'N'")
 // @SQLDelete(sql = "UPDATE entry set inactive = 'Y' WHERE Id = ?")
-@JsonIgnoreProperties({ "id", "softDeleted", "createdBy", "lastModifiedBy",
-        "orderedVersions", "orderedVersionIds", "orderedVersionTypes",
-        "versions", "proposals", "ratings" })
+@JsonIgnoreProperties({ "id", "parent", "softDeleted", "createdBy",
+        "lastModifiedBy", "orderedVersions", "orderedVersionIds",
+        "orderedVersionTypes", "versions", "proposals", "ratings",
+        "hibernateLazyInitializer", "handler" })
 public class MasterEntry extends Entry {
 
     private Set<VersionEntry> versions = new HashSet<VersionEntry>();
@@ -95,7 +96,7 @@ public class MasterEntry extends Entry {
 
     @Override
     @Transient
-    protected final Entry getParent() {
+    public final Entry getParent() {
         // MasterEntry is the root
         return this;
     }
