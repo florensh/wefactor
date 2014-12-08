@@ -6,9 +6,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import org.junit.Test;
 
-import de.hhn.labswps.wefactor.BaseTest;
+import de.hhn.labswps.wefactor.BaseWebTest;
 
-public class IndexControllerTest extends BaseTest {
+public class IndexControllerTest extends BaseWebTest {
 
     @Test
     public void findIndexPage() throws Exception {

@@ -11,6 +11,10 @@ apply plugin: 'idea'
 apply plugin: 'spring-boot'
 apply plugin: 'application'
 
+test {
+	exclude '**/TestDataTool.class'
+}
+
 mainClassName = "de.hhn.labswps.wefactor.Application"
 
 // Uses JDK 8
@@ -78,4 +82,5 @@ clean << {
 task wrapper(type: Wrapper) {
     gradleVersion = '1.11'
 }
+
 

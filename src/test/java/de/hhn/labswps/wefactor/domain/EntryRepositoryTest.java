@@ -9,12 +9,12 @@ import java.util.Date;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import de.hhn.labswps.wefactor.BaseTest;
+import de.hhn.labswps.wefactor.BaseWebTest;
 
 /**
  * The Class EntryRepositoryTest.
  */
-public class EntryRepositoryTest extends BaseTest {
+public class EntryRepositoryTest extends BaseWebTest {
 
     /** The entry repository. */
     @Autowired
