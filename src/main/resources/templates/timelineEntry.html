@@ -1,35 +1,38 @@
 <html xmlns:th="http://www.thymeleaf.org">
-
 <div th:fragment="timelineEntry (event)" class="row">
-							<div class="col-xs-4 col-sm-2 col-lg-2">
-							
-							 
-								<img
-									src="http://www.localcrimenews.com/wp-content/uploads/2013/07/default-user-icon-profile.png"
-									alt="" class="img-circle img-responsive"></img>
-									
-									
-						
+	
+	<div class="col-xs-3 col-sm-2 col-lg-2">
+		<img
+			src="http://www.localcrimenews.com/wp-content/uploads/2013/07/default-user-icon-profile.png"
+			alt="" class="img-circle img-entryProfil-responsive"></img>
+	</div>
+	
+	<div class="col-xs-8 col-sm-8" id="timelineUser">
+		<h5>
+			<a th:href="@{/user/profile/details(id=${event.source.id})}"><span
+				th:text="${event.source.primaryProfile.name}">max</span></a>&nbsp;<span
+				th:text="${event.action}">user hat was gemacht</span>
+		</h5>
+	</div>
 
-							</div>
-							<div class="col-xs-8 col-sm-8">
-								<h5><a th:href="@{/user/profile/details(id=${event.source.id})}"><span th:text="${event.source.primaryProfile.name}">max</span></a>&nbsp;<span th:text="${event.action}">user hat was gemacht</span></h5>
-							</div>
 
 
+	<div class="col-xs-9 col-sm-10" id="timelineEntryPosition">
+		<h4 style="margin-top: 4px;">
+			<a
+				th:href="@{/entry/details(id=${event.objectReference.oidIdentification})}"><span
+				th:text="${event.objectReference.oidType}"></span> &gt; <strong><span
+					th:text="${event.objectReference.oidName}"></span></strong></a>
+		</h4>
+		<h4 style="margin-top: 4px;" id="timelineEntryPositionHeader2">
+			<small th:text="${beans.dateFormatter.format(event.eventDate)}">5
+				min ago</small>
+		</h4>
+	</div>
 
-							<div class="col-xs-12 col-sm-10">
-								<h4 style="margin-top:4px;">
-									<a th:href="@{/entry/details(id=${event.objectReference.oidIdentification})}"><span th:text="${event.objectReference.oidType}"></span> &gt; <strong><span th:text="${event.objectReference.oidName}"></span></strong></a>
-								</h4>
-								<h4 style="margin-top:4px;">
-									<small th:text="${beans.dateFormatter.format(event.eventDate)}">5 min ago</small>
-								</h4>
-							</div>
+	<div class="col-xs-12 col-sm-12">
+		<hr></hr>
+	</div>
 
-							<div class="col-xs-12 col-sm-12">
-								<hr></hr>
-							</div>
-
-						</div>
+</div>
 </html>

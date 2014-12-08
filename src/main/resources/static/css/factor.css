@@ -64,7 +64,7 @@
 }
 @media (min-width: 500px) {
   #editor {
-    min-height: 500px;
+    min-height: 200px;
   }
   #editorRow {
   	margin-left: 0px;
