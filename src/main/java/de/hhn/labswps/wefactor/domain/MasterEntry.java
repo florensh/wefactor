@@ -14,6 +14,7 @@ import javax.persistence.Transient;
 import org.hibernate.annotations.Where;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
 @DiscriminatorValue(value = "Master")
@@ -99,6 +100,13 @@ public class MasterEntry extends Entry {
     public final Entry getParent() {
         // MasterEntry is the root
         return this;
+    }
+
+    @Override
+    @Transient
+    @JsonProperty("versionDisplayText")
+    public String getVersionDisplayText() {
+        return getTeaser();
     }
 
 }

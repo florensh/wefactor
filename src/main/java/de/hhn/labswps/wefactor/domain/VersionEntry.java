@@ -14,6 +14,7 @@ import javax.persistence.Transient;
 import org.hibernate.annotations.Where;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
 @DiscriminatorValue(value = "Version")
@@ -67,6 +68,13 @@ public class VersionEntry extends Entry {
     @Transient
     public Entry getParent() {
         return masterOfVersion;
+    }
+
+    @Override
+    @Transient
+    @JsonProperty("versionDisplayText")
+    public String getVersionDisplayText() {
+        return getChanges();
     }
 
 }

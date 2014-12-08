@@ -287,7 +287,7 @@
 		   			$("#version-panel").fadeOut('fast');  
 		   			$("#description").html(data.entryDescription); 
 		   			$("#version-user-link").html(data.account.primaryProfile.name);
-		   			$("#version-changes").html(data.changes);
+		   			$("#version-changes").html(data.versionDisplayText);
 		   			$("#versionnumber").html(data.versionnumber);
 		   			var editor = ace.edit("editor");
 		   			editor.setValue(data.entryCodeText);

@@ -277,4 +277,7 @@ public abstract class Entry extends BaseSoftDeletableEntity implements
         }
     }
 
+    @Transient
+    public abstract String getVersionDisplayText();
+
 }
