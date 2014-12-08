@@ -229,7 +229,7 @@
 		/*]]>*/
 	</script>	
 	
-	<!-- TODO: attr von id zu index umbenennen. attr nicht in button speichern sondern in übergeordnettes element. index verändern -->
+	<!-- TODO: attr von id zu index umbenennen. attr nicht in button speichern sondern in Ã¼bergeordnettes element. index verÃ¤ndern -->
 
 	<script th:inline="javascript">
 		/*<![CDATA[*/
@@ -311,6 +311,11 @@
 		    });
 }
 		           
+	$(document).ready(function(){
+	    $('[data-toggle="tooltip"]').tooltip({
+	    	delay: { show: 1000, hide: 100 }
+	    });
+	});
 		           
 		$(document).ready(function () {
 			$("button[id*=next-version]").click(function () {

@@ -106,6 +106,7 @@
 								<kbd th:text="${entry.language}">language</kbd>
 							</div>
 
+<!--
 							<div class="col-xs-8 col-sm-2 hidden-sm hidden-xs visible-md visible-lg">
 
 								<span class="pull-right"> <a class="btn btn-primary btn-md"
@@ -117,21 +118,25 @@
 								</span>
 								
 							</div>
+-->
 							
 							<div class="col-xs-8 col-sm-2" style="margin-top: 10px;" id="rating-responsive" >
 								
                                 <span>
                                 	<a>
-                                    	<input id="input-id" type="number" class="rating" min="0" max="5" step="1" data-size="xs" disabled="true"></input>
+                                    	<input th:id="'rating-' + ${entry.id}" type="number" class="rating" min="0" th:attr="value=${entry.rankingValue}" max="5" step="1" data-size="xs" disabled="true"></input>
                                     </a>
                                 </span>
                                 
                             </div>
                             
 							<div class="col-xs-12 col-sm-8">
-								<h3 style="margin-top: 0px;">
+								<h3>
 									<a th:href="@{/entry/details(id=${entry.id})}"><span
 										th:text="${entry.name}">name</span></a>
+<!--
+								<span class="label label-info">new</span>
+  -->								
 								</h3>
 							</div>
                             
