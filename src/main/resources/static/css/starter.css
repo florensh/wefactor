@@ -35,3 +35,8 @@ kbd{
 .badge-text-light{
 	color:#777;
 }
+
+.panel-heading kbd, .panel-default .panel-heading .badge {
+	background-color: #3071A9;
+	background-color: #777;
+}

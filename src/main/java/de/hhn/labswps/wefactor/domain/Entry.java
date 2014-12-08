@@ -36,7 +36,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
         "lastModifiedBy" })
 @DiscriminatorColumn(name = "ENTRY_TYPE")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-public abstract class Entry extends BaseSoftDeletableEntity {
+public abstract class Entry extends BaseSoftDeletableEntity implements
+        Comparable<Entry> {
 
     private Account account;
 
@@ -254,6 +255,26 @@ public abstract class Entry extends BaseSoftDeletableEntity {
     @Override
     public String toString() {
         return this.name;
+    }
+
+    @Transient
+    public int getVersionnumber() {
+        return getParent().getOrderedVersions().size()
+                - getParent().getOrderedVersions().indexOf(this);
+    }
+
+    @Transient
+    public abstract Entry getParent();
+
+    @Override
+    public int compareTo(Entry o) {
+        if (this.entryDate.before(o.entryDate)) {
+            return 1;
+        } else if (this.entryDate.after(o.entryDate)) {
+            return -1;
+        } else {
+            return 0;
+        }
     }
 
 }

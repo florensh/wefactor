@@ -21,7 +21,7 @@
 					<div class="col-md-12">
 
 						<div class="row" style="margin-bottom: 50px;">
-							<div th:replace="entrydetails_template :: entry_head (${entry.orderedVersions.get(0)})">(description)</div>
+							<div th:replace="entrydetails_template :: entry_head (${entry})">(description)</div>
 							
 							<div class="btn-toolbar col-md-4 col-md-offset-6 pull-right">
 								
@@ -268,10 +268,27 @@
 		 $.ajax({
 		        url: url
 		    }).then(function(data) {
+		    	
+		    	var m_names = new Array("January", "February", "March", 
+		    			"April", "May", "June", "July", "August", "September", 
+		    			"October", "November", "December");
+
+		    			var d = new Date(data.createdDate);
+		    			var curr_date = d.getDate();
+		    			var curr_month = d.getMonth();
+		    			var curr_year = d.getFullYear();
+		    			
+		    			var formatteddate = m_names[curr_month] + " " + curr_date  + ", " + curr_year;
+		    	
+		    		var userlink = "/user/profile/details?id=";
+		    		userlink = userlink + data.account.primaryProfile.id;
 		   			$("#entry-content").fadeOut('fast'); 
-		   			$("#right-sidebar").fadeOut('fast');  
+		   			$("#right-sidebar").fadeOut('fast');
+		   			$("#version-panel").fadeOut('fast');  
 		   			$("#description").html(data.entryDescription); 
+		   			$("#version-user-link").html(data.account.primaryProfile.name);
 		   			$("#version-changes").html(data.changes);
+		   			$("#versionnumber").html(data.versionnumber);
 		   			var editor = ace.edit("editor");
 		   			editor.setValue(data.entryCodeText);
 		   			editor.setValue(editor.getValue(), 1);
@@ -279,12 +296,13 @@
 		   			$("#ratingcount").html(data.rankingCount);
 		   			$("#right-sidebar").fadeIn('fast');
 		   			$("#entry-content").fadeIn('fast');
+		   			$("#version-panel").fadeIn('fast');
 		   			$("div[id*=version-panel]").attr("data-versionindex",nextIndex);
 		   			$("div[id*=version-panel]").attr("data-entrytype",data.type);
-		   			$('#version-userimage-link').attr('href','/');/*todo*/
-		   			$('#version-user-link').attr('href','/');/*todo*/
-		   			$('#version-createdate').html('just now');/*todo*/
-		   			$('#version-userimage').attr('src',data.account.primaryProfile.imageUrl);/*geht nicht. evtl load image function*/
+		   			$('#version-userimage-link').attr('href', userlink);
+		   			$('#version-user-link').attr('href', userlink);
+		   			$('#version-createdate').html(formatteddate);
+		   			$('#version-userimage').attr('src',data.account.primaryProfile.imageUrl);
 		   			
 		   			
 		   			

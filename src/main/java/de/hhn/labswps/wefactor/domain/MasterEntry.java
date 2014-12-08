@@ -1,6 +1,7 @@
 package de.hhn.labswps.wefactor.domain;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -18,9 +19,10 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @DiscriminatorValue(value = "Master")
 @Where(clause = "inactive = 'N'")
 // @SQLDelete(sql = "UPDATE entry set inactive = 'Y' WHERE Id = ?")
-@JsonIgnoreProperties({ "id", "softDeleted", "account", "createdBy",
+@JsonIgnoreProperties({ "id", "parent", "softDeleted", "createdBy",
         "lastModifiedBy", "orderedVersions", "orderedVersionIds",
-        "orderedVersionTypes", "versions", "proposals", "ratings" })
+        "orderedVersionTypes", "versions", "proposals", "ratings",
+        "hibernateLazyInitializer", "handler" })
 public class MasterEntry extends Entry {
 
     private Set<VersionEntry> versions = new HashSet<VersionEntry>();
@@ -50,6 +52,9 @@ public class MasterEntry extends Entry {
         if (this.versions != null && !this.versions.isEmpty()) {
             retVal.addAll(this.versions);
         }
+
+        Collections.sort(retVal);
+
         return retVal;
     }
 
@@ -87,6 +92,13 @@ public class MasterEntry extends Entry {
 
         return amount;
 
+    }
+
+    @Override
+    @Transient
+    public final Entry getParent() {
+        // MasterEntry is the root
+        return this;
     }
 
 }

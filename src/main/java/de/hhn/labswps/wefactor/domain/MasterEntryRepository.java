@@ -10,9 +10,6 @@ import org.springframework.data.repository.CrudRepository;
 public interface MasterEntryRepository extends
         CrudRepository<MasterEntry, Long> {
 
-    // @Modifying
-    // @Transactional
-    // @Query("select e from Entry e where e.account.id = ?1")
     List<Entry> findByAccountId(Long accountId);
 
 }
