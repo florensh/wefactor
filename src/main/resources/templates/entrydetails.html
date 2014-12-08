@@ -268,6 +268,20 @@
 		 $.ajax({
 		        url: url
 		    }).then(function(data) {
+		    	
+		    	var m_names = new Array("January", "February", "March", 
+		    			"April", "May", "June", "July", "August", "September", 
+		    			"October", "November", "December");
+
+		    			var d = new Date(data.createdDate);
+		    			var curr_date = d.getDate();
+		    			var curr_month = d.getMonth();
+		    			var curr_year = d.getFullYear();
+		    			
+		    			var formatteddate = curr_date + " " + m_names[curr_month]  + " " + curr_year;
+		    	
+		    		var userlink = "/user/profile/details?id=";
+		    		userlink = userlink + data.account.primaryProfile.id;
 		   			$("#entry-content").fadeOut('fast'); 
 		   			$("#right-sidebar").fadeOut('fast');  
 		   			$("#description").html(data.entryDescription); 
@@ -282,9 +296,9 @@
 		   			$("#entry-content").fadeIn('fast');
 		   			$("div[id*=version-panel]").attr("data-versionindex",nextIndex);
 		   			$("div[id*=version-panel]").attr("data-entrytype",data.type);
-		   			$('#version-userimage-link').attr('href','/');/*todo*/
-		   			$('#version-user-link').attr('href','/');/*todo*/
-		   			$('#version-createdate').html('just now');/*todo*/
+		   			$('#version-userimage-link').attr('href', userlink);
+		   			$('#version-user-link').attr('href', userlink);
+		   			$('#version-createdate').html(formatteddate);/*todo*/
 		   			$('#version-userimage').attr('src',data.account.primaryProfile.imageUrl);/*geht nicht. evtl load image function*/
 		   			
 		   			

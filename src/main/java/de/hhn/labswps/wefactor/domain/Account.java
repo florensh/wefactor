@@ -19,10 +19,13 @@ import javax.persistence.Transient;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import de.hhn.labswps.wefactor.specification.WeFactorValues.Role;
 
 @Entity
 @Table(name = "account")
+@JsonIgnoreProperties({ "id", "entries", "createdBy", "lastModifiedBy" })
 public class Account {
 
     private Set<UserProfile> profiles = new HashSet<UserProfile>();

@@ -19,9 +19,9 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @DiscriminatorValue(value = "Version")
 @Where(clause = "inactive = 'N'")
 // @SQLDelete(sql = "UPDATE entry set inactive = 'Y' WHERE Id = ?")
-@JsonIgnoreProperties({ "id", "softDeleted", "account", "createdBy",
-        "lastModifiedBy", "orderedVersions", "orderedVersionIds",
-        "orderedVersionTypes", "masterOfVersion", "ratings" })
+@JsonIgnoreProperties({ "id", "softDeleted", "createdBy", "lastModifiedBy",
+        "orderedVersions", "orderedVersionIds", "orderedVersionTypes",
+        "masterOfVersion", "ratings" })
 public class VersionEntry extends Entry {
 
     public VersionEntry() {

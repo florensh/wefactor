@@ -14,11 +14,14 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import de.hhn.labswps.wefactor.specification.WeFactorValues;
 import de.hhn.labswps.wefactor.specification.WeFactorValues.ProviderIdentification;
 
 @Entity
 @Table(name = "userprofile")
+@JsonIgnoreProperties({ "account", "createdBy", "lastModifiedBy" })
 public class UserProfile extends User implements Serializable {
 
     public static long getSerialversionuid() {
