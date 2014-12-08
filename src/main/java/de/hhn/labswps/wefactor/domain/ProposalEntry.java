@@ -1,6 +1,7 @@
 package de.hhn.labswps.wefactor.domain;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.persistence.DiscriminatorValue;
@@ -76,7 +77,14 @@ public class ProposalEntry extends Entry {
         List<Entry> retVal = new ArrayList<Entry>();
         retVal.add(this);
         retVal.add(masterOfProposal);
+        Collections.sort(retVal);
         return retVal;
+    }
+
+    @Override
+    @Transient
+    protected Entry getParent() {
+        return masterOfProposal;
     }
 
 }

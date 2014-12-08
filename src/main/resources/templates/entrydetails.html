@@ -272,6 +272,7 @@
 		   			$("#right-sidebar").fadeOut('fast');  
 		   			$("#description").html(data.entryDescription); 
 		   			$("#version-changes").html(data.changes);
+		   			$("#versionnumber").html(data.versionnumber);
 		   			var editor = ace.edit("editor");
 		   			editor.setValue(data.entryCodeText);
 		   			editor.setValue(editor.getValue(), 1);

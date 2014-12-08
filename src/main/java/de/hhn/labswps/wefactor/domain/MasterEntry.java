@@ -1,6 +1,7 @@
 package de.hhn.labswps.wefactor.domain;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -50,6 +51,9 @@ public class MasterEntry extends Entry {
         if (this.versions != null && !this.versions.isEmpty()) {
             retVal.addAll(this.versions);
         }
+
+        Collections.sort(retVal);
+
         return retVal;
     }
 
@@ -87,6 +91,13 @@ public class MasterEntry extends Entry {
 
         return amount;
 
+    }
+
+    @Override
+    @Transient
+    protected final Entry getParent() {
+        // MasterEntry is the root
+        return this;
     }
 
 }

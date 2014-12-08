@@ -1,6 +1,7 @@
 package de.hhn.labswps.wefactor.domain;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.persistence.DiscriminatorValue;
@@ -58,7 +59,14 @@ public class VersionEntry extends Entry {
         List<Entry> retVal = new ArrayList<Entry>();
         retVal.add(this);
         retVal.add(masterOfVersion);
+        Collections.sort(retVal);
         return retVal;
+    }
+
+    @Override
+    @Transient
+    protected Entry getParent() {
+        return masterOfVersion;
     }
 
 }

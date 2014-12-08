@@ -78,7 +78,7 @@
 													<div class="panel-heading"
 														style="padding-top: 4px; padding-bottom: 4px">
 														<a id="version-userimage-link"
-															style="vertical-align: middle;"
+															style="vertical-align: middle; margin-right:4px;"
 															th:unless="${the_entry.orderedVersions.get(0).account.primaryProfile.imageUrl == null}"
 															th:href="@{/user/profile/details(id=${the_entry.orderedVersions.get(0).account.primaryProfile.id})}">
 															<img id="version-userimage"
@@ -86,7 +86,7 @@
 															alt="" class="img-rounded"
 															style="height: 23px; margin-top: 4px"></img>
 														</a> <a id="version-user-link"
-															style="padding-top: 4px; vertical-align: middle; color: black; font-size: 16px;"
+															style="padding-top: 4px; vertical-align: middle;  font-size: 16px;"
 															th:text="${the_entry.orderedVersions.get(0).account.primaryProfile.name}"
 															th:href="@{/user/profile/details(id=${the_entry.orderedVersions.get(0).account.primaryProfile.id})}">user
 														</a> <span style="padding-top: 4px; vertical-align: middle;">created
@@ -100,18 +100,19 @@
 
 														<div class="btn-toolbar pull-right" role="toolbar"
 															aria-label="...">
-															<div class="btn-group" role="group" aria-label="...">
+															
 																<button id="next-version" type="button"
 																	class="btn btn-link btn-sm">
 																	<span class="glyphicon glyphicon-chevron-left"
 																		aria-hidden="true"></span>
 																</button>
+																<span class="badge"><span id="versionnumber" th:text="${the_entry.orderedVersions.size() - the_entry.orderedVersions.indexOf(the_entry)}">1</span>&nbsp;/&nbsp;<span th:text="${the_entry.orderedVersions.size()}">2</span></span>
 																<button id="prev-version" type="button"
-																	class="btn btn-link btn-sm">
+																	class="btn btn-link btn-sm" style="margin-left: 0px;">
 																	<span class="glyphicon glyphicon-chevron-right"
 																		aria-hidden="true"></span>
 																</button>
-															</div>
+															
 														</div>
 														<span class="clearfix"></span>
 
@@ -346,6 +347,7 @@
 		   			$("#description").html(data.entryDescription); 
 		   			$("#version-changes").html(data.changes);
 		   			$("#ratingcount").html(data.ratingCount);
+		   			$("#versionnumber").html(data.versionnumber);
 		   			var editor = ace.edit("editor");
 		   			editor.setValue(data.entryCodeText);
 		   			editor.setValue(editor.getValue(), 1);
