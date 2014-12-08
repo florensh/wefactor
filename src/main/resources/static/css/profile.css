@@ -41,6 +41,7 @@
 		top: 20px;
 		position: relative;
 		padding-left: 20px;
+		z-index: 1;
 	}
 	#profilName {
 		padding-left: 0px;

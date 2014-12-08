@@ -187,8 +187,9 @@
 		tinymce.init({
 			mode : "exact",
 			elements : "tinyEditor",
+			toolbar: "undo redo | styleselect | bold italic | link image",
+			menubar: false
 		});
-		tinymce.remove('#mce_23');
 	</script>
 
 	<script th:inline="javascript">

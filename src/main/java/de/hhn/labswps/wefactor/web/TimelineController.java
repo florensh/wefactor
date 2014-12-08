@@ -46,10 +46,8 @@ public class TimelineController {
 
         Pageable topFive = new PageRequest(0, 6);
 
-        // model.addAttribute("events", this.timelineEventRepository
-        // .findByTargetOrderByEventDateDesc(a, topFive));
-
-        model.addAttribute("events", this.timelineEventRepository.findAll());
+        model.addAttribute("events", this.timelineEventRepository
+                .findByTargetOrderByEventDateDesc(a, topFive));
 
         return "timeline";
 
