@@ -54,7 +54,7 @@ public abstract class Entry extends BaseSoftDeletableEntity implements
 
     private String teaser;
 
-    private EntryStatistics statistics;
+    private EntryStatistics statistics = new EntryStatistics();
 
     @Embedded
     public EntryStatistics getStatistics() {
