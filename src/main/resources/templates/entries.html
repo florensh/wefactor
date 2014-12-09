@@ -102,7 +102,11 @@
 									<small>&nbsp;created</small> 
 									<small style="color: black;"
 										th:text="${beans.dateFormatter.format(entry.createdDate)}">10.11.2014</small>
+										<small style="margin-left:4px;">|</small>
+										<small style="margin-left:4px;"><i class="fa fa-eye  fa-lg"></i>&nbsp;<span th:text="${entry.statistics.views}">0</span></small>
+										<small style="margin-left:4px;"><i class="fa fa-star  fa-lg"></i>&nbsp;<span th:text="${entry.ratingCount}">0</span></small>
 								</h5>
+								
 								<kbd th:text="${entry.language}">language</kbd>
 							</div>
 
@@ -131,7 +135,7 @@
                             </div>
                             
 							<div class="col-xs-12 col-sm-8">
-								<h3>
+								<h3 style="margin-bottom:0px;">
 									<a th:href="@{/entry/details(id=${entry.id})}"><span
 										th:text="${entry.name}">name</span></a>
 <!--
@@ -141,7 +145,7 @@
 							</div>
                             
 							<div class="col-xs-12 col-sm-10 pull-right">
-								<h3 style="margin-top: 0px;">
+								<h3 style="margin-top: 0px; margin-bottom: 0px;">
 									<small th:text="${entry.teaser}">description</small>
 								</h3>
 							</div>

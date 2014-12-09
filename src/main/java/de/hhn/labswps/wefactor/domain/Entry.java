@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Set;
 
 import javax.persistence.DiscriminatorColumn;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
@@ -52,6 +53,17 @@ public abstract class Entry extends BaseSoftDeletableEntity implements
     private String language;
 
     private String teaser;
+
+    private EntryStatistics statistics;
+
+    @Embedded
+    public EntryStatistics getStatistics() {
+        return statistics;
+    }
+
+    public void setStatistics(EntryStatistics statistics) {
+        this.statistics = statistics;
+    }
 
     private String changes;
 

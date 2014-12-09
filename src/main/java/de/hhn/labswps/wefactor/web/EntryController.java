@@ -121,7 +121,9 @@ public class EntryController {
     @RequestMapping(value = "/entry/details", method = RequestMethod.GET)
     public String showEntryDetails(@RequestParam("id") Long id, ModelMap model,
             Principal currentUser) {
-        Entry entry = this.entryRepository.findOne(id);
+        MasterEntry entry = this.entryRepository.findOne(id);
+        entry.getStatistics().addViews(1);
+        this.entryRepository.save(entry);
 
         model.addAttribute("entry", entry);
         return "entrydetails";
