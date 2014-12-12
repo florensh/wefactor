@@ -44,97 +44,110 @@
 	<div class="page-container">
 
 		<!-- top navbar -->
-		<div th:fragment="top-navbar" class="navbar navbar-default"
-			role="navigation">
+		<div th:fragment="top-navbar">
+		<div class="navbar navbar-default" role="navigation">
 			<div class="container">
 				<div class="navbar-header">
 
-					<button type="button" class="navbar-toggle" data-toggle="offcanvas"
-						data-target=".sidebar-nav">
-						<span class="icon-bar"></span> <span class="icon-bar"></span> <span
-							class="icon-bar"></span>
+					<button type="button" class="navbar-toggle" data-toggle="offcanvas" data-target=".sidebar-nav">
+						<span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span>
 					</button>
-					<button type="button" class="navbar-toggle collapsed" id="navbar-responsive"
-						data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-						<i class="fa fa-user fa-fw"></i> <span class="sr-only">Toggle
-							navigation</span>
+					<button type="button" class="navbar-toggle collapsed" id="navbar-responsive" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+						<i class="fa fa-user fa-fw"></i> <span class="sr-only">Toggle navigation</span>
 					</button>
 
 
-					<!--  wieder aktivieren wenn suchfunktion implementiert wird
-					<button type="button" class="navbar-toggle collapsed"
-						data-toggle="collapse" data-target="#bs-example-navbar-collapse-2">
-						<span class="sr-only">Toggle navigation</span><i
-							class="fa fa-search fa-fw"></i>
+					<!--  wieder aktivieren wenn suchfunktion implementiert wird -->
+					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-2">
+						<span class="sr-only">Toggle navigation</span><i class="fa fa-search fa-fw"></i>
 					</button>
-					-->
 
-					<a class="navbar-brand" href="/">weFactor</a>
+
+					<a class="navbar-brand" href="/"><strong>we</strong>Factor</a>
 				</div>
-
-
 
 				<!-- evtl mit float:left arbeiten -->
-				<!--  wieder aktivieren wenn suchfunktion implementiert wird
-				<div class="collapse navbar-collapse"
-					id="bs-example-navbar-collapse-2">
+				<!--  wieder aktivieren wenn suchfunktion implementiert wird -->
 
-					<form class="navbar-form navbar-right" role="search">
-						<div class="input-group">
-						<input type="text" class="form-control"></input>
-							<span class="input-group-btn">
-								<button class="btn btn-default" type="button">Go!</button>
-							</span> 
-						</div>
-					</form>
-				</div>
+
+
+				<!--  
+				<ul class="nav navbar-nav">
+					<li class="divider-vertical"></li>
+				</ul>
 				-->
 
 
 
 
+
+				<!--  
+				<ul class="nav navbar-nav">
+					<li class="divider-vertical"></li>
+				</ul>
+				-->
+
 				<!-- Collect the nav links, forms, and other content for toggling -->
-				<div class="collapse navbar-collapse"
-					id="bs-example-navbar-collapse-1">
 
 
-					<ul class="nav navbar-nav navbar-right">
+				<ul class="collapse navbar-collapse nav navbar-nav navbar-right" id="bs-example-navbar-collapse-1">
 
-						<li th:if="${currentUserDisplayName == null}"><a
-							href="/signup">create new account</a></li>
+					<li th:if="${currentUserDisplayName == null}"><a href="/signup">create new account</a></li>
 
-						<li th:if="${currentUserDisplayName == null}"><a
-							href="/signin"><i class="fa fa-sign-in fa-fw"></i>log in</a></li>
-						<li th:unless="${currentUserDisplayName == null}" class="dropdown">
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown"> <img
-								style="height: 20px; float: left; margin-right: 5px;"
-								th:unless="${currentUserProfile.imageUrl == null}"
-								th:src="${currentUserProfile.imageUrl}" alt=""
-								class="img-rounded img-responsive"></img> <span
-								th:text="${currentUserDisplayName}">Bob</span> <span
-								class="caret"></span></a>
+					<li th:if="${currentUserDisplayName == null}"><a href="/signin"><i class="fa fa-sign-in fa-fw"></i>log in</a></li>
+					<li th:unless="${currentUserDisplayName == null}" class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"> <img style="height: 20px; float: left; margin-right: 5px;" th:unless="${currentUserProfile.imageUrl == null}" th:src="${currentUserProfile.imageUrl}" alt="" class="img-rounded img-responsive"></img> <span th:text="${currentUserDisplayName}">Bob</span> <span class="caret"></span></a>
 
-							<ul class="dropdown-menu" role="menu">
-								<li><a
-									th:href="@{/user/profile/details(id=${currentUserProfile.id})}"><i
-										class="fa fa-user fa-fw"></i>Profile</a></li>
-								<!--<li><a href="#">Another action</a></li>
+						<ul class="dropdown-menu" role="menu">
+							<li><a th:href="@{/user/profile/details(id=${currentUserProfile.id})}"><i class="fa fa-user fa-fw"></i>Profile</a></li>
+							<!--<li><a href="#">Another action</a></li>
             <li><a href="#">Something else here</a></li>  -->
-								<li class="divider"></li>
-								<li><a href="/logout"><i class="fa fa-sign-out fa-fw"></i>Logout</a></li>
-							</ul>
-						</li>
-					</ul>
+							<li class="divider"></li>
+							<li><a href="/logout"><i class="fa fa-sign-out fa-fw"></i>Logout</a></li>
+						</ul></li>
+				</ul>
 
 
 
+				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-2">
 
+					<!-- 
+					<form class="navbar-form navbar-right" role="search">
+						<div class="input-group">
+						<input type="text" class="form-control input-sm nav-search" style="width:300px; border-radius:3px;" placeholder="Search…"></input>
+							<span class="input-group-btn">
+								<button class="btn btn-default btn-sm" type="button">search</button>
+							</span> 
+						</div>
+					</form>
+				-->
+					<form class="navbar-form">
+						<div class="form-group" style="display: inline;">
+							<div class="input-group">
+								<input class="form-control input-sm nav-search" type="text"></input> <span class="input-group-addon"><span class="glyphicon glyphicon-search"></span></span>
+							</div>
+						</div>
+					</form>
 				</div>
+
+
 				<!-- /.navbar-collapse -->
+
+
 
 
 			</div>
 		</div>
+			<div style="background-color: rgba(0, 0, 0, 0.01); border-bottom: 1px solid rgba(0, 0, 0, 0.05); padding: 15px 0px">
+				<div class="container">
+					<h4>
+						We've found 31,355 results for <strong>hello world</strong>
+					</h4>
+				</div>
+
+			</div>
+			
+			<div style="margin-bottom:50px"></div>
+			</div>
 
 		<div class="container">
 			<div class="row row-offcanvas row-offcanvas-left">

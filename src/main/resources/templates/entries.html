@@ -55,7 +55,7 @@
 					<!-- end filter -->
 
 					<!-- start entries -->
-					<div class="col">
+					<div class="col-xs-12 col-sm-9">
 						<div class="row" th:each="entry : ${entries}">
 							<div class="col-xs-3 col-sm-2 col-lg-2">
 							
@@ -93,7 +93,7 @@
 								<kbd th:text="${entry.language}">language</kbd>
 							</div>
 							
-							<div class="col-xs-8 col-sm-8 hidden-sm hidden-xs visible-md visible-lg">
+							<div class="col-xs-8 col-sm-7 hidden-sm hidden-xs visible-md visible-lg">
 								<h5>
 									<small>by&nbsp;</small> 
 									<a th:href="@{/user/profile/details(id=${entry.account.primaryProfile.id})}">
@@ -124,9 +124,9 @@
 							</div>
 -->
 							
-							<div class="col-xs-8 col-sm-2" style="margin-top: 10px;" id="rating-responsive" >
+							<div class="col-xs-8 col-sm-3" id="rating-responsive" >
 								
-                                <span>
+                                <span class="pull-right">
                                 	<a>
                                     	<input th:id="'rating-' + ${entry.id}" type="number" class="rating" min="0" th:attr="value=${entry.rankingValue}" max="5" step="1" data-size="xs" disabled="true"></input>
                                     </a>
@@ -155,6 +155,13 @@
 							</div>
 
 						</div>
+					</div>
+					<div class="col-xs-12 col-sm-3">
+						<h4 style="margin-top: 0px;">Languages</h4>
+						<ul>
+							<li>java 214</li>
+							<li>html 8</li>
+						</ul>
 					</div>
 
 
