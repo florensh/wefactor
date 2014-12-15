@@ -104,6 +104,11 @@
 			
 
 							<div class="row" id="bar">
+							
+							 <select id="e1">
+<option value="java">Java</option>
+<option value="html">HTML</option>
+</select>
 								<div class="col-md-9 col-sm-9">
 									<div class="col-md-12 col-xs-12 input-group input-append dropdown combobox"
 										data-initialize="combobox" id="myCombobox">
@@ -176,6 +181,7 @@
 	<script th:src="@{/webjars/fuelux/3.0.2/js/fuelux.min.js}"></script>
 	<script th:src="@{/webjars/tinymce-jquery/4.0.16/tinymce.min.js}"></script>
 	<script th:src="@{/webjars/ace/01.08.2014/src-min-noconflict/ace.js}"></script>
+	<script th:src="@{/select2-3.5.2/select2.js}"></script>
 
 	<script>
 		$('.pull-down').each(
@@ -192,6 +198,18 @@
 			menubar: false
 		});
 	</script>
+	
+	<script th:inline="javascript">
+		/*<![CDATA[*/
+		           $(document).ready(function() { $("#e1").select2(); });
+		
+		           $("#e1").on("change", function(e) { 
+		           			var mode = "ace/mode/"+$("#e1").select2("val");
+			editor.getSession().setMode(mode);
+		           })
+			/*]]>*/
+	</script>
+		
 
 	<script th:inline="javascript">
 		/*<![CDATA[*/
