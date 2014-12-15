@@ -18,15 +18,22 @@
 					<!-- content ############################################################################################################# -->
 
 
-					<div class="col-md-12">
+					<div class="col-md-12" style="padding: 0px;">
 
 						<div class="row" style="margin-bottom: 50px;">
 							<div th:replace="entrydetails_template :: entry_head (${entry})">(description)</div>
 							
-							<div class="btn-toolbar col-md-4 col-md-offset-6 pull-right">
+							<div class="btn-toolbar col-xs-12 col-md-4 col-md-offset-6 pull-right">
 								
-								<a
-										class="btn btn-default btn-md pull-right" th:unless="${entry.account.primaryProfile.id == currentUserProfile.id}" th:href="@{/user/entry/propose(id=${entry.id})}">
+								<!-- Button Desktop -->
+								<a		
+										class="btn btn-default btn-md pull-right hidden-sm hidden-xs visible-md visible-lg" 
+										th:unless="${entry.account.primaryProfile.id == currentUserProfile.id}" th:href="@{/user/entry/propose(id=${entry.id})}">
+										<i class="fa fa-code-fork"></i> New version</a>
+								<!-- Button Mobile -->
+								<a		
+										class="btn btn-default col-xs-12 btn-md pull-right visible-sm visible-xs hidden-md hidden-lg" 
+										th:unless="${entry.account.primaryProfile.id == currentUserProfile.id}" th:href="@{/user/entry/propose(id=${entry.id})}">
 										<i class="fa fa-code-fork"></i> New version</a>
 								<a
 									class="btn btn-default btn-md pull-right" th:if="${entry.account.primaryProfile.id == currentUserProfile.id}"
