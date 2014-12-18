@@ -2,6 +2,7 @@ package de.hhn.labswps.wefactor.web;
 
 import java.security.Principal;
 import java.util.Date;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -38,6 +39,7 @@ import de.hhn.labswps.wefactor.specification.WeFactorValues;
 import de.hhn.labswps.wefactor.specification.WeFactorValues.EventType;
 import de.hhn.labswps.wefactor.web.DataObjects.EntriesFilterDataObject;
 import de.hhn.labswps.wefactor.web.DataObjects.EntryDataObject;
+import de.hhn.labswps.wefactor.web.DataObjects.EntryList;
 import de.hhn.labswps.wefactor.web.util.DataUtils;
 
 @Controller
@@ -82,13 +84,17 @@ public class EntryController {
 
         switch (entryScope) {
             case ALL:
-                model.addAttribute("entries", entryRepository.findAll());
+                List<MasterEntry> list = (List<MasterEntry>) entryRepository
+                        .findAll();
+                EntryList eList = new EntryList();
+                eList.addAll(list);
+                model.addAttribute("entries", eList);
 
                 break;
 
             case USER:
                 model.addAttribute("entries",
-                        entryRepository.findByAccountId(id));
+                        new EntryList(entryRepository.findByAccountId(id)));
 
                 break;
 
@@ -106,7 +112,10 @@ public class EntryController {
         final EntriesFilterDataObject filter = new EntriesFilterDataObject();
         model.addAttribute("entriesFilterDataObject", filter);
 
-        model.addAttribute("entries", entryRepository.findAll());
+        List<MasterEntry> list = (List<MasterEntry>) entryRepository.findAll();
+        EntryList eList = new EntryList();
+        eList.addAll(list);
+        model.addAttribute("entries", eList);
 
         return "entries";
     }

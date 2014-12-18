@@ -120,10 +120,11 @@
 						</div>
 					</form>
 				-->
-					<form class="navbar-form">
+					<form class="navbar-form" th:action="@{/search/entries}" method="post"
+						th:object="${searchBoxDataObject}">
 						<div class="form-group" style="display: inline;">
 							<div class="input-group">
-								<input class="form-control input-sm nav-search" type="text"></input> <span class="input-group-addon"><span class="glyphicon glyphicon-search"></span></span>
+								<input th:field="*{searchtext}" class="form-control input-sm nav-search" type="text"></input> <span class="input-group-addon"><span class="glyphicon glyphicon-search"></span></span>
 							</div>
 						</div>
 					</form>
@@ -137,8 +138,8 @@
 
 			</div>
 		</div>
-			<div style="background-color: rgba(0, 0, 0, 0.01); border-bottom: 1px solid rgba(0, 0, 0, 0.05); padding: 15px 0px">
-				<div class="container">
+			<div th:if="${screenMessage}" style="background-color: rgba(0, 0, 0, 0.01); border-bottom: 1px solid rgba(0, 0, 0, 0.05); padding: 15px 0px">
+				<div class="container" th:utext="${screenMessage.html}">
 					<h4>
 						We've found 31,355 results for <strong>hello world</strong>
 					</h4>
