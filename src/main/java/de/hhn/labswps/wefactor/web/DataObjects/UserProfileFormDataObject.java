@@ -2,10 +2,12 @@ package de.hhn.labswps.wefactor.web.DataObjects;
 
 import javax.validation.constraints.Size;
 
-public class UserProfileFormDataObject {
+import de.hhn.labswps.wefactor.web.validation.constraints.UniqueDisplayname;
 
+public class UserProfileFormDataObject {
     @Size(min = 3, max = 30)
-    private String displayName;
+    @UniqueDisplayname(message = "already exists")
+    private String displayname;
 
     @Size(max = 30)
     private String firstName;
@@ -24,12 +26,12 @@ public class UserProfileFormDataObject {
         this.firstName = firstName;
     }
 
-    public String getDisplayName() {
-        return displayName;
+    public String getDisplayname() {
+        return displayname;
     }
 
-    public void setDisplayName(String displayName) {
-        this.displayName = displayName;
+    public void setDisplayname(String displayname) {
+        this.displayname = displayname;
     }
 
     public String getLastName() {

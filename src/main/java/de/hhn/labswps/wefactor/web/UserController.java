@@ -62,7 +62,7 @@ public class UserController {
         UserProfile up = this.userProfileRepository.findByUsername(currentUser
                 .getName());
 
-        data.setDisplayName(up.getName());
+        data.setDisplayname(up.getName());
         data.setFirstName(up.getFirstName());
         data.setLastName(up.getLastName());
         data.setDescription(up.getDescription());
@@ -82,7 +82,7 @@ public class UserController {
         UserProfile up = this.userProfileRepository.findByUsername(currentUser
                 .getName());
 
-        up.setName(userProfileFormDataObject.getDisplayName());
+        up.setName(userProfileFormDataObject.getDisplayname());
         up.setFirstName(userProfileFormDataObject.getFirstName());
         up.setLastName(userProfileFormDataObject.getLastName());
         up.setDescription(userProfileFormDataObject.getDescription());
