@@ -12,7 +12,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -89,7 +88,7 @@ public class UserController {
 
         this.userProfileRepository.save(up);
 
-        return "redirect:/user/profile/details?id=" + id;
+        return showUserProfile(Long.valueOf(id), m);
     }
 
     @RequestMapping(value = "/user/register", method = RequestMethod.POST)
@@ -119,7 +118,7 @@ public class UserController {
     }
 
     @RequestMapping(value = "/user/profile/details", method = RequestMethod.GET)
-    public String showUserProfile(@RequestParam("id") Long id, ModelMap model) {
+    public String showUserProfile(@RequestParam("id") Long id, Model model) {
         UserProfile profile = this.userProfileRepository.findOne(id);
         model.addAttribute("profile", profile);
         return "profile";
