@@ -105,7 +105,7 @@
 							<div class="row" id="bar">
 								<div class="col-md-9" id = "NewCombobox">
 									<!--  Combobox NEW  -->
-								 	<select class="col-md-12" style="padding:0px;" id="e1">
+								 	<select th:field="*{language}" class="col-md-12" style="padding:0px;" id="e1">
 								 	<option th:each="lang : ${languages}" th:attr="value=${lang.mode}" th:text="${lang.displayName}">lang</option>
 										
 									</select>

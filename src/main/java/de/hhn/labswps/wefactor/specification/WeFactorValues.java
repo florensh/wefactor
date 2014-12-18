@@ -56,6 +56,15 @@ public class WeFactorValues {
             return null;
         }
 
+        public static ProgrammingLanguage getLanguageForMode(String mode) {
+            for (ProgrammingLanguage pl : ProgrammingLanguage.values()) {
+                if (pl.mode.equalsIgnoreCase(mode)) {
+                    return pl;
+                }
+            }
+            return null;
+        }
+
         public static List<String> valuesAsEditorMode() {
             List<String> retVal = new ArrayList<String>();
             for (ProgrammingLanguage pl : ProgrammingLanguage.values()) {

@@ -29,13 +29,13 @@ public class EntryList extends ArrayList<Entry> implements List<Entry> {
             for (Entry e : this) {
 
                 Integer count = reVal.get(WeFactorValues.ProgrammingLanguage
-                        .valueOf(e.getLanguage()));
+                        .getLanguageForMode(e.getLanguage()));
 
                 if (count == null) {
                     count = 0;
                 }
-                reVal.put(WeFactorValues.ProgrammingLanguage.valueOf(e
-                        .getLanguage()), ++count);
+                reVal.put(WeFactorValues.ProgrammingLanguage
+                        .getLanguageForMode(e.getLanguage()), ++count);
 
             }
         }
