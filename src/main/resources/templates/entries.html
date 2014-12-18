@@ -55,7 +55,7 @@
 					<!-- end filter -->
 
 					<!-- start entries -->
-					<div class="col">
+					<div class="col-xs-12 col-sm-9">
 						<div class="row" th:each="entry : ${entries}">
 							<div class="col-xs-3 col-sm-2 col-lg-2">
 							
@@ -93,18 +93,19 @@
 								<kbd th:text="${entry.language}">language</kbd>
 							</div>
 							
-							<div class="col-xs-8 col-sm-8 hidden-sm hidden-xs visible-md visible-lg">
+							<div class="col-xs-8 col-sm-7 hidden-sm hidden-xs visible-md visible-lg">
 								<h5>
 									<small>by&nbsp;</small> 
 									<a th:href="@{/user/profile/details(id=${entry.account.primaryProfile.id})}">
-										<span th:text="${entry.account.primaryProfile.name}">udo</span>
+										<span th:text="${beans.stringUtil.getCutString(entry.account.primaryProfile.name, 15)}" th:alt-title="${entry.account.primaryProfile.name}">udo</span>
 									</a>
 									<small>&nbsp;created</small> 
 									<small style="color: black;"
 										th:text="${beans.dateFormatter.format(entry.createdDate)}">10.11.2014</small>
 										<small style="margin-left:4px;">|</small>
-										<small style="margin-left:4px;"><i class="fa fa-eye  fa-lg"></i>&nbsp;<span th:text="${entry.statistics.views}">0</span></small>
-										<small style="margin-left:4px;"><i class="fa fa-star  fa-lg"></i>&nbsp;<span th:text="${entry.ratingCount}">0</span></small>
+										<small th:alt-title="'watched ' + ${entry.statistics.views} + ' times'"  style="margin-left:4px;"><i class="fa fa-eye  fa-lg"></i>&nbsp;<span th:text="${entry.statistics.views}">0</span></small>
+										<small th:alt-title="${entry.ratingCount} + ' ratings'"  style="margin-left:4px;"><i class="fa fa-star  fa-lg"></i>&nbsp;<span th:text="${entry.ratingCount}">0</span></small>
+										<small th:alt-title="${entry.versions.size()} + ' versions'" style="margin-left:4px;"><i class="fa fa-code-fork  fa-lg"></i>&nbsp;<span th:text="${entry.versions.size()}">0</span></small>
 								</h5>
 								
 								<kbd th:text="${entry.language}">language</kbd>
@@ -124,9 +125,9 @@
 							</div>
 -->
 							
-							<div class="col-xs-8 col-sm-2" style="margin-top: 10px;" id="rating-responsive" >
+							<div class="col-xs-8 col-sm-3" id="rating-responsive" >
 								
-                                <span>
+                                <span class="pull-right">
                                 	<a>
                                     	<input th:id="'rating-' + ${entry.id}" type="number" class="rating" min="0" th:attr="value=${entry.rankingValue}" max="5" step="1" data-size="xs" disabled="true"></input>
                                     </a>
@@ -155,6 +156,21 @@
 							</div>
 
 						</div>
+					</div>
+					<div class="col-xs-12 col-sm-3">
+						<h5 style="margin-top: 0px;">Languages</h5>
+						<ul style="list-style-type: none; padding: 4px 0px;">
+							<li th:each="langCountElem : ${entries.numberByLanguage}">
+								<div class="col-md-12" style="padding: 0px; height: 24px;">
+								<span id="languageSidebarProgress" class="col-md-12 pull-right" th:style="' width:'+${entries.getPercentageOfLanguage(langCountElem.key)}+'%;'"></span>
+								<a id="languageSidebar" class="col-md-12" style="padding: 0px 10px; text-decoration: none; color: #777; cursor: pointer; bottom: 20px;">
+									
+									<span th:text="${langCountElem.value}" class="count" style="font-weight: bold; float: right;">18</span>
+									<span th:text="${langCountElem.key.displayName}">JavaScript</span>
+								</a>
+								</div>
+							</li>
+						</ul>
 					</div>
 
 

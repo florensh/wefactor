@@ -9,6 +9,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
+import de.hhn.labswps.wefactor.web.DataObjects.SearchBoxDataObject;
+
 @ControllerAdvice
 public class UserControllerAdvice {
 
@@ -19,6 +21,9 @@ public class UserControllerAdvice {
     public void setModel(HttpServletRequest request, Principal currentUser,
             Model model) {
         util.setModel(request, currentUser, model);
+
+        SearchBoxDataObject sbda = new SearchBoxDataObject();
+        model.addAttribute("searchBoxDataObject", sbda);
 
     }
 }

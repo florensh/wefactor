@@ -50,3 +50,15 @@
   }
 }
 
+#languageSidebar:hover {
+	background-color: #F1F1F1;
+	border-radius: 3px;
+	padding: 0px;
+}
+#languageSidebarProgress {
+	padding: 0px;
+	background-color: #F1F1F1;
+	height: 20px;
+	border-radius: 0px 3px 3px 0px;
+}
+

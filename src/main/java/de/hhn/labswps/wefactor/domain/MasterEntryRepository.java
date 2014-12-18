@@ -12,4 +12,8 @@ public interface MasterEntryRepository extends
 
     List<Entry> findByAccountId(Long accountId);
 
+    List<Entry> findByEntryDescriptionContainingOrNameContainingOrTeaserContainingOrAccountProfilesNameContaining(
+            String d_searchtext, String n_searchtext, String t_searchtext,
+            String pn_searchtext);
+
 }
