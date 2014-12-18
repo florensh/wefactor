@@ -17,25 +17,19 @@ public class WeFactorValues {
      */
     public enum ProgrammingLanguage {
 
-        //@formatter:off
-        Java("Java", "java"),
-        HTML("HTML", "html"),
-        CSS("CSS", "css"),
-        XML("XML", "xml")
-        // C_Sharp("C#"),
-        // C_PlusPlus("C++"),
-        // SQL("sql"),
-        // PHP("PHP"),
-        // Bash("Bash"),
-        // C("C"),
-        // Python("Python"),
-        // Groovy("Groovy"),
-        // Ruby("Ruby"),
-        // Scala("Scala"),
-        // Haskell("Haskell"),
-        // Objective_C("Objectiv-C")
+        // @formatter:off
+        Java("Java", "java"), HTML("HTML", "html"), CSS("CSS", "css"), XML(
+                "XML", "xml"), CLOJURE("Clojure", "clojure"), COBOL("Cobol",
+                "cobol"), C_Sharp("C#", "csharp"), HASKELL("Haskell", "haskell"), JSON(
+                "Json", "json"), JSP("JSP", "jsp"), JAVASCRIPT("JavaScript",
+                "javascript"), OBJECTIVE_C("Objectiv-C", "objectivec"), PASCAL(
+                "Pascal", "pascal"), PYTHON("Python", "python"), RUBY("Ruby",
+                "ruby"), C_PP("C / C++", "c_pp"), PERL("Perl", "perl"), PHP(
+                "PHP", "php"), PROLOG("Prolog", "prolog"), SQL("SQL", "sql"), GROOVY(
+                "Groovy", "groovy"),
+
         ;
-        //@formatter:on
+        // @formatter:on
 
         private String mode;
         private String displayName;
@@ -81,12 +75,11 @@ public class WeFactorValues {
 
     public enum EventType {
 
-        //@formatter:off
-        MADE_PROPOSAL("made a new proposal"),
-        PROPOSAL_ACCEPTED("accepted your proposal"),
-        PROPOSAL_REJECTED("rejected your proposal"),
-        ;
-        //@formatter:on
+        // @formatter:off
+        MADE_PROPOSAL("made a new proposal"), PROPOSAL_ACCEPTED(
+                "accepted your proposal"), PROPOSAL_REJECTED(
+                "rejected your proposal"), ;
+        // @formatter:on
 
         private String text;
 

@@ -101,25 +101,14 @@
 								</div>
 							</div>
 							
-			
 
 							<div class="row" id="bar">
-								<div class="col-md-9 col-sm-9">
-									<div class="col-md-12 col-xs-12 input-group input-append dropdown combobox"
-										data-initialize="combobox" id="myCombobox">
-										<input th:field="*{language}" type="text" class="form-control" placeholder="Language"></input>
-										<div class="input-group-btn">
-											<button type="button" class="btn btn-default dropdown-toggle"
-												data-toggle="dropdown">
-												<span class="caret"></span>
-											</button>
-											<ul class="dropdown-menu dropdown-menu-right">
-											<!-- <li><a href="#">java</a></li>
-												<li><a href="#">html</a></li> -->	
-												<li  th:each="lang : ${languages}"><a th:text="${lang.mode}" th:attr="data-langMode=${lang.mode}" href="#">java</a></li>
-											</ul>
-										</div>
-									</div>
+								<div class="col-md-9" id = "NewCombobox">
+									<!--  Combobox NEW  -->
+								 	<select class="col-md-12" style="padding:0px;" id="e1">
+								 	<option th:each="lang : ${languages}" th:attr="value=${lang.mode}" th:text="${lang.displayName}">lang</option>
+										
+									</select>
 								</div>
 							</div>
 
@@ -176,6 +165,7 @@
 	<script th:src="@{/webjars/fuelux/3.0.2/js/fuelux.min.js}"></script>
 	<script th:src="@{/webjars/tinymce-jquery/4.0.16/tinymce.min.js}"></script>
 	<script th:src="@{/webjars/ace/01.08.2014/src-min-noconflict/ace.js}"></script>
+	<script th:src="@{/select2-3.5.2/select2.js}"></script>
 
 	<script>
 		$('.pull-down').each(
@@ -192,6 +182,25 @@
 			menubar: false
 		});
 	</script>
+	
+	<!-- Javascript Combobox -->
+	<script th:inline="javascript">
+		/*<![CDATA[*/
+		           
+		           $(document).ready(function() {
+		        	   $("#e1").select2(); 
+		        	   var mode = "ace/mode/"+$("#e1").select2("val");
+						editor.getSession().setMode(mode);
+		        	   });
+		
+		           $("#e1").on("change", function(e) { 
+		           			var mode = "ace/mode/"+$("#e1").select2("val");
+							editor.getSession().setMode(mode);
+		           })
+		           
+			/*]]>*/
+	</script>
+		
 
 	<script th:inline="javascript">
 		/*<![CDATA[*/
@@ -208,10 +217,7 @@
 			document.getElementById("acearea").value = editor.getValue();
 		});
 		
-		$('#myCombobox').on('changed.fu.combobox', function (evt, data) {
-			var mode = "ace/mode/"+data.text;
-			editor.getSession().setMode(mode);
-			});
+		
 		
 		/*]]>*/
 	</script>
