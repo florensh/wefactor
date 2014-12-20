@@ -31,10 +31,9 @@
 							</div>
 							<div class="text-center-responsive col-xs-12 col-sm-6" id="profilName">
 								<h2 class="profile">
-									<span>Bob</span><span
+									<span th:text="${group.name}">name</span><span
 										><br></br>
-									<small><span >firstName</span>&nbsp;<span
-											>lastName</span></small></span>
+									<small><span th:text="${group.description}">description</span></small></span>
 								</h2>
 
 							</div>

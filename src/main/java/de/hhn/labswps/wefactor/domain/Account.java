@@ -12,6 +12,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -26,14 +29,16 @@ import de.hhn.labswps.wefactor.specification.WeFactorValues.Role;
 @Entity
 @Table(name = "account")
 @JsonIgnoreProperties({ "id", "entries", "createdBy", "lastModifiedBy",
-        "hibernateLazyInitializer", "handler" })
+        "hibernateLazyInitializer", "handler", "groups" })
 public class Account {
-
-    private Set<UserProfile> profiles = new HashSet<UserProfile>();
 
     private Set<Entry> entries = new HashSet<Entry>();
 
+    private Set<Group> groups = new HashSet<Group>();
+
     private Long id;
+
+    private Set<UserProfile> profiles = new HashSet<UserProfile>();
 
     protected String roles;
 
@@ -85,6 +90,12 @@ public class Account {
         return this.entries;
     }
 
+    @ManyToMany
+    @JoinTable(name = "ACCOUNT_GROUP", joinColumns = { @JoinColumn(name = "ACCOUNT_ID", referencedColumnName = "ID") }, inverseJoinColumns = { @JoinColumn(name = "GROUP_ID", referencedColumnName = "ID") })
+    public Set<Group> getGroups() {
+        return groups;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     public Long getId() {
@@ -116,6 +127,10 @@ public class Account {
 
     public void setEntries(final Set<Entry> entries) {
         this.entries = entries;
+    }
+
+    public void setGroups(Set<Group> groups) {
+        this.groups = groups;
     }
 
     public void setId(final Long id) {

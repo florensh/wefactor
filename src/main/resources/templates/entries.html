@@ -55,7 +55,7 @@
 					<!-- end filter -->
 
 					<!-- start entries -->
-					<div class="col-xs-12 col-sm-9">
+					<div th:fragment="entryList (entries)" class="col-xs-12 col-sm-9">
 						<div class="row" th:each="entry : ${entries}">
 							<div class="col-xs-3 col-sm-2 col-lg-2">
 							

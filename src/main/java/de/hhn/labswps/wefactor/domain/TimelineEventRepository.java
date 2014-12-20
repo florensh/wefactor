@@ -8,7 +8,10 @@ import org.springframework.data.repository.CrudRepository;
 public interface TimelineEventRepository extends
         CrudRepository<TimelineEvent, Long> {
 
-    List<TimelineEvent> findByTargetOrderByEventDateDesc(Account a,
+    List<TimelineEvent> findByTargetAccountOrderByEventDateDesc(Account a,
+            Pageable topFive);
+
+    List<TimelineEvent> findByTargetGroupOrderByEventDateDesc(Group g,
             Pageable topFive);
 
 }

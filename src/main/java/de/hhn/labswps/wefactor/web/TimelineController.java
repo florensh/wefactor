@@ -47,7 +47,7 @@ public class TimelineController {
         Pageable topFive = new PageRequest(0, 6);
 
         model.addAttribute("events", this.timelineEventRepository
-                .findByTargetOrderByEventDateDesc(a, topFive));
+                .findByTargetAccountOrderByEventDateDesc(a, topFive));
 
         return "timeline";
 
@@ -66,7 +66,7 @@ public class TimelineController {
         Pageable topTwo = new PageRequest(currentPage, 3);
 
         List<TimelineEvent> result = this.timelineEventRepository
-                .findByTargetOrderByEventDateDesc(a, topTwo);
+                .findByTargetAccountOrderByEventDateDesc(a, topTwo);
         if (result.isEmpty()) {
             throw new ResourceNotFoundException(null, null);
         }

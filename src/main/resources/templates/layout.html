@@ -172,7 +172,7 @@
 					</ul>
 					<ul class="nav">
 						<li><h4 style="margin-top: 40px; font-size: 14px;"><a style="text-decoration: none; color: #777;">Groups</a></h4></li>
-						<li><a href="/user/group">Group Ex.1</a></li>
+						<li th:each="group : ${groups}"><a th:text="${group.name}" th:href="@{/user/group(id=${group.id})}">Group Ex.1</a></li>
 					</ul>
 				</div>
 

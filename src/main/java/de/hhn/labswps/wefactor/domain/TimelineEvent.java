@@ -18,7 +18,19 @@ public class TimelineEvent extends BaseEntity {
 
     private Date eventDate;
     private Account source;
-    private Account target;
+    private Account targetAccount;
+    private Group targetGroup;
+
+    @ManyToOne
+    @JoinColumn(name = "target_group", nullable = false)
+    public Group getTargetGroup() {
+        return targetGroup;
+    }
+
+    public void setTargetGroup(Group targetGroup) {
+        this.targetGroup = targetGroup;
+    }
+
     private String eventType;
 
     public TimelineEvent() {
@@ -30,7 +42,7 @@ public class TimelineEvent extends BaseEntity {
 
         this.eventDate = eventDate;
         this.source = source;
-        this.target = target;
+        this.targetAccount = target;
         this.eventType = type.name();
         this.objectReference = objectReference;
 
@@ -79,13 +91,13 @@ public class TimelineEvent extends BaseEntity {
     }
 
     @ManyToOne
-    @JoinColumn(name = "target", nullable = false)
-    public Account getTarget() {
-        return target;
+    @JoinColumn(name = "target_account", nullable = false)
+    public Account getTargetAccount() {
+        return targetAccount;
     }
 
-    public void setTarget(Account target) {
-        this.target = target;
+    public void setTargetAccount(Account target) {
+        this.targetAccount = target;
     }
 
 }
