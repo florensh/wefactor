@@ -138,6 +138,27 @@ public class EntryController {
         return "entrydetails";
     }
 
+    @RequestMapping(value = "/entry/details/raw", method = RequestMethod.GET)
+    public String showEntryCodeRaw(@RequestParam("id") Long id,
+            @RequestParam("type") String type, ModelMap model,
+            Principal currentUser) {
+
+        Entry entry = null;
+        if (MasterEntry.class.getSimpleName().equals(type)) {
+            entry = this.entryRepository.findOne(id);
+
+        } else if (VersionEntry.class.getSimpleName().equals(type)) {
+            entry = this.versionEntryRepository.findOne(id);
+
+        } else if (ProposalEntry.class.getSimpleName().equals(type)) {
+            entry = this.proposalEntryRepository.findOne(id);
+
+        }
+
+        model.addAttribute("code", entry.getEntryCodeText());
+        return "rawCode";
+    }
+
     @RequestMapping(value = "/proposal/details", method = RequestMethod.GET)
     public String showProposalDetails(@RequestParam("id") Long id,
             ModelMap model, Principal currentUser) {
