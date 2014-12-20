@@ -144,12 +144,7 @@
 													<div class="panel-heading">
 														<div class="pull-left" style="padding-top:4px;"><kbd th:text="${the_entry.language}">java</kbd></div>
 														<div class="btn-toolbar pull-right" role="toolbar" aria-label="...">
-
-															<button id="raw" type="button" class="btn btn-default btn-sm">
-																Raw
-															</button>
-															
-
+															<a th:href="@{/entry/details/raw(id=${the_entry.id},type=${the_entry.type})}" class="btn btn-default btn-sm" role="button">Raw</a>
 														</div>
 														<div class="clearfix"></div>
 														
