@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import de.hhn.labswps.wefactor.domain.Entry;
 import de.hhn.labswps.wefactor.specification.WeFactorValues;
@@ -15,6 +16,10 @@ public class EntryList extends ArrayList<Entry> implements List<Entry> {
     }
 
     public EntryList() {
+    }
+
+    public EntryList(Set<Entry> entries) {
+        addAll(entries);
     }
 
     public int getPercentageOfLanguage(WeFactorValues.ProgrammingLanguage lang) {

@@ -22,7 +22,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 // @SQLDelete(sql = "UPDATE entry set inactive = 'Y' WHERE Id = ?")
 @JsonIgnoreProperties({ "id", "parent", "softDeleted", "createdBy",
         "lastModifiedBy", "orderedVersions", "orderedVersionIds",
-        "orderedVersionTypes", "masterOfVersion", "ratings" })
+        "orderedVersionTypes", "masterOfVersion", "ratings", "headVersion" })
 public class VersionEntry extends Entry {
 
     public VersionEntry() {
@@ -42,6 +42,12 @@ public class VersionEntry extends Entry {
         this.setLanguage(pe.getLanguage());
         this.setName(pe.getName());
         this.setTeaser(pe.getTeaser());
+
+        if (!pe.getTags().isEmpty()) {
+            for (Tag tag : pe.getTags()) {
+                this.addTag(tag);
+            }
+        }
     }
 
     @ManyToOne(fetch = FetchType.LAZY)

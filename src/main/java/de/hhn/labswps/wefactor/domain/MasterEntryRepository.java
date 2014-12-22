@@ -16,4 +16,6 @@ public interface MasterEntryRepository extends
             String d_searchtext, String n_searchtext, String t_searchtext,
             String pn_searchtext);
 
+    List<Entry> findDistinctByTagsNameOrVersionsTagsName(String mTag, String vTag);
+
 }

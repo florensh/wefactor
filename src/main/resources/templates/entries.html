@@ -129,7 +129,7 @@
 								
                                 <span class="pull-right">
                                 	<a>
-                                    	<input th:id="'rating-' + ${entry.id}" type="number" class="rating" min="0" th:attr="value=${entry.rankingValue}" max="5" step="1" data-size="xs" disabled="true"></input>
+                                    	<input th:id="'rating-' + ${entry.id}" type="number" class="rating" min="0" th:attr="value=${entry.headVersion.rankingValue}" max="5" step="1" data-size="xs" disabled="true"></input>
                                     </a>
                                 </span>
                                 
@@ -144,12 +144,17 @@
   -->								
 								</h3>
 							</div>
-                            
+
 							<div class="col-xs-12 col-sm-10 pull-right">
 								<h3 style="margin-top: 0px; margin-bottom: 0px;">
 									<small th:text="${entry.teaser}">description</small>
 								</h3>
+								<div>
+									<a th:each="tag : ${entry.headVersion.tags}" class="label label-info" th:text="${tag.name}" th:href="@{/entries/tag(id=${tag.name})}">Info</a>
+								</div>
 							</div>
+
+
 
 							<div class="col-xs-12 col-sm-12">
 								<hr></hr>

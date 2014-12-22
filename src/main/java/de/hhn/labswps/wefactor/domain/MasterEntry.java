@@ -23,7 +23,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @JsonIgnoreProperties({ "id", "parent", "softDeleted", "createdBy",
         "lastModifiedBy", "orderedVersions", "orderedVersionIds",
         "orderedVersionTypes", "versions", "proposals", "ratings",
-        "hibernateLazyInitializer", "handler" })
+        "hibernateLazyInitializer", "handler", "headVersion" })
 public class MasterEntry extends Entry {
 
     private Set<VersionEntry> versions = new HashSet<VersionEntry>();

@@ -23,38 +23,65 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import de.hhn.labswps.wefactor.specification.WeFactorValues.Role;
 
+/**
+ * The Account represents a user.
+ */
 @Entity
 @Table(name = "account")
 @JsonIgnoreProperties({ "id", "entries", "createdBy", "lastModifiedBy",
-        "hibernateLazyInitializer", "handler" })
-public class Account {
+    "hibernateLazyInitializer", "handler" })
+public final class Account {
 
-    private Set<UserProfile> profiles = new HashSet<UserProfile>();
-
+    /** The set of entries a user created. */
     private Set<Entry> entries = new HashSet<Entry>();
 
+    /** The unique identification of an account. */
     private Long id;
 
-    protected String roles;
+    /**
+     * The set of profiles a user can have. This can also be profiles from
+     * social providers like google
+     */
+    private Set<UserProfile> profiles = new HashSet<UserProfile>();
 
+    /** The roles as comma separated String. */
+    private String roles;
+
+    /**
+     * Default constructor. Necessary for JPA
+     */
     public Account() {
 
     }
 
+    /**
+     * Instantiates a new account.
+     *
+     * @param role
+     *            the role
+     */
     public Account(final Role role) {
         this.addRole(role);
     }
 
-    public void addEntry(final Entry entry) {
-        this.entries.add(entry);
-    }
-
+    /**
+     * Adds a profile to that account.
+     *
+     * @param profile
+     *            the profile to add
+     */
     public void addProfile(final UserProfile profile) {
         this.profiles.add(profile);
     }
 
+    /**
+     * Adds a role to the account.
+     *
+     * @param role
+     *            the role to add
+     */
     public void addRole(final Role role) {
-        if (this.roles == null || this.roles.isEmpty()) {
+        if ((this.roles == null) || this.roles.isEmpty()) {
             this.roles = role.name();
         } else {
             final String[] rolesAsArray = this.roles.split(",");
@@ -64,6 +91,37 @@ public class Account {
         }
     }
 
+    /*
+     * (non-Javadoc)
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    @Override
+    public boolean equals(final Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (this.getClass() != obj.getClass()) {
+            return false;
+        }
+        final Account other = (Account) obj;
+        if (this.id == null) {
+            if (other.id != null) {
+                return false;
+            }
+        } else if (!this.id.equals(other.id)) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Provides the authorities for spring security.
+     *
+     * @return the authorities
+     */
     @Transient
     public Collection<GrantedAuthority> getAuthorities() {
 
@@ -80,54 +138,117 @@ public class Account {
         return authorities;
     }
 
+    /**
+     * Gets the entries.
+     *
+     * @return the entries
+     */
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "account")
     public Set<Entry> getEntries() {
         return this.entries;
     }
 
+    /**
+     * Gets the id.
+     *
+     * @return the id
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     public Long getId() {
         return this.id;
     }
 
+    /**
+     * Gets the primary profile.
+     *
+     * @return the primary profile
+     */
     @Transient
     public UserProfile getPrimaryProfile() {
         return this.profiles.iterator().next();
     }
 
+    /**
+     * Gets the profiles.
+     *
+     * @return the profiles
+     */
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "account")
     public Set<UserProfile> getProfiles() {
         return this.profiles;
     }
 
+    /**
+     * Gets the roles.
+     *
+     * @return the roles
+     */
     @Column(name = "roles")
     public String getRoles() {
         return this.roles;
     }
 
-    public void removeEntry(final Entry entry) {
-        this.entries.remove(entry);
+    /*
+     * (non-Javadoc)
+     * @see java.lang.Object#hashCode()
+     */
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = (prime * result)
+                + ((this.id == null) ? 0 : this.id.hashCode());
+        return result;
     }
 
-    public void removeProfile(final UserProfile profile) {
-        this.profiles.remove(profile);
+    /**
+     * Sets the entries.
+     *
+     * @param theEntries
+     *            the new entries
+     */
+    public void setEntries(final Set<Entry> theEntries) {
+        this.entries = theEntries;
     }
 
-    public void setEntries(final Set<Entry> entries) {
-        this.entries = entries;
+    /**
+     * Sets the id.
+     *
+     * @param theId
+     *            the new id
+     */
+    public void setId(final Long theId) {
+        this.id = theId;
     }
 
-    public void setId(final Long id) {
-        this.id = id;
+    /**
+     * Sets the profiles.
+     *
+     * @param theProfiles
+     *            the new profiles
+     */
+    public void setProfiles(final Set<UserProfile> theProfiles) {
+        this.profiles = theProfiles;
     }
 
-    public void setProfiles(final Set<UserProfile> profiles) {
-        this.profiles = profiles;
+    /**
+     * Sets the roles.
+     *
+     * @param theRoles
+     *            the new roles
+     */
+    public void setRoles(final String theRoles) {
+        this.roles = theRoles;
     }
 
-    public void setRoles(final String roles) {
-        this.roles = roles;
+    /*
+     * (non-Javadoc)
+     * @see java.lang.Object#toString()
+     */
+    @Override
+    public String toString() {
+        return "Account [id=" + this.id + ", roles=" + this.roles + "]";
     }
 
 }

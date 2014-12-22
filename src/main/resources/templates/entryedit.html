@@ -74,15 +74,13 @@
 								</div>
 							</div>
 
-							<div  class="row">
-							<div th:if="*{editMode}=='MASTER'" class="form-group col-md-9" id="teaserInput">
-									<h4 id="header2">Teaser</h4> <textarea
-										th:field="*{teaser}" id="title"
-										class="form-control col-md-12 col-sm-12 col-xs-12" 
-										placeholder="Enter your teaser" style="resize: none;"></textarea>
+							<div class="row">
+								<div th:if="*{editMode}=='MASTER'" class="form-group col-md-9" id="teaserInput">
+									<h4 id="header2">Teaser</h4>
+									<textarea th:field="*{teaser}" id="title" class="form-control col-md-12 col-sm-12 col-xs-12" placeholder="Enter your teaser" style="resize: none;"></textarea>
 								</div>
 							</div>
-							
+
 							<div  class="row">
 							
 							<div th:unless="*{editMode}=='MASTER'" class="form-group col-md-9" id="changesInput">
@@ -92,7 +90,14 @@
 
 								</div>
 							</div>
-							
+
+							<div class="row">
+								<div class="form-group col-md-9" id="tagInput">
+									<h4 id="header2">Tags</h4>
+									<div id="my-tag-list" class="tag-list"></div>
+								</div>
+							</div>
+
 
 							<div class="row">
 								<div class="col-md-9" id="tinyMCE">
@@ -100,7 +105,11 @@
 									<input th:field="*{description}" id="tinyEditor"></input>
 								</div>
 							</div>
-							
+
+							<div class="hidden">
+								<input th:field="*{tagString}" id="tagString"></input>
+							</div>
+
 
 							<div class="row" id="bar">
 								<div class="col-md-9" id = "NewCombobox">
@@ -166,6 +175,7 @@
 	<script th:src="@{/webjars/tinymce-jquery/4.0.16/tinymce.min.js}"></script>
 	<script th:src="@{/webjars/ace/01.08.2014/src-min-noconflict/ace.js}"></script>
 	<script th:src="@{/select2-3.5.2/select2.js}"></script>
+	<script th:src="@{/js/bootstrap-tags.min.js}"></script>
 
 	<script>
 		$('.pull-down').each(
@@ -200,7 +210,41 @@
 		           
 			/*]]>*/
 	</script>
+
+	<script th:inline="javascript">
+		/*<![CDATA[*/
+		           
+		function addTag(tag){
+			var tags = document.getElementById("tagString").value;
+			tags = tags+"["+tag+"]";
+			document.getElementById("tagString").value = tags;
+		} 
 		
+		function removeTag(tag){
+			var tags = document.getElementById("tagString").value;
+			tags = tags.replace("["+tag+"]",'');
+			document.getElementById("tagString").value = tags;
+		}  
+
+		$(function() {
+			// If using Bootstrap 2, be sure to include:
+			// Tags.bootstrapVersion = "2";
+			
+			var tags = /*[[${tags}]]*/'tags';
+			var entryTags = /*[[${entryDataObject.getTags()}]]*/'entrytags';
+			
+			$('#my-tag-list').tags({
+				tagData : entryTags,
+				suggestions : tags,
+				excludeList : [ "not", "these", "words" ],
+				beforeAddingTag: function(tag){ addTag(tag) },
+				afterDeletingTag: function(tag){ removeTag(tag) }
+			});
+		});
+
+		/*]]>*/
+	</script>
+
 
 	<script th:inline="javascript">
 		/*<![CDATA[*/

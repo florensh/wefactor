@@ -2,7 +2,9 @@ package de.hhn.labswps.wefactor.web;
 
 import java.security.Principal;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -29,6 +31,8 @@ import de.hhn.labswps.wefactor.domain.ObjectIdentification;
 import de.hhn.labswps.wefactor.domain.ProposalEntry;
 import de.hhn.labswps.wefactor.domain.ProposalEntry.Status;
 import de.hhn.labswps.wefactor.domain.ProposalEntryRepository;
+import de.hhn.labswps.wefactor.domain.Tag;
+import de.hhn.labswps.wefactor.domain.TagRepository;
 import de.hhn.labswps.wefactor.domain.TimelineEvent;
 import de.hhn.labswps.wefactor.domain.TimelineEventRepository;
 import de.hhn.labswps.wefactor.domain.UserProfile;
@@ -46,7 +50,7 @@ import de.hhn.labswps.wefactor.web.util.DataUtils;
 public class EntryController {
 
     private enum EntryScope {
-        ALL, USER;
+        ALL, USER, TAG;
     }
 
     private enum EntryEditMode {
@@ -69,11 +73,14 @@ public class EntryController {
     private UserProfileRepository userProfileRepository;
 
     @Autowired
+    private TagRepository tagRepository;
+
+    @Autowired
     private TimelineEventRepository timelineEventRepository;
 
     @RequestMapping(value = "/entries/{scope}", method = RequestMethod.GET)
     public String showEntries(
-            @RequestParam(value = "id", required = false) Long id,
+            @RequestParam(value = "id", required = false) String id,
             @PathVariable final String scope, final HttpServletRequest request,
             final Principal currentUser, final Model model) {
 
@@ -93,8 +100,22 @@ public class EntryController {
                 break;
 
             case USER:
-                model.addAttribute("entries",
-                        new EntryList(entryRepository.findByAccountId(id)));
+                model.addAttribute(
+                        "entries",
+                        new EntryList(entryRepository.findByAccountId(Long
+                                .valueOf(id))));
+
+                break;
+
+            case TAG:
+
+                // model.addAttribute("entries", new EntryList(tagRepository
+                // .findByName(id).getEntries()));
+
+                model.addAttribute(
+                        "entries",
+                        new EntryList(entryRepository
+                                .findDistinctByTagsNameOrVersionsTagsName(id, id)));
 
                 break;
 
@@ -206,11 +227,16 @@ public class EntryController {
         entryDataObject.setId(entry.getId());
         entryDataObject.setTeaser(entry.getTeaser());
         entryDataObject.setLanguage(entry.getLanguage());
+        entryDataObject.setTags(entry.getTagAsStrings());
         entryDataObject.setEditMode(editMode.name());
         if (editMode.equals(EntryEditMode.MASTER)) {
             entryDataObject.setChanges(entry.getChanges());
 
         }
+
+        String[] tags = resolveTagsAsStrings((List<Tag>) this.tagRepository
+                .findAll());
+        model.addAttribute("tags", tags);
 
         model.addAttribute("entryDataObject", entryDataObject);
         model.addAttribute("entry", entry);
@@ -290,13 +316,26 @@ public class EntryController {
 
         EntryDataObject ed = new EntryDataObject();
         ed.setEditMode(EntryEditMode.MASTER.name());
+
         model.addAttribute("entryDataObject", ed);
         model.addAttribute("languages",
                 WeFactorValues.ProgrammingLanguage.values());
 
         model.addAttribute("editMode", EntryEditMode.MASTER.name());
+        String[] tags = resolveTagsAsStrings((List<Tag>) this.tagRepository
+                .findAll());
+        model.addAttribute("tags", tags);
 
         return "entryedit";
+    }
+
+    private String[] resolveTagsAsStrings(List<Tag> tags) {
+        String[] retVal = new String[tags.size()];
+        for (int i = 0; i < tags.size(); i++) {
+            retVal[i] = tags.get(i).getName();
+        }
+
+        return retVal;
     }
 
     @RequestMapping(value = "/user/entry/save", method = RequestMethod.POST)
@@ -356,6 +395,7 @@ public class EntryController {
 
         ProposalEntry pe = new ProposalEntry();
 
+        fillupWithPersistedTags(pe, entryDataObject.getTags());
         pe.setEntryCodeText(entryDataObject.getCode());
         pe.setLanguage(entryDataObject.getLanguage());
         pe.setTeaser(entryDataObject.getTeaser());
@@ -395,6 +435,8 @@ public class EntryController {
         UserProfile profile = this.userProfileRepository
                 .findByUsername(secUser);
 
+        fillupWithPersistedTags(toSave, entryDataObject.getTags());
+
         toSave.setEntryCodeText(entryDataObject.getCode());
         toSave.setLanguage(entryDataObject.getLanguage());
         toSave.setTeaser(entryDataObject.getTeaser());
@@ -406,6 +448,33 @@ public class EntryController {
 
         toSave = this.entryRepository.save(toSave);
         return toSave;
+    }
+
+    private void fillupWithPersistedTags(Entry toSave, String[] tags) {
+
+        Set<String> newTags = new HashSet<String>();
+        for (int i = 0; i < tags.length; i++) {
+            boolean found = false;
+            for (Tag t : toSave.getTags()) {
+                if (t.getName().equals(tags[i])) {
+                    found = true;
+                    break;
+                }
+            }
+            if (!found) {
+                newTags.add(tags[i]);
+            }
+        }
+
+        for (String s : newTags) {
+            Tag tag = this.tagRepository.findByName(s);
+            if (tag == null) {
+                tag = new Tag(s);
+                tag = this.tagRepository.save(tag);
+            }
+            toSave.addTag(tag);
+        }
+
     }
 
     @RequestMapping(value = "/entryajax/{type}/{id}")
