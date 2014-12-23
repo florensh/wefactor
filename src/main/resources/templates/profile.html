@@ -12,7 +12,7 @@
 
 				<div th:replace="layout :: sidebar">(navbar)</div>
 				
-				<div class="col-xs-12 col-sm-9">
+				<div class="col-xs-12 col-sm-10">
 					<!-- content ############################################################################################################# -->
 					
 					<!-- hier mach ich irgendeinen Blödsinn-->
@@ -22,7 +22,7 @@
 					
 					<div class="row col-md-12">
 						<div class="container-fluid col-md-12" id="profilContainer">
-							<div class="col-xs-12 col-sm-3 text-center-responsive" id="profilPicture">
+							<div class="col-xs-12 col-sm-3 text-center-responsive" id="profilPicture" style="width: 200px; padding-right: 20px;">
 								<img th:if="${profile.imageUrl == null}"
 									src="http://www.localcrimenews.com/wp-content/uploads/2013/07/default-user-icon-profile.png"
 									alt="" class="img-thumbnail img-responsive profile"></img> 
@@ -55,6 +55,7 @@
 								<ul class="nav nav-pills" id="profilDetailsNav">
 									<li role="presentation" class="active"><a href="#">Info</a></li>
 									<li role="presentation"><a href="#">Statistics</a></li>
+									<li role="presentation"><a href="#">Groups</a></li>
 									<li role="presentation"><a href="#">more...</a></li>
 								</ul>
 							</div>
