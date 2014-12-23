@@ -76,6 +76,10 @@ kbd {
         padding-right: 0;
     }
 }
+
+.clicked{
+	opacity: 0.2;
+}
 /*
 .nav-tabs li a {
 	background-color: #F2F2EB;

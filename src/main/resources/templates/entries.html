@@ -56,7 +56,7 @@
 
 					<!-- start entries -->
 					<div class="col-xs-12 col-sm-9">
-						<div class="row" th:each="entry : ${entries}">
+						<div class="row" th:each="entry : ${entries}" th:classappend="${entry.language}">
 							<div class="col-xs-3 col-sm-2 col-lg-2">
 							
 							<!-- 
@@ -168,7 +168,7 @@
 							<li th:each="langCountElem : ${entries.numberByLanguage}">
 								<div class="col-md-12" style="padding: 0px; height: 24px;">
 								<span id="languageSidebarProgress" class="col-md-12 pull-right" th:style="' width:'+${entries.getPercentageOfLanguage(langCountElem.key)}+'%;'"></span>
-								<a id="languageSidebar" class="col-md-12" style="padding: 0px 10px; text-decoration: none; color: #777; cursor: pointer; bottom: 20px;">
+								<a th:attr="data-langCl=${langCountElem.key.mode}" id="languageSidebar" class="col-md-12 langfilter" style="padding: 0px 10px; text-decoration: none; color: #777; cursor: pointer; bottom: 20px;">
 									
 									<span th:text="${langCountElem.value}" class="count" style="font-weight: bold; float: right;">18</span>
 									<span th:text="${langCountElem.key.displayName}">JavaScript</span>
@@ -193,6 +193,46 @@
 	<script th:src="@{/webjars/bootstrap/3.2.0/js/bootstrap.min.js}"></script>
 	<script th:src="@{/js/scripts.js}"></script>
 	<script th:src="@{/js/star-rating.js}"></script>
+	
+	
+		<script th:inline="javascript">
+	/* <![CDATA[ */
+	           
+
+			$(document).ready(function() {
+				$('.langfilter').click(function(){
+			
+			if ($(this).hasClass("clicked")) {
+						useFilter($(this).attr('data-langCl'), true);
+						$(this).removeClass("clicked");
+					} else {
+						useFilter($(this).attr('data-langCl'), false);
+						$(this).addClass("clicked");
+					}
+
+				});
+			});
+
+			function useFilter(lang, show) {
+				useFilterForLang('.' + lang, show);
+			}
+
+			
+			function useFilterForLang(cl, show) {
+				$(cl).each(function(i) {
+					if (show) {
+						$(this).fadeIn('slow');
+					} else {
+						$(this).fadeOut('slow');
+
+					}
+				});
+			}
+
+			/* ]]> */
+		</script>
+	
+
 	
 </body>
 </html>
