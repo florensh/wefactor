@@ -12,6 +12,13 @@
 	margin-top: 3em;
 }
 
+.grouplink .fa-cog{
+    display: none;
+}
+.grouplink:hover .fa-cog {
+    display: inline;
+}
+
 kbd {
 	padding: 2px 4px;
 	font-size: 90%;

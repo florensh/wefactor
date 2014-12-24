@@ -11,6 +11,7 @@ import java.util.List;
 public class WeFactorValues {
 
     public static final String DEFAULT_IMAGE_URL = "http://www.localcrimenews.com/wp-content/uploads/2013/07/default-user-icon-profile.png";
+    public static final String DEFAULT_GROUP_IMAGE_URL = "http://cdn.flaticon.com/png/256/32441.png";
 
     /**
      * The Enum ProgrammingLanguage.

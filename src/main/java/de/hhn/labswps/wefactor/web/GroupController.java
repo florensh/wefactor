@@ -54,4 +54,12 @@ public class GroupController {
 
     }
 
+    @RequestMapping("/user/groupbrowser")
+    public String goToGroupBrowser(ModelMap model, Principal currentUser) {
+
+        model.addAttribute("groups", this.groupRepository.findAll());
+
+        return "groupBrowser";
+    }
+
 }
