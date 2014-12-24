@@ -11,6 +11,8 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import de.hhn.labswps.wefactor.specification.WeFactorValues;
+
 @Entity
 @Table(name = "t_group")
 @JsonIgnoreProperties({ "id", "createdBy", "lastModifiedBy",
@@ -29,6 +31,16 @@ public class Group extends BaseEntity {
 
     public String getDescription() {
         return description;
+    }
+
+    public Group() {
+        this.imageUrl = WeFactorValues.DEFAULT_GROUP_IMAGE_URL;
+    }
+
+    public Group(String name, String description) {
+        this.name = name;
+        this.description = description;
+        this.imageUrl = WeFactorValues.DEFAULT_GROUP_IMAGE_URL;
     }
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "group")
@@ -67,6 +79,16 @@ public class Group extends BaseEntity {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public void addMember(Account theAccount) {
+        this.members.add(theAccount);
+        theAccount.addGroup(this);
+    }
+
+    public void removeMember(Account theAccount) {
+        this.members.remove(theAccount);
+        theAccount.removeGroup(this);
     }
 
 }

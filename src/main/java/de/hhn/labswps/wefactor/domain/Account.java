@@ -145,4 +145,12 @@ public class Account {
         this.roles = roles;
     }
 
+    public void addGroup(Group g) {
+        this.groups.add(g);
+    }
+
+    public void removeGroup(Group g) {
+        this.groups.remove(g);
+    }
+
 }
