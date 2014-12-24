@@ -102,6 +102,19 @@
 							</div>
 							
 
+
+
+							<div class="row" id="bar">
+								<div class="col-md-9" id = "NewGroupCombobox">
+									<!--  Combobox NEW  -->
+								 	<select th:field="*{group}" class="col-md-12" style="padding:0px;" id="e2">
+								 	<option value=""></option>
+								 	<option th:each="groupelem : ${groups}" th:attr="value=${groupelem.id}" th:text="${groupelem.name}">lang</option>
+										
+									</select>
+								</div>
+							</div>
+
 							<div class="row" id="bar">
 								<div class="col-md-9" id = "NewCombobox">
 									<!--  Combobox NEW  -->
@@ -188,6 +201,12 @@
 		/*<![CDATA[*/
 		           
 		           $(document).ready(function() {
+		        	   $("#e2").select2({
+		        		   placeholder: "Select a Group",
+		        		   allowClear: true
+		        		   });
+		        	   
+		        	   
 		        	   $("#e1").select2(); 
 		        	   var mode = "ace/mode/"+$("#e1").select2("val");
 						editor.getSession().setMode(mode);

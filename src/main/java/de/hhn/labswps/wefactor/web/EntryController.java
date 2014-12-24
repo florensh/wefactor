@@ -23,6 +23,7 @@ import de.hhn.labswps.wefactor.domain.Account;
 import de.hhn.labswps.wefactor.domain.Entry;
 import de.hhn.labswps.wefactor.domain.EntryRating;
 import de.hhn.labswps.wefactor.domain.EntryRatingRepository;
+import de.hhn.labswps.wefactor.domain.GroupRepository;
 import de.hhn.labswps.wefactor.domain.MasterEntry;
 import de.hhn.labswps.wefactor.domain.MasterEntryRepository;
 import de.hhn.labswps.wefactor.domain.ObjectIdentification;
@@ -64,6 +65,9 @@ public class EntryController {
 
     @Autowired
     private ProposalEntryRepository proposalEntryRepository;
+
+    @Autowired
+    private GroupRepository groupRepository;
 
     @Autowired
     private UserProfileRepository userProfileRepository;
@@ -186,6 +190,10 @@ public class EntryController {
         entryDataObject.setTeaser(entry.getTeaser());
         entryDataObject.setLanguage(entry.getLanguage());
         entryDataObject.setEditMode(editMode.name());
+        if (entry.getGroup() != null) {
+            entryDataObject.setGroup(entry.getGroup().getId().toString());
+
+        }
         if (editMode.equals(EntryEditMode.MASTER)) {
             entryDataObject.setChanges(entry.getChanges());
 
@@ -196,6 +204,9 @@ public class EntryController {
         model.addAttribute("editMode", editMode.name());
         model.addAttribute("languages",
                 WeFactorValues.ProgrammingLanguage.values());
+
+        model.addAttribute("groups",
+                this.groupRepository.findByMembers(profile.getAccount()));
 
     }
 
@@ -267,11 +278,17 @@ public class EntryController {
     public String showAddEntryPage(final HttpServletRequest request,
             final Principal currentUser, final Model model) {
 
+        UserProfile profile = this.userProfileRepository
+                .findByUsername(currentUser.getName());
+
         EntryDataObject ed = new EntryDataObject();
         ed.setEditMode(EntryEditMode.MASTER.name());
         model.addAttribute("entryDataObject", ed);
         model.addAttribute("languages",
                 WeFactorValues.ProgrammingLanguage.values());
+
+        model.addAttribute("groups",
+                this.groupRepository.findByMembers(profile.getAccount()));
 
         model.addAttribute("editMode", EntryEditMode.MASTER.name());
 
@@ -382,6 +399,14 @@ public class EntryController {
         toSave.setName(entryDataObject.getTitle());
         toSave.setAccount(profile.getAccount());
         toSave.setChanges(entryDataObject.getChanges());
+
+        if (entryDataObject.getGroup() != null
+                && !entryDataObject.getGroup().isEmpty()) {
+            toSave.setGroup(this.groupRepository.findOne(Long
+                    .valueOf(entryDataObject.getGroup())));
+        } else {
+            toSave.setGroup(null);
+        }
 
         toSave = this.entryRepository.save(toSave);
         return toSave;

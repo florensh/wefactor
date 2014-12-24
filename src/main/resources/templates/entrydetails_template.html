@@ -152,7 +152,12 @@
 
 
 										<div th:fragment="right_sidebar (the_entry)" class="col-md-2 col-sm-2" id="right-sidebar">
-										<p style="margin-bottom: 0px;">
+											<p th:if="${the_entry.group}">
+												<span class="badge-text-light">Published in</span><br></br>
+												<a th:href="@{/user/group/(id=${the_entry.group.id})}"> <strong th:text="${the_entry.group.name}">group name</strong>
+												</a>
+											</p>
+											<p style="margin-bottom: 0px;">
 													<span id="ratingcount" class="badge badge-light" th:text="${the_entry.orderedVersions.get(0).ratingCount}">0</span> <span
 														class="badge-text-light">Ratings</span>
 												</p>
