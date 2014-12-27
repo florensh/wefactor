@@ -3,6 +3,9 @@ package de.hhn.labswps.wefactor.specification;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.hhn.labswps.wefactor.web.EntryController;
+import de.hhn.labswps.wefactor.web.GroupController;
+
 /**
  * The Class WeFactorValues.
  * 
@@ -86,20 +89,30 @@ public class WeFactorValues {
     public enum EventType {
 
         // @formatter:off
-        MADE_PROPOSAL("made a new proposal"), PROPOSAL_ACCEPTED(
-                "accepted your proposal"), PROPOSAL_REJECTED(
-                "rejected your proposal"), ;
+        MADE_PROPOSAL("made a new proposal",EntryController.ENTRY_DETAILS_LINK), 
+        PROPOSAL_ACCEPTED("accepted your proposal",EntryController.ENTRY_DETAILS_LINK), 
+        PROPOSAL_REJECTED("rejected your proposal",EntryController.ENTRY_DETAILS_LINK), 
+        USER_JOINED_GROUP("joined the group",GroupController.GROUP_DETAILS_LINK),
+        USER_LEFT_GROUP("left the group",GroupController.GROUP_DETAILS_LINK),
+        MADE_ENTRY("made an entry",EntryController.ENTRY_DETAILS_LINK)
+        ;
         // @formatter:on
 
         private String text;
+        private String link;
 
-        EventType(String text) {
+        EventType(String text, String link) {
             this.text = text;
+            this.link = link;
 
         }
 
         public String getText() {
             return this.text;
+        }
+
+        public String getLink() {
+            return this.link;
         }
     }
 }

@@ -33,6 +33,11 @@ public class Group extends BaseEntity {
         return description;
     }
 
+    @Override
+    public String toString() {
+        return this.name;
+    }
+
     public Group() {
         this.imageUrl = WeFactorValues.DEFAULT_GROUP_IMAGE_URL;
     }

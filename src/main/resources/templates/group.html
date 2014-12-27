@@ -18,36 +18,58 @@
 					<!-- content ############################################################################################################# -->
 
 					<div class="row col-md-12">
-						<div class="container-fluid col-md-12" id="profilContainer">
-							<div class="col-xs-12 col-sm-3 text-center-responsive"
-								id="profilPicture" style="width: 200px; padding-right: 20px;">
-								<img src="http://cdn.flaticon.com/png/256/32441.png" alt=""
-									class="img-thumbnail img-responsive profile"></img>
+						<div class="tabbable">
+							<div class="container-fluid col-md-12" id="profilContainer">
+								<div class="col-xs-12 col-sm-3 text-center-responsive" id="profilPicture" style="width: 200px; padding-right: 20px;">
+									<img src="http://cdn.flaticon.com/png/256/32441.png" alt="" class="img-thumbnail img-responsive profile"></img>
 
+								</div>
+								<div class="text-center-responsive col-xs-12 col-sm-6" id="profilName">
+									<h2 class="profile">
+										<span th:text="${group.name}">name</span><span><br></br> <small><span th:text="${group.description}">description</span></small></span>
+									</h2>
+
+								</div>
+								<div class="row text-center-responsive col-md-12" id="profilDetailsRow">
+									<ul class="nav nav-pills" id="profilDetailsNav" role="tablist">
+										<li role="presentation" class="active"><a data-toggle="tab" href="#news">News</a></li>
+										<li role="presentation"><a data-toggle="tab" href="#entries">Entries</a></li>
+										<li role="presentation"><a data-toggle="tab" href="#members">Members</a></li>
+									</ul>
+								</div>
 							</div>
-							<div class="text-center-responsive col-xs-12 col-sm-6"
-								id="profilName">
-								<h2 class="profile">
-									<span th:text="${group.name}">name</span><span><br></br>
-										<small><span th:text="${group.description}">description</span></small></span>
-								</h2>
+							<!--  
+							<div class="col-md-12" id="news" style="margin-bottom: 30px; padding: 0px;">
+								<div th:each="event : ${events}">
+									<div th:replace="timelineEntry :: timelineEntry (${event})"></div>
 
+								</div>
 							</div>
-							<div class="row text-center-responsive col-md-12"
-								id="profilDetailsRow">
-								<ul class="nav nav-pills" id="profilDetailsNav">
-									<li role="presentation" class="active"><a href="#">News</a></li>
-									<li role="presentation"><a href="#">Info</a></li>
-									<li role="presentation"><a href="#">Entries</a></li>
-									<li role="presentation"><a href="#">Members</a></li>
-								</ul>
-							</div>
-						</div>
+							
+							-->
+							<div class="tab-content col-md-12" style="margin-top: 50px; padding: 0px;">
+								<div role="tabpanel" class="tab-pane fade in active" id="news">
+									<div id="wrap">
+										<div th:each="event : ${events}">
+											<div th:replace="timelineEntry :: timelineEntry (${event})"></div>
 
-						<div class="col-md-12" id="wrap" style="margin-bottom: 30px; padding: 0px;">
-							<div th:each="event : ${events}">
-								<div th:replace="timelineEntry :: timelineEntry (${event})"></div>
+										</div>
+									</div>
+								</div>
+								<div role="tabpanel" class="tab-pane fade" id="entries">
+									<div th:replace="entries :: entryList(${entries})">(navbar)</div>
+								</div>
+								<div role="tabpanel" class="tab-pane fade" id="members">
+									<div th:each="member : ${group.members}">
+										<div class="col-md-2">
+											<a th:href="@{/user/profile/details(id=${member.primaryProfile.id})}"> 
+											<img th:src="${member.primaryProfile.imageUrl}" alt="" class="img-rounded img-responsive"></img>
+											<span th:text="${beans.stringUtil.getCutString(member.primaryProfile.name,15)}">user</span>
+											</a>
+										</div>
 
+									</div>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -62,15 +84,16 @@
 
 	<!--/.page-container-->
 	<!-- script references -->
-	<script
-		src="//ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
 	<script th:src="@{/webjars/bootstrap/3.2.0/js/bootstrap.min.js}"></script>
 	<script th:src="@{/js/scripts.js}"></script>
 	<script th:src="@{/webjars/fuelux/3.0.2/js/fuelux.min.js}"></script>
 	<script th:src="@{/js/infinite-scroll.js}"></script>
 	<script th:src="@{jscroll-master/jquery.jscroll.min.js}"></script>
+	<script th:src="@{/js/star-rating.js}"></script>
 
-	<script type="text/javascript">
+	<script th:inline="javascript">
+		/*<![CDATA[*/
 	
 			var currentRequest = false;
 			var currentPage = "1";
@@ -86,9 +109,10 @@
 					$('#myLoader').loader('reset');
 					$('#myLoader').fadeIn(500, function(){
 						
+						var id  = /*[[${group.Id}]]*/'id';
 						
 						currentPage++;
-						var url = '/timelineAjax/' + parseInt(currentPage);
+						var url = '/timelineAjax/group/' + parseInt(currentPage)+'?id='+id;
 					
 				$.ajax({
 			       		url: url,
@@ -119,7 +143,8 @@
 				
 		}
 		window.onscroll = scrollHandler;
-	</script>
+		/*]]>*/
+		</script>
 
 
 </body>

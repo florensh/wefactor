@@ -42,7 +42,8 @@
 	<script th:src="@{/js/infinite-scroll.js}"></script>
 	<script th:src="@{jscroll-master/jquery.jscroll.min.js}"></script>
 
-	<script type="text/javascript">
+	<script th:inline="javascript">
+		/*<![CDATA[*/
 	
 			var currentRequest = false;
 			var currentPage = "1";
@@ -59,8 +60,11 @@
 					$('#myLoader').fadeIn(500, function(){
 						
 						
+						var id  = /*[[${currentUserProfile.account.Id}]]*/'id';
+						
+						
 						currentPage++;
-						var url = '/timelineAjax/' + parseInt(currentPage);
+						var url = '/timelineAjax/user/' + parseInt(currentPage)+'?id='+id;
 					
 				$.ajax({
 			       		url: url,
@@ -91,7 +95,8 @@
 				
 		}
 		window.onscroll = scrollHandler;
-	</script>
+		/*]]>*/
+		</script>
 
 
 </body>

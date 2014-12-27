@@ -46,6 +46,8 @@ import de.hhn.labswps.wefactor.web.util.DataUtils;
 @Controller
 public class EntryController {
 
+    public static final String ENTRY_DETAILS_LINK = "/entry/details";
+
     private enum EntryScope {
         ALL, USER;
     }
@@ -81,6 +83,9 @@ public class EntryController {
             @PathVariable final String scope, final HttpServletRequest request,
             final Principal currentUser, final Model model) {
 
+        UserProfile profile = this.userProfileRepository
+                .findByUsername(currentUser.getName());
+
         final EntriesFilterDataObject filter = new EntriesFilterDataObject();
         model.addAttribute("entriesFilterDataObject", filter);
 
@@ -88,8 +93,9 @@ public class EntryController {
 
         switch (entryScope) {
             case ALL:
-                List<MasterEntry> list = (List<MasterEntry>) entryRepository
-                        .findAll();
+                List<Entry> list = (List<Entry>) entryRepository
+                        .findDistinctByGroupIsNullOrGroupMembers(profile
+                                .getAccount());
                 EntryList eList = new EntryList();
                 eList.addAll(list);
                 model.addAttribute("entries", eList);
@@ -131,7 +137,7 @@ public class EntryController {
         return "entrydetails";
     }
 
-    @RequestMapping(value = "/entry/details", method = RequestMethod.GET)
+    @RequestMapping(value = ENTRY_DETAILS_LINK, method = RequestMethod.GET)
     public String showEntryDetails(@RequestParam("id") Long id, ModelMap model,
             Principal currentUser) {
         MasterEntry entry = this.entryRepository.findOne(id);
@@ -239,7 +245,7 @@ public class EntryController {
         this.entryRepository.save(me);
 
         ObjectIdentification oid = DataUtils.createObjectIdentification(me,
-                MasterEntry.class.getSimpleName());
+                Entry.class.getSimpleName());
         TimelineEvent event = new TimelineEvent(new Date(), account,
                 pe.getAccount(), EventType.PROPOSAL_ACCEPTED, oid);
 
@@ -264,7 +270,7 @@ public class EntryController {
         this.proposalEntryRepository.save(pe);
 
         ObjectIdentification oid = DataUtils.createObjectIdentification(
-                pe.getMasterOfProposal(), MasterEntry.class.getSimpleName());
+                pe.getMasterOfProposal(), Entry.class.getSimpleName());
         TimelineEvent event = new TimelineEvent(new Date(), account,
                 pe.getAccount(), EventType.PROPOSAL_REJECTED, oid);
 
@@ -297,7 +303,7 @@ public class EntryController {
 
     @RequestMapping(value = "/user/entry/save", method = RequestMethod.POST)
     public String submitEntryForm(@Valid EntryDataObject entryDataObject,
-            BindingResult result, Model m, Principal currentUser) {
+            BindingResult result, ModelMap m, Principal currentUser) {
         if (result.hasErrors()) {
             m.addAttribute("languages",
                     WeFactorValues.ProgrammingLanguage.values());
@@ -306,7 +312,17 @@ public class EntryController {
 
         Entry toSave = saveEntry(entryDataObject, currentUser);
 
-        return "redirect:/entry/details?id=" + String.valueOf(toSave.getId());
+        // store event if entry in group
+        if (toSave.getGroup() != null) {
+            ObjectIdentification oid = DataUtils.createObjectIdentification(
+                    toSave, Entry.class.getSimpleName());
+            TimelineEvent event = new TimelineEvent(new Date(),
+                    toSave.getAccount(), toSave.getGroup(),
+                    EventType.MADE_ENTRY, oid);
+            this.timelineEventRepository.save(event);
+        }
+
+        return showEntryDetails(toSave.getId(), m, currentUser);
     }
 
     private Entry saveEntry(EntryDataObject entryDataObject,
@@ -368,7 +384,7 @@ public class EntryController {
         toSave = this.entryRepository.save(toSave);
 
         ObjectIdentification oid = DataUtils.createObjectIdentification(
-                pe.getMasterOfProposal(), MasterEntry.class.getSimpleName());
+                pe.getMasterOfProposal(), Entry.class.getSimpleName());
         TimelineEvent event = new TimelineEvent(new Date(),
                 profile.getAccount(), pe.getMasterOfProposal().getAccount(),
                 EventType.MADE_PROPOSAL, oid);

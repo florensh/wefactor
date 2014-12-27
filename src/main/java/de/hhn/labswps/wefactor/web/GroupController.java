@@ -1,6 +1,7 @@
 package de.hhn.labswps.wefactor.web;
 
 import java.security.Principal;
+import java.util.Date;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -19,15 +20,22 @@ import org.springframework.web.bind.annotation.RequestParam;
 import de.hhn.labswps.wefactor.domain.AccountRepository;
 import de.hhn.labswps.wefactor.domain.Group;
 import de.hhn.labswps.wefactor.domain.GroupRepository;
+import de.hhn.labswps.wefactor.domain.ObjectIdentification;
+import de.hhn.labswps.wefactor.domain.TimelineEvent;
 import de.hhn.labswps.wefactor.domain.TimelineEventRepository;
 import de.hhn.labswps.wefactor.domain.UserProfile;
 import de.hhn.labswps.wefactor.domain.UserProfileRepository;
+import de.hhn.labswps.wefactor.specification.WeFactorValues.EventType;
+import de.hhn.labswps.wefactor.web.DataObjects.EntryList;
 import de.hhn.labswps.wefactor.web.DataObjects.GroupDataObject;
 import de.hhn.labswps.wefactor.web.DataObjects.ScreenMessageObject;
 import de.hhn.labswps.wefactor.web.DataObjects.SearchBoxDataObject;
+import de.hhn.labswps.wefactor.web.util.DataUtils;
 
 @Controller
 public class GroupController {
+
+    public static final String GROUP_DETAILS_LINK = "/user/group";
 
     @Autowired
     private TimelineEventRepository timelineEventRepository;
@@ -41,7 +49,7 @@ public class GroupController {
     @Autowired
     private GroupRepository groupRepository;
 
-    @RequestMapping("/user/group")
+    @RequestMapping(GROUP_DETAILS_LINK)
     public String goToGroup(@RequestParam("id") Long id, ModelMap model,
             Principal currentUser) {
 
@@ -50,15 +58,13 @@ public class GroupController {
         model.addAttribute("group", group);
 
         // Laden der events
-        Pageable topFive = new PageRequest(0, 6);
+        Pageable topFive = new PageRequest(0,
+                TimelineEventRepository.DEFAULT_PAGE_SIZE);
         model.addAttribute("events", this.timelineEventRepository
                 .findByTargetGroupOrderByEventDateDesc(group, topFive));
 
-        // entries sind ueber group.getEntries() abrufbar bzw in thymeleaf
-        // group.entries
-        // in group.html verwendest du am besten aus entries das fragment
-        // th:fragment="entryList (entries)" (siehe zeile 58 entries) mit
-        // th:replace
+        EntryList entries = new EntryList(group.getEntries());
+        model.addAttribute("entries", entries);
 
         return "group";
 
@@ -79,6 +85,13 @@ public class GroupController {
         this.groupRepository.save(group);
         this.accountRepository.save(profile.getAccount());
 
+        ObjectIdentification oid = DataUtils.createObjectIdentification(group,
+                Group.class.getSimpleName());
+        TimelineEvent event = new TimelineEvent(new Date(),
+                profile.getAccount(), group, EventType.USER_JOINED_GROUP, oid);
+
+        this.timelineEventRepository.save(event);
+
         return goToGroupBrowser(model, currentUser);
 
     }
@@ -97,6 +110,13 @@ public class GroupController {
 
         this.groupRepository.save(group);
         this.accountRepository.save(profile.getAccount());
+
+        ObjectIdentification oid = DataUtils.createObjectIdentification(group,
+                Group.class.getSimpleName());
+        TimelineEvent event = new TimelineEvent(new Date(),
+                profile.getAccount(), group, EventType.USER_LEFT_GROUP, oid);
+
+        this.timelineEventRepository.save(event);
 
         return goToGroupBrowser(model, currentUser);
 
