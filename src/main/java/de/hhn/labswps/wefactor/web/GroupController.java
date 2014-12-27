@@ -132,7 +132,7 @@ public class GroupController {
         model.addAttribute("groups",
                 this.groupRepository.findByMembers(profile.getAccount()));
 
-        return "groupBrowser";
+        return "groupbrowser";
     }
 
     @RequestMapping("/user/group/add")
@@ -186,7 +186,7 @@ public class GroupController {
 
         m.addAttribute("groups", groups);
 
-        return "groupBrowser";
+        return "groupbrowser";
     }
 
 }
