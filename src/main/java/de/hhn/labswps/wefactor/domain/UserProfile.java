@@ -14,11 +14,14 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import de.hhn.labswps.wefactor.specification.WeFactorValues;
 import de.hhn.labswps.wefactor.specification.WeFactorValues.ProviderIdentification;
 
 @Entity
 @Table(name = "userprofile")
+@JsonIgnoreProperties({ "account", "createdBy", "lastModifiedBy" })
 public class UserProfile extends User implements Serializable {
 
     public static long getSerialversionuid() {
@@ -65,7 +68,7 @@ public class UserProfile extends User implements Serializable {
         this.imageUrl = fixImageUrl(imageUrl);
 
         this.account = account;
-        this.account.roles = "USER";
+        this.account.setRoles("USER");
         this.password = up.getUsername(); // TODO improve!!!
         fixName();
     }
@@ -78,7 +81,7 @@ public class UserProfile extends User implements Serializable {
         this.password = password;
         this.account = account;
         account.addProfile(this);
-        this.account.roles = "USER";
+        this.account.setRoles("USER");
         this.providerId = providerIdentification.name();
         this.imageUrl = WeFactorValues.DEFAULT_IMAGE_URL;
 
@@ -95,7 +98,7 @@ public class UserProfile extends User implements Serializable {
         this.username = username;
         this.account = account;
         account.addProfile(this);
-        this.account.roles = "USER";
+        this.account.setRoles("USER");
 
         this.fixName();
     }

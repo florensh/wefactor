@@ -5,8 +5,21 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.Locale;
 
 public class DateFormatter {
+
+    public String formatToLongDate(final Date date) {
+
+        if (date == null) {
+            return "";
+        }
+
+        DateFormat df;
+        df = DateFormat.getDateInstance(DateFormat.LONG, Locale.US);
+
+        return df.format(date);
+    }
 
     public String format(final Date date) {
 

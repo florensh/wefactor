@@ -1,6 +1,7 @@
 package de.hhn.labswps.wefactor.domain;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.persistence.DiscriminatorValue;
@@ -13,14 +14,15 @@ import javax.persistence.Transient;
 import org.hibernate.annotations.Where;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
 @DiscriminatorValue(value = "Proposal")
 @Where(clause = "inactive = 'N'")
 // @SQLDelete(sql = "UPDATE entry set inactive = 'Y' WHERE Id = ?")
-@JsonIgnoreProperties({ "id", "softDeleted", "account", "createdBy",
+@JsonIgnoreProperties({ "id", "parent", "softDeleted", "createdBy",
         "lastModifiedBy", "orderedVersions", "orderedVersionIds",
-        "orderedVersionTypes", "masterOfProposal" })
+        "orderedVersionTypes", "masterOfProposal", "headVersion", "group" })
 public class ProposalEntry extends Entry {
 
     public enum Status {
@@ -76,7 +78,21 @@ public class ProposalEntry extends Entry {
         List<Entry> retVal = new ArrayList<Entry>();
         retVal.add(this);
         retVal.add(masterOfProposal);
+        Collections.sort(retVal);
         return retVal;
+    }
+
+    @Override
+    @Transient
+    public Entry getParent() {
+        return masterOfProposal;
+    }
+
+    @Override
+    @Transient
+    @JsonProperty("versionDisplayText")
+    public String getVersionDisplayText() {
+        return getChanges();
     }
 
 }

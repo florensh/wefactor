@@ -1,6 +1,7 @@
 package de.hhn.labswps.wefactor.domain;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.persistence.DiscriminatorValue;
@@ -13,14 +14,16 @@ import javax.persistence.Transient;
 import org.hibernate.annotations.Where;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
 @DiscriminatorValue(value = "Version")
 @Where(clause = "inactive = 'N'")
 // @SQLDelete(sql = "UPDATE entry set inactive = 'Y' WHERE Id = ?")
-@JsonIgnoreProperties({ "id", "softDeleted", "account", "createdBy",
+@JsonIgnoreProperties({ "id", "parent", "softDeleted", "createdBy",
         "lastModifiedBy", "orderedVersions", "orderedVersionIds",
-        "orderedVersionTypes", "masterOfVersion", "ratings" })
+        "orderedVersionTypes", "masterOfVersion", "ratings", "headVersion",
+        "group" })
 public class VersionEntry extends Entry {
 
     public VersionEntry() {
@@ -40,6 +43,12 @@ public class VersionEntry extends Entry {
         this.setLanguage(pe.getLanguage());
         this.setName(pe.getName());
         this.setTeaser(pe.getTeaser());
+
+        if (!pe.getTags().isEmpty()) {
+            for (Tag tag : pe.getTags()) {
+                this.addTag(tag);
+            }
+        }
     }
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -58,7 +67,21 @@ public class VersionEntry extends Entry {
         List<Entry> retVal = new ArrayList<Entry>();
         retVal.add(this);
         retVal.add(masterOfVersion);
+        Collections.sort(retVal);
         return retVal;
+    }
+
+    @Override
+    @Transient
+    public Entry getParent() {
+        return masterOfVersion;
+    }
+
+    @Override
+    @Transient
+    @JsonProperty("versionDisplayText")
+    public String getVersionDisplayText() {
+        return getChanges();
     }
 
 }

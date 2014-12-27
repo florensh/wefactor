@@ -22,14 +22,14 @@
 
 						<div class="row" style="margin-bottom: 50px;">
 						<div th:fragment="entry_head (the_entry)">
-							<div class="col-xs-4 col-sm-2 col-md-1">
+							<div class="col-xs-3 col-sm-2 col-md-1">
 								<a th:unless="${the_entry.account.primaryProfile.imageUrl == null}" th:href="@{/user/profile/details(id=${the_entry.account.primaryProfile.id})}">								
 								<img 
-									th:src="${the_entry.account.primaryProfile.imageUrl}"
-									alt="" class="img-rounded img-responsive"></img></a>
+									th:src="${the_entry.account.primaryProfile.imageUrl}" style="width:50px;"
+									alt="" class="img-rounded"></img></a>
 							</div>
 							
-							<div class="col-xs-4 col-md-5 pull-left" id="userNameProfil">
+							<div class="col-xs-8 col-md-5 pull-left" id="userNameProfil">
 								<h4><a th:href="@{/user/profile/details(id=${the_entry.account.primaryProfile.id})}"> <span  th:text="${the_entry.account.primaryProfile.name}">name</span></a><span> / </span><strong><a th:href="@{/entry/details(id=${entry.id})}"> <span  th:text="${entry.name}">name</span></a></strong></h4>
 								<h4><small th:text="${beans.dateFormatter.format(the_entry.createdDate)}">created just now</small></h4>
 							</div>
@@ -78,7 +78,7 @@
 													<div class="panel-heading"
 														style="padding-top: 4px; padding-bottom: 4px">
 														<a id="version-userimage-link"
-															style="vertical-align: middle;"
+															style="vertical-align: middle; margin-right:4px;"
 															th:unless="${the_entry.orderedVersions.get(0).account.primaryProfile.imageUrl == null}"
 															th:href="@{/user/profile/details(id=${the_entry.orderedVersions.get(0).account.primaryProfile.id})}">
 															<img id="version-userimage"
@@ -86,13 +86,13 @@
 															alt="" class="img-rounded"
 															style="height: 23px; margin-top: 4px"></img>
 														</a> <a id="version-user-link"
-															style="padding-top: 4px; vertical-align: middle; color: black; font-size: 16px;"
+															style="padding-top: 4px; vertical-align: middle;  font-size: 16px;"
 															th:text="${the_entry.orderedVersions.get(0).account.primaryProfile.name}"
 															th:href="@{/user/profile/details(id=${the_entry.orderedVersions.get(0).account.primaryProfile.id})}">user
 														</a> <span style="padding-top: 4px; vertical-align: middle;">created
 														</span> <span id="version-createdate"
 															style="padding-top: 4px; vertical-align: middle;"
-															th:text="${beans.dateFormatter.format(the_entry.orderedVersions.get(0).createdDate)}">created
+															th:text="${beans.dateFormatter.formatToLongDate(the_entry.orderedVersions.get(0).createdDate)}">created
 															just now</span>
 
 
@@ -100,24 +100,25 @@
 
 														<div class="btn-toolbar pull-right" role="toolbar"
 															aria-label="...">
-															<div class="btn-group" role="group" aria-label="...">
+															
 																<button id="next-version" type="button"
 																	class="btn btn-link btn-sm">
 																	<span class="glyphicon glyphicon-chevron-left"
 																		aria-hidden="true"></span>
 																</button>
+																<span class="badge"><span id="versionnumber" th:text="${the_entry.parent.orderedVersions.size() - the_entry.orderedVersions.indexOf(the_entry)}">1</span>&nbsp;/&nbsp;<span th:text="${the_entry.parent.orderedVersions.size()}">2</span></span>
 																<button id="prev-version" type="button"
-																	class="btn btn-link btn-sm">
+																	class="btn btn-link btn-sm" style="margin-left: 0px;">
 																	<span class="glyphicon glyphicon-chevron-right"
 																		aria-hidden="true"></span>
 																</button>
-															</div>
+															
 														</div>
 														<span class="clearfix"></span>
 
 													</div>
 													<div id="version-changes" class="panel-body">
-														<span th:text="${the_entry.orderedVersions.get(0).changes}">First
+														<span th:text="${the_entry.orderedVersions.get(0).versionDisplayText}">First
 															Version of the snippet</span>
 													</div>
 												</div>
@@ -141,25 +142,41 @@
 											<div class="row">
 												<div th:fragment="editor (the_entry)" class="panel panel-default" id="editor-panel">
 													<div class="panel-heading">
-														your code
-														<kbd class="pull-right" th:text="${the_entry.language}">java</kbd>
+														<div class="pull-left" style="padding-top:4px;"><kbd th:text="${the_entry.language}">java</kbd></div>
+														<div class="btn-toolbar pull-right" role="toolbar" aria-label="...">
+															<a th:href="@{/entry/details/raw(id=${the_entry.id},type=${the_entry.type})}" class="btn btn-default btn-sm" role="button">Raw</a>
+														</div>
+														<div class="clearfix"></div>
+														
 													</div>
-													<div class="panel-body" id="editor">Panel content</div>
+													<div class="panel-body" id="editor"></div>
 												</div>
 											</div>
 										</div>
 
 
 										<div th:fragment="right_sidebar (the_entry)" class="col-md-2 col-sm-2" id="right-sidebar">
-										<p style="margin-bottom: 0px;">
+											<p th:if="${the_entry.group}"  style="margin-bottom: 22px;">
+												<span class="badge-text-light">Published in</span><br></br>
+												<a th:href="@{/user/group/(id=${the_entry.group.id})}"> <strong th:text="${the_entry.group.name}">group name</strong>
+												</a>
+											</p>
+											<p style="margin-bottom: 0px;">
 													<span id="ratingcount" class="badge badge-light" th:text="${the_entry.orderedVersions.get(0).ratingCount}">0</span> <span
 														class="badge-text-light">Ratings</span>
 												</p>
 											<span class="pull-left">
-												<a>
+												<a data-toggle="tooltip" data-placement="bottom" data-original-title="rate this entry">
                                     				<input id="input-id" type="number" class="rating" min="0" max="5" step="1"  data-size="xs"></input>
                                 				</a>
                                 			</span>
+                                			
+                                			<div class="clearfix"></div>
+                             <div class="row" style="margin-top:20px;">
+								<div class="col-md-12" id="tagInput">
+									<div id="my-tag-list" class="tag-list"></div>
+								</div>
+							</div>
 										</div>
 									</div>
 									<!-- end tab content for entry -->
@@ -257,6 +274,7 @@
 	<script th:src="@{/webjars/ace/01.08.2014/src-min-noconflict/ace.js}"></script>
 	<script th:src="@{/webjars/tinymce-jquery/4.0.16/tinymce.min.js}"></script>
 	<script th:src="@{/js/star-rating.js}"></script>
+	<script th:src="@{/js/bootstrap-tags.min.js}"></script>
 
 
 	<script th:inline="javascript">
@@ -346,6 +364,7 @@
 		   			$("#description").html(data.entryDescription); 
 		   			$("#version-changes").html(data.changes);
 		   			$("#ratingcount").html(data.ratingCount);
+		   			$("#versionnumber").html(data.versionnumber);
 		   			var editor = ace.edit("editor");
 		   			editor.setValue(data.entryCodeText);
 		   			editor.setValue(editor.getValue(), 1);

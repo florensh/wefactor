@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="de" xmlns:th="http://www.thymeleaf.org">
+<head th:include="layout :: htmlhead" th:with="title='Hello'"></head>
+<body>
+	<div class="page-container">
+
+		<!-- top navbar -->
+		<div th:replace="layout :: top-navbar">(navbar)</div>
+
+		<div class="container">
+			<div class="row row-offcanvas row-offcanvas-left">
+
+				<div th:replace="layout :: sidebar">(navbar)</div>
+
+				<div class="col-xs-12 col-sm-10">
+				<!-- content ############################################################################################################# -->
+	
+		<div class="col-xs-12 col-sm-6">
+						<h2>Edit group</h2>
+						<form role="form" th:action="@{/user/group/save}" method="post"
+							th:object="${groupDataObject}">
+							<div class="form-group">
+								<label for="name">Name:</label> <input
+									th:field="*{name}" type="text"
+									class="form-control input-lg" id="name"
+									placeholder="Enter the name"></input> <span
+									class="help-block hidden-xs">This is how the group will be
+									seen by the users</span>
+							</div>
+							
+							<div class="form-group" style="margin-bottom: 30px;">
+								<label for="description">Description:</label> <textarea
+									th:field="*{description}" type="text" class="form-control"
+									id="description" placeholder="Geben Sie hier Ihre Gruppenbeschreibung ein" 
+									maxlength="300" style="resize: none;"></textarea>
+							</div>
+
+							<div th:replace="layout :: validationerror">validation
+								errors</div>
+
+
+							<button type="submit" class="btn btn-primary btn-lg">Submit</button>
+							<a class="btn btn-default  btn-lg" th:href="@{/user/groupbrowser}"
+								role="button">Cancel</a>
+						</form>
+					</div>
+
+				<!-- content ############################################################################################################# -->
+				</div>
+			</div>
+			<!--/.row-->
+		</div>
+		<!--/.container-->
+	</div>
+	<!--/.page-container-->
+	<!-- script references -->
+	<script
+		src="//ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
+	<script th:src="@{/webjars/bootstrap/3.2.0/js/bootstrap.min.js}"></script>
+	<script th:src="@{/js/scripts.js}"></script>
+	<script th:src="@{/TextCounter/bootstrap-maxlength.js}"></script>
+	 
+
+
+	
+	<script>
+		$(document).ready(function(){
+			$('textarea#description').maxlength({
+				alwaysShow: false,
+				threshold: 280,
+				warningClass: "label label-success",
+				limitReachedClass: "label label-important label-danger",
+				separator: ' of ',
+				preText: 'You have ',
+				postText: ' chars remaining.',
+				showCharsTyped: false,
+				validate: true
+			});
+		});
+	</script>
+</body>
+</html>

@@ -41,7 +41,8 @@
 							<div class="form-group" style="margin-bottom: 30px;">
 								<label for="description">Description:</label> <textarea
 									th:field="*{description}" type="text" class="form-control"
-									id="description" placeholder="Geben Sie hier Ihre Profilbschreibung ein" maxlength="300"></textarea>
+									id="description" placeholder="Geben Sie hier Ihre Profilbschreibung ein" 
+									maxlength="300" style="resize: none;"></textarea>
 							</div>
 
 							<div th:replace="layout :: validationerror">validation

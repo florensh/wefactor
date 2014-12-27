@@ -1,64 +1,50 @@
 package de.hhn.labswps.wefactor.web.DataObjects;
 
+import java.util.Set;
+
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
 public class EntryDataObject {
 
-    @NotEmpty
-    private String description;
-
-    @NotEmpty
-    @Size(min = 5, max = 50)
-    private String title;
-
-    private Long id;
+    @Size(min = 10, max = 200)
+    private String changes;
 
     @NotEmpty
     private String code;
 
     @NotEmpty
+    private String description;
+
+    private String editMode;
+
+    private Long id;
+
+    private String group;
+
+    public String getGroup() {
+        return group;
+    }
+
+    public void setGroup(String group) {
+        this.group = group;
+    }
+
+    @NotEmpty
     private String language;
+
+    private String tagString;
 
     @Size(min = 10, max = 200)
     private String teaser;
 
-    @Size(min = 10, max = 200)
-    private String changes;
+    @NotEmpty
+    @Size(min = 5, max = 50)
+    private String title;
 
     public String getChanges() {
         return changes;
-    }
-
-    public void setChanges(String changes) {
-        this.changes = changes;
-    }
-
-    private String editMode;
-
-    public String getEditMode() {
-        return editMode;
-    }
-
-    public void setEditMode(String editMode) {
-        this.editMode = editMode;
-    }
-
-    public String getLanguage() {
-        return language;
-    }
-
-    public void setLanguage(String language) {
-        this.language = language;
-    }
-
-    public String getTeaser() {
-        return teaser;
-    }
-
-    public void setTeaser(String teaser) {
-        this.teaser = teaser;
     }
 
     public String getCode() {
@@ -69,12 +55,46 @@ public class EntryDataObject {
         return this.description;
     }
 
+    public String getEditMode() {
+        return editMode;
+    }
+
     public Long getId() {
         return this.id;
     }
 
+    public String getLanguage() {
+        return language;
+    }
+
+    public String[] getTags() {
+        if (this.tagString != null && !this.tagString.isEmpty()) {
+            String[] tags_a = tagString.split("]");
+            String[] tags = new String[tags_a.length];
+            for (int i = 0; i < tags_a.length; i++) {
+                tags[i] = tags_a[i].substring(1);
+            }
+
+            return tags;
+        } else {
+            return new String[0];
+        }
+    }
+
+    public String getTagString() {
+        return this.tagString;
+    }
+
+    public String getTeaser() {
+        return teaser;
+    }
+
     public String getTitle() {
         return this.title;
+    }
+
+    public void setChanges(String changes) {
+        this.changes = changes;
     }
 
     public void setCode(final String code) {
@@ -85,8 +105,31 @@ public class EntryDataObject {
         this.description = description;
     }
 
+    public void setEditMode(String editMode) {
+        this.editMode = editMode;
+    }
+
     public void setId(final Long id) {
         this.id = id;
+    }
+
+    public void setLanguage(String language) {
+        this.language = language;
+    }
+
+    public void setTags(Set<String> tags) {
+        this.tagString = "";
+        for (String s : tags) {
+            this.tagString = this.tagString + "[" + s + "]";
+        }
+    }
+
+    public void setTagString(String tagString) {
+        this.tagString = tagString;
+    }
+
+    public void setTeaser(String teaser) {
+        this.teaser = teaser;
     }
 
     public void setTitle(final String title) {

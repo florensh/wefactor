@@ -8,11 +8,14 @@ import java.util.List;
 import java.util.Set;
 
 import javax.persistence.DiscriminatorColumn;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.Lob;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -36,39 +39,68 @@ import com.fasterxml.jackson.annotation.JsonProperty;
         "lastModifiedBy" })
 @DiscriminatorColumn(name = "ENTRY_TYPE")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-public abstract class Entry extends BaseSoftDeletableEntity {
+public abstract class Entry extends BaseSoftDeletableEntity implements
+        Comparable<Entry> {
+
+    @Override
+    public String toString() {
+        return this.name;
+    }
 
     private Account account;
+
+    private String changes;
 
     /** The entry code text. */
     private String entryCodeText = null;
 
-    private String name = null;
-
     /** The entry date. */
     private Date entryDate;
 
-    private String language;
-
-    private String teaser;
-
-    private String changes;
-
-    public String getChanges() {
-        return changes;
-    }
-
-    public void setChanges(String changes) {
-        this.changes = changes;
-    }
-
     /** The entry description. */
     private String entryDescription = null;
+
+    private Group group;
+
+    public void setGroup(Group group) {
+        this.group = group;
+    }
+
+    private String language;
+
+    private String name = null;
+
+    private Set<EntryRating> ratings = new HashSet<EntryRating>();
+
+    private EntryStatistics statistics = new EntryStatistics();
+
+    private Set<Tag> tags = new HashSet<Tag>();
+    private String teaser;
+
+    public void addRating(EntryRating rating) {
+        this.ratings.add(rating);
+        rating.setEntry(this);
+    }
+
+    @Override
+    public int compareTo(Entry o) {
+        if (this.entryDate.before(o.entryDate)) {
+            return 1;
+        } else if (this.entryDate.after(o.entryDate)) {
+            return -1;
+        } else {
+            return 0;
+        }
+    }
 
     @ManyToOne
     @JoinColumn(name = "myAccount", nullable = false)
     public Account getAccount() {
         return account;
+    }
+
+    public String getChanges() {
+        return changes;
     }
 
     @Transient
@@ -121,6 +153,12 @@ public abstract class Entry extends BaseSoftDeletableEntity {
         return this.entryDescription;
     }
 
+    @ManyToOne
+    @JoinColumn(name = "myGroup", nullable = true)
+    public Group getGroup() {
+        return group;
+    }
+
     public String getLanguage() {
         return language;
     }
@@ -129,12 +167,110 @@ public abstract class Entry extends BaseSoftDeletableEntity {
         return name;
     }
 
+    @Transient
+    public String[] getOrderedVersionIds() {
+        List<Entry> orderedVersions = getOrderedVersions();
+        String[] ids = new String[orderedVersions.size()];
+
+        for (int i = 0; i < orderedVersions.size(); i++) {
+            ids[i] = orderedVersions.get(i).getId().toString();
+        }
+
+        return ids;
+    }
+
+    @Transient
+    public Entry getHeadVersion() {
+        return getOrderedVersions().get(0);
+    }
+
+    @Transient
+    public abstract List<Entry> getOrderedVersions();
+
+    @Transient
+    public String[] getOrderedVersionTypes() {
+        List<Entry> orderedVersions = getOrderedVersions();
+        String[] ids = new String[orderedVersions.size()];
+
+        for (int i = 0; i < orderedVersions.size(); i++) {
+            ids[i] = orderedVersions.get(i).getClass().getSimpleName();
+        }
+
+        return ids;
+    }
+
+    @Transient
+    public abstract Entry getParent();
+
+    @Transient
+    @JsonProperty("rankingValue")
+    public Double getRankingValue() {
+
+        if (this.ratings.isEmpty()) {
+            return new Double("0.0");
+        }
+
+        Double d = new Double("0.0");
+        int a = 0;
+        for (EntryRating ra : ratings) {
+            d = d + ra.getValue();
+            a++;
+        }
+
+        return d / a;
+    }
+
+    @Transient
+    @JsonProperty("rankingCount")
+    public int getRatingCount() {
+        return this.ratings.size();
+    }
+
+    @Embedded
+    public EntryStatistics getStatistics() {
+        return statistics;
+    }
+
+    @ManyToMany
+    @JoinTable(name = "TAGMAP", joinColumns = { @JoinColumn(name = "ENTRY_ID", referencedColumnName = "ID") }, inverseJoinColumns = { @JoinColumn(name = "TAG_ID", referencedColumnName = "ID") })
+    public Set<Tag> getTags() {
+        return tags;
+    }
+
+    @Transient
+    @JsonProperty("tagAsStrings")
+    public Set<String> getTagAsStrings() {
+        Set<String> retVal = new HashSet<String>();
+        for (Tag t : this.tags) {
+            retVal.add(t.getName());
+        }
+        return retVal;
+    }
+
     public String getTeaser() {
         return teaser;
     }
 
+    @Transient
+    public String getType() {
+        return this.getClass().getSimpleName();
+    }
+
+    @Transient
+    public abstract String getVersionDisplayText();
+
+    @Transient
+    public int getVersionnumber() {
+        return getParent().getOrderedVersions().size()
+                - getParent().getOrderedVersions().indexOf(this);
+    }
+
     public void setAccount(Account account) {
         this.account = account;
+    }
+
+    public void setChanges(String changes) {
+        this.changes = changes;
     }
 
     /**
@@ -175,85 +311,30 @@ public abstract class Entry extends BaseSoftDeletableEntity {
         this.name = name;
     }
 
+    public void setRatings(Set<EntryRating> ratings) {
+        this.ratings = ratings;
+    }
+
+    public void setStatistics(EntryStatistics statistics) {
+        this.statistics = statistics;
+    }
+
+    public void setTags(Set<Tag> tags) {
+        this.tags = tags;
+    }
+
     public void setTeaser(String teaser) {
         this.teaser = teaser;
     }
-
-    @Transient
-    public String getType() {
-        return this.getClass().getSimpleName();
-    }
-
-    @Transient
-    public abstract List<Entry> getOrderedVersions();
-
-    @Transient
-    public String[] getOrderedVersionIds() {
-        List<Entry> orderedVersions = getOrderedVersions();
-        String[] ids = new String[orderedVersions.size()];
-
-        for (int i = 0; i < orderedVersions.size(); i++) {
-            ids[i] = orderedVersions.get(i).getId().toString();
-        }
-
-        return ids;
-    }
-
-    @Transient
-    public String[] getOrderedVersionTypes() {
-        List<Entry> orderedVersions = getOrderedVersions();
-        String[] ids = new String[orderedVersions.size()];
-
-        for (int i = 0; i < orderedVersions.size(); i++) {
-            ids[i] = orderedVersions.get(i).getClass().getSimpleName();
-        }
-
-        return ids;
-    }
-
-    private Set<EntryRating> ratings = new HashSet<EntryRating>();
 
     @OneToMany(mappedBy = "entry")
     public Set<EntryRating> getRatings() {
         return ratings;
     }
 
-    public void setRatings(Set<EntryRating> ratings) {
-        this.ratings = ratings;
-    }
+    public void addTag(Tag tag) {
+        this.tags.add(tag);
 
-    public void addRating(EntryRating rating) {
-        this.ratings.add(rating);
-        rating.setEntry(this);
-    }
-
-    @Transient
-    @JsonProperty("rankingValue")
-    public Double getRankingValue() {
-
-        if (this.ratings.isEmpty()) {
-            return new Double("0.0");
-        }
-
-        Double d = new Double("0.0");
-        int a = 0;
-        for (EntryRating ra : ratings) {
-            d = d + ra.getValue();
-            a++;
-        }
-
-        return d / a;
-    }
-
-    @Transient
-    @JsonProperty("rankingCount")
-    public int getRatingCount() {
-        return this.ratings.size();
-    }
-
-    @Override
-    public String toString() {
-        return this.name;
     }
 
 }

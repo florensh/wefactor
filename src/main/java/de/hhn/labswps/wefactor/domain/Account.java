@@ -12,6 +12,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -19,17 +22,23 @@ import javax.persistence.Transient;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import de.hhn.labswps.wefactor.specification.WeFactorValues.Role;
 
 @Entity
 @Table(name = "account")
+@JsonIgnoreProperties({ "id", "entries", "createdBy", "lastModifiedBy",
+        "hibernateLazyInitializer", "handler", "groups" })
 public class Account {
-
-    private Set<UserProfile> profiles = new HashSet<UserProfile>();
 
     private Set<Entry> entries = new HashSet<Entry>();
 
+    private Set<Group> groups = new HashSet<Group>();
+
     private Long id;
+
+    private Set<UserProfile> profiles = new HashSet<UserProfile>();
 
     protected String roles;
 
@@ -81,6 +90,12 @@ public class Account {
         return this.entries;
     }
 
+    @ManyToMany
+    @JoinTable(name = "ACCOUNT_GROUP", joinColumns = { @JoinColumn(name = "ACCOUNT_ID", referencedColumnName = "ID") }, inverseJoinColumns = { @JoinColumn(name = "GROUP_ID", referencedColumnName = "ID") })
+    public Set<Group> getGroups() {
+        return groups;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     public Long getId() {
@@ -114,6 +129,10 @@ public class Account {
         this.entries = entries;
     }
 
+    public void setGroups(Set<Group> groups) {
+        this.groups = groups;
+    }
+
     public void setId(final Long id) {
         this.id = id;
     }
@@ -124,6 +143,14 @@ public class Account {
 
     public void setRoles(final String roles) {
         this.roles = roles;
+    }
+
+    public void addGroup(Group g) {
+        this.groups.add(g);
+    }
+
+    public void removeGroup(Group g) {
+        this.groups.remove(g);
     }
 
 }

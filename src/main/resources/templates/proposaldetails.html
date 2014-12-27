@@ -89,13 +89,13 @@
 	</div>
 	<!--/.page-container-->
 	<!-- script references -->
-	<script
-		src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 	<script th:src="@{/webjars/bootstrap/3.2.0/js/bootstrap.min.js}"></script>
 	<script th:src="@{/js/scripts.js}"></script>
-			<script th:src="@{/webjars/fuelux/3.0.2/js/fuelux.min.js}"></script>
+	<script th:src="@{/webjars/fuelux/3.0.2/js/fuelux.min.js}"></script>
 	<script th:src="@{/webjars/ace/01.08.2014/src-min-noconflict/ace.js}"></script>
 	<script th:src="@{/webjars/tinymce-jquery/4.0.16/tinymce.min.js}"></script>
+	<script th:src="@{/js/bootstrap-tags.min.js}"></script>
 
 
 	<script th:inline="javascript">
@@ -203,6 +203,28 @@
 		
 		/*]]>*/
 	</script>
+	
+		<script th:inline="javascript">
+	/* <![CDATA[ */
+	           
+	
+
+	$(function() {
+		// If using Bootstrap 2, be sure to include:
+		// Tags.bootstrapVersion = "2";
+		
+		var entryTags = /*[[${entry.getTagAsStrings()}]]*/'entrytags';
+		
+		$('#my-tag-list').tags({
+		    readOnly: true,
+		    tagData:entryTags,
+		    tagSize:'sm',
+		    beforeAddingTag: function(tag){ console.log(tag); }
+		});
+	});
+
+	/* ]]> */
+</script>
 
 
 </body>

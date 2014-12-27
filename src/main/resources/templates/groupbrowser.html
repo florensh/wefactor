@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="de" xmlns:th="http://www.thymeleaf.org">
+<head th:include="layout :: htmlhead" th:with="title='Hello'"></head>
+<body>
+	<div class="page-container">
+
+		<!-- top navbar -->
+		<div th:replace="layout :: top-navbar">(navbar)</div>
+
+		<div class="container">
+			<div class="row row-offcanvas row-offcanvas-left">
+
+				<div th:replace="layout :: sidebar">(navbar)</div>
+
+				<div class="col-xs-12 col-sm-10">
+					<!-- content ############################################################################################################# -->
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<div class="btn-toolbar pull-left" role="toolbar" aria-label="...">
+								<a th:href="@{/user/groupbrowser}" class="btn btn-link btn-sm" role="button"><i class="fa fa-user"></i> Your groups</a>
+							</div>
+							
+							<!-- search box -->
+							<form th:action="@{/search/groups}" method="post" th:object="${searchBoxDataObject}">
+
+								<div class="input-group pull-left" style="width: 300px;">
+									<input th:field="*{searchtext}" class="form-control input-sm" type="text"></input> <span class="input-group-addon"><span class="glyphicon glyphicon-search"></span></span>
+								</div>
+							</form>
+
+
+							<div class="btn-toolbar pull-right" role="toolbar" aria-label="...">
+								<a th:href="@{/user/group/add}" class="btn btn-success btn-sm" role="button"><i class="fa fa-plus"></i> New group</a>
+							</div>
+							<span class="clearfix"></span>
+						</div>
+						<div class="panel-body" style="padding: 0px;">
+							<div class="table-responsive">
+								<table class="table" style="margin-bottom: 0px; font-size: 13px;">
+									<tbody>
+										<tr th:each="group : ${groups}">
+
+
+
+											<td th:if="${group.getMembers().contains(currentUserProfile.getAccount())}" style="width: 20px; padding-right: 0px;"><a style="vertical-align: middle;" th:unless="${group.imageUrl == null}" th:href="@{/user/group(id=${group.id})}"> <img th:src="${group.imageUrl}" alt="" class="img-rounded" style="height: 23px; margin-top: 4px"></img>
+											</a></td>
+											<td th:unless="${group.getMembers().contains(currentUserProfile.getAccount())}" style="width: 20px; padding-right: 0px;"><img th:src="${group.imageUrl}" alt="" class="img-rounded" style="height: 23px; margin-top: 4px"></img></td>
+
+
+											<td th:if="${group.getMembers().contains(currentUserProfile.getAccount())}" style="vertical-align: middle;"><a th:href="@{/user/group(id=${group.id})}"> <strong th:text="${group.name}">Mark</strong>
+											</a></td>
+											<td th:unless="${group.getMembers().contains(currentUserProfile.getAccount())}" style="vertical-align: middle;"><strong th:text="${group.name}">Mark</strong></td>
+
+
+											<td th:if="${group.getMembers().contains(currentUserProfile.getAccount())}"><a style="color: #999;" th:text="${group.description}" th:href="@{/user/group(id=${group.id})}">description</a></td>
+											<td th:unless="${group.getMembers().contains(currentUserProfile.getAccount())}"><span style="color: #999;" th:text="${group.description}">description</span></td>
+
+
+											<td style="text-align: right;"><a th:if="${group.getMembers().contains(currentUserProfile.getAccount())}" th:href="@{/user/group/leave(id=${group.id})}" class="btn btn-link btn-sm" role="button">leave group</a> <a th:unless="${group.getMembers().contains(currentUserProfile.getAccount())}" th:href="@{/user/group/join(id=${group.id})}" class="btn btn-link btn-sm" role="button">join group</a></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+
+
+					<!-- content ############################################################################################################# -->
+				</div>
+			</div>
+			<!--/.row-->
+		</div>
+		<!--/.container-->
+	</div>
+	<!--/.page-container-->
+	<!-- script references -->
+	<script
+		src="//ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
+	<script th:src="@{/webjars/bootstrap/3.2.0/js/bootstrap.min.js}"></script>
+	<script th:src="@{/js/scripts.js}"></script>
+</body>
+</html>

@@ -1,0 +1,66 @@
+
+@media ( max-width : 768px) {
+	.btn-responsive {
+		display: block;
+		width: 100%;
+		margin-bottom: 5px;
+	}
+	
+	.text-center-responsive {
+		text-align: center;
+	}
+	
+	.img-entryProfil-responsive {
+		border-radius: 6px;
+		width: 50px;
+	}
+	
+	#rating-responsive {
+		margin-bottom: 10px;
+	}
+	#timelineUser {
+		padding: 0px;
+	}
+	#timelineUser h5{
+		margin-top: 0px;
+	}
+	#timelineEntryPosition {
+		padding: 0px;
+	}
+	#timelineEntryPositionHeader2 {
+		margin-bottom: 0px;
+	}
+	#entryEditContainerResponsive {
+		padding: 0px;
+	}
+	#entryEditSaveButton {
+		margin-top: 15px;
+		margin-bottom: 5px;
+	}
+	textarea.form-control {
+		height: 50px;
+	}
+	#tinyMCE {
+		margin-bottom: 30px;
+	}
+}
+
+@media ( min-width : 769px) {
+	.img-entryProfil-responsive {
+		border-radius: 50%;
+		width: 90px;
+	}
+	
+	#rating-responsive {
+		margin-bottom: 0px;
+	}
+}
+
+#navbar-responsive {
+	width: 44px;
+	height: 34px;
+}
+
+#navbar-responsive .fa {
+	vertical-align: middle;
+}

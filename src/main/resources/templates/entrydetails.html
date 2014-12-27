@@ -18,15 +18,22 @@
 					<!-- content ############################################################################################################# -->
 
 
-					<div class="col-md-12">
+					<div class="col-md-12" style="padding: 0px;">
 
 						<div class="row" style="margin-bottom: 50px;">
-							<div th:replace="entrydetails_template :: entry_head (${entry.orderedVersions.get(0)})">(description)</div>
+							<div th:replace="entrydetails_template :: entry_head (${entry})">(description)</div>
 							
-							<div class="btn-toolbar col-md-4 col-md-offset-6 pull-right">
+							<div class="btn-toolbar col-xs-12 col-md-4 col-md-offset-6 pull-right">
 								
-								<a
-										class="btn btn-default btn-md pull-right" th:unless="${entry.account.primaryProfile.id == currentUserProfile.id}" th:href="@{/user/entry/propose(id=${entry.id})}">
+								<!-- Button Desktop -->
+								<a		
+										class="btn btn-default btn-md pull-right hidden-sm hidden-xs visible-md visible-lg" 
+										th:unless="${entry.account.primaryProfile.id == currentUserProfile.id}" th:href="@{/user/entry/propose(id=${entry.id})}">
+										<i class="fa fa-code-fork"></i> New version</a>
+								<!-- Button Mobile -->
+								<a		
+										class="btn btn-default col-xs-12 btn-md pull-right visible-sm visible-xs hidden-md hidden-lg" 
+										th:unless="${entry.account.primaryProfile.id == currentUserProfile.id}" th:href="@{/user/entry/propose(id=${entry.id})}">
 										<i class="fa fa-code-fork"></i> New version</a>
 								<a
 									class="btn btn-default btn-md pull-right" th:if="${entry.account.primaryProfile.id == currentUserProfile.id}"
@@ -81,7 +88,7 @@
 									</div>
 									<!-- end tab content for entry -->
 									<div role="tabpanel" class="tab-pane fade" id="proposals">
-										<div class="row">
+										<div th:if="${entry.getAmountOfProposalsByType('NEW')&gt; 0}" class="row">
 											<div class="col-md-12">
 												<div class="alert alert-warning" role="alert"><strong>you have
 													new proposals.</strong><span> Proposals are refactored versions of your code.</span></div>
@@ -173,6 +180,7 @@
 	<script th:src="@{/webjars/ace/01.08.2014/src-min-noconflict/ace.js}"></script>
 	<script th:src="@{/webjars/tinymce-jquery/4.0.16/tinymce.min.js}"></script>
 	<script th:src="@{/js/star-rating.js}"></script>
+	<script th:src="@{/js/bootstrap-tags.js}"></script>
 	
 	
 		<script th:inline="javascript">
@@ -229,8 +237,34 @@
 		/*]]>*/
 	</script>	
 	
-	<!-- TODO: attr von id zu index umbenennen. attr nicht in button speichern sondern in übergeordnettes element. index verändern -->
+	<!-- TODO: attr von id zu index umbenennen. attr nicht in button speichern sondern in Ã¼bergeordnettes element. index verÃ¤ndern -->
 
+	
+	
+	<script th:inline="javascript">
+	/* <![CDATA[ */
+	           
+	
+
+	$(function() {
+		// If using Bootstrap 2, be sure to include:
+		// Tags.bootstrapVersion = "2";
+		
+		var entryTags = /*[[${entry.orderedVersions.get(0).getTagAsStrings()}]]*/'entrytags';
+		
+		var tags = $('#my-tag-list').tags({
+		    readOnly: true,
+		    tagData:entryTags,
+		    tagSize:'sm',
+		    readOnlyEmptyMessage:' ',
+		    beforeAddingTag: function(tag){ console.log(tag); }
+		});
+	});
+
+	/* ]]> */
+</script>
+	
+	
 	<script th:inline="javascript">
 		/*<![CDATA[*/
 		           
@@ -268,23 +302,51 @@
 		 $.ajax({
 		        url: url
 		    }).then(function(data) {
+		    	
+		    	var m_names = new Array("January", "February", "March", 
+		    			"April", "May", "June", "July", "August", "September", 
+		    			"October", "November", "December");
+
+		    			var d = new Date(data.createdDate);
+		    			var curr_date = d.getDate();
+		    			var curr_month = d.getMonth();
+		    			var curr_year = d.getFullYear();
+		    			
+		    			var formatteddate = m_names[curr_month] + " " + curr_date  + ", " + curr_year;
+		    	
+		    		var userlink = "/user/profile/details?id=";
+		    		userlink = userlink + data.account.primaryProfile.id;
 		   			$("#entry-content").fadeOut('fast'); 
-		   			$("#right-sidebar").fadeOut('fast');  
+		   			$("#right-sidebar").fadeOut('fast');
+		   			$("#version-panel").fadeOut('fast');  
 		   			$("#description").html(data.entryDescription); 
-		   			$("#version-changes").html(data.changes);
+		   			$("#version-user-link").html(data.account.primaryProfile.name);
+		   			$("#version-changes").html(data.versionDisplayText);
+		   			$("#versionnumber").html(data.versionnumber);
 		   			var editor = ace.edit("editor");
 		   			editor.setValue(data.entryCodeText);
 		   			editor.setValue(editor.getValue(), 1);
 		   			$('#input-id').rating('update', data.rankingValue);
 		   			$("#ratingcount").html(data.rankingCount);
+		   			
+		   			
+		   			var entryTags = data.tagAsStrings;
+		   			
+		   			var thistags = $('#my-tag-list').tags();
+		   			thistags.setTags(entryTags);
+		   			console.log(thistags.getTags());
+		   			
+		   			
+		   			
 		   			$("#right-sidebar").fadeIn('fast');
 		   			$("#entry-content").fadeIn('fast');
+		   			$("#version-panel").fadeIn('fast');
 		   			$("div[id*=version-panel]").attr("data-versionindex",nextIndex);
 		   			$("div[id*=version-panel]").attr("data-entrytype",data.type);
-		   			$('#version-userimage-link').attr('href','/');/*todo*/
-		   			$('#version-user-link').attr('href','/');/*todo*/
-		   			$('#version-createdate').html('just now');/*todo*/
-		   			$('#version-userimage').attr('src',data.account.primaryProfile.imageUrl);/*geht nicht. evtl load image function*/
+		   			$('#version-userimage-link').attr('href', userlink);
+		   			$('#version-user-link').attr('href', userlink);
+		   			$('#version-createdate').html(formatteddate);
+		   			$('#version-userimage').attr('src',data.account.primaryProfile.imageUrl);
 		   			
 		   			
 		   			
@@ -293,6 +355,11 @@
 		    });
 }
 		           
+	$(document).ready(function(){
+	    $('[data-toggle="tooltip"]').tooltip({
+	    	delay: { show: 1000, hide: 100 }
+	    });
+	});
 		           
 		$(document).ready(function () {
 			$("button[id*=next-version]").click(function () {
@@ -313,6 +380,8 @@
 		
 		/*]]>*/
 	</script>
+	
+	
 
 
 </body>
