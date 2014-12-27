@@ -25,6 +25,7 @@ import de.hhn.labswps.wefactor.domain.Account;
 import de.hhn.labswps.wefactor.domain.Entry;
 import de.hhn.labswps.wefactor.domain.EntryRating;
 import de.hhn.labswps.wefactor.domain.EntryRatingRepository;
+import de.hhn.labswps.wefactor.domain.GroupRepository;
 import de.hhn.labswps.wefactor.domain.MasterEntry;
 import de.hhn.labswps.wefactor.domain.MasterEntryRepository;
 import de.hhn.labswps.wefactor.domain.ObjectIdentification;
@@ -49,6 +50,8 @@ import de.hhn.labswps.wefactor.web.util.DataUtils;
 @Controller
 public class EntryController {
 
+    public static final String ENTRY_DETAILS_LINK = "/entry/details";
+
     private enum EntryScope {
         ALL, USER, TAG;
     }
@@ -70,6 +73,9 @@ public class EntryController {
     private ProposalEntryRepository proposalEntryRepository;
 
     @Autowired
+    private GroupRepository groupRepository;
+
+    @Autowired
     private UserProfileRepository userProfileRepository;
 
     @Autowired
@@ -84,6 +90,9 @@ public class EntryController {
             @PathVariable final String scope, final HttpServletRequest request,
             final Principal currentUser, final Model model) {
 
+        UserProfile profile = this.userProfileRepository
+                .findByUsername(currentUser.getName());
+
         final EntriesFilterDataObject filter = new EntriesFilterDataObject();
         model.addAttribute("entriesFilterDataObject", filter);
 
@@ -91,8 +100,9 @@ public class EntryController {
 
         switch (entryScope) {
             case ALL:
-                List<MasterEntry> list = (List<MasterEntry>) entryRepository
-                        .findAll();
+                List<Entry> list = (List<Entry>) entryRepository
+                        .findDistinctByGroupIsNullOrGroupMembers(profile
+                                .getAccount());
                 EntryList eList = new EntryList();
                 eList.addAll(list);
                 model.addAttribute("entries", eList);
@@ -148,7 +158,7 @@ public class EntryController {
         return "entrydetails";
     }
 
-    @RequestMapping(value = "/entry/details", method = RequestMethod.GET)
+    @RequestMapping(value = ENTRY_DETAILS_LINK, method = RequestMethod.GET)
     public String showEntryDetails(@RequestParam("id") Long id, ModelMap model,
             Principal currentUser) {
         MasterEntry entry = this.entryRepository.findOne(id);
@@ -229,6 +239,10 @@ public class EntryController {
         entryDataObject.setLanguage(entry.getLanguage());
         entryDataObject.setTags(entry.getTagAsStrings());
         entryDataObject.setEditMode(editMode.name());
+        if (entry.getGroup() != null) {
+            entryDataObject.setGroup(entry.getGroup().getId().toString());
+
+        }
         if (editMode.equals(EntryEditMode.MASTER)) {
             entryDataObject.setChanges(entry.getChanges());
 
@@ -243,6 +257,9 @@ public class EntryController {
         model.addAttribute("editMode", editMode.name());
         model.addAttribute("languages",
                 WeFactorValues.ProgrammingLanguage.values());
+
+        model.addAttribute("groups",
+                this.groupRepository.findByMembers(profile.getAccount()));
 
     }
 
@@ -275,7 +292,7 @@ public class EntryController {
         this.entryRepository.save(me);
 
         ObjectIdentification oid = DataUtils.createObjectIdentification(me,
-                MasterEntry.class.getSimpleName());
+                Entry.class.getSimpleName());
         TimelineEvent event = new TimelineEvent(new Date(), account,
                 pe.getAccount(), EventType.PROPOSAL_ACCEPTED, oid);
 
@@ -300,7 +317,7 @@ public class EntryController {
         this.proposalEntryRepository.save(pe);
 
         ObjectIdentification oid = DataUtils.createObjectIdentification(
-                pe.getMasterOfProposal(), MasterEntry.class.getSimpleName());
+                pe.getMasterOfProposal(), Entry.class.getSimpleName());
         TimelineEvent event = new TimelineEvent(new Date(), account,
                 pe.getAccount(), EventType.PROPOSAL_REJECTED, oid);
 
@@ -314,12 +331,18 @@ public class EntryController {
     public String showAddEntryPage(final HttpServletRequest request,
             final Principal currentUser, final Model model) {
 
+        UserProfile profile = this.userProfileRepository
+                .findByUsername(currentUser.getName());
+
         EntryDataObject ed = new EntryDataObject();
         ed.setEditMode(EntryEditMode.MASTER.name());
 
         model.addAttribute("entryDataObject", ed);
         model.addAttribute("languages",
                 WeFactorValues.ProgrammingLanguage.values());
+
+        model.addAttribute("groups",
+                this.groupRepository.findByMembers(profile.getAccount()));
 
         model.addAttribute("editMode", EntryEditMode.MASTER.name());
         String[] tags = resolveTagsAsStrings((List<Tag>) this.tagRepository
@@ -340,7 +363,7 @@ public class EntryController {
 
     @RequestMapping(value = "/user/entry/save", method = RequestMethod.POST)
     public String submitEntryForm(@Valid EntryDataObject entryDataObject,
-            BindingResult result, Model m, Principal currentUser) {
+            BindingResult result, ModelMap m, Principal currentUser) {
         if (result.hasErrors()) {
             m.addAttribute("languages",
                     WeFactorValues.ProgrammingLanguage.values());
@@ -349,7 +372,17 @@ public class EntryController {
 
         Entry toSave = saveEntry(entryDataObject, currentUser);
 
-        return "redirect:/entry/details?id=" + String.valueOf(toSave.getId());
+        // store event if entry in group
+        if (toSave.getGroup() != null) {
+            ObjectIdentification oid = DataUtils.createObjectIdentification(
+                    toSave, Entry.class.getSimpleName());
+            TimelineEvent event = new TimelineEvent(new Date(),
+                    toSave.getAccount(), toSave.getGroup(),
+                    EventType.MADE_ENTRY, oid);
+            this.timelineEventRepository.save(event);
+        }
+
+        return showEntryDetails(toSave.getId(), m, currentUser);
     }
 
     private Entry saveEntry(EntryDataObject entryDataObject,
@@ -412,7 +445,7 @@ public class EntryController {
         toSave = this.entryRepository.save(toSave);
 
         ObjectIdentification oid = DataUtils.createObjectIdentification(
-                pe.getMasterOfProposal(), MasterEntry.class.getSimpleName());
+                pe.getMasterOfProposal(), Entry.class.getSimpleName());
         TimelineEvent event = new TimelineEvent(new Date(),
                 profile.getAccount(), pe.getMasterOfProposal().getAccount(),
                 EventType.MADE_PROPOSAL, oid);
@@ -445,6 +478,14 @@ public class EntryController {
         toSave.setName(entryDataObject.getTitle());
         toSave.setAccount(profile.getAccount());
         toSave.setChanges(entryDataObject.getChanges());
+
+        if (entryDataObject.getGroup() != null
+                && !entryDataObject.getGroup().isEmpty()) {
+            toSave.setGroup(this.groupRepository.findOne(Long
+                    .valueOf(entryDataObject.getGroup())));
+        } else {
+            toSave.setGroup(null);
+        }
 
         toSave = this.entryRepository.save(toSave);
         return toSave;

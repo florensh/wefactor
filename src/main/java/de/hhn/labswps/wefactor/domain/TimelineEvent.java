@@ -9,7 +9,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-import de.hhn.labswps.wefactor.specification.WeFactorValues;
 import de.hhn.labswps.wefactor.specification.WeFactorValues.EventType;
 
 @Entity
@@ -18,8 +17,20 @@ public class TimelineEvent extends BaseEntity {
 
     private Date eventDate;
     private Account source;
-    private Account target;
-    private String eventType;
+    private Account targetAccount;
+    private Group targetGroup;
+
+    @ManyToOne
+    @JoinColumn(name = "target_group", nullable = true)
+    public Group getTargetGroup() {
+        return targetGroup;
+    }
+
+    public void setTargetGroup(Group targetGroup) {
+        this.targetGroup = targetGroup;
+    }
+
+    private EventType eventType;
 
     public TimelineEvent() {
 
@@ -30,17 +41,26 @@ public class TimelineEvent extends BaseEntity {
 
         this.eventDate = eventDate;
         this.source = source;
-        this.target = target;
-        this.eventType = type.name();
+        this.targetAccount = target;
+        this.eventType = type;
         this.objectReference = objectReference;
 
     }
 
-    public String getEventType() {
+    public TimelineEvent(Date date, Account source, Group group,
+            EventType type, ObjectIdentification oid) {
+        this.eventDate = date;
+        this.source = source;
+        this.targetGroup = group;
+        this.eventType = type;
+        this.objectReference = oid;
+    }
+
+    public EventType getEventType() {
         return eventType;
     }
 
-    public void setEventType(String type) {
+    public void setEventType(EventType type) {
         this.eventType = type;
     }
 
@@ -65,7 +85,7 @@ public class TimelineEvent extends BaseEntity {
 
     @Transient
     public String getAction() {
-        return WeFactorValues.EventType.valueOf(eventType).getText();
+        return eventType.getText();
     }
 
     @ManyToOne
@@ -79,13 +99,13 @@ public class TimelineEvent extends BaseEntity {
     }
 
     @ManyToOne
-    @JoinColumn(name = "target", nullable = false)
-    public Account getTarget() {
-        return target;
+    @JoinColumn(name = "target_account", nullable = true)
+    public Account getTargetAccount() {
+        return targetAccount;
     }
 
-    public void setTarget(Account target) {
-        this.target = target;
+    public void setTargetAccount(Account target) {
+        this.targetAccount = target;
     }
 
 }

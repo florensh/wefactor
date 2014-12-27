@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import de.hhn.labswps.wefactor.domain.Entry;
 import de.hhn.labswps.wefactor.domain.MasterEntryRepository;
+import de.hhn.labswps.wefactor.domain.UserProfile;
+import de.hhn.labswps.wefactor.domain.UserProfileRepository;
 import de.hhn.labswps.wefactor.web.DataObjects.EntryList;
 import de.hhn.labswps.wefactor.web.DataObjects.ScreenMessageObject;
 import de.hhn.labswps.wefactor.web.DataObjects.SearchBoxDataObject;
@@ -24,6 +26,9 @@ public class SearchController {
     @Autowired
     private MasterEntryRepository masterEntryRepository;
 
+    @Autowired
+    private UserProfileRepository userProfileRepository;
+
     @RequestMapping(value = "/search/entries", method = RequestMethod.POST)
     public String executeSearch(@Valid SearchBoxDataObject searchBoxDataObject,
             BindingResult result, Model m, Principal currentUser) {
@@ -31,12 +36,17 @@ public class SearchController {
             return "editprofile";
         }
 
-        List<Entry> entries = this.masterEntryRepository
-                .findByEntryDescriptionContainingOrNameContainingOrTeaserContainingOrAccountProfilesNameContaining(
-                        searchBoxDataObject.getSearchtext(),
-                        searchBoxDataObject.getSearchtext(),
-                        searchBoxDataObject.getSearchtext(),
-                        searchBoxDataObject.getSearchtext());
+        UserProfile profile = this.userProfileRepository
+                .findByUsername(currentUser.getName());
+        // List<Entry> entries = this.masterEntryRepository
+        // .findDistinctByEntryDescriptionContainingOrNameContainingOrTeaserContainingOrAccountProfilesNameContainingAndGroupIsNullOrGroupMembers(
+        // searchBoxDataObject.getSearchtext(),
+        // searchBoxDataObject.getSearchtext(),
+        // searchBoxDataObject.getSearchtext(),
+        // searchBoxDataObject.getSearchtext(), null);
+
+        List<Entry> entries = this.masterEntryRepository.search(
+                searchBoxDataObject.getSearchtext(), profile.getAccount());
 
         EntryList elist = new EntryList(entries);
 

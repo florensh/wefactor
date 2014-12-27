@@ -20,7 +20,7 @@
 	<div class="col-xs-9 col-sm-10" id="timelineEntryPosition">
 		<h4 style="margin-top: 4px;">
 			<a
-				th:href="@{/entry/details(id=${event.objectReference.oidIdentification})}"><span
+				th:href="@{${event.eventType.link}(id=${event.objectReference.oidIdentification})}"><span
 				th:text="${event.objectReference.oidType}"></span> &gt; <strong><span
 					th:text="${event.objectReference.oidName}"></span></strong></a>
 		</h4>

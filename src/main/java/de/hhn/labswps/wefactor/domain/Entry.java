@@ -42,6 +42,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public abstract class Entry extends BaseSoftDeletableEntity implements
         Comparable<Entry> {
 
+    @Override
+    public String toString() {
+        return this.name;
+    }
+
     private Account account;
 
     private String changes;
@@ -55,6 +60,12 @@ public abstract class Entry extends BaseSoftDeletableEntity implements
     /** The entry description. */
     private String entryDescription = null;
 
+    private Group group;
+
+    public void setGroup(Group group) {
+        this.group = group;
+    }
+
     private String language;
 
     private String name = null;
@@ -64,7 +75,6 @@ public abstract class Entry extends BaseSoftDeletableEntity implements
     private EntryStatistics statistics = new EntryStatistics();
 
     private Set<Tag> tags = new HashSet<Tag>();
-
     private String teaser;
 
     public void addRating(EntryRating rating) {
@@ -143,6 +153,12 @@ public abstract class Entry extends BaseSoftDeletableEntity implements
         return this.entryDescription;
     }
 
+    @ManyToOne
+    @JoinColumn(name = "myGroup", nullable = true)
+    public Group getGroup() {
+        return group;
+    }
+
     public String getLanguage() {
         return language;
     }
@@ -208,11 +224,6 @@ public abstract class Entry extends BaseSoftDeletableEntity implements
     @JsonProperty("rankingCount")
     public int getRatingCount() {
         return this.ratings.size();
-    }
-
-    @OneToMany(mappedBy = "entry")
-    public Set<EntryRating> getRatings() {
-        return ratings;
     }
 
     @Embedded
@@ -316,9 +327,9 @@ public abstract class Entry extends BaseSoftDeletableEntity implements
         this.teaser = teaser;
     }
 
-    @Override
-    public String toString() {
-        return this.name;
+    @OneToMany(mappedBy = "entry")
+    public Set<EntryRating> getRatings() {
+        return ratings;
     }
 
     public void addTag(Tag tag) {

@@ -21,6 +21,16 @@ public class EntryDataObject {
 
     private Long id;
 
+    private String group;
+
+    public String getGroup() {
+        return group;
+    }
+
+    public void setGroup(String group) {
+        this.group = group;
+    }
+
     @NotEmpty
     private String language;
 
