@@ -2,6 +2,7 @@ package de.hhn.labswps.wefactor.domain;
 
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -19,6 +20,17 @@ public class TimelineEvent extends BaseEntity {
     private Account source;
     private Account targetAccount;
     private Group targetGroup;
+
+    private boolean readByUser;
+
+    @Column(name = "readByUser", nullable = false, columnDefinition = "BOOLEAN DEFAULT false")
+    public boolean isReadByUser() {
+        return readByUser;
+    }
+
+    public void setReadByUser(boolean isRead) {
+        this.readByUser = isRead;
+    }
 
     @ManyToOne
     @JoinColumn(name = "target_group", nullable = true)

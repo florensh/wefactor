@@ -1,5 +1,5 @@
 <html xmlns:th="http://www.thymeleaf.org">
-<div th:fragment="timelineEntry (event)" class="row">
+<div th:fragment="timelineEntry (event)" class="row" th:attr="read=${beans.timelineUtils.setRead(event)}">
 	
 	<div class="col-xs-3 col-sm-2 col-lg-2">
 		<img
