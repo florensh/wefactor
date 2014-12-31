@@ -1,0 +1,5 @@
+\select@language {ngerman}
+\contentsline {chapter}{Inhaltsverzeichnis}{II}
+\contentsline {chapter}{Abk\IeC {\"u}rzungsverzeichnis}{III}
+\contentsline {chapter}{Abbildungsverzeichnis}{IV}
+\contentsline {chapter}{\numberline {1}\IeC {\"U}berschrift}{1}
