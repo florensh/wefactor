@@ -1,0 +1,135 @@
+%
+% Dokumentation
+%
+
+% Allgemeine Dokumenteigenschaften
+\documentclass[a4paper,			% Druck auf DIN A4-Papier.
+numbers=enddot,					% Die Kapitel bekommen einen Punkt.
+chapterprefix=false,			% Das Wort "Kapitel:" wird gelöscht.
+12pt,							% 12pt ist die Normalschriftgröße, weitere Möglichkeitenn sind 10pt oder 11pt.
+pointlessnumbers				% Nummerierungen in den Kapiteln haben keinen finalen Punkt zb 1.1 statt 1.1.
+]							
+{scrreprt}  					% Dokumentart.
+
+\setkomafont{chapter}{\Large}
+\setkomafont{section}{\large}
+
+% Präambel: Parameter die sich auf das Gesamte Dokument auswirken.
+\usepackage{geometry}
+\usepackage{float}
+\usepackage[ngerman]{babel}				% "Neue" Deutsche Rechtschreibung
+\usepackage{textcomp}					% Aktiviert das Eurosymbol. (Im Text schreiben mit \texteuro)
+\usepackage[utf8]{inputenc}				% Direkte Eingabe von Umlauten im Text. (Dieser Code läuft nicht überall)
+\usepackage{graphicx}					% Ermöglicht das anzeigen von Bildern
+%\usepackage{babelbib}					% Für verschiedene Deutsche Stile des Literaturverzeichnis
+\usepackage{apacite}
+%\usepackage[babel, german=guillemets]{csquotes}
+\usepackage[babel,german=quotes]{csquotes}
+\usepackage{amsmath,amssymb}			% Das Mathe Paket "American Mathematic Society" laden
+\usepackage[printonlyused]{acronym}		% Paket für das Abkürzungsverzeichnis
+\usepackage{fancyhdr}					% Fancyhdr zum Nutzen von Kopf und Fußzeilen mit voreingestellten Formatierungen
+\usepackage{xcolor}						% Verschiedene Farben sind direkt als white usw nutzbar
+\usepackage{epstopdf}					% eps Postscript Dateien können direkt eingefügt werden
+\usepackage{tocstyle}					% Das Inhaltsverzeichnis lässt sich konfigurieren
+\usepackage{listings}					% Ermöglicht das Einfügen von Quellcode mit Kommentarhighlighting und Nummerierung aussen
+\usepackage{subfig}						% 2 Bilder nebeneinander
+\usepackage{chngcntr}
+\usepackage{tabularx}
+\counterwithout{figure}{chapter} 
+
+
+
+
+% Kapitel, Bilder, Abkürzungen usw werden zu Links, ohne roten Rahmen. DAS FUNKTIONIERT NICHT MIT APACITE!!!!
+%\usepackage[plainpages=false,
+%pageanchor=false,
+%linkbordercolor=white,					% Die Rahmen werden weiß und sind somit nicht mehr im PDF sichtbar
+%pdfpagelabels]
+%{hyperref}								% Inhaltsverzeichnis wird als Lesezeichen im Adobe Reader angezeigt	
+
+% Absatz-Einstellungen
+\geometry{a4paper,
+left=20mm,
+right=20mm,
+top=2.5cm,
+bottom=2.5cm}
+\parindent0ex							% Oberster Satz eines Absatzes wird NICHT eingerückt!
+\parskip1.4ex plus0.2ex minus0.2ex
+
+
+% Kopf und Fußzeile einbinden und festlegen.
+\pagestyle{fancy}									% Eigenen Seitenstil verwenden
+\fancyhf{} 											% clear all header and footer fields
+\renewcommand{\headrulewidth}{1pt}					% Die Dicke der Kopfzeilen-Trennline wird auf 1pt festgelegt
+\renewcommand{\footrulewidth}{1pt}					% Die Dicke der Fusszeilen-Trennline wird auf 1pt festgelegt
+\fancypagestyle{plain}{}
+\fancyhead[R]{}										% Kopfzeile Rechts
+\fancyfoot[R]{\thepage}								% Fusszeile Rechts
+
+% Inhaltsverzeichnis anpassen.
+\usetocstyle{allwithdot}				% Fällt den Leerraum mit Punkten auf
+\setcounter{tocdepth}{1}
+
+% Das eigentliche Dokument.
+\begin{document}
+
+% Dokumentenweite Einstellungen und Kommandos
+\nonfrenchspacing
+\newcommand{\FigRef}[1]{Abbildung \ref{#1} auf Seite \pageref{#1}}
+\newcommand{\TabRef}[1]{Tabelle \ref{#1} auf Seite \pageref{#1}}
+\renewcommand*{\chapterheadstartvskip}{\vspace*{0pt}}					% Abstand vor Kapitelnamen
+\renewcommand*{\chapterheadendvskip}{\vspace{1cm}}						% Abstand nach Kapitelnamen
+\setlength{\headheight}{30pt}											% Höhe der Kopfzeile festlegen
+\setlength{\footskip}{30pt}												% Abstand von Text zu Fusszeile festlegen
+
+% Titelseite
+\include{00_Titelseite}
+
+\fancyhf{} 											% clear all header and footer fields
+\renewcommand{\headrulewidth}{1pt}					% Die Dicke der Kopfzeilen-Trennline wird auf 1pt festgelegt
+\renewcommand{\footrulewidth}{1pt}					% Die Dicke der Fusszeilen-Trennline wird auf 1pt festgelegt
+\fancypagestyle{plain}{}
+\fancyhead[R]{}										% Kopfzeile Rechts
+\fancyfoot[R]{\thepage}								% Fusszeile Rechts
+
+\pagenumbering{Roman}  								% Die Verzeichnisse werden entsprechend mit römischen Seitenzahlen beschriftet
+
+% +++++++++++++++++++++++++++++++++++++ab hier beginnen (vor dem inhaltsverzeichnis)
+
+% Aenderungshistorie
+\include{Aenderungshistorie}
+
+% Inhaltsverzeichnis
+\include{04_Inhaltsverzeichnis}
+
+% Abkürzungsverzeichnis
+\include{05_Abkuerzungsverzeichnis}
+
+
+% Abbildungsverzeichnis
+\include{06_Abbildungsverzeichnis}
+
+
+
+\pagenumbering{arabic}  							% Der folgende Text wird mit arabischen Zahlen beschriftet
+
+
+
+% Kapitl Überblick
+\include{text}
+
+
+
+
+
+% Literaturverzeichnis
+\include{15_Literaturverzeichnis}
+
+
+
+
+
+% Anhang
+%\include{16_Anhang}
+
+\end{document}
