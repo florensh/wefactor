@@ -16,41 +16,73 @@ import org.hibernate.annotations.Where;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+/**
+ * The Class MasterEntry.
+ */
 @Entity
 @DiscriminatorValue(value = "Master")
 @Where(clause = "inactive = 'N'")
 // @SQLDelete(sql = "UPDATE entry set inactive = 'Y' WHERE Id = ?")
 @JsonIgnoreProperties({ "id", "parent", "softDeleted", "createdBy",
-        "lastModifiedBy", "orderedVersions", "orderedVersionIds",
-        "orderedVersionTypes", "versions", "proposals", "ratings",
-        "hibernateLazyInitializer", "handler", "headVersion", "group" })
+    "lastModifiedBy", "orderedVersions", "orderedVersionIds",
+    "orderedVersionTypes", "versions", "proposals", "ratings",
+    "hibernateLazyInitializer", "handler", "headVersion", "group" })
 public class MasterEntry extends Entry {
 
+    /** The versions. */
     private Set<VersionEntry> versions = new HashSet<VersionEntry>();
 
-    public void addVersion(VersionEntry version) {
+    /**
+     * Adds the version.
+     *
+     * @param version
+     *            the version
+     */
+    public void addVersion(final VersionEntry version) {
         version.setMasterOfVersion(this);
         this.versions.add(version);
     }
 
+    /**
+     * Gets the versions.
+     *
+     * @return the versions
+     */
     @OneToMany(mappedBy = "masterOfVersion")
     public Set<VersionEntry> getVersions() {
-        return versions;
+        return this.versions;
     }
 
-    public void removeVersion(VersionEntry version) {
+    /**
+     * Removes the version.
+     *
+     * @param version
+     *            the version
+     */
+    public void removeVersion(final VersionEntry version) {
         this.versions.remove(version);
     }
 
-    public void setVersions(Set<VersionEntry> versions) {
+    /**
+     * Sets the versions.
+     *
+     * @param versions
+     *            the new versions
+     */
+    public void setVersions(final Set<VersionEntry> versions) {
         this.versions = versions;
     }
 
+    /*
+     * (non-Javadoc)
+     * @see de.hhn.labswps.wefactor.domain.Entry#getOrderedVersions()
+     */
+    @Override
     @Transient
     public List<Entry> getOrderedVersions() {
-        List<Entry> retVal = new ArrayList<Entry>();
+        final List<Entry> retVal = new ArrayList<Entry>();
         retVal.add(this);
-        if (this.versions != null && !this.versions.isEmpty()) {
+        if ((this.versions != null) && !this.versions.isEmpty()) {
             retVal.addAll(this.versions);
         }
 
@@ -59,31 +91,62 @@ public class MasterEntry extends Entry {
         return retVal;
     }
 
+    /** The proposals. */
     private Set<ProposalEntry> proposals = new HashSet<ProposalEntry>();
 
-    public void addProposal(ProposalEntry proposal) {
+    /**
+     * Adds the proposal.
+     *
+     * @param proposal
+     *            the proposal
+     */
+    public void addProposal(final ProposalEntry proposal) {
         proposal.setMasterOfProposal(this);
         this.proposals.add(proposal);
     }
 
+    /**
+     * Gets the proposals.
+     *
+     * @return the proposals
+     */
     @OneToMany(mappedBy = "masterOfProposal")
     public Set<ProposalEntry> getProposals() {
-        return proposals;
+        return this.proposals;
     }
 
-    public void removeProposal(ProposalEntry proposal) {
+    /**
+     * Removes the proposal.
+     *
+     * @param proposal
+     *            the proposal
+     */
+    public void removeProposal(final ProposalEntry proposal) {
         this.proposals.remove(proposal);
     }
 
-    public void setProposals(Set<ProposalEntry> proposals) {
+    /**
+     * Sets the proposals.
+     *
+     * @param proposals
+     *            the new proposals
+     */
+    public void setProposals(final Set<ProposalEntry> proposals) {
         this.proposals = proposals;
     }
 
-    public int getAmountOfProposalsByType(String status) {
+    /**
+     * Gets the amount of proposals by type.
+     *
+     * @param status
+     *            the status
+     * @return the amount of proposals by type
+     */
+    public int getAmountOfProposalsByType(final String status) {
         int amount = 0;
 
-        if (!getProposals().isEmpty()) {
-            for (ProposalEntry proposal : getProposals()) {
+        if (!this.getProposals().isEmpty()) {
+            for (final ProposalEntry proposal : this.getProposals()) {
                 if (status.equals(proposal.getStatus())) {
                     amount++;
                 }
@@ -95,6 +158,10 @@ public class MasterEntry extends Entry {
 
     }
 
+    /*
+     * (non-Javadoc)
+     * @see de.hhn.labswps.wefactor.domain.Entry#getParent()
+     */
     @Override
     @Transient
     public final Entry getParent() {
@@ -102,11 +169,15 @@ public class MasterEntry extends Entry {
         return this;
     }
 
+    /*
+     * (non-Javadoc)
+     * @see de.hhn.labswps.wefactor.domain.Entry#getVersionDisplayText()
+     */
     @Override
     @Transient
     @JsonProperty("versionDisplayText")
     public String getVersionDisplayText() {
-        return getTeaser();
+        return this.getTeaser();
     }
 
 }

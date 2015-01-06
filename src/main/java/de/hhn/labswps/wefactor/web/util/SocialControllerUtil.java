@@ -120,13 +120,6 @@ public class SocialControllerUtil {
         }
     }
 
-    /**
-     * Get the current UserProfile from the http session
-     *
-     * @param session
-     * @param userId
-     * @return
-     */
     protected UserProfile getUserProfile(HttpSession session, String userId) {
         UserProfile profile = (UserProfile) session.getAttribute(USER_PROFILE);
 
@@ -139,13 +132,6 @@ public class SocialControllerUtil {
         return profile;
     }
 
-    /**
-     * Get the current UserConnection from the http session
-     *
-     * @param session
-     * @param userId
-     * @return
-     */
     public UserConnection getUserConnection(HttpSession session, String userId) {
         UserConnection connection;
         connection = (UserConnection) session.getAttribute(USER_CONNECTION);
@@ -159,13 +145,6 @@ public class SocialControllerUtil {
         return connection;
     }
 
-    /**
-     * Compile the best display name from the connection and the profile
-     *
-     * @param connection
-     * @param profile
-     * @return
-     */
     protected String getDisplayName(UserConnection connection,
             UserProfile profile) {
 

@@ -27,36 +27,43 @@ import de.hhn.labswps.wefactor.service.AccountConnectionSignUpService;
 import de.hhn.labswps.wefactor.service.SimpleSignInAdapter;
 
 /**
- * Created by magnus on 18/08/14.
+ * The social configuration of the web application.
  */
 @Configuration
 @EnableSocial
 public class SocialConfig implements SocialConfigurer {
 
+    /** The data source. */
     @Autowired
     private DataSource dataSource;
 
+    /** The user profile repository. */
     @Autowired
     private UserProfileRepository userProfileRepository;
 
+    /** The account repository. */
     @Autowired
     private AccountRepository accountRepository;
 
+    /** The social user details service. */
     @Autowired
     private SocialUserDetailsService socialUserDetailsService;
 
+    /** The user connection repository. */
     @Autowired
     private UserConnectionRepository userConnectionRepository;
 
+    /*
+     * (non-Javadoc)
+     * @see org.springframework.social.config.annotation.SocialConfigurer#
+     * addConnectionFactories
+     * (org.springframework.social.config.annotation.ConnectionFactoryConfigurer
+     * , org.springframework.core.env.Environment)
+     */
     @Override
     public void addConnectionFactories(
-            ConnectionFactoryConfigurer connectionFactoryConfigurer,
-            Environment environment) {
-        // connectionFactoryConfigurer
-        // .addConnectionFactory(new FacebookConnectionFactory(
-        // environment.getProperty("spring.social.facebook.appId"),
-        // environment
-        // .getProperty("spring.social.facebook.appSecret")));
+            final ConnectionFactoryConfigurer connectionFactoryConfigurer,
+            final Environment environment) {
 
         connectionFactoryConfigurer
                 .addConnectionFactory(new GoogleConnectionFactory(environment
@@ -65,29 +72,50 @@ public class SocialConfig implements SocialConfigurer {
 
     }
 
+    /*
+     * (non-Javadoc)
+     * @see
+     * org.springframework.social.config.annotation.SocialConfigurer#getUserIdSource
+     * ()
+     */
     @Override
     public UserIdSource getUserIdSource() {
         return new AuthenticationNameUserIdSource();
     }
 
+    /*
+     * (non-Javadoc)
+     * @see org.springframework.social.config.annotation.SocialConfigurer#
+     * getUsersConnectionRepository
+     * (org.springframework.social.connect.ConnectionFactoryLocator)
+     */
     @Override
     public UsersConnectionRepository getUsersConnectionRepository(
-            ConnectionFactoryLocator connectionFactoryLocator) {
-        UsersConnectionRepositoryDelegate repository = new UsersConnectionRepositoryDelegate(
+            final ConnectionFactoryLocator connectionFactoryLocator) {
+        final UsersConnectionRepositoryDelegate repository = new UsersConnectionRepositoryDelegate(
                 connectionFactoryLocator, Encryptors.noOpText(),
-                userConnectionRepository);
+                this.userConnectionRepository);
         repository.setConnectionSignUp(new AccountConnectionSignUpService(
-                userProfileRepository, accountRepository));
+                this.userProfileRepository, this.accountRepository));
         return repository;
     }
 
+    /**
+     * Provider sign in controller.
+     *
+     * @param connectionFactoryLocator
+     *            the connection factory locator
+     * @param usersConnectionRepository
+     *            the users connection repository
+     * @return the provider sign in controller
+     */
     @Bean
     public ProviderSignInController providerSignInController(
-            ConnectionFactoryLocator connectionFactoryLocator,
-            UsersConnectionRepository usersConnectionRepository) {
+            final ConnectionFactoryLocator connectionFactoryLocator,
+            final UsersConnectionRepository usersConnectionRepository) {
         return new ProviderSignInController(connectionFactoryLocator,
-                usersConnectionRepository,
-                new SimpleSignInAdapter(socialUserDetailsService,
+                usersConnectionRepository, new SimpleSignInAdapter(
+                        this.socialUserDetailsService,
                         new HttpSessionRequestCache()));
     }
 }
