@@ -6,6 +6,8 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Embedded;
@@ -234,21 +236,20 @@ public abstract class Entry extends BaseSoftDeletableEntity implements
         return this.name;
     }
 
+    @Transient
+    private Object[] getOrderedVersionAsArray(final Function<Entry, String> f) {
+        return this.getOrderedVersions().stream().map(f)
+                .collect(Collectors.toList()).toArray();
+    }
+
     /**
      * Gets the ordered version ids.
      *
      * @return the ordered version ids
      */
     @Transient
-    public String[] getOrderedVersionIds() {
-        final List<Entry> orderedVersions = this.getOrderedVersions();
-        final String[] ids = new String[orderedVersions.size()];
-
-        for (int i = 0; i < orderedVersions.size(); i++) {
-            ids[i] = orderedVersions.get(i).getId().toString();
-        }
-
-        return ids;
+    public Object[] getOrderedVersionIds() {
+        return this.getOrderedVersionAsArray(x -> x.getId().toString());
     }
 
     /**
@@ -265,15 +266,8 @@ public abstract class Entry extends BaseSoftDeletableEntity implements
      * @return the ordered version types
      */
     @Transient
-    public String[] getOrderedVersionTypes() {
-        final List<Entry> orderedVersions = this.getOrderedVersions();
-        final String[] ids = new String[orderedVersions.size()];
-
-        for (int i = 0; i < orderedVersions.size(); i++) {
-            ids[i] = orderedVersions.get(i).getClass().getSimpleName();
-        }
-
-        return ids;
+    public Object[] getOrderedVersionTypes() {
+        return this.getOrderedVersionAsArray(x -> x.getClass().getSimpleName());
     }
 
     /**

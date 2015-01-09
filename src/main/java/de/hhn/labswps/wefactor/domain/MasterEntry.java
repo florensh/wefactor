@@ -24,9 +24,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @Where(clause = "inactive = 'N'")
 // @SQLDelete(sql = "UPDATE entry set inactive = 'Y' WHERE Id = ?")
 @JsonIgnoreProperties({ "id", "parent", "softDeleted", "createdBy",
-    "lastModifiedBy", "orderedVersions", "orderedVersionIds",
-    "orderedVersionTypes", "versions", "proposals", "ratings",
-    "hibernateLazyInitializer", "handler", "headVersion", "group" })
+        "lastModifiedBy", "orderedVersions", "orderedVersionIds",
+        "orderedVersionTypes", "versions", "proposals", "ratings",
+        "hibernateLazyInitializer", "handler", "headVersion", "group" })
 public class MasterEntry extends Entry {
 
     /** The versions. */
@@ -143,18 +143,8 @@ public class MasterEntry extends Entry {
      * @return the amount of proposals by type
      */
     public int getAmountOfProposalsByType(final String status) {
-        int amount = 0;
-
-        if (!this.getProposals().isEmpty()) {
-            for (final ProposalEntry proposal : this.getProposals()) {
-                if (status.equals(proposal.getStatus())) {
-                    amount++;
-                }
-            }
-
-        }
-
-        return amount;
+        return (int) this.getProposals().stream()
+                .filter(x -> status.equals(x.getStatus())).count();
 
     }
 
