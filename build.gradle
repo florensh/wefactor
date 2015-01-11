@@ -10,6 +10,7 @@ apply plugin: 'eclipse'
 apply plugin: 'idea'
 apply plugin: 'spring-boot'
 apply plugin: 'application'
+apply plugin: 'jacoco'
 
 mainClassName = "de.hhn.labswps.wefactor.Application"
 
@@ -79,3 +80,6 @@ task wrapper(type: Wrapper) {
     gradleVersion = '1.11'
 }
 
+jacoco {
+    toolVersion = "0.7.0.201403182114"
+}
