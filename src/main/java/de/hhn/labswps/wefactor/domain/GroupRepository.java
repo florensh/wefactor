@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.data.repository.CrudRepository;
 
 /**
- * The Interface GroupRepository.
+ * Interface for operations on a repository for the type {@link Group}.
  */
 public interface GroupRepository extends CrudRepository<Group, Long> {
 

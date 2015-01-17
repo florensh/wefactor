@@ -3,7 +3,7 @@ package de.hhn.labswps.wefactor.domain;
 import org.springframework.data.repository.CrudRepository;
 
 /**
- * The Interface TagRepository.
+ * Interface for operations on a repository for the type {@link Tag}.
  */
 public interface TagRepository extends CrudRepository<Tag, Long> {
 

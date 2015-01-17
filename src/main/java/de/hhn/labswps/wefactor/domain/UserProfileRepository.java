@@ -6,7 +6,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 /**
- * The Interface UserProfileRepository.
+ * Interface for operations on a repository for the type {@link UserProfile}.
  */
 @Repository
 public interface UserProfileRepository extends
@@ -15,11 +15,11 @@ public interface UserProfileRepository extends
     /**
      * Find by username.
      *
-     * @param u
-     *            the u
+     * @param theUserName
+     *            the name of the user
      * @return the user profile
      */
-    UserProfile findByUsername(String u);
+    UserProfile findByUsername(String theUserName);
 
     /**
      * Find by email.
@@ -30,6 +30,13 @@ public interface UserProfileRepository extends
      */
     UserProfile findByEmail(String email);
 
+    /**
+     * Find by password.
+     *
+     * @param pw
+     *            the password
+     * @return the list of UserProfiles
+     */
     List<UserProfile> findByPassword(String pw);
 
 }

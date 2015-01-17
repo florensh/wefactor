@@ -20,34 +20,54 @@ import de.hhn.labswps.wefactor.domain.UserConnectionRepository;
 import de.hhn.labswps.wefactor.domain.UserProfile;
 import de.hhn.labswps.wefactor.domain.UserProfileRepository;
 
+/**
+ * The Class SocialControllerUtil.
+ */
 @Component
 public class SocialControllerUtil {
 
+    /** The Constant LOG. */
     private static final Logger LOG = LoggerFactory
             .getLogger(SocialControllerUtil.class);
 
+    /** The Constant USER_CONNECTION. */
     private static final String USER_CONNECTION = "MY_USER_CONNECTION";
+
+    /** The Constant USER_PROFILE. */
     private static final String USER_PROFILE = "MY_USER_PROFILE";
 
+    /** The user profile repository. */
     @Autowired
     private UserProfileRepository userProfileRepository;
 
+    /** The user connection repository. */
     @Autowired
     private UserConnectionRepository userConnectionRepository;
 
-    public void setModel(HttpServletRequest request, Principal currentUser,
-            Model model) {
+    /**
+     * Sets the model.
+     *
+     * @param request
+     *            the request
+     * @param currentUser
+     *            the current user
+     * @param model
+     *            the model
+     */
+    public void setModel(final HttpServletRequest request,
+            final Principal currentUser, final Model model) {
 
         // SecurityContext ctx = (SecurityContext)
         // session.getAttribute("SPRING_SECURITY_CONTEXT");
 
-        if (currentUser == null || model.containsAttribute("currentUserId")) {
+        if ((currentUser == null) || model.containsAttribute("currentUserId")) {
             return;
         }
 
-        String userId = currentUser == null ? null : currentUser.getName();
-        String path = request.getRequestURI();
-        HttpSession session = request.getSession();
+        final String userId = currentUser == null ? null : currentUser
+                .getName();
+        final String path = request.getRequestURI();
+        final HttpSession session = request.getSession();
 
         UserConnection connection = null;
         UserProfile profile = null;
@@ -57,17 +77,17 @@ public class SocialControllerUtil {
         if (userId != null) {
 
             // Get the current UserConnection from the http session
-            connection = getUserConnection(session, userId);
+            connection = this.getUserConnection(session, userId);
 
             // Get the current UserProfile from the http session
-            profile = getUserProfile(session, userId);
+            profile = this.getUserProfile(session, userId);
 
             // Compile the best display name from the connection and the profile
-            displayName = getDisplayName(connection, profile);
+            displayName = this.getDisplayName(connection, profile);
 
         }
 
-        Throwable exception = (Throwable) session
+        final Throwable exception = (Throwable) session
                 .getAttribute(WebAttributes.AUTHENTICATION_EXCEPTION);
 
         // Update the model with the information we collected
@@ -87,66 +107,110 @@ public class SocialControllerUtil {
         model.addAttribute("currentUserDisplayName", displayName);
 
         if (LOG.isDebugEnabled()) {
-            logInfo(request, model, userId, path, session);
+            this.logInfo(request, model, userId, path, session);
         }
     }
 
-    protected void logInfo(HttpServletRequest request, Model model,
-            String userId, String path, HttpSession session) {
+    /**
+     * Log info.
+     *
+     * @param request
+     *            the request
+     * @param model
+     *            the model
+     * @param userId
+     *            the user id
+     * @param path
+     *            the path
+     * @param session
+     *            the session
+     */
+    protected void logInfo(final HttpServletRequest request, final Model model,
+            final String userId, final String path, final HttpSession session) {
         // Log the content of the model
         LOG.debug("Path: " + path + ", currentUserId: " + userId);
 
         LOG.debug("Non-null request-attributes:");
-        for (Enumeration<String> rane = request.getAttributeNames(); rane
+        for (final Enumeration<String> rane = request.getAttributeNames(); rane
                 .hasMoreElements();) {
-            String key = rane.nextElement();
-            Object value = session.getAttribute(key);
+            final String key = rane.nextElement();
+            final Object value = session.getAttribute(key);
             if (value != null) {
                 LOG.debug(" - " + key + " = " + value);
             }
         }
 
         LOG.debug("Session-attributes:");
-        for (Enumeration<String> sane = session.getAttributeNames(); sane
+        for (final Enumeration<String> sane = session.getAttributeNames(); sane
                 .hasMoreElements();) {
-            String key = sane.nextElement();
+            final String key = sane.nextElement();
             LOG.debug(" - " + key + " = " + session.getAttribute(key));
         }
 
-        Set<Map.Entry<String, Object>> me = model.asMap().entrySet();
+        final Set<Map.Entry<String, Object>> me = model.asMap().entrySet();
         LOG.debug("ModelElements (" + me.size() + "):");
-        for (Map.Entry<String, Object> e : me) {
+        for (final Map.Entry<String, Object> e : me) {
             LOG.debug(" - " + e.getKey() + " = " + e.getValue());
         }
     }
 
-    protected UserProfile getUserProfile(HttpSession session, String userId) {
+    /**
+     * Gets the user profile.
+     *
+     * @param session
+     *            the session
+     * @param userId
+     *            the user id
+     * @return the user profile
+     */
+    protected UserProfile getUserProfile(final HttpSession session,
+            final String userId) {
         UserProfile profile = (UserProfile) session.getAttribute(USER_PROFILE);
 
         // Reload from persistence storage if not set or invalid (i.e. no valid
         // userId)
-        if (profile == null || !userId.equals(profile.getUserId())) {
-            profile = userProfileRepository.findByUsername(userId);
+        if ((profile == null) || !userId.equals(profile.getUserId())) {
+            profile = this.userProfileRepository.findByUsername(userId);
             session.setAttribute(USER_PROFILE, profile);
         }
         return profile;
     }
 
-    public UserConnection getUserConnection(HttpSession session, String userId) {
+    /**
+     * Gets the user connection.
+     *
+     * @param session
+     *            the session
+     * @param userId
+     *            the user id
+     * @return the user connection
+     */
+    public UserConnection getUserConnection(final HttpSession session,
+            final String userId) {
         UserConnection connection;
         connection = (UserConnection) session.getAttribute(USER_CONNECTION);
 
         // Reload from persistence storage if not set or invalid (i.e. no valid
         // userId)
-        if (connection == null || !userId.equals(connection.getUserId())) {
-            connection = userConnectionRepository.findByProviderUserId(userId);
+        if ((connection == null) || !userId.equals(connection.getUserId())) {
+            connection = this.userConnectionRepository
+                    .findByProviderUserId(userId);
             session.setAttribute(USER_CONNECTION, connection);
         }
         return connection;
     }
 
-    protected String getDisplayName(UserConnection connection,
-            UserProfile profile) {
+    /**
+     * Gets the display name.
+     *
+     * @param connection
+     *            the connection
+     * @param profile
+     *            the profile
+     * @return the display name
+     */
+    protected String getDisplayName(final UserConnection connection,
+            final UserProfile profile) {
 
         return profile.getName();
     }

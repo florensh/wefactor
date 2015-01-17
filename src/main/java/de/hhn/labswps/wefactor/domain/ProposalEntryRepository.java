@@ -3,7 +3,7 @@ package de.hhn.labswps.wefactor.domain;
 import org.springframework.data.repository.CrudRepository;
 
 /**
- * The Interface ProposalEntryRepository.
+ * Interface for operations on a repository for the type {@link ProposalEntry}.
  */
 public interface ProposalEntryRepository extends
         CrudRepository<ProposalEntry, Long> {

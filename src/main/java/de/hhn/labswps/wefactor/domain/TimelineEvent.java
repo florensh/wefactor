@@ -13,7 +13,8 @@ import javax.persistence.Transient;
 import de.hhn.labswps.wefactor.specification.WeFactorValues.EventType;
 
 /**
- * The Class TimelineEvent.
+ * The Class TimelineEvent represents an event on the timeline of an user or a
+ * group e.g. an user created a new entry.
  */
 @Entity
 @Table(name = "timelineEvent")

@@ -10,20 +10,32 @@ import org.springframework.social.security.SocialUserDetailsService;
 import de.hhn.labswps.wefactor.domain.UserProfile;
 import de.hhn.labswps.wefactor.domain.UserProfileRepository;
 
+/**
+ * The weFactor implementation of {@link SocialUserDetailsService}.
+ */
 public class SimpleSocialUserDetailSevice implements SocialUserDetailsService {
 
+    /** The user repository. */
     @Autowired
     private UserProfileRepository userRepository;
 
+    /**
+     * Instantiates a new simple social user detail sevice.
+     */
     public SimpleSocialUserDetailSevice() {
     }
 
+    /*
+     * (non-Javadoc)
+     * @see
+     * org.springframework.social.security.SocialUserDetailsService#loadUserByUserId
+     * (java.lang.String)
+     */
     @Override
     public SocialUserDetails loadUserByUserId(String userId)
             throws UsernameNotFoundException, DataAccessException {
         SocialUser securityUser = null;
 
-        // UserProfile user = userRepository.findByUserId(userId);
         UserProfile user = userRepository.findOne(Long.parseLong(userId));
 
         if (user == null) {

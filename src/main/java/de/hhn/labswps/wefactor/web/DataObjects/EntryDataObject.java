@@ -6,71 +6,130 @@ import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
+/**
+ * The Class EntryDataObject.
+ */
 public class EntryDataObject {
 
+    /** The changes. */
     @Size(min = 10, max = 200)
     private String changes;
 
+    /** The code. */
     @NotEmpty
     private String code;
 
+    /** The description. */
     @NotEmpty
     private String description;
 
+    /** The edit mode. */
     private String editMode;
 
+    /** The id. */
     private Long id;
 
+    /** The group. */
     private String group;
 
-    public String getGroup() {
-        return group;
+    /**
+     * Gets the group.
+     *
+     * @return the group
+     */
+    public final String getGroup() {
+        return this.group;
     }
 
-    public void setGroup(String group) {
+    /**
+     * Sets the group.
+     *
+     * @param group
+     *            the new group
+     */
+    public final void setGroup(final String group) {
         this.group = group;
     }
 
+    /** The language. */
     @NotEmpty
     private String language;
 
+    /** The tag string. */
     private String tagString;
 
+    /** The teaser. */
     @Size(min = 10, max = 200)
     private String teaser;
 
+    /** The title. */
     @NotEmpty
     @Size(min = 5, max = 50)
     private String title;
 
-    public String getChanges() {
-        return changes;
+    /**
+     * Gets the changes.
+     *
+     * @return the changes
+     */
+    public final String getChanges() {
+        return this.changes;
     }
 
-    public String getCode() {
+    /**
+     * Gets the code.
+     *
+     * @return the code
+     */
+    public final String getCode() {
         return this.code;
     }
 
-    public String getDescription() {
+    /**
+     * Gets the description.
+     *
+     * @return the description
+     */
+    public final String getDescription() {
         return this.description;
     }
 
-    public String getEditMode() {
-        return editMode;
+    /**
+     * Gets the edits the mode.
+     *
+     * @return the edits the mode
+     */
+    public final String getEditMode() {
+        return this.editMode;
     }
 
-    public Long getId() {
+    /**
+     * Gets the id.
+     *
+     * @return the id
+     */
+    public final Long getId() {
         return this.id;
     }
 
-    public String getLanguage() {
-        return language;
+    /**
+     * Gets the language.
+     *
+     * @return the language
+     */
+    public final String getLanguage() {
+        return this.language;
     }
 
-    public String[] getTags() {
-        if (this.tagString != null && !this.tagString.isEmpty()) {
-            String[] tags_a = tagString.split("]");
-            String[] tags = new String[tags_a.length];
+    /**
+     * Gets the tags.
+     *
+     * @return the tags
+     */
+    public final String[] getTags() {
+        if ((this.tagString != null) && !this.tagString.isEmpty()) {
+            final String[] tags_a = this.tagString.split("]");
+            final String[] tags = new String[tags_a.length];
             for (int i = 0; i < tags_a.length; i++) {
                 tags[i] = tags_a[i].substring(1);
             }
@@ -81,58 +140,133 @@ public class EntryDataObject {
         }
     }
 
-    public String getTagString() {
+    /**
+     * Gets the tag string.
+     *
+     * @return the tag string
+     */
+    public final String getTagString() {
         return this.tagString;
     }
 
-    public String getTeaser() {
-        return teaser;
+    /**
+     * Gets the teaser.
+     *
+     * @return the teaser
+     */
+    public final String getTeaser() {
+        return this.teaser;
     }
 
-    public String getTitle() {
+    /**
+     * Gets the title.
+     *
+     * @return the title
+     */
+    public final String getTitle() {
         return this.title;
     }
 
-    public void setChanges(String changes) {
+    /**
+     * Sets the changes.
+     *
+     * @param changes
+     *            the new changes
+     */
+    public final void setChanges(final String changes) {
         this.changes = changes;
     }
 
-    public void setCode(final String code) {
+    /**
+     * Sets the code.
+     *
+     * @param code
+     *            the new code
+     */
+    public final void setCode(final String code) {
         this.code = code;
     }
 
-    public void setDescription(final String description) {
+    /**
+     * Sets the description.
+     *
+     * @param description
+     *            the new description
+     */
+    public final void setDescription(final String description) {
         this.description = description;
     }
 
-    public void setEditMode(String editMode) {
+    /**
+     * Sets the edits the mode.
+     *
+     * @param editMode
+     *            the new edits the mode
+     */
+    public final void setEditMode(final String editMode) {
         this.editMode = editMode;
     }
 
-    public void setId(final Long id) {
+    /**
+     * Sets the id.
+     *
+     * @param id
+     *            the new id
+     */
+    public final void setId(final Long id) {
         this.id = id;
     }
 
-    public void setLanguage(String language) {
+    /**
+     * Sets the language.
+     *
+     * @param language
+     *            the new language
+     */
+    public final void setLanguage(final String language) {
         this.language = language;
     }
 
-    public void setTags(Set<String> tags) {
+    /**
+     * Sets the tags.
+     *
+     * @param tags
+     *            the new tags
+     */
+    public final void setTags(final Set<String> tags) {
         this.tagString = "";
-        for (String s : tags) {
+        for (final String s : tags) {
             this.tagString = this.tagString + "[" + s + "]";
         }
     }
 
-    public void setTagString(String tagString) {
+    /**
+     * Sets the tag string.
+     *
+     * @param tagString
+     *            the new tag string
+     */
+    public final void setTagString(final String tagString) {
         this.tagString = tagString;
     }
 
-    public void setTeaser(String teaser) {
+    /**
+     * Sets the teaser.
+     *
+     * @param teaser
+     *            the new teaser
+     */
+    public final void setTeaser(final String teaser) {
         this.teaser = teaser;
     }
 
-    public void setTitle(final String title) {
+    /**
+     * Sets the title.
+     *
+     * @param title
+     *            the new title
+     */
+    public final void setTitle(final String title) {
         this.title = title;
     }
 

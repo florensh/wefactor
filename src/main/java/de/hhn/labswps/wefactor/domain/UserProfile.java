@@ -20,7 +20,7 @@ import de.hhn.labswps.wefactor.specification.WeFactorValues;
 import de.hhn.labswps.wefactor.specification.WeFactorValues.ProviderIdentification;
 
 /**
- * The Class UserProfile.
+ * The UserProfile contains data to identify one user to others.
  */
 @Entity
 @Table(name = "userprofile")

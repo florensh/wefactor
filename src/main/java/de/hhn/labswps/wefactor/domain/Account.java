@@ -27,12 +27,17 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import de.hhn.labswps.wefactor.specification.WeFactorValues.Role;
 
 /**
- * The Class Account.
+ * The class account is the root of the class hierarchy which represents an
+ * user.
+ * An account can have several user profiles with different user names and
+ * passwords.
+ * But all data related to the user for example groups, entries,... are
+ * connected to the class account.
  */
 @Entity
 @Table(name = "account")
 @JsonIgnoreProperties({ "id", "entries", "createdBy", "lastModifiedBy",
-    "hibernateLazyInitializer", "handler", "groups" })
+        "hibernateLazyInitializer", "handler", "groups" })
 public class Account {
 
     /** The entries. */
@@ -80,11 +85,11 @@ public class Account {
     /**
      * Adds the group.
      *
-     * @param g
-     *            the g
+     * @param group
+     *            the group
      */
-    public void addGroup(final Group g) {
-        this.groups.add(g);
+    public void addGroup(final Group group) {
+        this.groups.add(group);
     }
 
     /**

@@ -28,6 +28,9 @@ import de.hhn.labswps.wefactor.domain.AccountRepository;
 import de.hhn.labswps.wefactor.domain.UserProfile;
 import de.hhn.labswps.wefactor.domain.UserProfileRepository;
 
+/**
+ * The Class BaseWebTest.
+ */
 @WebAppConfiguration
 @TestExecutionListeners(listeners = { ServletTestExecutionListener.class,
         DependencyInjectionTestExecutionListener.class,
@@ -38,51 +41,92 @@ import de.hhn.labswps.wefactor.domain.UserProfileRepository;
 @Transactional
 public class BaseWebTest extends BaseTest {
 
+    /** The account repository. */
     @Autowired
     AccountRepository accountRepository;
 
+    /** The user profile repository. */
     @Autowired
     UserProfileRepository userProfileRepository;
 
+    /**
+     * Gets the session.
+     *
+     * @return the session
+     */
     public MockHttpSession getSession() {
-        return session;
+        return this.session;
     }
 
+    /**
+     * Gets the request.
+     *
+     * @return the request
+     */
     public MockHttpServletRequest getRequest() {
-        return request;
+        return this.request;
     }
 
+    /**
+     * Gets the mock mvc.
+     *
+     * @return the mock mvc
+     */
     public MockMvc getMockMvc() {
-        return mockMvc;
+        return this.mockMvc;
     }
 
+    /** The wac. */
     @Autowired
     private WebApplicationContext wac;
+
+    /** The session. */
     @Autowired
     private MockHttpSession session;
+
+    /** The request. */
     @Autowired
     private MockHttpServletRequest request;
 
+    /** The mock mvc. */
     private MockMvc mockMvc;
 
+    /**
+     * Setup.
+     */
     @Before
     public void setup() {
         this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
     }
 
+    /*
+     * (non-Javadoc)
+     * @see de.hhn.labswps.wefactor.BaseTest#testSomething()
+     */
+    @Override
     @Test
     public void testSomething() throws Exception {
-        getMockMvc().perform(get("/").principal(getTestPrincipal()))
-                .andExpect(status().isOk())
-                .andExpect(view().name("forward:/entries/all"));
+        this.getMockMvc().perform(get("/").principal(this.getTestPrincipal()))
+        .andExpect(status().isOk())
+        .andExpect(view().name("forward:/entries/all"));
 
     }
 
+    /**
+     * Gets the test profile.
+     *
+     * @return the test profile
+     */
     protected UserProfile getTestProfile() {
         return this.userProfileRepository.findByUsername("weFactor_testuser");
 
     }
 
+    /**
+     * Gets the test principal.
+     *
+     * @return the test principal
+     */
     protected Principal getTestPrincipal() {
         return new Principal() {
             @Override

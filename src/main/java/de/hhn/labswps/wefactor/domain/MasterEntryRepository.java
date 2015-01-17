@@ -7,7 +7,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
 /**
- * The Interface EntryRepository.
+ * Interface for operations on a repository for the type {@link MasterEntry}.
  */
 public interface MasterEntryRepository extends
         CrudRepository<MasterEntry, Long> {
@@ -28,7 +28,8 @@ public interface MasterEntryRepository extends
      *            the a
      * @return the list
      */
-    List<Entry> findDistinctByGroupIsNullOrGroupMembersOrderByEntryDateDesc(Account a);
+    List<Entry> findDistinctByGroupIsNullOrGroupMembersOrderByEntryDateDesc(
+            Account a);
 
     /**
      * Find distinct by entry description containing or name containing or

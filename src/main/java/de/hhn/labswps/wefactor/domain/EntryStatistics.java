@@ -3,7 +3,8 @@ package de.hhn.labswps.wefactor.domain;
 import javax.persistence.Embeddable;
 
 /**
- * The Class EntryStatistics.
+ * The Class EntryStatistics contains information of an entry e.g. the count of
+ * views.
  */
 @Embeddable
 public final class EntryStatistics {

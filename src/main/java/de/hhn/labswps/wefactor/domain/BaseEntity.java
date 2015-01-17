@@ -20,7 +20,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 /**
- * The Class BaseEntity.
+ * The abstract class BaseEntity provides methods for auditing an entity.
  */
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)

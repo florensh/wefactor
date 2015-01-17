@@ -29,9 +29,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import de.hhn.labswps.wefactor.specification.WeFactorValues;
 
 /**
- * The Class Entry.
- *
- * @author Patrick Wohlgemuth
+ * The Class Entry represents an Entry from an user and contains a code snippet
+ * and data to describe it.
  */
 @Entity
 @Table(name = "entry")

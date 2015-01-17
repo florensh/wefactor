@@ -16,15 +16,26 @@ import de.hhn.labswps.wefactor.domain.UserProfileRepository;
 import de.hhn.labswps.wefactor.specification.WeFactorValues.ProviderIdentification;
 import de.hhn.labswps.wefactor.specification.WeFactorValues.Role;
 
+/**
+ * The Class AccountService gives access to the account of the user who is
+ * currently logged in.
+ */
 @Service
 public class AccountService {
 
+    /** The user profile repository. */
     @Autowired
     UserProfileRepository userProfileRepository;
 
+    /** The account repository. */
     @Autowired
     private AccountRepository accountRepository;
 
+    /**
+     * Gets the current account.
+     *
+     * @return the current account
+     */
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public Account getCurrentAccount() {
         Account account = null;

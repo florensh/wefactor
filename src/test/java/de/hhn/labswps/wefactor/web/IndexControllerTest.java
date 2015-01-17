@@ -8,8 +8,17 @@ import org.junit.Test;
 
 import de.hhn.labswps.wefactor.BaseWebTest;
 
+/**
+ * The Class IndexControllerTest.
+ */
 public class IndexControllerTest extends BaseWebTest {
 
+    /**
+     * Find index page.
+     *
+     * @throws Exception
+     *             the exception
+     */
     @Test
     public void findIndexPage() throws Exception {
         getMockMvc().perform(get("/").principal(getTestPrincipal()))

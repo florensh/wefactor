@@ -9,10 +9,10 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
 /**
- * The Interface TimelineEventRepository.
+ * Interface for operations on a repository for the type {@link TimelineEvent}.
  */
 public interface TimelineEventRepository extends
-CrudRepository<TimelineEvent, Long> {
+        CrudRepository<TimelineEvent, Long> {
 
     /** The Constant DEFAULT_PAGE_SIZE. */
     static final int DEFAULT_PAGE_SIZE = 6;

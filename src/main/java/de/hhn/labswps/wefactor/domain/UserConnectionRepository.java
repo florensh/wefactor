@@ -8,7 +8,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * The Interface UserConnectionRepository.
+ * Interface for operations on a repository for the type {@link UserConnection}.
  */
 public interface UserConnectionRepository extends
         CrudRepository<UserConnection, Long> {

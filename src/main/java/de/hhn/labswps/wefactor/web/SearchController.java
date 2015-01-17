@@ -20,37 +20,51 @@ import de.hhn.labswps.wefactor.web.DataObjects.EntryList;
 import de.hhn.labswps.wefactor.web.DataObjects.ScreenMessageObject;
 import de.hhn.labswps.wefactor.web.DataObjects.SearchBoxDataObject;
 
+/**
+ * The controller for search requests.
+ */
 @Controller
 public class SearchController {
 
+    /** The master entry repository. */
     @Autowired
     private MasterEntryRepository masterEntryRepository;
 
+    /** The user profile repository. */
     @Autowired
     private UserProfileRepository userProfileRepository;
 
+    /**
+     * Execute search.
+     *
+     * @param searchBoxDataObject
+     *            the search box data object
+     * @param result
+     *            the result
+     * @param m
+     *            the m
+     * @param currentUser
+     *            the current user
+     * @return the string
+     */
     @RequestMapping(value = "/search/entries", method = RequestMethod.POST)
-    public String executeSearch(@Valid SearchBoxDataObject searchBoxDataObject,
-            BindingResult result, Model m, Principal currentUser) {
+    public String executeSearch(
+            @Valid final SearchBoxDataObject searchBoxDataObject,
+            final BindingResult result, final Model m,
+            final Principal currentUser) {
         if (result.hasErrors()) {
             return "editprofile";
         }
 
-        UserProfile profile = this.userProfileRepository
+        final UserProfile profile = this.userProfileRepository
                 .findByUsername(currentUser.getName());
-        // List<Entry> entries = this.masterEntryRepository
-        // .findDistinctByEntryDescriptionContainingOrNameContainingOrTeaserContainingOrAccountProfilesNameContainingAndGroupIsNullOrGroupMembers(
-        // searchBoxDataObject.getSearchtext(),
-        // searchBoxDataObject.getSearchtext(),
-        // searchBoxDataObject.getSearchtext(),
-        // searchBoxDataObject.getSearchtext(), null);
 
-        List<Entry> entries = this.masterEntryRepository.search(
+        final List<Entry> entries = this.masterEntryRepository.search(
                 searchBoxDataObject.getSearchtext(), profile.getAccount());
 
-        EntryList elist = new EntryList(entries);
+        final EntryList elist = new EntryList(entries);
 
-        ScreenMessageObject sm = new ScreenMessageObject("We've found "
+        final ScreenMessageObject sm = new ScreenMessageObject("We've found "
                 + elist.size() + " results for "
                 + searchBoxDataObject.getSearchtext());
         sm.setStrong(searchBoxDataObject.getSearchtext());

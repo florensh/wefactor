@@ -47,73 +47,114 @@ import de.hhn.labswps.wefactor.web.DataObjects.EntryDataObject;
 import de.hhn.labswps.wefactor.web.DataObjects.EntryList;
 import de.hhn.labswps.wefactor.web.util.DataUtils;
 
+/**
+ * The controller for entry related requests.
+ */
 @Controller
 public class EntryController {
 
+    /** The Constant ENTRY_DETAILS_LINK. */
     public static final String ENTRY_DETAILS_LINK = "/entry/details";
 
+    /**
+     * The Enum EntryScope.
+     */
     private enum EntryScope {
-        ALL, USER, TAG;
+
+        /** The all. */
+        ALL,
+        /** The user. */
+        USER,
+        /** The tag. */
+        TAG;
     }
 
+    /**
+     * The Enum EntryEditMode.
+     */
     private enum EntryEditMode {
-        PROPOSAL, MASTER;
+
+        /** The proposal. */
+        PROPOSAL,
+        /** The master. */
+        MASTER;
     }
 
+    /** The entry repository. */
     @Autowired
     private MasterEntryRepository entryRepository;
 
+    /** The version entry repository. */
     @Autowired
     private VersionEntryRepository versionEntryRepository;
 
+    /** The entry rating repository. */
     @Autowired
     private EntryRatingRepository entryRatingRepository;
 
+    /** The proposal entry repository. */
     @Autowired
     private ProposalEntryRepository proposalEntryRepository;
 
+    /** The group repository. */
     @Autowired
     private GroupRepository groupRepository;
 
+    /** The user profile repository. */
     @Autowired
     private UserProfileRepository userProfileRepository;
 
+    /** The tag repository. */
     @Autowired
     private TagRepository tagRepository;
 
+    /** The timeline event repository. */
     @Autowired
     private TimelineEventRepository timelineEventRepository;
 
+    /**
+     * Show entries.
+     *
+     * @param id
+     *            the id
+     * @param scope
+     *            the scope
+     * @param request
+     *            the request
+     * @param currentUser
+     *            the current user
+     * @param model
+     *            the model
+     * @return the string
+     */
     @RequestMapping(value = "/entries/{scope}", method = RequestMethod.GET)
     public String showEntries(
-            @RequestParam(value = "id", required = false) String id,
+            @RequestParam(value = "id", required = false) final String id,
             @PathVariable final String scope, final HttpServletRequest request,
             final Principal currentUser, final Model model) {
 
-        UserProfile profile = this.userProfileRepository
+        final UserProfile profile = this.userProfileRepository
                 .findByUsername(currentUser.getName());
 
         final EntriesFilterDataObject filter = new EntriesFilterDataObject();
         model.addAttribute("entriesFilterDataObject", filter);
 
-        EntryScope entryScope = EntryScope.valueOf(scope.toUpperCase());
+        final EntryScope entryScope = EntryScope.valueOf(scope.toUpperCase());
 
         switch (entryScope) {
             case ALL:
-                List<Entry> list = (List<Entry>) entryRepository
+                final List<Entry> list = this.entryRepository
                         .findDistinctByGroupIsNullOrGroupMembersOrderByEntryDateDesc(profile
                                 .getAccount());
-                EntryList eList = new EntryList();
+                final EntryList eList = new EntryList();
                 eList.addAll(list);
                 model.addAttribute("entries", eList);
 
                 break;
 
             case USER:
-                model.addAttribute(
-                        "entries",
-                        new EntryList(entryRepository.findByAccountId(Long
-                                .valueOf(id))));
+                model.addAttribute("entries", new EntryList(
+                        this.entryRepository.findByAccountId(Long.valueOf(id))));
 
                 break;
 
@@ -124,7 +165,7 @@ public class EntryController {
 
                 model.addAttribute(
                         "entries",
-                        new EntryList(entryRepository
+                        new EntryList(this.entryRepository
                                 .findDistinctByTagsNameOrVersionsTagsName(id,
                                         id)));
 
@@ -137,6 +178,17 @@ public class EntryController {
         return "entries";
     }
 
+    /**
+     * Show all entries.
+     *
+     * @param request
+     *            the request
+     * @param currentUser
+     *            the current user
+     * @param model
+     *            the model
+     * @return the string
+     */
     @RequestMapping(value = "/entries/explore", method = RequestMethod.GET)
     public String showAllEntries(final HttpServletRequest request,
             final Principal currentUser, final Model model) {
@@ -144,14 +196,26 @@ public class EntryController {
         final EntriesFilterDataObject filter = new EntriesFilterDataObject();
         model.addAttribute("entriesFilterDataObject", filter);
 
-        List<MasterEntry> list = (List<MasterEntry>) entryRepository.findAll();
-        EntryList eList = new EntryList();
+        final List<MasterEntry> list = (List<MasterEntry>) this.entryRepository
+                .findAll();
+        final EntryList eList = new EntryList();
         eList.addAll(list);
         model.addAttribute("entries", eList);
 
         return "entries";
     }
 
+    /**
+     * Show entry.
+     *
+     * @param request
+     *            the request
+     * @param currentUser
+     *            the current user
+     * @param model
+     *            the model
+     * @return the string
+     */
     @RequestMapping(value = "/user/entry", method = RequestMethod.GET)
     public String showEntry(final HttpServletRequest request,
             final Principal currentUser, final Model model) {
@@ -159,10 +223,21 @@ public class EntryController {
         return "entrydetails";
     }
 
+    /**
+     * Show entry details.
+     *
+     * @param id
+     *            the id
+     * @param model
+     *            the model
+     * @param currentUser
+     *            the current user
+     * @return the string
+     */
     @RequestMapping(value = ENTRY_DETAILS_LINK, method = RequestMethod.GET)
-    public String showEntryDetails(@RequestParam("id") Long id, ModelMap model,
-            Principal currentUser) {
-        MasterEntry entry = this.entryRepository.findOne(id);
+    public String showEntryDetails(@RequestParam("id") final Long id,
+            final ModelMap model, final Principal currentUser) {
+        final MasterEntry entry = this.entryRepository.findOne(id);
         entry.getStatistics().addViews(1);
         this.entryRepository.save(entry);
 
@@ -170,10 +245,23 @@ public class EntryController {
         return "entrydetails";
     }
 
+    /**
+     * Show entry code raw.
+     *
+     * @param id
+     *            the id
+     * @param type
+     *            the type
+     * @param model
+     *            the model
+     * @param currentUser
+     *            the current user
+     * @return the string
+     */
     @RequestMapping(value = "/entry/details/raw", method = RequestMethod.GET)
-    public String showEntryCodeRaw(@RequestParam("id") Long id,
-            @RequestParam("type") String type, ModelMap model,
-            Principal currentUser) {
+    public String showEntryCodeRaw(@RequestParam("id") final Long id,
+            @RequestParam("type") final String type, final ModelMap model,
+            final Principal currentUser) {
 
         Entry entry = null;
         if (MasterEntry.class.getSimpleName().equals(type)) {
@@ -191,47 +279,96 @@ public class EntryController {
         return "rawCode";
     }
 
+    /**
+     * Show proposal details.
+     *
+     * @param id
+     *            the id
+     * @param model
+     *            the model
+     * @param currentUser
+     *            the current user
+     * @return the string
+     */
     @RequestMapping(value = "/proposal/details", method = RequestMethod.GET)
-    public String showProposalDetails(@RequestParam("id") Long id,
-            ModelMap model, Principal currentUser) {
-        Entry entry = this.proposalEntryRepository.findOne(id);
+    public String showProposalDetails(@RequestParam("id") final Long id,
+            final ModelMap model, final Principal currentUser) {
+        final Entry entry = this.proposalEntryRepository.findOne(id);
 
         model.addAttribute("entry", entry);
         return "proposaldetails";
     }
 
+    /**
+     * Show entry edit page.
+     *
+     * @param id
+     *            the id
+     * @param model
+     *            the model
+     * @param currentUser
+     *            the current user
+     * @return the string
+     */
     @Secured({ "USER" })
     @RequestMapping(value = "user/entry/edit", method = RequestMethod.GET)
-    public String showEntryEditPage(@RequestParam("id") Long id,
-            ModelMap model, Principal currentUser) {
+    public String showEntryEditPage(@RequestParam("id") final Long id,
+            final ModelMap model, final Principal currentUser) {
 
-        fillupModelForEntryEdit(model, currentUser, id, EntryEditMode.MASTER);
+        this.fillupModelForEntryEdit(model, currentUser, id,
+                EntryEditMode.MASTER);
         return "entryedit";
     }
 
+    /**
+     * Show entry edit page for new propose.
+     *
+     * @param id
+     *            the id
+     * @param model
+     *            the model
+     * @param currentUser
+     *            the current user
+     * @return the string
+     */
     @Secured({ "USER" })
     @RequestMapping(value = "user/entry/propose", method = RequestMethod.GET)
-    public String showEntryEditPageForNewPropose(@RequestParam("id") Long id,
-            ModelMap model, Principal currentUser) {
+    public String showEntryEditPageForNewPropose(
+            @RequestParam("id") final Long id, final ModelMap model,
+            final Principal currentUser) {
 
-        fillupModelForEntryEdit(model, currentUser, id, EntryEditMode.PROPOSAL);
+        this.fillupModelForEntryEdit(model, currentUser, id,
+                EntryEditMode.PROPOSAL);
         return "entryedit";
     }
 
-    private void fillupModelForEntryEdit(ModelMap model, Principal currentUser,
-            Long id, EntryEditMode editMode) {
-        String secUser = currentUser.getName();
-        UserProfile profile = this.userProfileRepository
+    /**
+     * Fillup model for entry edit.
+     *
+     * @param model
+     *            the model
+     * @param currentUser
+     *            the current user
+     * @param id
+     *            the id
+     * @param editMode
+     *            the edit mode
+     */
+    private void fillupModelForEntryEdit(final ModelMap model,
+            final Principal currentUser, final Long id,
+            final EntryEditMode editMode) {
+        final String secUser = currentUser.getName();
+        final UserProfile profile = this.userProfileRepository
                 .findByUsername(secUser);
 
-        Entry entry = this.entryRepository.findOne(id);
+        final Entry entry = this.entryRepository.findOne(id);
 
         // if (entry.getAccount().getId() != profile.getAccount().getId()) {
         // throw new BadCredentialsException(
         // "na na na na, wer wird denn hier!!!");
         // }
 
-        EntryDataObject entryDataObject = new EntryDataObject();
+        final EntryDataObject entryDataObject = new EntryDataObject();
         entryDataObject.setCode(entry.getEntryCodeText());
         entryDataObject.setDescription(entry.getEntryDescription());
         entryDataObject.setTitle(entry.getName());
@@ -249,8 +386,8 @@ public class EntryController {
 
         }
 
-        String[] tags = resolveTagsAsStrings((List<Tag>) this.tagRepository
-                .findAll());
+        final String[] tags = this
+                .resolveTagsAsStrings((List<Tag>) this.tagRepository.findAll());
         model.addAttribute("tags", tags);
 
         model.addAttribute("entryDataObject", entryDataObject);
@@ -264,37 +401,59 @@ public class EntryController {
 
     }
 
+    /**
+     * Delete entry page.
+     *
+     * @param id
+     *            the id
+     * @param model
+     *            the model
+     * @param currentUser
+     *            the current user
+     * @return the string
+     */
     @Secured({ "USER" })
     @RequestMapping(value = "user/entry/remove", method = RequestMethod.GET)
-    public String deleteEntryPage(@RequestParam("id") Long id, ModelMap model,
-            Principal currentUser) {
+    public String deleteEntryPage(@RequestParam("id") final Long id,
+            final ModelMap model, final Principal currentUser) {
 
         this.entryRepository.delete(id);
 
         return "forward:/";
     }
 
+    /**
+     * Accept proposal.
+     *
+     * @param id
+     *            the id
+     * @param model
+     *            the model
+     * @param currentUser
+     *            the current user
+     * @return the string
+     */
     @RequestMapping(value = "/proposal/accept", method = RequestMethod.GET)
-    public String acceptProposal(@RequestParam("id") Long id, ModelMap model,
-            Principal currentUser) {
+    public String acceptProposal(@RequestParam("id") final Long id,
+            final ModelMap model, final Principal currentUser) {
 
-        ProposalEntry pe = this.proposalEntryRepository.findOne(id);
+        final ProposalEntry pe = this.proposalEntryRepository.findOne(id);
 
-        UserProfile up = this.userProfileRepository.findByUsername(currentUser
-                .getName());
-        Account account = up.getAccount();
+        final UserProfile up = this.userProfileRepository
+                .findByUsername(currentUser.getName());
+        final Account account = up.getAccount();
 
-        MasterEntry me = pe.getMasterOfProposal();
-        VersionEntry ve = new VersionEntry(pe);
+        final MasterEntry me = pe.getMasterOfProposal();
+        final VersionEntry ve = new VersionEntry(pe);
         pe.setStatus(Status.ACCEPTED.name());
 
         this.proposalEntryRepository.save(pe);
         this.versionEntryRepository.save(ve);
         this.entryRepository.save(me);
 
-        ObjectIdentification oid = DataUtils.createObjectIdentification(me,
-                Entry.class.getSimpleName());
-        TimelineEvent event = new TimelineEvent(new Date(), account,
+        final ObjectIdentification oid = DataUtils.createObjectIdentification(
+                me, Entry.class.getSimpleName());
+        final TimelineEvent event = new TimelineEvent(new Date(), account,
                 pe.getAccount(), EventType.PROPOSAL_ACCEPTED, oid);
 
         this.timelineEventRepository.save(event);
@@ -303,23 +462,34 @@ public class EntryController {
                 + String.valueOf(pe.getMasterOfProposal().getId());
     }
 
+    /**
+     * Reject proposal.
+     *
+     * @param id
+     *            the id
+     * @param model
+     *            the model
+     * @param currentUser
+     *            the current user
+     * @return the string
+     */
     @RequestMapping(value = "/proposal/reject", method = RequestMethod.GET)
-    public String rejectProposal(@RequestParam("id") Long id, ModelMap model,
-            Principal currentUser) {
+    public String rejectProposal(@RequestParam("id") final Long id,
+            final ModelMap model, final Principal currentUser) {
 
-        UserProfile up = this.userProfileRepository.findByUsername(currentUser
-                .getName());
-        Account account = up.getAccount();
+        final UserProfile up = this.userProfileRepository
+                .findByUsername(currentUser.getName());
+        final Account account = up.getAccount();
 
-        ProposalEntry pe = this.proposalEntryRepository.findOne(id);
+        final ProposalEntry pe = this.proposalEntryRepository.findOne(id);
 
         pe.setStatus(Status.REJECTED.name());
 
         this.proposalEntryRepository.save(pe);
 
-        ObjectIdentification oid = DataUtils.createObjectIdentification(
+        final ObjectIdentification oid = DataUtils.createObjectIdentification(
                 pe.getMasterOfProposal(), Entry.class.getSimpleName());
-        TimelineEvent event = new TimelineEvent(new Date(), account,
+        final TimelineEvent event = new TimelineEvent(new Date(), account,
                 pe.getAccount(), EventType.PROPOSAL_REJECTED, oid);
 
         this.timelineEventRepository.save(event);
@@ -328,14 +498,25 @@ public class EntryController {
                 + String.valueOf(pe.getMasterOfProposal().getId());
     }
 
+    /**
+     * Show add entry page.
+     *
+     * @param request
+     *            the request
+     * @param currentUser
+     *            the current user
+     * @param model
+     *            the model
+     * @return the string
+     */
     @RequestMapping(value = "/user/entry/add", method = RequestMethod.GET)
     public String showAddEntryPage(final HttpServletRequest request,
             final Principal currentUser, final Model model) {
 
-        UserProfile profile = this.userProfileRepository
+        final UserProfile profile = this.userProfileRepository
                 .findByUsername(currentUser.getName());
 
-        EntryDataObject ed = new EntryDataObject();
+        final EntryDataObject ed = new EntryDataObject();
         ed.setEditMode(EntryEditMode.MASTER.name());
 
         model.addAttribute("entryDataObject", ed);
@@ -346,15 +527,22 @@ public class EntryController {
                 this.groupRepository.findByMembers(profile.getAccount()));
 
         model.addAttribute("editMode", EntryEditMode.MASTER.name());
-        String[] tags = resolveTagsAsStrings((List<Tag>) this.tagRepository
-                .findAll());
+        final String[] tags = this
+                .resolveTagsAsStrings((List<Tag>) this.tagRepository.findAll());
         model.addAttribute("tags", tags);
 
         return "entryedit";
     }
 
-    private String[] resolveTagsAsStrings(List<Tag> tags) {
-        String[] retVal = new String[tags.size()];
+    /**
+     * Resolve tags as strings.
+     *
+     * @param tags
+     *            the tags
+     * @return the string[]
+     */
+    private String[] resolveTagsAsStrings(final List<Tag> tags) {
+        final String[] retVal = new String[tags.size()];
         for (int i = 0; i < tags.size(); i++) {
             retVal[i] = tags.get(i).getName();
         }
@@ -362,35 +550,58 @@ public class EntryController {
         return retVal;
     }
 
+    /**
+     * Submit entry form.
+     *
+     * @param entryDataObject
+     *            the entry data object
+     * @param result
+     *            the result
+     * @param m
+     *            the m
+     * @param currentUser
+     *            the current user
+     * @return the string
+     */
     @RequestMapping(value = "/user/entry/save", method = RequestMethod.POST)
-    public String submitEntryForm(@Valid EntryDataObject entryDataObject,
-            BindingResult result, ModelMap m, Principal currentUser) {
+    public String submitEntryForm(@Valid final EntryDataObject entryDataObject,
+            final BindingResult result, final ModelMap m,
+            final Principal currentUser) {
         if (result.hasErrors()) {
             m.addAttribute("languages",
                     WeFactorValues.ProgrammingLanguage.values());
             return "entryedit";
         }
 
-        Entry toSave = saveEntry(entryDataObject, currentUser);
+        final Entry toSave = this.saveEntry(entryDataObject, currentUser);
 
-        return showEntryDetails(toSave.getId(), m, currentUser);
+        return this.showEntryDetails(toSave.getId(), m, currentUser);
     }
 
-    private Entry saveEntry(EntryDataObject entryDataObject,
-            Principal currentUser) {
+    /**
+     * Save entry.
+     *
+     * @param entryDataObject
+     *            the entry data object
+     * @param currentUser
+     *            the current user
+     * @return the entry
+     */
+    private Entry saveEntry(final EntryDataObject entryDataObject,
+            final Principal currentUser) {
 
         Entry retVal = null;
 
         switch (EntryEditMode.valueOf(entryDataObject.getEditMode())) {
             case MASTER:
-                MasterEntry toSave = saveAsMasterEntry(entryDataObject,
-                        currentUser);
+                final MasterEntry toSave = this.saveAsMasterEntry(
+                        entryDataObject, currentUser);
                 retVal = toSave;
 
                 break;
 
             case PROPOSAL:
-                MasterEntry entryWithProposal = saveAsProposalEntry(
+                final MasterEntry entryWithProposal = this.saveAsProposalEntry(
                         entryDataObject, currentUser);
                 retVal = entryWithProposal;
 
@@ -403,8 +614,17 @@ public class EntryController {
         return retVal;
     }
 
-    private MasterEntry saveAsProposalEntry(EntryDataObject entryDataObject,
-            Principal currentUser) {
+    /**
+     * Save as proposal entry.
+     *
+     * @param entryDataObject
+     *            the entry data object
+     * @param currentUser
+     *            the current user
+     * @return the master entry
+     */
+    private MasterEntry saveAsProposalEntry(
+            final EntryDataObject entryDataObject, final Principal currentUser) {
         MasterEntry toSave;
         if (entryDataObject.getId() != null) {
             toSave = this.entryRepository.findOne(entryDataObject.getId());
@@ -413,13 +633,13 @@ public class EntryController {
             throw new IllegalArgumentException();
         }
 
-        String secUser = currentUser.getName();
-        UserProfile profile = this.userProfileRepository
+        final String secUser = currentUser.getName();
+        final UserProfile profile = this.userProfileRepository
                 .findByUsername(secUser);
 
-        ProposalEntry pe = new ProposalEntry();
+        final ProposalEntry pe = new ProposalEntry();
 
-        fillupWithPersistedTags(pe, entryDataObject.getTags());
+        this.fillupWithPersistedTags(pe, entryDataObject.getTags());
         pe.setEntryCodeText(entryDataObject.getCode());
         pe.setLanguage(entryDataObject.getLanguage());
         pe.setTeaser(entryDataObject.getTeaser());
@@ -435,9 +655,9 @@ public class EntryController {
 
         toSave = this.entryRepository.save(toSave);
 
-        ObjectIdentification oid = DataUtils.createObjectIdentification(
+        final ObjectIdentification oid = DataUtils.createObjectIdentification(
                 pe.getMasterOfProposal(), Entry.class.getSimpleName());
-        TimelineEvent event = new TimelineEvent(new Date(),
+        final TimelineEvent event = new TimelineEvent(new Date(),
                 profile.getAccount(), pe.getMasterOfProposal().getAccount(),
                 EventType.MADE_PROPOSAL, oid);
         this.timelineEventRepository.save(event);
@@ -445,8 +665,17 @@ public class EntryController {
         return toSave;
     }
 
-    private MasterEntry saveAsMasterEntry(EntryDataObject entryDataObject,
-            Principal currentUser) {
+    /**
+     * Save as master entry.
+     *
+     * @param entryDataObject
+     *            the entry data object
+     * @param currentUser
+     *            the current user
+     * @return the master entry
+     */
+    private MasterEntry saveAsMasterEntry(
+            final EntryDataObject entryDataObject, final Principal currentUser) {
         MasterEntry toSave;
         if (entryDataObject.getId() != null) {
             toSave = this.entryRepository.findOne(entryDataObject.getId());
@@ -455,11 +684,11 @@ public class EntryController {
             toSave = new MasterEntry();
         }
 
-        String secUser = currentUser.getName();
-        UserProfile profile = this.userProfileRepository
+        final String secUser = currentUser.getName();
+        final UserProfile profile = this.userProfileRepository
                 .findByUsername(secUser);
 
-        fillupWithPersistedTags(toSave, entryDataObject.getTags());
+        this.fillupWithPersistedTags(toSave, entryDataObject.getTags());
 
         toSave.setEntryCodeText(entryDataObject.getCode());
         toSave.setLanguage(entryDataObject.getLanguage());
@@ -470,7 +699,7 @@ public class EntryController {
         toSave.setAccount(profile.getAccount());
         toSave.setChanges(entryDataObject.getChanges());
 
-        if (entryDataObject.getGroup() != null
+        if ((entryDataObject.getGroup() != null)
                 && !entryDataObject.getGroup().isEmpty()) {
             toSave.setGroup(this.groupRepository.findOne(Long
                     .valueOf(entryDataObject.getGroup())));
@@ -482,9 +711,10 @@ public class EntryController {
 
         // store event if entry in group
         if (toSave.getGroup() != null) {
-            ObjectIdentification oid = DataUtils.createObjectIdentification(
-                    toSave, Entry.class.getSimpleName());
-            TimelineEvent event = new TimelineEvent(new Date(),
+            final ObjectIdentification oid = DataUtils
+                    .createObjectIdentification(toSave,
+                            Entry.class.getSimpleName());
+            final TimelineEvent event = new TimelineEvent(new Date(),
                     toSave.getAccount(), toSave.getGroup(),
                     EventType.MADE_ENTRY, oid);
             this.timelineEventRepository.save(event);
@@ -493,23 +723,31 @@ public class EntryController {
         return toSave;
     }
 
-    private void fillupWithPersistedTags(Entry toSave, String[] tags) {
+    /**
+     * Fillup with persisted tags.
+     *
+     * @param toSave
+     *            the to save
+     * @param tags
+     *            the tags
+     */
+    private void fillupWithPersistedTags(final Entry toSave, final String[] tags) {
 
-        Set<String> newTags = new HashSet<String>();
-        for (int i = 0; i < tags.length; i++) {
+        final Set<String> newTags = new HashSet<String>();
+        for (final String tag : tags) {
             boolean found = false;
-            for (Tag t : toSave.getTags()) {
-                if (t.getName().equals(tags[i])) {
+            for (final Tag t : toSave.getTags()) {
+                if (t.getName().equals(tag)) {
                     found = true;
                     break;
                 }
             }
             if (!found) {
-                newTags.add(tags[i]);
+                newTags.add(tag);
             }
         }
 
-        for (String s : newTags) {
+        for (final String s : newTags) {
             Tag tag = this.tagRepository.findByName(s);
             if (tag == null) {
                 tag = new Tag(s);
@@ -520,9 +758,18 @@ public class EntryController {
 
     }
 
+    /**
+     * Gets the entry.
+     *
+     * @param type
+     *            the type
+     * @param id
+     *            the id
+     * @return the entry
+     */
     @RequestMapping(value = "/entryajax/{type}/{id}")
-    public @ResponseBody Entry getEntry(@PathVariable String type,
-            @PathVariable Long id) {
+    public @ResponseBody Entry getEntry(@PathVariable final String type,
+            @PathVariable final Long id) {
 
         Entry entry = null;
         if (MasterEntry.class.getSimpleName().equals(type)) {
@@ -539,29 +786,42 @@ public class EntryController {
 
     }
 
+    /**
+     * Save rating.
+     *
+     * @param type
+     *            the type
+     * @param id
+     *            the id
+     * @param rating
+     *            the rating
+     * @param currentUser
+     *            the current user
+     * @return the entry
+     */
     @RequestMapping(value = "/rating/save/{type}/{id}/{rating}")
-    public @ResponseBody Entry saveRating(@PathVariable String type,
-            @PathVariable Long id, @PathVariable Integer rating,
-            Principal currentUser) {
+    public @ResponseBody Entry saveRating(@PathVariable final String type,
+            @PathVariable final Long id, @PathVariable final Integer rating,
+            final Principal currentUser) {
 
-        UserProfile up = this.userProfileRepository.findByUsername(currentUser
-                .getName());
-        Account account = up.getAccount();
+        final UserProfile up = this.userProfileRepository
+                .findByUsername(currentUser.getName());
+        final Account account = up.getAccount();
 
         Entry entry = null;
-        EntryRating entryRating = new EntryRating();
+        final EntryRating entryRating = new EntryRating();
         entryRating.setValue(rating);
         entryRating.setAccount(account);
 
         if (MasterEntry.class.getSimpleName().equals(type)) {
-            MasterEntry me = this.entryRepository.findOne(id);
+            final MasterEntry me = this.entryRepository.findOne(id);
             me.addRating(entryRating);
             this.entryRatingRepository.save(entryRating);
             this.entryRepository.save(me);
             entry = me;
 
         } else if (VersionEntry.class.getSimpleName().equals(type)) {
-            VersionEntry ve = this.versionEntryRepository.findOne(id);
+            final VersionEntry ve = this.versionEntryRepository.findOne(id);
             ve.addRating(entryRating);
             this.entryRatingRepository.save(entryRating);
             this.versionEntryRepository.save(ve);

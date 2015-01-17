@@ -36,37 +36,62 @@ import de.hhn.labswps.wefactor.specification.WeFactorValues.ProviderIdentificati
 import de.hhn.labswps.wefactor.specification.WeFactorValues.Role;
 import de.hhn.labswps.wefactor.web.util.DataUtils;
 
+/**
+ * The Class TestDataService creates test data e.g. users, groups, entries.
+ */
 @Service
 public class TestDataService {
 
-    @Autowired
-    Environment env;
+    private static final String ENTRY_TEASER = "This is just a simple test entry for demonstration";
 
+    private static final String ENTRY_DESCRIPTION = "This is a test entry";
+
+    /** The Constant ACTIVE_ENVIRONMENT. */
+    private static final String ACTIVE_ENVIRONMENT = "dev";
+
+    /** The env. */
+    @Autowired
+    private Environment env;
+
+    /** The Constant GROUP_DESCRIPTION. */
     private static final String GROUP_DESCRIPTION = "This is a test group";
 
+    /** The Constant PW. */
     private static final String PW = "X";
 
+    /** The Constant THE_GROUP. */
     private static final String THE_GROUP = "The Group";
 
+    /** The group repository. */
     @Autowired
     private GroupRepository groupRepository;
 
+    /** The timeline event repository. */
     @Autowired
     private TimelineEventRepository timelineEventRepository;
 
+    /** The tag repository. */
     @Autowired
     private TagRepository tagRepository;
 
+    /** The entry rating repository. */
     @Autowired
     private EntryRatingRepository entryRatingRepository;
 
+    /** The master entry repository. */
     @Autowired
     private MasterEntryRepository masterEntryRepository;
 
+    /**
+     * Generate data.
+     *
+     * @throws Exception
+     *             the exception
+     */
     @PostConstruct
     public void generateData() throws Exception {
 
-        if (Arrays.asList(env.getActiveProfiles()).contains("dev")) {
+        if (Arrays.asList(env.getActiveProfiles()).contains(ACTIVE_ENVIRONMENT)) {
             generateGroups();
             generateUser();
             generateEntries();
@@ -78,6 +103,9 @@ public class TestDataService {
 
     }
 
+    /**
+     * Generate groups.
+     */
     private void generateGroups() {
         Group group = new Group();
         group.setName(THE_GROUP);
@@ -87,21 +115,33 @@ public class TestDataService {
 
     }
 
+    /**
+     * Generate entry rankings.
+     */
     private void generateEntryRankings() {
         // TODO Auto-generated method stub
 
     }
 
+    /**
+     * Generate versions.
+     */
     private void generateVersions() {
         // TODO Auto-generated method stub
 
     }
 
+    /**
+     * Generate proposals.
+     */
     private void generateProposals() {
         // TODO Auto-generated method stub
 
     }
 
+    /**
+     * Generate entries.
+     */
     private void generateEntries() {
 
         List<UserProfile> allUser = this.userProfileRepository
@@ -123,12 +163,12 @@ public class TestDataService {
                     * langs.length - 1)];
             MasterEntry e = new MasterEntry();
             e.setName("Hello World in " + lang.getDisplayName());
-            e.setEntryDescription("bla bla");
+            e.setEntryDescription(ENTRY_DESCRIPTION);
             e.setEntryCodeText("sf");
             e.setEntryDate(new Date(System.currentTimeMillis()));
             e.setAccount(up.getAccount());
             e.setLanguage(lang.getMode());
-            e.setTeaser("This is just a simple test entry for demonstration");
+            e.setTeaser(ENTRY_TEASER);
             EntryRating rating = new EntryRating();
             rating.setAccount(up.getAccount());
             rating.setValue((int) (Math.random() * 5));
@@ -142,6 +182,9 @@ public class TestDataService {
 
     }
 
+    /**
+     * Generate user.
+     */
     private void generateUser() {
         String csvFile = "V:\\git\\wefactor\\src\\main\\resources\\users.csv";
         BufferedReader br = null;
@@ -186,12 +229,22 @@ public class TestDataService {
 
     }
 
+    /** The account repository. */
     @Autowired
     private AccountRepository accountRepository;
 
+    /** The user profile repository. */
     @Autowired
     private UserProfileRepository userProfileRepository;
 
+    /**
+     * Make account and store.
+     *
+     * @param user
+     *            the user
+     * @param imageUrl
+     *            the image url
+     */
     private void makeAccountAndStore(String[] user, String imageUrl) {
 
         Account account = new Account(Role.USER);

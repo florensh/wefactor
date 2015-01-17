@@ -15,7 +15,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import de.hhn.labswps.wefactor.specification.WeFactorValues;
 
 /**
- * The Class Group.
+ * The Class Group represents a union of users to concentrate on a certain
+ * topic.
  */
 @Entity
 @Table(name = "t_group")

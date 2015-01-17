@@ -7,11 +7,15 @@ import org.hibernate.annotations.Type;
 import org.hibernate.annotations.Where;
 
 /**
- * The Class BaseSoftDeletableEntity.
+ * Extend from the Class BaseSoftDeletableEntity to make an Entity soft
+ * deletable.
+ * That means that the object will not be removed from the database if a delete
+ * call is done.
+ * The object will be flagged as inactive instead.
  */
 @MappedSuperclass
 @Where(clause = "inactive = 'N'")
-public class BaseSoftDeletableEntity extends BaseEntity {
+public abstract class BaseSoftDeletableEntity extends BaseEntity {
 
     /** The is soft deleted. */
     private boolean isSoftDeleted;

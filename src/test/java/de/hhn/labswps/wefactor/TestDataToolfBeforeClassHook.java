@@ -10,27 +10,39 @@ import de.hhn.labswps.wefactor.domain.UserProfileRepository;
 import de.hhn.labswps.wefactor.specification.WeFactorValues.ProviderIdentification;
 import de.hhn.labswps.wefactor.specification.WeFactorValues.Role;
 
+/**
+ * The Class TestDataToolfBeforeClassHook.
+ */
 public class TestDataToolfBeforeClassHook extends AbstractTestExecutionListener {
 
+    /**
+     * Instantiates a new test data toolf before class hook.
+     */
     public TestDataToolfBeforeClassHook() {
     }
 
+    /*
+     * (non-Javadoc)
+     * @see
+     * org.springframework.test.context.support.AbstractTestExecutionListener
+     * #beforeTestClass(org.springframework.test.context.TestContext)
+     */
     @Override
-    public void beforeTestClass(TestContext testContext) {
-        AccountRepository accountRepository = testContext
+    public void beforeTestClass(final TestContext testContext) {
+        final AccountRepository accountRepository = testContext
                 .getApplicationContext().getBean(AccountRepository.class);
 
-        UserProfileRepository userProfileRepository = testContext
+        final UserProfileRepository userProfileRepository = testContext
                 .getApplicationContext().getBean(UserProfileRepository.class);
 
-        UserProfile up = userProfileRepository
+        final UserProfile up = userProfileRepository
                 .findByUsername("weFactor_testuser");
 
         if (up == null) {
-            Account account = new Account(Role.USER);
+            final Account account = new Account(Role.USER);
             accountRepository.save(account);
-            UserProfile profile = new UserProfile(account, "mail@mail.de",
-                    "weFactor_testuser", "password",
+            final UserProfile profile = new UserProfile(account,
+                    "mail@mail.de", "weFactor_testuser", "password",
                     ProviderIdentification.WEFACTOR);
 
             userProfileRepository.save(profile);

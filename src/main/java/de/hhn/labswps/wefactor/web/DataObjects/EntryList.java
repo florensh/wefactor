@@ -9,29 +9,65 @@ import java.util.Set;
 import de.hhn.labswps.wefactor.domain.Entry;
 import de.hhn.labswps.wefactor.specification.WeFactorValues;
 
+/**
+ * The Class EntryList.
+ */
 public class EntryList extends ArrayList<Entry> implements List<Entry> {
 
-    public EntryList(List<Entry> entries) {
-        addAll(entries);
+    /**
+     *
+     */
+    private static final long serialVersionUID = -251998595554110396L;
+
+    /**
+     * Instantiates a new entry list.
+     *
+     * @param entries
+     *            the entries
+     */
+    public EntryList(final List<Entry> entries) {
+        this.addAll(entries);
     }
 
+    /**
+     * Instantiates a new entry list.
+     */
     public EntryList() {
     }
 
-    public EntryList(Set<Entry> entries) {
-        addAll(entries);
+    /**
+     * Instantiates a new entry list.
+     *
+     * @param entries
+     *            the entries
+     */
+    public EntryList(final Set<Entry> entries) {
+        this.addAll(entries);
     }
 
-    public int getPercentageOfLanguage(WeFactorValues.ProgrammingLanguage lang) {
+    /**
+     * Gets the percentage of language.
+     *
+     * @param lang
+     *            the lang
+     * @return the percentage of language
+     */
+    public int getPercentageOfLanguage(
+            final WeFactorValues.ProgrammingLanguage lang) {
 
-        return (100 / size()) * getNumberByLanguage().get(lang);
+        return (100 / this.size()) * this.getNumberByLanguage().get(lang);
     }
 
+    /**
+     * Gets the number by language.
+     *
+     * @return the number by language
+     */
     public Map<WeFactorValues.ProgrammingLanguage, Integer> getNumberByLanguage() {
-        Map<WeFactorValues.ProgrammingLanguage, Integer> reVal = new HashMap<WeFactorValues.ProgrammingLanguage, Integer>();
+        final Map<WeFactorValues.ProgrammingLanguage, Integer> reVal = new HashMap<WeFactorValues.ProgrammingLanguage, Integer>();
 
-        if (!isEmpty()) {
-            for (Entry e : this) {
+        if (!this.isEmpty()) {
+            for (final Entry e : this) {
 
                 Integer count = reVal.get(WeFactorValues.ProgrammingLanguage
                         .getLanguageForMode(e.getLanguage()));

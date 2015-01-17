@@ -30,6 +30,9 @@ import de.hhn.labswps.wefactor.specification.WeFactorValues;
 import de.hhn.labswps.wefactor.specification.WeFactorValues.ProviderIdentification;
 import de.hhn.labswps.wefactor.specification.WeFactorValues.Role;
 
+/**
+ * The Class TestDataTool.
+ */
 @ActiveProfiles("dev")
 @WebAppConfiguration
 @TestExecutionListeners(listeners = { ServletTestExecutionListener.class,
@@ -42,13 +45,22 @@ import de.hhn.labswps.wefactor.specification.WeFactorValues.Role;
 // @Transactional
 public class TestDataTool extends BaseTest {
 
+    /** The Constant PW. */
     private static final String PW = "X";
 
+    /** The Constant THE_GROUP. */
     private static final String THE_GROUP = "The Group";
 
+    /** The group repository. */
     @Autowired
     private GroupRepository groupRepository;
 
+    /**
+     * Generate data.
+     *
+     * @throws Exception
+     *             the exception
+     */
     @Test
     public void generateData() throws Exception {
         clearData();
@@ -62,6 +74,9 @@ public class TestDataTool extends BaseTest {
 
     }
 
+    /**
+     * Generate groups.
+     */
     private void generateGroups() {
         Group group = new Group();
         group.setName(THE_GROUP);
@@ -71,6 +86,9 @@ public class TestDataTool extends BaseTest {
 
     }
 
+    /**
+     * Clear data.
+     */
     private void clearData() {
         this.userProfileRepository.deleteAll();
         List<UserProfile> userProfiles = this.userProfileRepository
@@ -84,26 +102,41 @@ public class TestDataTool extends BaseTest {
 
     }
 
+    /**
+     * Generate entry rankings.
+     */
     private void generateEntryRankings() {
         // TODO Auto-generated method stub
 
     }
 
+    /**
+     * Generate versions.
+     */
     private void generateVersions() {
         // TODO Auto-generated method stub
 
     }
 
+    /**
+     * Generate proposals.
+     */
     private void generateProposals() {
         // TODO Auto-generated method stub
 
     }
 
+    /**
+     * Generate entries.
+     */
     private void generateEntries() {
         // TODO Auto-generated method stub
 
     }
 
+    /**
+     * Generate user.
+     */
     private void generateUser() {
         String csvFile = "V:\\git\\wefactor\\src\\main\\resources\\users.csv";
         BufferedReader br = null;
@@ -143,12 +176,20 @@ public class TestDataTool extends BaseTest {
 
     }
 
+    /** The account repository. */
     @Autowired
     private AccountRepository accountRepository;
 
+    /** The user profile repository. */
     @Autowired
     private UserProfileRepository userProfileRepository;
 
+    /**
+     * Make account and store.
+     *
+     * @param user
+     *            the user
+     */
     private void makeAccountAndStore(String[] user) {
 
         Account account = new Account(Role.USER);

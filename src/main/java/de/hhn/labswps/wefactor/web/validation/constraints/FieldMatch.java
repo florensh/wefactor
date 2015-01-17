@@ -13,15 +13,12 @@ import javax.validation.Payload;
 
 import de.hhn.labswps.wefactor.web.validation.constraints.impl.FieldMatchValidator;
 
-/**
- * Validation annotation to validate that 2 fields have the same value.
- * An array of fields and their matching confirmation fields can be supplied.
- */
 @Target({ TYPE, ANNOTATION_TYPE })
 @Retention(RUNTIME)
 @Constraint(validatedBy = FieldMatchValidator.class)
 @Documented
 public @interface FieldMatch {
+
     String message() default "{constraints.fieldmatch}";
 
     Class<?>[] groups() default {};
@@ -32,15 +29,11 @@ public @interface FieldMatch {
 
     String second();
 
-    /**
-     * Defines several <code>@FieldMatch</code> annotations on the same element.
-     *
-     * @see FieldMatch
-     */
     @Target({ TYPE, ANNOTATION_TYPE })
     @Retention(RUNTIME)
     @Documented
     @interface List {
+
         FieldMatch[] value();
     }
 }

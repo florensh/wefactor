@@ -10,11 +10,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import de.hhn.labswps.wefactor.BaseWebTest;
 import de.hhn.labswps.wefactor.domain.UserProfileRepository;
 
+/**
+ * The Class UserControllerTest.
+ */
 public class UserControllerTest extends BaseWebTest {
 
+    /** The user profile repository. */
     @Autowired
     UserProfileRepository userProfileRepository;
 
+    /**
+     * Show sign in page.
+     *
+     * @throws Exception
+     *             the exception
+     */
     @Test
     public void showSignInPage() throws Exception {
 

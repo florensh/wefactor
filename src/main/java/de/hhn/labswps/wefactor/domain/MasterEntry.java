@@ -17,16 +17,17 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * The Class MasterEntry.
+ * A MasterEntry is a special kind of entry and represents the root. It is
+ * mainly the first Version of an entry.
  */
 @Entity
 @DiscriminatorValue(value = "Master")
 @Where(clause = "inactive = 'N'")
 // @SQLDelete(sql = "UPDATE entry set inactive = 'Y' WHERE Id = ?")
 @JsonIgnoreProperties({ "id", "parent", "softDeleted", "createdBy",
-    "lastModifiedBy", "orderedVersions", "orderedVersionIds",
-    "orderedVersionTypes", "versions", "proposals", "ratings",
-    "hibernateLazyInitializer", "handler", "headVersion", "group" })
+        "lastModifiedBy", "orderedVersions", "orderedVersionIds",
+        "orderedVersionTypes", "versions", "proposals", "ratings",
+        "hibernateLazyInitializer", "handler", "headVersion", "group" })
 public class MasterEntry extends Entry {
 
     /** The versions. */

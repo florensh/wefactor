@@ -17,15 +17,16 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * The Class ProposalEntry.
+ * A ProposalEntry is a special kind of Entry and represents a proposal of an
+ * user to make certain changes on the entry.
  */
 @Entity
 @DiscriminatorValue(value = "Proposal")
 @Where(clause = "inactive = 'N'")
 // @SQLDelete(sql = "UPDATE entry set inactive = 'Y' WHERE Id = ?")
 @JsonIgnoreProperties({ "id", "parent", "softDeleted", "createdBy",
-    "lastModifiedBy", "orderedVersions", "orderedVersionIds",
-    "orderedVersionTypes", "masterOfProposal", "headVersion", "group" })
+        "lastModifiedBy", "orderedVersions", "orderedVersionIds",
+        "orderedVersionTypes", "masterOfProposal", "headVersion", "group" })
 public class ProposalEntry extends Entry {
 
     /**

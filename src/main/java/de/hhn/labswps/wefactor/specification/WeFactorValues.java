@@ -7,7 +7,7 @@ import de.hhn.labswps.wefactor.web.EntryController;
 import de.hhn.labswps.wefactor.web.GroupController;
 
 /**
- * The Class WeFactorValues.
+ * The Class WeFactorValues contains enums and constants.
  *
  * @author Patrick Wohlgemuth
  */
@@ -25,26 +25,67 @@ public class WeFactorValues {
     public enum ProgrammingLanguage {
 
         // @formatter:off
+        /** The language Java. */
         Java("Java", "java"),
+        
+        /** The language html. */
         HTML("HTML", "html"),
+        
+        /** The language css. */
         CSS("CSS", "css"),
+        
+        /** The language xml. */
         XML("XML", "xml"),
+        
+        /** The language clojure. */
         CLOJURE("Clojure", "clojure"),
+        
+        /** The language cobol. */
         COBOL("Cobol","cobol"),
+        
+        /** The language C_ sharp. */
         C_Sharp("C#", "csharp"),
+        
+        /** The language haskell. */
         HASKELL("Haskell", "haskell"),
+        
+        /** The language json. */
         JSON("Json", "json"),
+        
+        /** The language jsp. */
         JSP("JSP", "jsp"),
+        
+        /** The language javascript. */
         JAVASCRIPT("JavaScript", "javascript"),
+        
+        /** The language objective c. */
         OBJECTIVE_C("Objectiv-C", "objectivec"),
+        
+        /** The language pascal. */
         PASCAL("Pascal", "pascal"),
+        
+        /** The language python. */
         PYTHON("Python", "python"),
+        
+        /** The language ruby. */
         RUBY("Ruby", "ruby"),
+        
+        /** The language c pp. */
         C_PP("C / C++", "c_pp"),
+        
+        /** The language perl. */
         PERL("Perl", "perl"),
+        
+        /** The language php. */
         PHP("PHP", "php"),
+        
+        /** The language prolog. */
         PROLOG("Prolog", "prolog"),
+        
+        /** The language sql. */
         SQL("SQL", "sql"),
+        
+        /** The language groovy. */
         GROOVY("Groovy", "groovy"),
         ;
         // @formatter:on
@@ -138,7 +179,9 @@ public class WeFactorValues {
      */
     public enum ProviderIdentification {
 
-        GOOGLE, WEFACTOR;
+        /** The google. */
+        GOOGLE, /** The wefactor. */
+        WEFACTOR;
     }
 
     /**
@@ -146,7 +189,10 @@ public class WeFactorValues {
      */
     public enum Role {
 
-        USER, ADMIN, MODERATOR
+        /** The user. */
+        USER, /** The admin. */
+        ADMIN, /** The moderator. */
+        MODERATOR
     }
 
     /**
@@ -155,11 +201,22 @@ public class WeFactorValues {
     public enum EventType {
 
         // @formatter:off
+        /** The made proposal. */
         MADE_PROPOSAL("made a new proposal",EntryController.ENTRY_DETAILS_LINK),
+        
+        /** The proposal accepted. */
         PROPOSAL_ACCEPTED("accepted your proposal",EntryController.ENTRY_DETAILS_LINK),
+        
+        /** The proposal rejected. */
         PROPOSAL_REJECTED("rejected your proposal",EntryController.ENTRY_DETAILS_LINK),
+        
+        /** The user joined group. */
         USER_JOINED_GROUP("joined the group",GroupController.GROUP_DETAILS_LINK),
+        
+        /** The user left group. */
         USER_LEFT_GROUP("left the group",GroupController.GROUP_DETAILS_LINK),
+        
+        /** The made entry. */
         MADE_ENTRY("made an entry",EntryController.ENTRY_DETAILS_LINK)
         ;
         // @formatter:on

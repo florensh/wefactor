@@ -9,13 +9,24 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import de.hhn.labswps.wefactor.BaseWebTest;
 
+/**
+ * The Class DateFormatterTest.
+ */
 public class DateFormatterTest extends BaseWebTest {
 
+    /** The date formatter. */
     @Autowired
     private DateFormatter dateFormatter;
+
+    /** The date. */
     private Date date = new Date();
+
+    /** The date2. */
     private Date date2 = new Date();
 
+    /**
+     * Test just now.
+     */
     @Test
     public void testJustNow() {
         date.setTime(date.getTime() - 1L);
@@ -26,6 +37,9 @@ public class DateFormatterTest extends BaseWebTest {
                 .equalsIgnoreCase("just now"));
     }
 
+    /**
+     * Test minutesago.
+     */
     @Test
     public void testMinutesago() {
         date.setTime(date.getTime() - 60000L);
@@ -37,6 +51,9 @@ public class DateFormatterTest extends BaseWebTest {
                 "59 minutes ago"));
     }
 
+    /**
+     * Test hoursago.
+     */
     @Test
     public void testHoursago() {
         date.setTime(date.getTime() - 3600000L);
@@ -48,6 +65,9 @@ public class DateFormatterTest extends BaseWebTest {
                 "23 hours ago"));
     }
 
+    /**
+     * Test daysago.
+     */
     @Test
     public void testDaysago() {
         date.setTime(date.getTime() - 86400000L);
@@ -59,6 +79,9 @@ public class DateFormatterTest extends BaseWebTest {
                 "6 days ago"));
     }
 
+    /**
+     * Test weeksago.
+     */
     @Test
     public void testWeeksago() {
         date.setTime(date.getTime() - 604800000L);
@@ -70,6 +93,9 @@ public class DateFormatterTest extends BaseWebTest {
                 "4 weeks ago"));
     }
 
+    /**
+     * Test monthsago.
+     */
     @Test
     public void testMonthsago() {
         date.setTime(date.getTime() - 4078400000L);
@@ -81,6 +107,9 @@ public class DateFormatterTest extends BaseWebTest {
                 "11 months ago"));
     }
 
+    /**
+     * Test yearsago.
+     */
     @Test
     public void testYearsago() {
         date.setTime(date.getTime() - 31536000000L);

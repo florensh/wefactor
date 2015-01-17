@@ -11,42 +11,60 @@ import de.hhn.labswps.wefactor.domain.UserProfileRepository;
 import de.hhn.labswps.wefactor.specification.WeFactorValues.ProviderIdentification;
 import de.hhn.labswps.wefactor.specification.WeFactorValues.Role;
 
+/**
+ * The Class BeforeClassHook.
+ */
 public class BeforeClassHook extends AbstractTestExecutionListener {
 
+    /**
+     * Instantiates a new before class hook.
+     */
     public BeforeClassHook() {
     }
 
+    /*
+     * (non-Javadoc)
+     * @see
+     * org.springframework.test.context.support.AbstractTestExecutionListener
+     * #beforeTestClass(org.springframework.test.context.TestContext)
+     */
     @Override
-    public void beforeTestClass(TestContext testContext) {
-        AccountRepository accountRepository = testContext
+    public void beforeTestClass(final TestContext testContext) {
+        final AccountRepository accountRepository = testContext
                 .getApplicationContext().getBean(AccountRepository.class);
 
-        UserProfileRepository userProfileRepository = testContext
+        final UserProfileRepository userProfileRepository = testContext
                 .getApplicationContext().getBean(UserProfileRepository.class);
 
-        Account account = new Account(Role.USER);
+        final Account account = new Account(Role.USER);
         accountRepository.save(account);
-        UserProfile profile = new UserProfile(account, "mail@mail.de",
+        final UserProfile profile = new UserProfile(account, "mail@mail.de",
                 "weFactor_testuser", "password",
                 ProviderIdentification.WEFACTOR);
 
         userProfileRepository.save(profile);
     }
 
+    /*
+     * (non-Javadoc)
+     * @see
+     * org.springframework.test.context.support.AbstractTestExecutionListener
+     * #afterTestClass(org.springframework.test.context.TestContext)
+     */
     @Override
-    public void afterTestClass(TestContext testContext) throws Exception {
+    public void afterTestClass(final TestContext testContext) throws Exception {
 
-        UserProfileRepository userProfileRepository = testContext
+        final UserProfileRepository userProfileRepository = testContext
                 .getApplicationContext().getBean(UserProfileRepository.class);
 
         userProfileRepository.deleteAll();
 
-        MasterEntryRepository entryRepository = testContext.getApplicationContext()
-                .getBean(MasterEntryRepository.class);
+        final MasterEntryRepository entryRepository = testContext
+                .getApplicationContext().getBean(MasterEntryRepository.class);
 
         entryRepository.deleteAll();
 
-        AccountRepository accountRepository = testContext
+        final AccountRepository accountRepository = testContext
                 .getApplicationContext().getBean(AccountRepository.class);
 
         accountRepository.deleteAll();

@@ -7,7 +7,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
- * The Class EntryRating.
+ * User provide ratings to entries to describe its quality.
  */
 @Entity
 @Table(name = "entryRating")
