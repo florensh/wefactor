@@ -3,14 +3,14 @@ package de.hhn.labswps.wefactor.domain;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import de.hhn.labswps.wefactor.BaseTest;
+import de.hhn.labswps.wefactor.BaseWebTest;
 
 /**
  * The Class UserProfileRepositoryTest.
  * 
  * @author Florens Hückstädt
  */
-public class UserProfileRepositoryTest extends BaseTest {
+public class UserProfileRepositoryTest extends BaseWebTest {
 
     /** The user profile repository. */
     @Autowired

@@ -5,13 +5,13 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import de.hhn.labswps.wefactor.BaseTest;
+import de.hhn.labswps.wefactor.BaseWebTest;
 
 /**
  * @author Patrick Wohlgemuth
  *         The Class StringUtilTest.
  */
-public class StringUtilTest extends BaseTest {
+public class StringUtilTest extends BaseWebTest {
 
     @Autowired
     private StringUtil stringUtil;

@@ -1,6 +1,7 @@
 package de.hhn.labswps.wefactor.web;
 
 import java.security.Principal;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -64,6 +65,7 @@ public class GroupController {
                 .findByTargetGroupOrderByEventDateDesc(group, topFive));
 
         EntryList entries = new EntryList(group.getEntries());
+        Collections.sort(entries);
         model.addAttribute("entries", entries);
 
         return "group";

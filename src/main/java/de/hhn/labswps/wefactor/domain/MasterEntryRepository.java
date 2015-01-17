@@ -28,7 +28,7 @@ public interface MasterEntryRepository extends
      *            the a
      * @return the list
      */
-    List<Entry> findDistinctByGroupIsNullOrGroupMembers(Account a);
+    List<Entry> findDistinctByGroupIsNullOrGroupMembersOrderByEntryDateDesc(Account a);
 
     /**
      * Find distinct by entry description containing or name containing or

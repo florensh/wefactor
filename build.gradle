@@ -12,6 +12,10 @@ apply plugin: 'spring-boot'
 apply plugin: 'application'
 apply plugin: 'jacoco'
 
+test {
+	exclude '**/TestDataTool.class'
+}
+
 mainClassName = "de.hhn.labswps.wefactor.Application"
 
 // Uses JDK 8

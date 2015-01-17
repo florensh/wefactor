@@ -26,6 +26,8 @@ import org.hibernate.annotations.Where;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import de.hhn.labswps.wefactor.specification.WeFactorValues;
+
 /**
  * The Class Entry.
  *
@@ -223,6 +225,12 @@ public abstract class Entry extends BaseSoftDeletableEntity implements
      */
     public String getLanguage() {
         return this.language;
+    }
+
+    @Transient
+    public WeFactorValues.ProgrammingLanguage getLanguageAsType() {
+        return WeFactorValues.ProgrammingLanguage
+                .getLanguageForMode(this.language);
     }
 
     /**
