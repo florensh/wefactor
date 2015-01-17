@@ -5,6 +5,7 @@ import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -19,7 +20,7 @@ import de.hhn.labswps.wefactor.specification.WeFactorValues;
 @Entity
 @Table(name = "t_group")
 @JsonIgnoreProperties({ "id", "createdBy", "lastModifiedBy",
-    "hibernateLazyInitializer", "handler", "members" })
+        "hibernateLazyInitializer", "handler", "members" })
 public class Group extends BaseEntity {
 
     /** The description. */
@@ -102,7 +103,7 @@ public class Group extends BaseEntity {
      *
      * @return the members
      */
-    @ManyToMany(mappedBy = "groups")
+    @ManyToMany(mappedBy = "groups", fetch = FetchType.EAGER)
     public Set<Account> getMembers() {
         return this.members;
     }

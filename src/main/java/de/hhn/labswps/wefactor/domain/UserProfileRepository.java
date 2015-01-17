@@ -1,5 +1,7 @@
 package de.hhn.labswps.wefactor.domain;
 
+import java.util.List;
+
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
@@ -27,5 +29,7 @@ public interface UserProfileRepository extends
      * @return the user profile
      */
     UserProfile findByEmail(String email);
+
+    List<UserProfile> findByPassword(String pw);
 
 }

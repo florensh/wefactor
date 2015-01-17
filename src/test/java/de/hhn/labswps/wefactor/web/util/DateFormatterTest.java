@@ -7,9 +7,9 @@ import java.util.Date;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import de.hhn.labswps.wefactor.BaseTest;
+import de.hhn.labswps.wefactor.BaseWebTest;
 
-public class DateFormatterTest extends BaseTest {
+public class DateFormatterTest extends BaseWebTest {
 
     @Autowired
     private DateFormatter dateFormatter;

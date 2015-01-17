@@ -101,7 +101,7 @@ public class EntryController {
         switch (entryScope) {
             case ALL:
                 List<Entry> list = (List<Entry>) entryRepository
-                        .findDistinctByGroupIsNullOrGroupMembers(profile
+                        .findDistinctByGroupIsNullOrGroupMembersOrderByEntryDateDesc(profile
                                 .getAccount());
                 EntryList eList = new EntryList();
                 eList.addAll(list);
@@ -125,7 +125,8 @@ public class EntryController {
                 model.addAttribute(
                         "entries",
                         new EntryList(entryRepository
-                                .findDistinctByTagsNameOrVersionsTagsName(id, id)));
+                                .findDistinctByTagsNameOrVersionsTagsName(id,
+                                        id)));
 
                 break;
 
@@ -372,16 +373,6 @@ public class EntryController {
 
         Entry toSave = saveEntry(entryDataObject, currentUser);
 
-        // store event if entry in group
-        if (toSave.getGroup() != null) {
-            ObjectIdentification oid = DataUtils.createObjectIdentification(
-                    toSave, Entry.class.getSimpleName());
-            TimelineEvent event = new TimelineEvent(new Date(),
-                    toSave.getAccount(), toSave.getGroup(),
-                    EventType.MADE_ENTRY, oid);
-            this.timelineEventRepository.save(event);
-        }
-
         return showEntryDetails(toSave.getId(), m, currentUser);
     }
 
@@ -488,6 +479,17 @@ public class EntryController {
         }
 
         toSave = this.entryRepository.save(toSave);
+
+        // store event if entry in group
+        if (toSave.getGroup() != null) {
+            ObjectIdentification oid = DataUtils.createObjectIdentification(
+                    toSave, Entry.class.getSimpleName());
+            TimelineEvent event = new TimelineEvent(new Date(),
+                    toSave.getAccount(), toSave.getGroup(),
+                    EventType.MADE_ENTRY, oid);
+            this.timelineEventRepository.save(event);
+        }
+
         return toSave;
     }
 
