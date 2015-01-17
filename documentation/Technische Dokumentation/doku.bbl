@@ -1,0 +1,28 @@
+\begin{thebibliography}{}
+
+\bibitem [\protect \citeauthoryear {%
+Oracle%
+}{%
+Oracle%
+}{%
+{\protect \APACyear {{\protect \bibnodate {}}}}%
+}]{%
+oraclejsv}
+\APACinsertmetastar {%
+oraclejsv}%
+\begin{APACrefauthors}%
+Oracle.%
+\end{APACrefauthors}%
+\unskip\
+\newblock
+\APACrefYearMonthDay{{\protect \bibnodate {}}}{}{}.
+\newblock
+\APACrefbtitle {Welche Systemvoraussetzungen gelten f{\"u}r Java?} {Welche
+  systemvoraussetzungen gelten f{\"u}r java?}
+\newblock
+\begin{APACrefURL}
+  [{17.01.2015}]\url{https://www.java.com/de/download/help/sysreq.xml}
+  \end{APACrefURL}
+\PrintBackRefs{\CurrentBib}
+
+\end{thebibliography}
