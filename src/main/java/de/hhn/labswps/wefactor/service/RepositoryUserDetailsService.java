@@ -9,11 +9,20 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import de.hhn.labswps.wefactor.domain.UserProfile;
 import de.hhn.labswps.wefactor.domain.UserProfileRepository;
 
+/**
+ * The weFactor implementation of {@link UserDetailsService}.
+ */
 public class RepositoryUserDetailsService implements UserDetailsService {
 
+    /** The user repository. */
     @Autowired
     private UserProfileRepository userRepository;
 
+    /*
+     * (non-Javadoc)
+     * @see org.springframework.security.core.userdetails.UserDetailsService#
+     * loadUserByUsername(java.lang.String)
+     */
     @Override
     public UserDetails loadUserByUsername(String userName)
             throws UsernameNotFoundException {
@@ -31,6 +40,13 @@ public class RepositoryUserDetailsService implements UserDetailsService {
         return securityUser;
     }
 
+    /**
+     * Load user by user id.
+     *
+     * @param userId
+     *            the user id
+     * @return the user details
+     */
     public UserDetails loadUserByUserId(String userId) {
         User securityUser = null;
 

@@ -7,20 +7,59 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
 /**
- * The Interface EntryRepository.
+ * Interface for operations on a repository for the type {@link MasterEntry}.
  */
 public interface MasterEntryRepository extends
         CrudRepository<MasterEntry, Long> {
 
+    /**
+     * Find by account id.
+     *
+     * @param accountId
+     *            the account id
+     * @return the list
+     */
     List<Entry> findByAccountId(Long accountId);
 
-    List<Entry> findDistinctByGroupIsNullOrGroupMembers(Account a);
+    /**
+     * Find distinct by group is null or group members.
+     *
+     * @param a
+     *            the a
+     * @return the list
+     */
+    List<Entry> findDistinctByGroupIsNullOrGroupMembersOrderByEntryDateDesc(
+            Account a);
 
+    /**
+     * Find distinct by entry description containing or name containing or
+     * teaser containing or account profiles name containing and group is null
+     * or group members.
+     *
+     * @param d_searchtext
+     *            the d_searchtext
+     * @param n_searchtext
+     *            the n_searchtext
+     * @param t_searchtext
+     *            the t_searchtext
+     * @param pn_searchtext
+     *            the pn_searchtext
+     * @param a
+     *            the a
+     * @return the list
+     */
     List<Entry> findDistinctByEntryDescriptionContainingOrNameContainingOrTeaserContainingOrAccountProfilesNameContainingAndGroupIsNullOrGroupMembers(
             String d_searchtext, String n_searchtext, String t_searchtext,
             String pn_searchtext, Account a);
 
     // @formatter:off
+    /**
+     * Search.
+     *
+     * @param searchText the search text
+     * @param account the account
+     * @return the list
+     */
     @Query("select e "
             + "from MasterEntry e "
             + "left join e.group.members account "
@@ -38,6 +77,16 @@ public interface MasterEntryRepository extends
     List<Entry> search(@Param("searchText") String searchText,
             @Param("account") Account account);
 
-    List<Entry> findDistinctByTagsNameOrVersionsTagsName(String mTag, String vTag);
+    /**
+     * Find distinct by tags name or versions tags name.
+     *
+     * @param mTag
+     *            the m tag
+     * @param vTag
+     *            the v tag
+     * @return the list
+     */
+    List<Entry> findDistinctByTagsNameOrVersionsTagsName(String mTag,
+            String vTag);
 
 }

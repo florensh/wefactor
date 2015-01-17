@@ -12,21 +12,40 @@ import de.hhn.labswps.wefactor.domain.UserProfileRepository;
 import de.hhn.labswps.wefactor.specification.WeFactorValues.ProviderIdentification;
 import de.hhn.labswps.wefactor.specification.WeFactorValues.Role;
 
+/**
+ * The weFactor implementation of {@link ConnectionSignUp}.
+ */
 public class AccountConnectionSignUpService implements ConnectionSignUp {
 
+    /** The Constant LOG. */
     private static final Logger LOG = LoggerFactory
             .getLogger(AccountConnectionSignUpService.class);
 
+    /**
+     * Instantiates a new account connection sign up service.
+     *
+     * @param repository
+     *            the repository
+     * @param accountRepository
+     *            the account repository
+     */
     public AccountConnectionSignUpService(UserProfileRepository repository,
             AccountRepository accountRepository) {
         this.userProfileRepository = repository;
         this.accountRepository = accountRepository;
     }
 
+    /** The user profile repository. */
     private UserProfileRepository userProfileRepository;
 
+    /** The account repository. */
     private AccountRepository accountRepository;
 
+    /*
+     * (non-Javadoc)
+     * @see org.springframework.social.connect.ConnectionSignUp#execute(org.
+     * springframework.social.connect.Connection)
+     */
     public String execute(Connection<?> connection) {
         org.springframework.social.connect.UserProfile profile = connection
                 .fetchUserProfile();

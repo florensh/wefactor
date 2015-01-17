@@ -3,12 +3,22 @@ package de.hhn.labswps.wefactor.web.util;
 import de.hhn.labswps.wefactor.domain.BaseEntity;
 import de.hhn.labswps.wefactor.domain.ObjectIdentification;
 
+/**
+ * The Class DataUtils.
+ */
 public class DataUtils {
 
+    /**
+     * Creates the object identification.
+     *
+     * @param entity
+     *            the entity
+     * @return the object identification
+     */
     public static ObjectIdentification createObjectIdentification(
-            BaseEntity entity) {
+            final BaseEntity entity) {
 
-        ObjectIdentification obj = new ObjectIdentification();
+        final ObjectIdentification obj = new ObjectIdentification();
         obj.setOidIdentification(entity.getId());
         obj.setOidName(entity.toString());
         obj.setOidType(entity.getClass().getSimpleName());
@@ -16,9 +26,18 @@ public class DataUtils {
         return obj;
     }
 
+    /**
+     * Creates the object identification.
+     *
+     * @param entity
+     *            the entity
+     * @param simpleName
+     *            the simple name
+     * @return the object identification
+     */
     public static ObjectIdentification createObjectIdentification(
-            BaseEntity entity, String simpleName) {
-        ObjectIdentification obj = new ObjectIdentification();
+            final BaseEntity entity, final String simpleName) {
+        final ObjectIdentification obj = new ObjectIdentification();
         obj.setOidIdentification(entity.getId());
         obj.setOidName(entity.toString());
         obj.setOidType(simpleName);

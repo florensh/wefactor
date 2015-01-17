@@ -16,12 +16,25 @@ import org.springframework.social.connect.web.SignInAdapter;
 import org.springframework.social.security.SocialUserDetailsService;
 import org.springframework.web.context.request.NativeWebRequest;
 
+/**
+ * The weFactor implementation of {@link SignInAdapter}.
+ */
 public class SimpleSignInAdapter implements SignInAdapter {
 
+    /** The request cache. */
     private final RequestCache requestCache;
 
+    /** The social user details service. */
     private SocialUserDetailsService socialUserDetailsService;
 
+    /**
+     * Instantiates a new simple sign in adapter.
+     *
+     * @param socialUserDetailsService
+     *            the social user details service
+     * @param requestCache
+     *            the request cache
+     */
     @Inject
     public SimpleSignInAdapter(
             SocialUserDetailsService socialUserDetailsService,
@@ -30,6 +43,13 @@ public class SimpleSignInAdapter implements SignInAdapter {
         this.socialUserDetailsService = socialUserDetailsService;
     }
 
+    /*
+     * (non-Javadoc)
+     * @see
+     * org.springframework.social.connect.web.SignInAdapter#signIn(java.lang
+     * .String, org.springframework.social.connect.Connection,
+     * org.springframework.web.context.request.NativeWebRequest)
+     */
     @Override
     public String signIn(String localUserId, Connection<?> connection,
             NativeWebRequest request) {
@@ -43,6 +63,13 @@ public class SimpleSignInAdapter implements SignInAdapter {
         return extractOriginalUrl(request);
     }
 
+    /**
+     * Extract original url.
+     *
+     * @param request
+     *            the request
+     * @return the string
+     */
     private String extractOriginalUrl(NativeWebRequest request) {
         HttpServletRequest nativeReq = request
                 .getNativeRequest(HttpServletRequest.class);
@@ -57,6 +84,12 @@ public class SimpleSignInAdapter implements SignInAdapter {
         return saved.getRedirectUrl();
     }
 
+    /**
+     * Removes the authetication attributes.
+     *
+     * @param session
+     *            the session
+     */
     private void removeAutheticationAttributes(HttpSession session) {
         if (session == null) {
             return;

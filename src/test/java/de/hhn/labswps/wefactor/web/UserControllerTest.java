@@ -7,14 +7,24 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import de.hhn.labswps.wefactor.BaseTest;
+import de.hhn.labswps.wefactor.BaseWebTest;
 import de.hhn.labswps.wefactor.domain.UserProfileRepository;
 
-public class UserControllerTest extends BaseTest {
+/**
+ * The Class UserControllerTest.
+ */
+public class UserControllerTest extends BaseWebTest {
 
+    /** The user profile repository. */
     @Autowired
     UserProfileRepository userProfileRepository;
 
+    /**
+     * Show sign in page.
+     *
+     * @throws Exception
+     *             the exception
+     */
     @Test
     public void showSignInPage() throws Exception {
 

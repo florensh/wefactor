@@ -5,14 +5,17 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import de.hhn.labswps.wefactor.BaseTest;
+import de.hhn.labswps.wefactor.BaseWebTest;
 
 /**
+ * The Class StringUtilTest.
+ *
  * @author Patrick Wohlgemuth
  *         The Class StringUtilTest.
  */
-public class StringUtilTest extends BaseTest {
+public class StringUtilTest extends BaseWebTest {
 
+    /** The string util. */
     @Autowired
     private StringUtil stringUtil;
 
@@ -29,7 +32,7 @@ public class StringUtilTest extends BaseTest {
     }
 
     /**
-     * Test string uncutet
+     * Test string uncutet.
      */
     @Test
     public void UncutetCutStringTest() {
@@ -41,7 +44,7 @@ public class StringUtilTest extends BaseTest {
     }
 
     /**
-     * Test string empty
+     * Test string empty.
      */
     @Test
     public void EmptyStringTest() {

@@ -25,37 +25,67 @@ import de.hhn.labswps.wefactor.domain.TimelineEventRepository;
 import de.hhn.labswps.wefactor.domain.UserProfile;
 import de.hhn.labswps.wefactor.domain.UserProfileRepository;
 
+/**
+ * The controller for timeline related requests.
+ */
 @Controller
 public class TimelineController {
 
+    /**
+     * The Enum Scope.
+     */
     public enum Scope {
-        USER, GROUP
+
+        /** The scope user. */
+        USER,
+        /** The scope group. */
+        GROUP
     }
 
+    /** The timeline event repository. */
     @Autowired
     private TimelineEventRepository timelineEventRepository;
 
+    /** The group repository. */
     @Autowired
     private GroupRepository groupRepository;
 
+    /** The user profile repository. */
     @Autowired
     private UserProfileRepository userProfileRepository;
 
+    /** The account repository. */
     @Autowired
     private AccountRepository accountRepository;
 
+    /**
+     * Go to timeline.
+     *
+     * @param request
+     *            the request
+     * @param session
+     *            the session
+     * @param currentUser
+     *            the current user
+     * @param locale
+     *            the locale
+     * @param model
+     *            the model
+     * @return the string
+     */
     @RequestMapping("/user/timeline")
-    public String goToTimeline(HttpServletRequest request, HttpSession session,
-            Principal currentUser, Locale locale, Model model) {
+    public String goToTimeline(final HttpServletRequest request,
+            final HttpSession session, final Principal currentUser,
+            final Locale locale, final Model model) {
 
-        UserProfile profile = this.userProfileRepository
+        final UserProfile profile = this.userProfileRepository
                 .findByUsername(currentUser.getName());
 
-        Account a = profile.getAccount();
+        final Account a = profile.getAccount();
 
-        Pageable topFive = new PageRequest(0, 6);
+        final Pageable topFive = new PageRequest(0, 6);
 
-        if (a.getGroups() != null && !a.getGroups().isEmpty()) {
+        if ((a.getGroups() != null) && !a.getGroups().isEmpty()) {
             model.addAttribute("events", this.timelineEventRepository
                     .findByTargetAccountOrTargetGroupInOrderByEventDateDesc(a,
                             a.getGroups(), topFive));
@@ -70,19 +100,41 @@ public class TimelineController {
 
     }
 
+    /**
+     * Gets the timeline entry.
+     *
+     * @param id
+     *            the id
+     * @param scope
+     *            the scope
+     * @param currentPage
+     *            the current page
+     * @param request
+     *            the request
+     * @param session
+     *            the session
+     * @param currentUser
+     *            the current user
+     * @param locale
+     *            the locale
+     * @param model
+     *            the model
+     * @return the timeline entry
+     */
     @RequestMapping("/timelineAjax/{scope}/{currentPage}")
     public String getTimelineEntry(
-            @RequestParam(value = "id", required = true) Long id,
-            @PathVariable String scope, @PathVariable int currentPage,
-            HttpServletRequest request, HttpSession session,
-            Principal currentUser, Locale locale, Model model) {
+            @RequestParam(value = "id", required = true) final Long id,
+            @PathVariable final String scope,
+            @PathVariable final int currentPage,
+            final HttpServletRequest request, final HttpSession session,
+            final Principal currentUser, final Locale locale, final Model model) {
 
-        UserProfile profile = this.userProfileRepository
+        final UserProfile profile = this.userProfileRepository
                 .findByUsername(currentUser.getName());
 
-        Account a = profile.getAccount();
+        final Account a = profile.getAccount();
 
-        Pageable topTwo = new PageRequest(currentPage, 3);
+        final Pageable topTwo = new PageRequest(currentPage, 3);
 
         List<TimelineEvent> result = null;
 
@@ -95,7 +147,7 @@ public class TimelineController {
 
             case USER:
 
-                if (a.getGroups() != null && !a.getGroups().isEmpty()) {
+                if ((a.getGroups() != null) && !a.getGroups().isEmpty()) {
                     result = this.timelineEventRepository
                             .findByTargetAccountOrTargetGroupInOrderByEventDateDesc(
                                     a, a.getGroups(), topTwo);

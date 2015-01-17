@@ -18,22 +18,42 @@ import org.springframework.web.filter.CharacterEncodingFilter;
 import de.hhn.labswps.wefactor.service.RepositoryUserDetailsService;
 import de.hhn.labswps.wefactor.service.SimpleSocialUserDetailSevice;
 
+/**
+ * The security configuration of the web application.
+ */
 @Configuration
 @EnableWebMvcSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
+    /** The Constant BCRYPT_PASSWORD_ENCODER_STRENGTH. */
+    private static final int BCRYPT_PASSWORD_ENCODER_STRENGTH = 10;
+
+    /*
+     * (non-Javadoc)
+     * @see org.springframework.security.config.annotation.web.configuration.
+     * WebSecurityConfigurerAdapter
+     * #configure(org.springframework.security.config
+     * .annotation.web.builders.WebSecurity)
+     */
     @Override
-    public void configure(WebSecurity web) throws Exception {
+    public void configure(final WebSecurity web) throws Exception {
         web
         // Spring Security ignores request to static resources such as CSS or JS
         // files.
         .ignoring().antMatchers("/static/**");
     }
 
+    /*
+     * (non-Javadoc)
+     * @see org.springframework.security.config.annotation.web.configuration.
+     * WebSecurityConfigurerAdapter
+     * #configure(org.springframework.security.config
+     * .annotation.web.builders.HttpSecurity)
+     */
     @Override
-    protected void configure(HttpSecurity http) throws Exception {
+    protected void configure(final HttpSecurity http) throws Exception {
 
-        CharacterEncodingFilter filter = new CharacterEncodingFilter();
+        final CharacterEncodingFilter filter = new CharacterEncodingFilter();
         filter.setEncoding("UTF-8");
         filter.setForceEncoding(true);
         http.addFilterBefore(filter, CsrfFilter.class);
@@ -66,23 +86,46 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                         .alwaysUsePostLoginUrl(true));
     }
 
+    /*
+     * (non-Javadoc)
+     * @see org.springframework.security.config.annotation.web.configuration.
+     * WebSecurityConfigurerAdapter
+     * #configure(org.springframework.security.config
+     * .annotation.authentication.builders.AuthenticationManagerBuilder)
+     */
     @Override
-    protected void configure(AuthenticationManagerBuilder auth)
+    protected void configure(final AuthenticationManagerBuilder auth)
             throws Exception {
-        auth.userDetailsService(userDetailsService()).passwordEncoder(
-                passwordEncoder());
+        auth.userDetailsService(this.userDetailsService()).passwordEncoder(
+                this.passwordEncoder());
     }
 
+    /**
+     * Creates a bean of Type PasswordEncoder.
+     *
+     * @return the bean passwordEncoder
+     */
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder(10);
+        return new BCryptPasswordEncoder(BCRYPT_PASSWORD_ENCODER_STRENGTH);
     }
 
+    /**
+     * Creates a bean of type SocialUserDetailsService.
+     *
+     * @return the bean socialUserDetailsService
+     */
     @Bean
     public SocialUserDetailsService socialUserDetailsService() {
         return new SimpleSocialUserDetailSevice();
     }
 
+    /*
+     * (non-Javadoc)
+     * @see org.springframework.security.config.annotation.web.configuration.
+     * WebSecurityConfigurerAdapter#userDetailsService()
+     */
+    @Override
     @Bean
     public UserDetailsService userDetailsService() {
         return new RepositoryUserDetailsService();

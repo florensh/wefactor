@@ -21,38 +21,55 @@ import de.hhn.labswps.wefactor.domain.UserProfile;
 import de.hhn.labswps.wefactor.domain.UserProfileRepository;
 import de.hhn.labswps.wefactor.web.DataObjects.SearchBoxDataObject;
 
+/**
+ * The Class UserControllerAdvice.
+ */
 @ControllerAdvice
 public class UserControllerAdvice {
 
+    /** The util. */
     @Autowired
     private SocialControllerUtil util;
 
+    /** The group repository. */
     @Autowired
     private GroupRepository groupRepository;
 
+    /** The user profile repository. */
     @Autowired
     private UserProfileRepository userProfileRepository;
 
+    /** The timeline event repository. */
     @Autowired
     private TimelineEventRepository timelineEventRepository;
 
+    /**
+     * Sets the model.
+     *
+     * @param request
+     *            the request
+     * @param currentUser
+     *            the current user
+     * @param model
+     *            the model
+     */
     @ModelAttribute
-    public void setModel(HttpServletRequest request, Principal currentUser,
-            Model model) {
-        util.setModel(request, currentUser, model);
+    public void setModel(final HttpServletRequest request,
+            final Principal currentUser, final Model model) {
+        this.util.setModel(request, currentUser, model);
         List<Group> groups = new ArrayList<Group>();
 
         int countEvents = 0;
         if (currentUser != null) {
-            String secUser = currentUser.getName();
-            UserProfile profile = this.userProfileRepository
+            final String secUser = currentUser.getName();
+            final UserProfile profile = this.userProfileRepository
                     .findByUsername(secUser);
 
-            groups = groupRepository.findByMembers(profile.getAccount());
+            groups = this.groupRepository.findByMembers(profile.getAccount());
 
             List<TimelineEvent> events = null;
 
-            if (profile.getAccount().getGroups() == null
+            if ((profile.getAccount().getGroups() == null)
                     || profile.getAccount().getGroups().isEmpty()) {
                 events = this.timelineEventRepository
                         .findByTargetAccountAndReadByUser(profile.getAccount(),
@@ -62,7 +79,7 @@ public class UserControllerAdvice {
                 events = this.timelineEventRepository
                         .findByTargetAccountOrTargetGroupInAndReadByUser(
                                 profile.getAccount(), profile.getAccount()
-                                        .getGroups(), false);
+                                .getGroups(), false);
 
             }
 
@@ -73,10 +90,10 @@ public class UserControllerAdvice {
         }
         model.addAttribute("unreadEvents", countEvents);
 
-        Map<Group, Integer> gr = new HashMap<Group, Integer>();
-        for (Group g : groups) {
+        final Map<Group, Integer> gr = new HashMap<Group, Integer>();
+        for (final Group g : groups) {
             int count = 0;
-            List<TimelineEvent> events = this.timelineEventRepository
+            final List<TimelineEvent> events = this.timelineEventRepository
                     .findByTargetGroupAndReadByUser(g, false);
             if (events != null) {
                 count = events.size();
@@ -85,7 +102,7 @@ public class UserControllerAdvice {
         }
         model.addAttribute("usergroups", gr);
 
-        SearchBoxDataObject sbda = new SearchBoxDataObject();
+        final SearchBoxDataObject sbda = new SearchBoxDataObject();
         model.addAttribute("searchBoxDataObject", sbda);
 
     }

@@ -11,18 +11,35 @@ import de.hhn.labswps.wefactor.domain.UserProfileRepository;
 import de.hhn.labswps.wefactor.specification.WeFactorValues.ProviderIdentification;
 import de.hhn.labswps.wefactor.specification.WeFactorValues.Role;
 
+/**
+ * The Class SignUpService.
+ */
 @Service
 public class SignUpService {
 
+    /** The user profile repository. */
     @Autowired
     private UserProfileRepository userProfileRepository;
 
+    /** The account repository. */
     @Autowired
     private AccountRepository accountRepository;
 
+    /** The password encoder. */
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    /**
+     * Execute.
+     *
+     * @param username
+     *            the username
+     * @param email
+     *            the email
+     * @param password
+     *            the password
+     * @return the string
+     */
     public String execute(final String username, final String email,
             final String password) {
         if ((username == null) || (email == null) || (password == null)) {

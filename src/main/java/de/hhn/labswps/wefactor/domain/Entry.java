@@ -26,10 +26,11 @@ import org.hibernate.annotations.Where;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import de.hhn.labswps.wefactor.specification.WeFactorValues;
+
 /**
- * The Class Entry.
- * 
- * @author Patrick Wohlgemuth
+ * The Class Entry represents an Entry from an user and contains a code snippet
+ * and data to describe it.
  */
 @Entity
 @Table(name = "entry")
@@ -42,13 +43,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public abstract class Entry extends BaseSoftDeletableEntity implements
         Comparable<Entry> {
 
-    @Override
-    public String toString() {
-        return this.name;
-    }
-
+    /** The account. */
     private Account account;
 
+    /** The changes. */
     private String changes;
 
     /** The entry code text. */
@@ -60,30 +58,55 @@ public abstract class Entry extends BaseSoftDeletableEntity implements
     /** The entry description. */
     private String entryDescription = null;
 
+    /** The group. */
     private Group group;
 
-    public void setGroup(Group group) {
-        this.group = group;
-    }
-
+    /** The language. */
     private String language;
 
+    /** The name. */
     private String name = null;
 
+    /** The ratings. */
     private Set<EntryRating> ratings = new HashSet<EntryRating>();
 
+    /** The statistics. */
     private EntryStatistics statistics = new EntryStatistics();
 
+    /** The tags. */
     private Set<Tag> tags = new HashSet<Tag>();
+
+    /** The teaser. */
     private String teaser;
 
-    public void addRating(EntryRating rating) {
+    /**
+     * Adds the rating.
+     *
+     * @param rating
+     *            the rating
+     */
+    public void addRating(final EntryRating rating) {
         this.ratings.add(rating);
         rating.setEntry(this);
     }
 
+    /**
+     * Adds the tag.
+     *
+     * @param tag
+     *            the tag
+     */
+    public void addTag(final Tag tag) {
+        this.tags.add(tag);
+
+    }
+
+    /*
+     * (non-Javadoc)
+     * @see java.lang.Comparable#compareTo(java.lang.Object)
+     */
     @Override
-    public int compareTo(Entry o) {
+    public int compareTo(final Entry o) {
         if (this.entryDate.before(o.entryDate)) {
             return 1;
         } else if (this.entryDate.after(o.entryDate)) {
@@ -93,19 +116,34 @@ public abstract class Entry extends BaseSoftDeletableEntity implements
         }
     }
 
+    /**
+     * Gets the account.
+     *
+     * @return the account
+     */
     @ManyToOne
     @JoinColumn(name = "myAccount", nullable = false)
     public Account getAccount() {
-        return account;
+        return this.account;
     }
 
+    /**
+     * Gets the changes.
+     *
+     * @return the changes
+     */
     public String getChanges() {
-        return changes;
+        return this.changes;
     }
 
+    /**
+     * Gets the description short.
+     *
+     * @return the description short
+     */
     @Transient
     public String getDescriptionShort() {
-        int maxLength = 100;
+        final int maxLength = 100;
         if (this.entryDescription != null) {
             if (this.entryDescription.length() > maxLength) {
                 return this.entryDescription.substring(0, maxLength) + "...";
@@ -137,9 +175,14 @@ public abstract class Entry extends BaseSoftDeletableEntity implements
         return this.entryDate;
     }
 
+    /**
+     * Gets the entry date as string.
+     *
+     * @return the entry date as string
+     */
     @Transient
     public String getEntryDateAsString() {
-        DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+        final DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
         return df.format(this.entryDate);
     }
 
@@ -153,24 +196,60 @@ public abstract class Entry extends BaseSoftDeletableEntity implements
         return this.entryDescription;
     }
 
+    /**
+     * Gets the group.
+     *
+     * @return the group
+     */
     @ManyToOne
     @JoinColumn(name = "myGroup", nullable = true)
     public Group getGroup() {
-        return group;
+        return this.group;
     }
 
+    /**
+     * Gets the head version.
+     *
+     * @return the head version
+     */
+    @Transient
+    public Entry getHeadVersion() {
+        return this.getOrderedVersions().get(0);
+    }
+
+    /**
+     * Gets the language.
+     *
+     * @return the language
+     */
     public String getLanguage() {
-        return language;
-    }
-
-    public String getName() {
-        return name;
+        return this.language;
     }
 
     @Transient
+    public WeFactorValues.ProgrammingLanguage getLanguageAsType() {
+        return WeFactorValues.ProgrammingLanguage
+                .getLanguageForMode(this.language);
+    }
+
+    /**
+     * Gets the name.
+     *
+     * @return the name
+     */
+    public String getName() {
+        return this.name;
+    }
+
+    /**
+     * Gets the ordered version ids.
+     *
+     * @return the ordered version ids
+     */
+    @Transient
     public String[] getOrderedVersionIds() {
-        List<Entry> orderedVersions = getOrderedVersions();
-        String[] ids = new String[orderedVersions.size()];
+        final List<Entry> orderedVersions = this.getOrderedVersions();
+        final String[] ids = new String[orderedVersions.size()];
 
         for (int i = 0; i < orderedVersions.size(); i++) {
             ids[i] = orderedVersions.get(i).getId().toString();
@@ -179,18 +258,23 @@ public abstract class Entry extends BaseSoftDeletableEntity implements
         return ids;
     }
 
-    @Transient
-    public Entry getHeadVersion() {
-        return getOrderedVersions().get(0);
-    }
-
+    /**
+     * Gets the ordered versions.
+     *
+     * @return the ordered versions
+     */
     @Transient
     public abstract List<Entry> getOrderedVersions();
 
+    /**
+     * Gets the ordered version types.
+     *
+     * @return the ordered version types
+     */
     @Transient
     public String[] getOrderedVersionTypes() {
-        List<Entry> orderedVersions = getOrderedVersions();
-        String[] ids = new String[orderedVersions.size()];
+        final List<Entry> orderedVersions = this.getOrderedVersions();
+        final String[] ids = new String[orderedVersions.size()];
 
         for (int i = 0; i < orderedVersions.size(); i++) {
             ids[i] = orderedVersions.get(i).getClass().getSimpleName();
@@ -199,9 +283,19 @@ public abstract class Entry extends BaseSoftDeletableEntity implements
         return ids;
     }
 
+    /**
+     * Gets the parent.
+     *
+     * @return the parent
+     */
     @Transient
     public abstract Entry getParent();
 
+    /**
+     * Gets the ranking value.
+     *
+     * @return the ranking value
+     */
     @Transient
     @JsonProperty("rankingValue")
     public Double getRankingValue() {
@@ -212,7 +306,7 @@ public abstract class Entry extends BaseSoftDeletableEntity implements
 
         Double d = new Double("0.0");
         int a = 0;
-        for (EntryRating ra : ratings) {
+        for (final EntryRating ra : this.ratings) {
             d = d + ra.getValue();
             a++;
         }
@@ -220,56 +314,118 @@ public abstract class Entry extends BaseSoftDeletableEntity implements
         return d / a;
     }
 
+    /**
+     * Gets the rating count.
+     *
+     * @return the rating count
+     */
     @Transient
     @JsonProperty("rankingCount")
     public int getRatingCount() {
         return this.ratings.size();
     }
 
+    /**
+     * Gets the ratings.
+     *
+     * @return the ratings
+     */
+    @OneToMany(mappedBy = "entry")
+    public Set<EntryRating> getRatings() {
+        return this.ratings;
+    }
+
+    /**
+     * Gets the statistics.
+     *
+     * @return the statistics
+     */
     @Embedded
     public EntryStatistics getStatistics() {
-        return statistics;
+        return this.statistics;
     }
 
-    @ManyToMany
-    @JoinTable(name = "TAGMAP", joinColumns = { @JoinColumn(name = "ENTRY_ID", referencedColumnName = "ID") }, inverseJoinColumns = { @JoinColumn(name = "TAG_ID", referencedColumnName = "ID") })
-    public Set<Tag> getTags() {
-        return tags;
-    }
-
+    /**
+     * Gets the tag as strings.
+     *
+     * @return the tag as strings
+     */
     @Transient
     @JsonProperty("tagAsStrings")
     public Set<String> getTagAsStrings() {
-        Set<String> retVal = new HashSet<String>();
-        for (Tag t : this.tags) {
+        final Set<String> retVal = new HashSet<String>();
+        for (final Tag t : this.tags) {
             retVal.add(t.getName());
         }
         return retVal;
     }
 
-    public String getTeaser() {
-        return teaser;
+    /**
+     * Gets the tags.
+     *
+     * @return the tags
+     */
+    @ManyToMany
+    @JoinTable(name = "TAGMAP", joinColumns = { @JoinColumn(name = "ENTRY_ID", referencedColumnName = "ID") }, inverseJoinColumns = { @JoinColumn(name = "TAG_ID", referencedColumnName = "ID") })
+    public Set<Tag> getTags() {
+        return this.tags;
     }
 
+    /**
+     * Gets the teaser.
+     *
+     * @return the teaser
+     */
+    public String getTeaser() {
+        return this.teaser;
+    }
+
+    /**
+     * Gets the type.
+     *
+     * @return the type
+     */
     @Transient
     public String getType() {
         return this.getClass().getSimpleName();
     }
 
+    /**
+     * Gets the version display text.
+     *
+     * @return the version display text
+     */
     @Transient
     public abstract String getVersionDisplayText();
 
+    /**
+     * Gets the versionnumber.
+     *
+     * @return the versionnumber
+     */
     @Transient
     public int getVersionnumber() {
-        return getParent().getOrderedVersions().size()
-                - getParent().getOrderedVersions().indexOf(this);
+        return this.getParent().getOrderedVersions().size()
+                - this.getParent().getOrderedVersions().indexOf(this);
     }
 
-    public void setAccount(Account account) {
+    /**
+     * Sets the account.
+     *
+     * @param account
+     *            the new account
+     */
+    public void setAccount(final Account account) {
         this.account = account;
     }
 
-    public void setChanges(String changes) {
+    /**
+     * Sets the changes.
+     *
+     * @param changes
+     *            the new changes
+     */
+    public void setChanges(final String changes) {
         this.changes = changes;
     }
 
@@ -303,38 +459,83 @@ public abstract class Entry extends BaseSoftDeletableEntity implements
         this.entryDescription = entryDescriptionParam;
     }
 
-    public void setLanguage(String language) {
+    /**
+     * Sets the group.
+     *
+     * @param group
+     *            the new group
+     */
+    public void setGroup(final Group group) {
+        this.group = group;
+    }
+
+    /**
+     * Sets the language.
+     *
+     * @param language
+     *            the new language
+     */
+    public void setLanguage(final String language) {
         this.language = language;
     }
 
-    public void setName(String name) {
+    /**
+     * Sets the name.
+     *
+     * @param name
+     *            the new name
+     */
+    public void setName(final String name) {
         this.name = name;
     }
 
-    public void setRatings(Set<EntryRating> ratings) {
+    /**
+     * Sets the ratings.
+     *
+     * @param ratings
+     *            the new ratings
+     */
+    public void setRatings(final Set<EntryRating> ratings) {
         this.ratings = ratings;
     }
 
-    public void setStatistics(EntryStatistics statistics) {
+    /**
+     * Sets the statistics.
+     *
+     * @param statistics
+     *            the new statistics
+     */
+    public void setStatistics(final EntryStatistics statistics) {
         this.statistics = statistics;
     }
 
-    public void setTags(Set<Tag> tags) {
+    /**
+     * Sets the tags.
+     *
+     * @param tags
+     *            the new tags
+     */
+    public void setTags(final Set<Tag> tags) {
         this.tags = tags;
     }
 
-    public void setTeaser(String teaser) {
+    /**
+     * Sets the teaser.
+     *
+     * @param teaser
+     *            the new teaser
+     */
+    public void setTeaser(final String teaser) {
         this.teaser = teaser;
     }
 
-    @OneToMany(mappedBy = "entry")
-    public Set<EntryRating> getRatings() {
-        return ratings;
-    }
-
-    public void addTag(Tag tag) {
-        this.tags.add(tag);
-
+    /*
+     * (non-Javadoc)
+     * @see java.lang.Object#toString()
+     */
+    @Override
+    public String toString() {
+        return this.name;
     }
 
 }

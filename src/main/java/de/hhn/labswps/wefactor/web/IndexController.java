@@ -14,22 +14,42 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import de.hhn.labswps.wefactor.web.util.SocialControllerUtil;
 
+/**
+ * The controller for base navigation.
+ */
 @Controller
 @RequestMapping("/")
 public class IndexController {
 
+    /** The util. */
     @Autowired
     private SocialControllerUtil util;
 
+    /**
+     * Index.
+     *
+     * @param request
+     *            the request
+     * @param session
+     *            the session
+     * @param currentUser
+     *            the current user
+     * @param locale
+     *            the locale
+     * @param model
+     *            the model
+     * @return the string
+     */
     @RequestMapping(method = RequestMethod.GET)
-    public String index(HttpServletRequest request, HttpSession session,
-            Principal currentUser, Locale locale, Model model) {
+    public String index(final HttpServletRequest request,
+            final HttpSession session, final Principal currentUser,
+            final Locale locale, final Model model) {
 
         if (currentUser == null) {
             return "landing";
         } else {
 
-            util.setModel(request, currentUser, model);
+            this.util.setModel(request, currentUser, model);
             return "forward:/entries/all";
         }
 

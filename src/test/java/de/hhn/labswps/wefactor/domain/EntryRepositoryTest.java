@@ -9,23 +9,26 @@ import java.util.Date;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import de.hhn.labswps.wefactor.BaseTest;
+import de.hhn.labswps.wefactor.BaseWebTest;
 
 /**
  * The Class EntryRepositoryTest.
  */
-public class EntryRepositoryTest extends BaseTest {
+public class EntryRepositoryTest extends BaseWebTest {
 
     /** The entry repository. */
     @Autowired
     private MasterEntryRepository masterEntryRepository;
 
+    /** The version entry repository. */
     @Autowired
     private VersionEntryRepository versionEntryRepository;
 
+    /** The account repository. */
     @Autowired
     AccountRepository accountRepository;
 
+    /** The user profile repository. */
     @Autowired
     UserProfileRepository userProfileRepository;
 
@@ -34,23 +37,26 @@ public class EntryRepositoryTest extends BaseTest {
      */
     @Test
     public final void basicTest() {
-        UserProfile profile = getTestProfile();
+        final UserProfile profile = this.getTestProfile();
 
-        MasterEntry masterEntry = new MasterEntry();
+        final MasterEntry masterEntry = new MasterEntry();
 
         masterEntry.setAccount(profile.getAccount());
         masterEntry.setEntryCodeText("bla");
         masterEntry.setEntryDate(new Date());
         masterEntry.setEntryDescription("bla bla");
-        masterEntryRepository.save(masterEntry);
+        this.masterEntryRepository.save(masterEntry);
 
-        masterEntryRepository.delete(masterEntry);
+        this.masterEntryRepository.delete(masterEntry);
 
     }
 
+    /**
+     * Test new version.
+     */
     @Test
     public final void testNewVersion() {
-        UserProfile profile = getTestProfile();
+        final UserProfile profile = this.getTestProfile();
 
         MasterEntry masterEntry = new MasterEntry();
 
@@ -58,24 +64,24 @@ public class EntryRepositoryTest extends BaseTest {
         masterEntry.setEntryCodeText("bla");
         masterEntry.setEntryDate(new Date());
         masterEntry.setEntryDescription("bla bla");
-        masterEntryRepository.save(masterEntry);
+        this.masterEntryRepository.save(masterEntry);
 
-        VersionEntry versionEntry = new VersionEntry();
+        final VersionEntry versionEntry = new VersionEntry();
 
         versionEntry.setAccount(profile.getAccount());
         versionEntry.setEntryCodeText("bla");
         versionEntry.setEntryDate(new Date());
         versionEntry.setEntryDescription("bla bla");
 
-        versionEntryRepository.save(versionEntry);
+        this.versionEntryRepository.save(versionEntry);
         masterEntry.addVersion(versionEntry);
 
-        masterEntry = masterEntryRepository.save(masterEntry);
+        masterEntry = this.masterEntryRepository.save(masterEntry);
 
         assertThat(masterEntry.getVersions(), not(empty()));
 
-        versionEntryRepository.delete(versionEntry);
-        masterEntryRepository.delete(masterEntry);
+        this.versionEntryRepository.delete(versionEntry);
+        this.masterEntryRepository.delete(masterEntry);
 
     }
 }

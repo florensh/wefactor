@@ -14,17 +14,34 @@ import org.springframework.social.connect.ConnectionRepository;
 import org.springframework.social.connect.ConnectionSignUp;
 import org.springframework.social.connect.UsersConnectionRepository;
 
+/**
+ * The Class UsersConnectionRepositoryDelegate.
+ */
 public class UsersConnectionRepositoryDelegate implements
         UsersConnectionRepository {
 
+    /** The user connection repository. */
     private UserConnectionRepository userConnectionRepository;
 
+    /** The connection sign up. */
     private ConnectionSignUp connectionSignUp;
 
+    /** The connection factory locator. */
     private ConnectionFactoryLocator connectionFactoryLocator;
 
+    /** The text encryptor. */
     private TextEncryptor textEncryptor;
 
+    /**
+     * Instantiates a new users connection repository delegate.
+     *
+     * @param connectionFactoryLocator
+     *            the connection factory locator
+     * @param textEncryptor
+     *            the text encryptor
+     * @param userConnectionRepository
+     *            the user connection repository
+     */
     public UsersConnectionRepositoryDelegate(
             ConnectionFactoryLocator connectionFactoryLocator,
             TextEncryptor textEncryptor,
@@ -34,6 +51,11 @@ public class UsersConnectionRepositoryDelegate implements
         this.userConnectionRepository = userConnectionRepository;
     }
 
+    /*
+     * (non-Javadoc)
+     * @see org.springframework.social.connect.UsersConnectionRepository#
+     * findUserIdsWithConnection(org.springframework.social.connect.Connection)
+     */
     @Override
     public List<String> findUserIdsWithConnection(Connection<?> connection) {
         ConnectionKey key = connection.getKey();
@@ -57,6 +79,11 @@ public class UsersConnectionRepositoryDelegate implements
         return localUserIds;
     }
 
+    /*
+     * (non-Javadoc)
+     * @see org.springframework.social.connect.UsersConnectionRepository#
+     * findUserIdsConnectedTo(java.lang.String, java.util.Set)
+     */
     @Override
     public Set<String> findUserIdsConnectedTo(String providerId,
             Set<String> providerUserIds) {
@@ -73,6 +100,11 @@ public class UsersConnectionRepositoryDelegate implements
         return userIds;
     }
 
+    /*
+     * (non-Javadoc)
+     * @see org.springframework.social.connect.UsersConnectionRepository#
+     * createConnectionRepository(java.lang.String)
+     */
     @Override
     public ConnectionRepository createConnectionRepository(String userId) {
         if (userId == null) {
@@ -83,6 +115,12 @@ public class UsersConnectionRepositoryDelegate implements
                 userConnectionRepository);
     }
 
+    /**
+     * Sets the connection sign up.
+     *
+     * @param connectionSignUp
+     *            the new connection sign up
+     */
     public void setConnectionSignUp(ConnectionSignUp connectionSignUp) {
         this.connectionSignUp = connectionSignUp;
     }

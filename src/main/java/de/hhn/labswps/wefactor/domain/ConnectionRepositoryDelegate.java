@@ -19,15 +19,35 @@ import org.springframework.social.connect.NotConnectedException;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
+/**
+ * The Class ConnectionRepositoryDelegate.
+ */
 public class ConnectionRepositoryDelegate implements ConnectionRepository {
 
+    /** The user id. */
     private String userId;
 
+    /** The connection factory locator. */
     private ConnectionFactoryLocator connectionFactoryLocator;
+
+    /** The text encryptor. */
     private TextEncryptor textEncryptor;
 
+    /** The user connection repository. */
     private UserConnectionRepository userConnectionRepository;
 
+    /**
+     * Instantiates a new connection repository delegate.
+     *
+     * @param userId
+     *            the user id
+     * @param connectionFactoryLocator
+     *            the connection factory locator
+     * @param textEncryptor
+     *            the text encryptor
+     * @param userConnectionRepository
+     *            the user connection repository
+     */
     public ConnectionRepositoryDelegate(String userId,
             ConnectionFactoryLocator connectionFactoryLocator,
             TextEncryptor textEncryptor,
@@ -38,6 +58,12 @@ public class ConnectionRepositoryDelegate implements ConnectionRepository {
         this.userConnectionRepository = userConnectionRepository;
     }
 
+    /*
+     * (non-Javadoc)
+     * @see
+     * org.springframework.social.connect.ConnectionRepository#findAllConnections
+     * ()
+     */
     @Override
     public MultiValueMap<String, Connection<?>> findAllConnections() {
         List<UserConnection> allUserConnections = (List<UserConnection>) userConnectionRepository
@@ -62,6 +88,13 @@ public class ConnectionRepositoryDelegate implements ConnectionRepository {
         return connections;
     }
 
+    /**
+     * Transform.
+     *
+     * @param allUserConnections
+     *            the all user connections
+     * @return the list
+     */
     private List<Connection<?>> transform(
             List<UserConnection> allUserConnections) {
 
@@ -73,6 +106,12 @@ public class ConnectionRepositoryDelegate implements ConnectionRepository {
         return result;
     }
 
+    /*
+     * (non-Javadoc)
+     * @see
+     * org.springframework.social.connect.ConnectionRepository#findConnections
+     * (java.lang.String)
+     */
     @Override
     public List<Connection<?>> findConnections(String providerId) {
         List<UserConnection> allUserConnections = (List<UserConnection>) userConnectionRepository
@@ -82,17 +121,37 @@ public class ConnectionRepositoryDelegate implements ConnectionRepository {
         return resultList;
     }
 
+    /*
+     * (non-Javadoc)
+     * @see
+     * org.springframework.social.connect.ConnectionRepository#findConnections
+     * (java.lang.Class)
+     */
     @Override
     public <A> List<Connection<A>> findConnections(Class<A> apiType) {
         List<?> connections = findConnections(getProviderId(apiType));
         return (List<Connection<A>>) connections;
     }
 
+    /**
+     * Gets the provider id.
+     *
+     * @param <A>
+     *            the generic type
+     * @param apiType
+     *            the api type
+     * @return the provider id
+     */
     private <A> String getProviderId(Class<A> apiType) {
         return connectionFactoryLocator.getConnectionFactory(apiType)
                 .getProviderId();
     }
 
+    /*
+     * (non-Javadoc)
+     * @see org.springframework.social.connect.ConnectionRepository#
+     * findConnectionsToUsers(org.springframework.util.MultiValueMap)
+     */
     @Override
     public MultiValueMap<String, Connection<?>> findConnectionsToUsers(
             MultiValueMap<String, String> providerUsers) {
@@ -141,6 +200,12 @@ public class ConnectionRepositoryDelegate implements ConnectionRepository {
         return connectionsForUsers;
     }
 
+    /*
+     * (non-Javadoc)
+     * @see
+     * org.springframework.social.connect.ConnectionRepository#getConnection
+     * (org.springframework.social.connect.ConnectionKey)
+     */
     @Override
     public Connection<?> getConnection(ConnectionKey connectionKey) {
         UserConnection conn = this.userConnectionRepository
@@ -150,6 +215,13 @@ public class ConnectionRepositoryDelegate implements ConnectionRepository {
         return transform(conn);
     }
 
+    /**
+     * Transform.
+     *
+     * @param conn
+     *            the conn
+     * @return the connection
+     */
     private Connection<?> transform(UserConnection conn) {
         ConnectionData cd = createConnectionData(conn);
         ConnectionFactory<?> connectionFactory = connectionFactoryLocator
@@ -158,6 +230,13 @@ public class ConnectionRepositoryDelegate implements ConnectionRepository {
 
     }
 
+    /**
+     * Creates the connection data.
+     *
+     * @param conn
+     *            the conn
+     * @return the connection data
+     */
     private ConnectionData createConnectionData(UserConnection conn) {
         return new ConnectionData(conn.getProviderId(),
                 conn.getProviderUserId(), conn.getDisplayName(),
@@ -166,6 +245,12 @@ public class ConnectionRepositoryDelegate implements ConnectionRepository {
                 conn.getRefreshToken(), conn.getExpireTime());
     }
 
+    /*
+     * (non-Javadoc)
+     * @see
+     * org.springframework.social.connect.ConnectionRepository#getConnection
+     * (java.lang.Class, java.lang.String)
+     */
     @Override
     public <A> Connection<A> getConnection(Class<A> apiType,
             String providerUserId) {
@@ -174,6 +259,12 @@ public class ConnectionRepositoryDelegate implements ConnectionRepository {
                 providerUserId));
     }
 
+    /*
+     * (non-Javadoc)
+     * @see
+     * org.springframework.social.connect.ConnectionRepository#getPrimaryConnection
+     * (java.lang.Class)
+     */
     @Override
     public <A> Connection<A> getPrimaryConnection(Class<A> apiType) {
         String providerId = getProviderId(apiType);
@@ -184,6 +275,13 @@ public class ConnectionRepositoryDelegate implements ConnectionRepository {
         return connection;
     }
 
+    /**
+     * Find primary connection.
+     *
+     * @param providerId
+     *            the provider id
+     * @return the connection
+     */
     private Connection<?> findPrimaryConnection(String providerId) {
         List<UserConnection> conn = this.userConnectionRepository
                 .findByUserIdAndProviderIdOrderByRankDesc(userId, providerId);
@@ -195,12 +293,24 @@ public class ConnectionRepositoryDelegate implements ConnectionRepository {
         }
     }
 
+    /*
+     * (non-Javadoc)
+     * @see
+     * org.springframework.social.connect.ConnectionRepository#findPrimaryConnection
+     * (java.lang.Class)
+     */
     @Override
     public <A> Connection<A> findPrimaryConnection(Class<A> apiType) {
         String providerId = getProviderId(apiType);
         return (Connection<A>) findPrimaryConnection(providerId);
     }
 
+    /*
+     * (non-Javadoc)
+     * @see
+     * org.springframework.social.connect.ConnectionRepository#addConnection
+     * (org.springframework.social.connect.Connection)
+     */
     @Override
     public void addConnection(Connection<?> connection) {
         UserConnection conn = transform(connection);
@@ -208,6 +318,13 @@ public class ConnectionRepositoryDelegate implements ConnectionRepository {
 
     }
 
+    /**
+     * Transform.
+     *
+     * @param c
+     *            the c
+     * @return the user connection
+     */
     private UserConnection transform(Connection<?> c) {
         ConnectionData data = c.createData();
         int rank = 0; // TODO
@@ -218,6 +335,12 @@ public class ConnectionRepositoryDelegate implements ConnectionRepository {
                 data.getRefreshToken(), data.getExpireTime());
     }
 
+    /*
+     * (non-Javadoc)
+     * @see
+     * org.springframework.social.connect.ConnectionRepository#updateConnection
+     * (org.springframework.social.connect.Connection)
+     */
     @Override
     public void updateConnection(Connection<?> connection) {
         UserConnection conn = transform(connection);
@@ -229,6 +352,14 @@ public class ConnectionRepositoryDelegate implements ConnectionRepository {
 
     }
 
+    /**
+     * Update user connection.
+     *
+     * @param fromDb
+     *            the from db
+     * @param conn
+     *            the conn
+     */
     private void updateUserConnection(UserConnection fromDb, UserConnection conn) {
         fromDb.setAccessToken(conn.getAccessToken());
         fromDb.setDisplayName(conn.getDisplayName());
@@ -244,12 +375,24 @@ public class ConnectionRepositoryDelegate implements ConnectionRepository {
 
     }
 
+    /*
+     * (non-Javadoc)
+     * @see
+     * org.springframework.social.connect.ConnectionRepository#removeConnections
+     * (java.lang.String)
+     */
     @Override
     public void removeConnections(String providerId) {
         this.userConnectionRepository.deleteByProviderId(providerId);
 
     }
 
+    /*
+     * (non-Javadoc)
+     * @see
+     * org.springframework.social.connect.ConnectionRepository#removeConnection
+     * (org.springframework.social.connect.ConnectionKey)
+     */
     @Override
     public void removeConnection(ConnectionKey connectionKey) {
         this.userConnectionRepository

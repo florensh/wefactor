@@ -38,7 +38,7 @@
 								</div>
 
 								<div class="col-xs-12 visible-sm visible-xs hidden-md hidden-lg">
-									<kbd th:text="${entry.language}">language</kbd>
+									<kbd th:text="${entry.getLanguageAsType().getDisplayName()}">language</kbd>
 								</div>
 
 								<div class="col-xs-8 col-sm-7 hidden-sm hidden-xs visible-md visible-lg">
@@ -47,7 +47,7 @@
 										</a> <small>&nbsp;created</small> <small style="color: black;" th:text="${beans.dateFormatter.format(entry.createdDate)}">10.11.2014</small> <small style="margin-left: 4px;">|</small> <small th:alt-title="'watched ' + ${entry.statistics.views} + ' times'" style="margin-left: 4px;"><i class="fa fa-eye  fa-lg"></i>&nbsp;<span th:text="${entry.statistics.views}">0</span></small> <small th:alt-title="${entry.ratingCount} + ' ratings'" style="margin-left: 4px;"><i class="fa fa-star  fa-lg"></i>&nbsp;<span th:text="${entry.ratingCount}">0</span></small> <small th:alt-title="${entry.versions.size()} + ' versions'" style="margin-left: 4px;"><i class="fa fa-code-fork  fa-lg"></i>&nbsp;<span th:text="${entry.versions.size()}">0</span></small>
 									</h5>
 
-									<kbd th:text="${entry.language}">language</kbd>
+									<kbd th:text="${entry.getLanguageAsType().getDisplayName()}">language</kbd>
 								</div>
 
 								<!--

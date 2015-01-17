@@ -23,43 +23,72 @@ import de.hhn.labswps.wefactor.service.SignUpService;
 import de.hhn.labswps.wefactor.web.DataObjects.RegisterFormDataObject;
 import de.hhn.labswps.wefactor.web.DataObjects.UserProfileFormDataObject;
 
+/**
+ * The controller for user related requests.
+ */
 @Controller
 public class UserController {
 
+    /** The user details service. */
     @Autowired
     private UserDetailsService userDetailsService;
 
+    /** The user profile repository. */
     @Autowired
     private UserProfileRepository userProfileRepository;
 
+    /** The sign up service. */
     @Autowired
     private SignUpService signUpService;
 
+    /**
+     * Show signin page.
+     *
+     * @param request
+     *            the request
+     * @param currentUser
+     *            the current user
+     * @param model
+     *            the model
+     * @return the string
+     */
     @RequestMapping(value = "/signin", method = RequestMethod.GET)
-    public String showSigninPage(HttpServletRequest request,
-            Principal currentUser, Model model) {
+    public String showSigninPage(final HttpServletRequest request,
+            final Principal currentUser, final Model model) {
         return "signin";
     }
 
+    /**
+     * Show signup page.
+     *
+     * @param model
+     *            the model
+     * @return the string
+     */
     @RequestMapping(value = "/signup", method = RequestMethod.GET)
-    public String showSignupPage(Model model) {
+    public String showSignupPage(final Model model) {
         model.addAttribute("registerFormDataObject",
                 new RegisterFormDataObject());
         return "registration";
     }
 
-    // @RequestMapping(value = "/user/profile", method = RequestMethod.GET)
-    // public String showSettings(Model model) {
-    // return "profile";
-    // }
-
+    /**
+     * Show edit profile page.
+     *
+     * @param model
+     *            the model
+     * @param currentUser
+     *            the current user
+     * @return the string
+     */
     @RequestMapping(value = "/user/profile/edit", method = RequestMethod.GET)
-    public String showEditProfilePage(Model model, Principal currentUser) {
+    public String showEditProfilePage(final Model model,
+            final Principal currentUser) {
 
-        UserProfileFormDataObject data = new UserProfileFormDataObject();
+        final UserProfileFormDataObject data = new UserProfileFormDataObject();
 
-        UserProfile up = this.userProfileRepository.findByUsername(currentUser
-                .getName());
+        final UserProfile up = this.userProfileRepository
+                .findByUsername(currentUser.getName());
 
         data.setDisplayName(up.getName());
         data.setFirstName(up.getFirstName());
@@ -70,16 +99,33 @@ public class UserController {
         return "editprofile";
     }
 
+    /**
+     * Submit user edit profile form.
+     *
+     * @param id
+     *            the id
+     * @param userProfileFormDataObject
+     *            the user profile form data object
+     * @param result
+     *            the result
+     * @param m
+     *            the m
+     * @param currentUser
+     *            the current user
+     * @return the string
+     */
     @RequestMapping(value = "/user/profile/save", method = RequestMethod.POST)
-    public String submitUserEditProfileForm(@RequestParam("id") String id,
-            @Valid UserProfileFormDataObject userProfileFormDataObject,
-            BindingResult result, Model m, Principal currentUser) {
+    public String submitUserEditProfileForm(
+            @RequestParam("id") final String id,
+            @Valid final UserProfileFormDataObject userProfileFormDataObject,
+            final BindingResult result, final Model m,
+            final Principal currentUser) {
         if (result.hasErrors()) {
             return "editprofile";
         }
 
-        UserProfile up = this.userProfileRepository.findByUsername(currentUser
-                .getName());
+        final UserProfile up = this.userProfileRepository
+                .findByUsername(currentUser.getName());
 
         up.setName(userProfileFormDataObject.getDisplayName());
         up.setFirstName(userProfileFormDataObject.getFirstName());
@@ -88,13 +134,24 @@ public class UserController {
 
         this.userProfileRepository.save(up);
 
-        return showUserProfile(Long.valueOf(id), m);
+        return this.showUserProfile(Long.valueOf(id), m);
     }
 
+    /**
+     * Submit register form.
+     *
+     * @param registerFormDataObject
+     *            the register form data object
+     * @param result
+     *            the result
+     * @param m
+     *            the m
+     * @return the string
+     */
     @RequestMapping(value = "/user/register", method = RequestMethod.POST)
     public String submitRegisterForm(
-            @Valid RegisterFormDataObject registerFormDataObject,
-            BindingResult result, Model m) {
+            @Valid final RegisterFormDataObject registerFormDataObject,
+            final BindingResult result, final Model m) {
         if (result.hasErrors()) {
             return "registration";
         }
@@ -103,7 +160,7 @@ public class UserController {
                 registerFormDataObject.getEmail(),
                 registerFormDataObject.getPassword());
 
-        UserDetails user = userDetailsService
+        final UserDetails user = this.userDetailsService
                 .loadUserByUsername(registerFormDataObject.getUsername());
 
         if (user == null) {
@@ -117,9 +174,19 @@ public class UserController {
         return "redirect:/";
     }
 
+    /**
+     * Show user profile.
+     *
+     * @param id
+     *            the id
+     * @param model
+     *            the model
+     * @return the string
+     */
     @RequestMapping(value = "/user/profile/details", method = RequestMethod.GET)
-    public String showUserProfile(@RequestParam("id") Long id, Model model) {
-        UserProfile profile = this.userProfileRepository.findOne(id);
+    public String showUserProfile(@RequestParam("id") final Long id,
+            final Model model) {
+        final UserProfile profile = this.userProfileRepository.findOne(id);
         model.addAttribute("profile", profile);
         return "profile";
     }

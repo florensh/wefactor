@@ -16,6 +16,9 @@ import org.hibernate.annotations.Where;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+/**
+ * The Class VersionEntry represents a certain version of an entry.
+ */
 @Entity
 @DiscriminatorValue(value = "Version")
 @Where(clause = "inactive = 'N'")
@@ -26,13 +29,23 @@ import com.fasterxml.jackson.annotation.JsonProperty;
         "group" })
 public class VersionEntry extends Entry {
 
+    /**
+     * Instantiates a new version entry.
+     */
     public VersionEntry() {
 
     }
 
+    /** The master of version. */
     private MasterEntry masterOfVersion;
 
-    public VersionEntry(ProposalEntry pe) {
+    /**
+     * Instantiates a new version entry.
+     *
+     * @param pe
+     *            the pe
+     */
+    public VersionEntry(final ProposalEntry pe) {
 
         this.masterOfVersion = pe.getMasterOfProposal();
         this.setAccount(pe.getAccount());
@@ -45,43 +58,66 @@ public class VersionEntry extends Entry {
         this.setTeaser(pe.getTeaser());
 
         if (!pe.getTags().isEmpty()) {
-            for (Tag tag : pe.getTags()) {
+            for (final Tag tag : pe.getTags()) {
                 this.addTag(tag);
             }
         }
     }
 
+    /**
+     * Gets the master of version.
+     *
+     * @return the master of version
+     */
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "masterOfVersion")
     public MasterEntry getMasterOfVersion() {
-        return masterOfVersion;
+        return this.masterOfVersion;
     }
 
-    public void setMasterOfVersion(MasterEntry masterEntry) {
+    /**
+     * Sets the master of version.
+     *
+     * @param masterEntry
+     *            the new master of version
+     */
+    public void setMasterOfVersion(final MasterEntry masterEntry) {
         this.masterOfVersion = masterEntry;
     }
 
+    /*
+     * (non-Javadoc)
+     * @see de.hhn.labswps.wefactor.domain.Entry#getOrderedVersions()
+     */
     @Override
     @Transient
     public List<Entry> getOrderedVersions() {
-        List<Entry> retVal = new ArrayList<Entry>();
+        final List<Entry> retVal = new ArrayList<Entry>();
         retVal.add(this);
-        retVal.add(masterOfVersion);
+        retVal.add(this.masterOfVersion);
         Collections.sort(retVal);
         return retVal;
     }
 
+    /*
+     * (non-Javadoc)
+     * @see de.hhn.labswps.wefactor.domain.Entry#getParent()
+     */
     @Override
     @Transient
     public Entry getParent() {
-        return masterOfVersion;
+        return this.masterOfVersion;
     }
 
+    /*
+     * (non-Javadoc)
+     * @see de.hhn.labswps.wefactor.domain.Entry#getVersionDisplayText()
+     */
     @Override
     @Transient
     @JsonProperty("versionDisplayText")
     public String getVersionDisplayText() {
-        return getChanges();
+        return this.getChanges();
     }
 
 }

@@ -1,6 +1,7 @@
 package de.hhn.labswps.wefactor.web;
 
 import java.security.Principal;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -32,101 +33,153 @@ import de.hhn.labswps.wefactor.web.DataObjects.ScreenMessageObject;
 import de.hhn.labswps.wefactor.web.DataObjects.SearchBoxDataObject;
 import de.hhn.labswps.wefactor.web.util.DataUtils;
 
+/**
+ * The controller for group related requests.
+ */
 @Controller
 public class GroupController {
 
+    /** The Constant GROUP_DETAILS_LINK. */
     public static final String GROUP_DETAILS_LINK = "/user/group";
 
+    /** The timeline event repository. */
     @Autowired
     private TimelineEventRepository timelineEventRepository;
 
+    /** The user profile repository. */
     @Autowired
     private UserProfileRepository userProfileRepository;
 
+    /** The account repository. */
     @Autowired
     private AccountRepository accountRepository;
 
+    /** The group repository. */
     @Autowired
     private GroupRepository groupRepository;
 
+    /**
+     * Go to group.
+     *
+     * @param id
+     *            the id
+     * @param model
+     *            the model
+     * @param currentUser
+     *            the current user
+     * @return the string
+     */
     @RequestMapping(GROUP_DETAILS_LINK)
-    public String goToGroup(@RequestParam("id") Long id, ModelMap model,
-            Principal currentUser) {
+    public String goToGroup(@RequestParam("id") final Long id,
+            final ModelMap model, final Principal currentUser) {
 
         // Laden der groupe
-        Group group = this.groupRepository.findOne(id);
+        final Group group = this.groupRepository.findOne(id);
         model.addAttribute("group", group);
 
         // Laden der events
-        Pageable topFive = new PageRequest(0,
+        final Pageable topFive = new PageRequest(0,
                 TimelineEventRepository.DEFAULT_PAGE_SIZE);
         model.addAttribute("events", this.timelineEventRepository
                 .findByTargetGroupOrderByEventDateDesc(group, topFive));
 
-        EntryList entries = new EntryList(group.getEntries());
+        final EntryList entries = new EntryList(group.getEntries());
+        Collections.sort(entries);
         model.addAttribute("entries", entries);
 
         return "group";
 
     }
 
+    /**
+     * Join group.
+     *
+     * @param id
+     *            the id
+     * @param model
+     *            the model
+     * @param currentUser
+     *            the current user
+     * @return the string
+     */
     @RequestMapping("/user/group/join")
-    public String joinGroup(@RequestParam("id") Long id, ModelMap model,
-            Principal currentUser) {
+    public String joinGroup(@RequestParam("id") final Long id,
+            final ModelMap model, final Principal currentUser) {
 
-        String secUser = currentUser.getName();
-        UserProfile profile = this.userProfileRepository
+        final String secUser = currentUser.getName();
+        final UserProfile profile = this.userProfileRepository
                 .findByUsername(secUser);
 
         // Laden der groupe
-        Group group = this.groupRepository.findOne(id);
+        final Group group = this.groupRepository.findOne(id);
         group.addMember(profile.getAccount());
 
         this.groupRepository.save(group);
         this.accountRepository.save(profile.getAccount());
 
-        ObjectIdentification oid = DataUtils.createObjectIdentification(group,
-                Group.class.getSimpleName());
-        TimelineEvent event = new TimelineEvent(new Date(),
+        final ObjectIdentification oid = DataUtils.createObjectIdentification(
+                group, Group.class.getSimpleName());
+        final TimelineEvent event = new TimelineEvent(new Date(),
                 profile.getAccount(), group, EventType.USER_JOINED_GROUP, oid);
 
         this.timelineEventRepository.save(event);
 
-        return goToGroupBrowser(model, currentUser);
+        return this.goToGroupBrowser(model, currentUser);
 
     }
 
+    /**
+     * Leave group.
+     *
+     * @param id
+     *            the id
+     * @param model
+     *            the model
+     * @param currentUser
+     *            the current user
+     * @return the string
+     */
     @RequestMapping("/user/group/leave")
-    public String leaveGroup(@RequestParam("id") Long id, ModelMap model,
-            Principal currentUser) {
+    public String leaveGroup(@RequestParam("id") final Long id,
+            final ModelMap model, final Principal currentUser) {
 
-        String secUser = currentUser.getName();
-        UserProfile profile = this.userProfileRepository
+        final String secUser = currentUser.getName();
+        final UserProfile profile = this.userProfileRepository
                 .findByUsername(secUser);
 
         // Laden der groupe
-        Group group = this.groupRepository.findOne(id);
+        final Group group = this.groupRepository.findOne(id);
         group.removeMember(profile.getAccount());
 
         this.groupRepository.save(group);
         this.accountRepository.save(profile.getAccount());
 
-        ObjectIdentification oid = DataUtils.createObjectIdentification(group,
-                Group.class.getSimpleName());
-        TimelineEvent event = new TimelineEvent(new Date(),
+        final ObjectIdentification oid = DataUtils.createObjectIdentification(
+                group, Group.class.getSimpleName());
+        final TimelineEvent event = new TimelineEvent(new Date(),
                 profile.getAccount(), group, EventType.USER_LEFT_GROUP, oid);
 
         this.timelineEventRepository.save(event);
 
-        return goToGroupBrowser(model, currentUser);
+        return this.goToGroupBrowser(model, currentUser);
 
     }
 
+    /**
+     * Go to group browser.
+     *
+     * @param model
+     *            the model
+     * @param currentUser
+     *            the current user
+     * @return the string
+     */
     @RequestMapping("/user/groupbrowser")
-    public String goToGroupBrowser(ModelMap model, Principal currentUser) {
+    public String goToGroupBrowser(final ModelMap model,
+            final Principal currentUser) {
 
-        String secUser = currentUser.getName();
-        UserProfile profile = this.userProfileRepository
+        final String secUser = currentUser.getName();
+        final UserProfile profile = this.userProfileRepository
                 .findByUsername(secUser);
 
         model.addAttribute("groups",
@@ -135,11 +188,21 @@ public class GroupController {
         return "groupbrowser";
     }
 
+    /**
+     * Go to group edit.
+     *
+     * @param model
+     *            the model
+     * @param currentUser
+     *            the current user
+     * @return the string
+     */
     @RequestMapping("/user/group/add")
-    public String goToGroupEdit(ModelMap model, Principal currentUser) {
+    public String goToGroupEdit(final ModelMap model,
+            final Principal currentUser) {
 
-        String secUser = currentUser.getName();
-        UserProfile profile = this.userProfileRepository
+        final String secUser = currentUser.getName();
+        final UserProfile profile = this.userProfileRepository
                 .findByUsername(secUser);
 
         model.addAttribute("groupDataObject", new GroupDataObject());
@@ -147,17 +210,32 @@ public class GroupController {
         return "groupedit";
     }
 
+    /**
+     * Submit group edit form.
+     *
+     * @param groupDataObject
+     *            the group data object
+     * @param result
+     *            the result
+     * @param m
+     *            the m
+     * @param currentUser
+     *            the current user
+     * @return the string
+     */
     @RequestMapping(value = "/user/group/save", method = RequestMethod.POST)
-    public String submitGroupEditForm(@Valid GroupDataObject groupDataObject,
-            BindingResult result, ModelMap m, Principal currentUser) {
+    public String submitGroupEditForm(
+            @Valid final GroupDataObject groupDataObject,
+            final BindingResult result, final ModelMap m,
+            final Principal currentUser) {
         if (result.hasErrors()) {
             return "groupedit";
         }
 
-        UserProfile up = this.userProfileRepository.findByUsername(currentUser
-                .getName());
+        final UserProfile up = this.userProfileRepository
+                .findByUsername(currentUser.getName());
 
-        Group group = new Group(groupDataObject.getName(),
+        final Group group = new Group(groupDataObject.getName(),
                 groupDataObject.getDescription());
 
         group.addMember(up.getAccount());
@@ -165,20 +243,35 @@ public class GroupController {
         this.groupRepository.save(group);
         this.accountRepository.save(up.getAccount());
 
-        return goToGroupBrowser(m, currentUser);
+        return this.goToGroupBrowser(m, currentUser);
     }
 
+    /**
+     * Execute search.
+     *
+     * @param searchBoxDataObject
+     *            the search box data object
+     * @param result
+     *            the result
+     * @param m
+     *            the m
+     * @param currentUser
+     *            the current user
+     * @return the string
+     */
     @RequestMapping(value = "/search/groups", method = RequestMethod.POST)
-    public String executeSearch(@Valid SearchBoxDataObject searchBoxDataObject,
-            BindingResult result, Model m, Principal currentUser) {
+    public String executeSearch(
+            @Valid final SearchBoxDataObject searchBoxDataObject,
+            final BindingResult result, final Model m,
+            final Principal currentUser) {
         if (result.hasErrors()) {
             return "editprofile";
         }
 
-        List<Group> groups = this.groupRepository
+        final List<Group> groups = this.groupRepository
                 .findByNameContaining(searchBoxDataObject.getSearchtext());
 
-        ScreenMessageObject sm = new ScreenMessageObject("We've found "
+        final ScreenMessageObject sm = new ScreenMessageObject("We've found "
                 + groups.size() + " results for "
                 + searchBoxDataObject.getSearchtext());
         sm.setStrong(searchBoxDataObject.getSearchtext());
