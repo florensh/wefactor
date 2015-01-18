@@ -13,8 +13,10 @@
 \contentsline {subsubsection}{Gradle run}{4}
 \contentsline {subsubsection}{Gradle distZip}{4}
 \contentsline {chapter}{\numberline {3}Konfiguration der Anwendung}{5}
-\contentsline {section}{\numberline {3.1}Konfiguration der Datenbank}{5}
-\contentsline {chapter}{\numberline {4}Entwicklung mit Eclipse}{6}
-\contentsline {section}{\numberline {4.1}Initialisierung und Import des Projekts}{6}
-\contentsline {section}{\numberline {4.2}Starten der Anwendung}{6}
-\contentsline {chapter}{Literaturverzeichnis}{7}
+\contentsline {section}{\numberline {3.1}Environments}{5}
+\contentsline {section}{\numberline {3.2}Konfiguration der Datenbank}{6}
+\contentsline {section}{\numberline {3.3}Konfiguration der Social-Login-Provider}{6}
+\contentsline {chapter}{\numberline {4}Entwicklung mit Eclipse}{7}
+\contentsline {section}{\numberline {4.1}Initialisierung und Import des Projekts}{7}
+\contentsline {section}{\numberline {4.2}Starten der Anwendung}{7}
+\contentsline {chapter}{Literaturverzeichnis}{9}

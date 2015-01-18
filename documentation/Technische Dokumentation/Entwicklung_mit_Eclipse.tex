@@ -26,4 +26,16 @@ Zur Initialisierung des Projekts für Eclipse wird das Gradle-Plugin eclipse ver
 
    \end{enumerate}
    \section{Starten der Anwendung}\label{s_startFromEclipse}
-   asdfsd
+   Die Anwendung wird über die main-Methode der Klasse \emph{de.hhn.labswps.wefactor.Application} gestartet (siehe Listing \ref{lst:label}).
+
+   
+   \begin{lstlisting}[caption={Main-Methode},label={lst:label},language=Java]
+    public static void main(final String[] args) {
+        SpringApplication.run(Application.class, args);
+    }
+    
+   \end{lstlisting}
+   
+   Durch die Mehtode \emph{SpringApplication.run()} wird der integrierte Tomcat-Server gestartet und anschließend die SpringMVC-Anwendung initialisiert. Innerhalb der Launch Configuration können Parameter für die \ac{JVM} eingegeben werden wie zum Beispiel das Setzen des aktiven Environments (siehe dazu Kapitel \ref{c_config}).
+   
+   Für weitere Informationen zum Thema Starten einer Spring Boot Anwendung siehe Spring Dokumentation\footnote{\url{https://spring.io/guides/gs/spring-boot/}}.
