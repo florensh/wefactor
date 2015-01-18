@@ -6,7 +6,7 @@ Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod 
 
 
 \section{Erforderliche Hard- und Software}\label{s_erforderliche_hw_sw}
-Zum Betreiben der Anwendung ist ein \ac{JRE} in der Version 8 erforderlich.
+Zum Betreiben der Anwendung ist ein \ac{JRE} bzw zum Entwickeln ein \ac{JDK} in der Version 8 erforderlich.
 Dafür gelten folgende Systemvoraussetzungen laut \cite{oraclejsv}
 
 \begin{description}
@@ -48,3 +48,67 @@ Dafür gelten folgende Systemvoraussetzungen laut \cite{oraclejsv}
       
    
 \end{description}
+
+\section{Starten des Servers}\label{s_startserver}
+Das Starten des Servers kann grundsätzlich über einen direkten java-Aufruf geschehen (siehe \ref{s_startserver_java}). Eine weitere Möglichkeit ist der Start des Servers über das Application-Plugin von gradle (siehe \ref{s_startserver_gradle}). Im Auslieferungszustand wird eine interne HSQLDB-Datenbank verwendet. Daher ist ein direktes Starten des Servers möglich. Zur Verwendung einer anderen Datenbank siehe Abschnitt \ref{s_config_db}.
+
+\subsection{Starten des Servers über die Kommandozeile}\label{s_startserver_java}
+Zum Starten des Servers über einen direkten Java-Aufruf mit der Kommandozeile sind folgende Schritte durchzuführen:
+   \begin{enumerate}
+
+    \item Navigation mit der Kommandozeile in das Root-Verzeichnis von weFactor und Ausführen folgenden Befehls:
+    \begin{lstlisting}
+    gradlew assemble
+    \end{lstlisting}
+    Dadurch wird im Verzeichnis /build/libs die Datei wefactor.jar erzeugt. Gradle ist im Projekt integriert und muss nicht separat installiert werden (siehe \ref{s_gradle}).
+    \item Ausführen des jars über den Befehl:
+    \begin{lstlisting}
+    java -jar wefactor.jar
+    \end{lstlisting}
+
+   \end{enumerate}
+
+
+\subsection{Starten des Servers über Gradle}\label{s_startserver_gradle}
+Das Gradle Application-Plugin erweitert die Sprachen-Plugins um allgemeine anwendungsbezogene Tasks. Es erlaubt das Ausführen und Bündeln von Anwendungen für die \ac{JVM}.
+
+Für weitere Informationen zur Verwendung von Gradle innerhalb des weFactor-Projeks siehe \ref{s_gradle}.
+
+Für weitere Informationen zum Application-Plugin siehe
+Gradle Dokumentation
+\footnote{\url{http://www.gradle.org/docs/current/userguide/application_plugin.html}}.
+
+\subsubsection{Gradle run}
+Zum Starten des Servers über den Gradle-Task run sind folgende Schritte durchzuführen:
+   \begin{enumerate}
+
+    \item Navigation mit der Kommandozeile in das Root-Verzeichnis von weFactor
+    \item Ausführen des Gradle-Befehls:
+    \begin{lstlisting}
+    gradlew run
+    \end{lstlisting}
+
+   \end{enumerate}
+
+\subsubsection{Gradle distZip}
+Der Task distZip erzeugt ein Distributionsarchiv mit den erforderlichen Bibliotheken und entsprechenden Startskripten. Zur Erzeugung der Distribution sind folgende Schritte notwendig:
+
+   \begin{enumerate}
+
+    \item Navigation mit der Kommandozeile in das Root-Verzeichnis von weFactor und Ausführen folgenden Befehls:
+    \begin{lstlisting}
+    gradlew distZip
+    \end{lstlisting}
+    Dadurch wird im Verzeichnis /build/distributions die Datei wefactor.zip erzeugt.
+    \item Entpacken des zip-Archivs.
+    \item Starten der Anwendung über das Startskript
+        \begin{lstlisting}
+        wefactor.bat
+        \end{lstlisting}
+        Das Startscript ist im bin-Verzeichnis zu finden.
+        
+
+   \end{enumerate}
+
+
+
