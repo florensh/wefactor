@@ -2,7 +2,7 @@
 \thispagestyle{plain}
 
 \chapter{Installationsanleitung}\label{c_installationsanleitung}
-Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+In diesem Kapitel werden die notwendigen Schritte erläutert die Anwendung zu installieren und zu starten. Dabei werden mehrere Alternativen aufgezeigt. Des Weiteren wird auf die erforderliche Hard- und Software eingegangen.
 
 
 \section{Erforderliche Hard- und Software}\label{s_erforderliche_hw_sw}
@@ -77,14 +77,14 @@ Für weitere Informationen zur Verwendung von Gradle innerhalb des weFactor-Proj
 Für weitere Informationen zum Application-Plugin siehe
 Gradle Dokumentation\footnote{\url{http://www.gradle.org/docs/current/userguide/application_plugin.html}}.
 
-\subsubsection{Gradle run}
-Zum Starten des Servers über den Gradle-Task run sind folgende Schritte durchzuführen:
+\subsubsection{Gradle-Plugin für Spring-Boot-Anwendungen}
+Zum Starten des Servers über den Gradle-Task bootRun sind folgende Schritte durchzuführen:
    \begin{enumerate}
 
     \item Navigation mit der Kommandozeile in das Root-Verzeichnis von weFactor
     \item Ausführen des Gradle-Befehls:
     \begin{lstlisting}
-    gradlew run
+    gradlew bootRun
     \end{lstlisting}
 
    \end{enumerate}
