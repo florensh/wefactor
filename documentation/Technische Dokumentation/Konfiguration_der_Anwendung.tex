@@ -37,7 +37,7 @@ spring.messages.encoding=UTF-8
 \section{Environments}\label{s_env}
 Als Ergänzung zur \emph{application.properties} Datei können umgebungsspezifische Einstellungen festgelegt werden. Dafür muss folgende Namenskonvention eingehalten werden: \emph{application-{profile}.properties}.
 
-So lassen sich zum unterschiedliche Datenbank-Einstellungen für die verschiedenen Zielumgebungen festlegen. Möchte man spezielle Properties für ein Profil mit dem Namen \emph{dev} anlegen. So haben sich diese in einer Datei mit dem Namen \emph{application-dev.properties} zu befinden. Profile können nun zum Beispiel über die VM-Arguments aktiviert werden (siehe Abbildung \ref{fig:active-profile}).
+So lassen sich nun unterschiedliche Datenbank-Einstellungen für die verschiedenen Zielumgebungen festlegen. Möchte man spezielle Properties für ein Profil mit dem Namen \emph{dev} anlegen, so haben sich diese in einer Datei mit dem Namen \emph{application-dev.properties} zu befinden. Profile können nun zum Beispiel über die VM-Arguments aktiviert werden (siehe Abbildung \ref{fig:active-profile}).
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\textwidth]{Bilder/startlauncher.png}
@@ -80,3 +80,12 @@ spring.social.linkedin.app-secret= # your application's LinkedIn App Secret
 spring.social.twitter.app-id= # your application's Twitter App ID
 spring.social.twitter.app-secret= # your application's Twitter App Secret
    \end{lstlisting}
+   
+   Für die Konfiguration der Social-Provider sind zwei Einträge notwendig:
+   
+   \begin{itemize}
+   \item app-id
+   \item app-secret
+   \end{itemize}
+   
+   Beide Werte werden von den jeweiligen Providern bereitgestellt, sobald eine entsprechende App angelegt wurde.

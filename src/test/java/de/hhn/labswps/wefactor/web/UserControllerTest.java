@@ -5,19 +5,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import de.hhn.labswps.wefactor.BaseWebTest;
-import de.hhn.labswps.wefactor.domain.UserProfileRepository;
+import de.hhn.labswps.wefactor.domain.UserProfile;
 
 /**
  * The Class UserControllerTest.
  */
 public class UserControllerTest extends BaseWebTest {
-
-    /** The user profile repository. */
-    @Autowired
-    UserProfileRepository userProfileRepository;
 
     /**
      * Show sign in page.
@@ -30,6 +25,18 @@ public class UserControllerTest extends BaseWebTest {
 
         getMockMvc().perform(get("/signin")).andExpect(status().isOk())
                 .andExpect(view().name("signin"));
+
+    }
+
+    @Test
+    public void showProfilePage() throws Exception {
+        UserProfile up = getTestProfile();
+
+        getMockMvc()
+                .perform(
+                        get("/user/profile/details?id=" + up.getId())
+                                .principal(getTestPrincipal()))
+                .andExpect(status().isOk()).andExpect(view().name("profile"));
 
     }
 

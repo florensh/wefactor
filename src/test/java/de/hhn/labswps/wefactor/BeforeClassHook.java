@@ -8,6 +8,7 @@ import de.hhn.labswps.wefactor.domain.AccountRepository;
 import de.hhn.labswps.wefactor.domain.MasterEntryRepository;
 import de.hhn.labswps.wefactor.domain.UserProfile;
 import de.hhn.labswps.wefactor.domain.UserProfileRepository;
+import de.hhn.labswps.wefactor.specification.WeFactorValues;
 import de.hhn.labswps.wefactor.specification.WeFactorValues.ProviderIdentification;
 import de.hhn.labswps.wefactor.specification.WeFactorValues.Role;
 
@@ -41,6 +42,7 @@ public class BeforeClassHook extends AbstractTestExecutionListener {
         final UserProfile profile = new UserProfile(account, "mail@mail.de",
                 "weFactor_testuser", "password",
                 ProviderIdentification.WEFACTOR);
+        profile.setImageUrl(WeFactorValues.DEFAULT_IMAGE_URL);
 
         userProfileRepository.save(profile);
     }

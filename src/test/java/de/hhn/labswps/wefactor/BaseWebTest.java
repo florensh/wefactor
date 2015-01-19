@@ -25,6 +25,11 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
 import de.hhn.labswps.wefactor.domain.AccountRepository;
+import de.hhn.labswps.wefactor.domain.EntryRatingRepository;
+import de.hhn.labswps.wefactor.domain.GroupRepository;
+import de.hhn.labswps.wefactor.domain.MasterEntryRepository;
+import de.hhn.labswps.wefactor.domain.TagRepository;
+import de.hhn.labswps.wefactor.domain.TimelineEventRepository;
 import de.hhn.labswps.wefactor.domain.UserProfile;
 import de.hhn.labswps.wefactor.domain.UserProfileRepository;
 
@@ -43,11 +48,26 @@ public class BaseWebTest extends BaseTest {
 
     /** The account repository. */
     @Autowired
-    AccountRepository accountRepository;
+    protected AccountRepository accountRepository;
 
     /** The user profile repository. */
     @Autowired
-    UserProfileRepository userProfileRepository;
+    protected UserProfileRepository userProfileRepository;
+
+    @Autowired
+    protected EntryRatingRepository entryRatingRepository;
+
+    @Autowired
+    protected GroupRepository groupRepository;
+
+    @Autowired
+    protected MasterEntryRepository masterEntryRepository;
+
+    @Autowired
+    protected TagRepository tagRepository;
+
+    @Autowired
+    protected TimelineEventRepository timelineEventRepository;
 
     /**
      * Gets the session.
@@ -97,6 +117,7 @@ public class BaseWebTest extends BaseTest {
     @Before
     public void setup() {
         this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
+
     }
 
     /*
@@ -107,8 +128,8 @@ public class BaseWebTest extends BaseTest {
     @Test
     public void testSomething() throws Exception {
         this.getMockMvc().perform(get("/").principal(this.getTestPrincipal()))
-        .andExpect(status().isOk())
-        .andExpect(view().name("forward:/entries/all"));
+                .andExpect(status().isOk())
+                .andExpect(view().name("forward:/entries/all"));
 
     }
 

@@ -1,0 +1,549 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<BugCollection version="2.0.3" sequence="0" timestamp="1421665459105" analysisTimestamp="1421677647961" release="">
+  <Project>
+    <Jar>V:\git\wefactor\bin\de\hhn\labswps\wefactor\TestDataToolfBeforeClassHook.class</Jar>
+    <Jar>V:\git\wefactor\bin\de\hhn\labswps\wefactor\specification\WeFactorValues.class</Jar>
+    <Jar>V:\git\wefactor\bin\de\hhn\labswps\wefactor\specification\WeFactorValues$Role.class</Jar>
+    <Jar>V:\git\wefactor\bin\de\hhn\labswps\wefactor\service\SimpleSignInAdapter.class</Jar>
+    <Jar>V:\git\wefactor\bin\de\hhn\labswps\wefactor\BaseTest.class</Jar>
+    <Jar>V:\git\wefactor\bin\de\hhn\labswps\wefactor\web\EntryController$EntryScope.class</Jar>
+    <Jar>V:\git\wefactor\bin\de\hhn\labswps\wefactor\web\TimelineController.class</Jar>
+    <Jar>V:\git\wefactor\bin\de\hhn\labswps\wefactor\web\UserControllerTest.class</Jar>
+    <Jar>V:\git\wefactor\bin\de\hhn\labswps\wefactor\domain\TimelineEvent.class</Jar>
+    <Jar>V:\git\wefactor\bin\de\hhn\labswps\wefactor\web\validation\constraints\impl\UniqueEmailValidator.class</Jar>
+    <Jar>V:\git\wefactor\bin\de\hhn\labswps\wefactor\web\validation\constraints\impl\FieldMatchValidator.class</Jar>
+    <Jar>V:\git\wefactor\bin\de\hhn\labswps\wefactor\domain\Entry.class</Jar>
+    <Jar>V:\git\wefactor\bin\de\hhn\labswps\wefactor\web\IndexController.class</Jar>
+    <Jar>V:\git\wefactor\bin\de\hhn\labswps\wefactor\domain\ObjectIdentification.class</Jar>
+    <Jar>V:\git\wefactor\bin\de\hhn\labswps\wefactor\domain\VersionEntry.class</Jar>
+    <Jar>V:\git\wefactor\bin\de\hhn\labswps\wefactor\domain\GroupRepository.class</Jar>
+    <Jar>V:\git\wefactor\bin\de\hhn\labswps\wefactor\domain\TagRepository.class</Jar>
+    <Jar>V:\git\wefactor\bin\de\hhn\labswps\wefactor\service\AccountService.class</Jar>
+    <Jar>V:\git\wefactor\bin\de\hhn\labswps\wefactor\specification\WeFactorValues$ProgrammingLanguage.class</Jar>
+    <Jar>V:\git\wefactor\bin\de\hhn\labswps\wefactor\domain\ProposalEntryRepository.class</Jar>
+    <Jar>V:\git\wefactor\bin\de\hhn\labswps\wefactor\service\SimpleSocialUserDetailSevice.class</Jar>
+    <Jar>V:\git\wefactor\bin\de\hhn\labswps\wefactor\specification\WeFactorValues$EventType.class</Jar>
+    <Jar>V:\git\wefactor\bin\de\hhn\labswps\wefactor\web\validation\constraints\FieldMatch.class</Jar>
+    <Jar>V:\git\wefactor\bin\de\hhn\labswps\wefactor\BeforeClassHook.class</Jar>
+    <Jar>V:\git\wefactor\bin\de\hhn\labswps\wefactor\config\SecurityConfiguration.class</Jar>
+    <Jar>V:\git\wefactor\bin\de\hhn\labswps\wefactor\web\validation\constraints\UniqueEmail.class</Jar>
+    <Jar>V:\git\wefactor\bin\de\hhn\labswps\wefactor\config\SocialConfig.class</Jar>
+    <Jar>V:\git\wefactor\bin\de\hhn\labswps\wefactor\web\EntryController.class</Jar>
+    <Jar>V:\git\wefactor\bin\de\hhn\labswps\wefactor\web\DataObjects\EntryDataObject.class</Jar>
+    <Jar>V:\git\wefactor\bin\de\hhn\labswps\wefactor\domain\UserConnection.class</Jar>
+    <Jar>V:\git\wefactor\bin\de\hhn\labswps\wefactor\web\util\DataUtils.class</Jar>
+    <Jar>V:\git\wefactor\bin\de\hhn\labswps\wefactor\domain\ProposalEntry$Status.class</Jar>
+    <Jar>V:\git\wefactor\bin\de\hhn\labswps\wefactor\service\util\TestDataUtilTest.class</Jar>
+    <Jar>V:\git\wefactor\bin\de\hhn\labswps\wefactor\web\GroupController.class</Jar>
+    <Jar>V:\git\wefactor\bin\de\hhn\labswps\wefactor\service\RepositoryUserDetailsService.class</Jar>
+    <Jar>V:\git\wefactor\bin\de\hhn\labswps\wefactor\domain\EntryStatistics.class</Jar>
+    <Jar>V:\git\wefactor\bin\de\hhn\labswps\wefactor\domain\VersionEntryRepository.class</Jar>
+    <Jar>V:\git\wefactor\bin\de\hhn\labswps\wefactor\web\util\StringUtilTest.class</Jar>
+    <Jar>V:\git\wefactor\bin\de\hhn\labswps\wefactor\web\TimelineController$Scope.class</Jar>
+    <Jar>V:\git\wefactor\bin\de\hhn\labswps\wefactor\service\AccountConnectionSignUpService.class</Jar>
+    <Jar>V:\git\wefactor\bin\de\hhn\labswps\wefactor\web\util\SocialControllerUtil.class</Jar>
+    <Jar>V:\git\wefactor\bin\de\hhn\labswps\wefactor\domain\BaseEntity.class</Jar>
+    <Jar>V:\git\wefactor\bin\de\hhn\labswps\wefactor\web\util\DateFormatter.class</Jar>
+    <Jar>V:\git\wefactor\bin\de\hhn\labswps\wefactor\web\validation\constraints\FieldMatch$List.class</Jar>
+    <Jar>V:\git\wefactor\bin\de\hhn\labswps\wefactor\domain\ConnectionRepositoryDelegate.class</Jar>
+    <Jar>V:\git\wefactor\bin\de\hhn\labswps\wefactor\web\DataObjects\EntriesFilterDataObject.class</Jar>
+    <Jar>V:\git\wefactor\bin\de\hhn\labswps\wefactor\web\DataObjects\GroupDataObject.class</Jar>
+    <Jar>V:\git\wefactor\bin\de\hhn\labswps\wefactor\domain\Account.class</Jar>
+    <Jar>V:\git\wefactor\bin\de\hhn\labswps\wefactor\web\util\DateFormatterTest.class</Jar>
+    <Jar>V:\git\wefactor\bin\de\hhn\labswps\wefactor\service\util\TestDataUtil.class</Jar>
+    <Jar>V:\git\wefactor\bin\de\hhn\labswps\wefactor\web\DataObjects\RegisterFormDataObject.class</Jar>
+    <Jar>V:\git\wefactor\bin\de\hhn\labswps\wefactor\domain\UserProfile.class</Jar>
+    <Jar>V:\git\wefactor\bin\de\hhn\labswps\wefactor\web\DataObjects\UserProfileFormDataObject.class</Jar>
+    <Jar>V:\git\wefactor\bin\de\hhn\labswps\wefactor\web\validation\constraints\UniqueUsername.class</Jar>
+    <Jar>V:\git\wefactor\bin\de\hhn\labswps\wefactor\domain\ProposalEntry.class</Jar>
+    <Jar>V:\git\wefactor\bin\de\hhn\labswps\wefactor\domain\EntryRating.class</Jar>
+    <Jar>V:\git\wefactor\bin\de\hhn\labswps\wefactor\domain\MasterEntry.class</Jar>
+    <Jar>V:\git\wefactor\bin\de\hhn\labswps\wefactor\web\validation\constraints\impl\UniqueUsernameValidator.class</Jar>
+    <Jar>V:\git\wefactor\bin\de\hhn\labswps\wefactor\domain\User.class</Jar>
+    <Jar>V:\git\wefactor\bin\de\hhn\labswps\wefactor\service\SpringSecurityAuditorAware.class</Jar>
+    <Jar>V:\git\wefactor\bin\de\hhn\labswps\wefactor\domain\Tag.class</Jar>
+    <Jar>V:\git\wefactor\bin\de\hhn\labswps\wefactor\domain\UsersConnectionRepositoryDelegate.class</Jar>
+    <Jar>V:\git\wefactor\bin\de\hhn\labswps\wefactor\domain\UserProfileRepositoryTest.class</Jar>
+    <Jar>V:\git\wefactor\bin\de\hhn\labswps\wefactor\web\IndexControllerTest.class</Jar>
+    <Jar>V:\git\wefactor\bin\de\hhn\labswps\wefactor\domain\UserProfileRepository.class</Jar>
+    <Jar>V:\git\wefactor\bin\de\hhn\labswps\wefactor\web\util\TimelineUtils.class</Jar>
+    <Jar>V:\git\wefactor\bin\de\hhn\labswps\wefactor\service\TestDataService.class</Jar>
+    <Jar>V:\git\wefactor\bin\de\hhn\labswps\wefactor\domain\EntryRepositoryTest.class</Jar>
+    <Jar>V:\git\wefactor\bin\de\hhn\labswps\wefactor\domain\BaseSoftDeletableEntity.class</Jar>
+    <Jar>V:\git\wefactor\bin\de\hhn\labswps\wefactor\web\DataObjects\SearchBoxDataObject.class</Jar>
+    <Jar>V:\git\wefactor\bin\de\hhn\labswps\wefactor\Application.class</Jar>
+    <Jar>V:\git\wefactor\bin\de\hhn\labswps\wefactor\service\SignUpService.class</Jar>
+    <Jar>V:\git\wefactor\bin\de\hhn\labswps\wefactor\testdata\TestDataTool.class</Jar>
+    <Jar>V:\git\wefactor\bin\de\hhn\labswps\wefactor\web\SearchController.class</Jar>
+    <Jar>V:\git\wefactor\bin\de\hhn\labswps\wefactor\specification\WeFactorValues$ProviderIdentification.class</Jar>
+    <Jar>V:\git\wefactor\bin\de\hhn\labswps\wefactor\domain\MasterEntryRepository.class</Jar>
+    <Jar>V:\git\wefactor\bin\de\hhn\labswps\wefactor\web\UserController.class</Jar>
+    <Jar>V:\git\wefactor\bin\de\hhn\labswps\wefactor\web\DataObjects\ScreenMessageObject.class</Jar>
+    <Jar>V:\git\wefactor\bin\de\hhn\labswps\wefactor\domain\AccountRepository.class</Jar>
+    <Jar>V:\git\wefactor\bin\de\hhn\labswps\wefactor\domain\EntryRatingRepository.class</Jar>
+    <Jar>V:\git\wefactor\bin\de\hhn\labswps\wefactor\domain\TimelineEventRepository.class</Jar>
+    <Jar>V:\git\wefactor\bin\de\hhn\labswps\wefactor\BaseWebTest.class</Jar>
+    <Jar>V:\git\wefactor\bin\de\hhn\labswps\wefactor\web\util\UserControllerAdvice.class</Jar>
+    <Jar>V:\git\wefactor\bin\de\hhn\labswps\wefactor\web\EntryController$EntryEditMode.class</Jar>
+    <Jar>V:\git\wefactor\bin\de\hhn\labswps\wefactor\domain\UserConnectionRepository.class</Jar>
+    <Jar>V:\git\wefactor\bin\de\hhn\labswps\wefactor\web\DataObjects\EntryList.class</Jar>
+    <Jar>V:\git\wefactor\bin\de\hhn\labswps\wefactor\web\EntryControllerTest.class</Jar>
+    <Jar>V:\git\wefactor\bin\de\hhn\labswps\wefactor\domain\Group.class</Jar>
+    <Jar>V:\git\wefactor\bin\de\hhn\labswps\wefactor\web\util\StringUtil.class</Jar>
+    <AuxClasspathEntry>V:\git\wefactor\bin</AuxClasspathEntry>
+    <AuxClasspathEntry>V:\git\wefactor\.\.sonar\findbugs\annotations.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>V:\git\wefactor\.\.sonar\findbugs\jsr305.jar</AuxClasspathEntry>
+    <SrcDir>V:\git\wefactor\src\main\java</SrcDir>
+  </Project>
+  <Errors errors="19" missingClasses="0">
+    <Error>
+      <ErrorMessage>Unable to get XClass for java/lang/StringBuilder</ErrorMessage>
+      <Exception>java.lang.ArrayIndexOutOfBoundsException: 26721</Exception>
+      <StackTrace>org.objectweb.asm.ClassReader.readClass(Unknown Source)</StackTrace>
+      <StackTrace>org.objectweb.asm.ClassReader.accept(Unknown Source)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.asm.FBClassReader.accept(FBClassReader.java:44)</StackTrace>
+      <StackTrace>org.objectweb.asm.ClassReader.accept(Unknown Source)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.engine.ClassParserUsingASM.parse(ClassParserUsingASM.java:110)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.engine.ClassParserUsingASM.parse(ClassParserUsingASM.java:587)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.engine.ClassInfoAnalysisEngine.analyze(ClassInfoAnalysisEngine.java:76)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.engine.ClassInfoAnalysisEngine.analyze(ClassInfoAnalysisEngine.java:38)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.AnalysisCache.getClassAnalysis(AnalysisCache.java:268)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.ba.XFactory.getXClass(XFactory.java:652)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.ba.ch.Subtypes2.addInheritanceEdge(Subtypes2.java:1260)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.ba.ch.Subtypes2.addSupertypeEdges(Subtypes2.java:1233)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.ba.ch.Subtypes2.addClassAndGetClassVertex(Subtypes2.java:275)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.ba.ch.Subtypes2.addClass(Subtypes2.java:244)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.ba.AnalysisContext.setAppClassList(AnalysisContext.java:941)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.setAppClassList(FindBugs2.java:997)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.execute(FindBugs2.java:225)</StackTrace>
+      <StackTrace>org.sonar.plugins.findbugs.FindbugsExecutor$FindbugsTask.call(FindbugsExecutor.java:201)</StackTrace>
+      <StackTrace>java.util.concurrent.FutureTask.run(FutureTask.java:266)</StackTrace>
+      <StackTrace>java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)</StackTrace>
+      <StackTrace>java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)</StackTrace>
+      <StackTrace>java.lang.Thread.run(Thread.java:745)</StackTrace>
+    </Error>
+    <Error>
+      <ErrorMessage>Unable to get XClass for java/util/function/Consumer</ErrorMessage>
+      <Exception>java.lang.ArrayIndexOutOfBoundsException: 28526</Exception>
+      <StackTrace>org.objectweb.asm.ClassReader.readClass(Unknown Source)</StackTrace>
+      <StackTrace>org.objectweb.asm.ClassReader.accept(Unknown Source)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.asm.FBClassReader.accept(FBClassReader.java:44)</StackTrace>
+      <StackTrace>org.objectweb.asm.ClassReader.accept(Unknown Source)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.engine.ClassParserUsingASM.parse(ClassParserUsingASM.java:110)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.engine.ClassParserUsingASM.parse(ClassParserUsingASM.java:587)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.engine.ClassInfoAnalysisEngine.analyze(ClassInfoAnalysisEngine.java:76)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.engine.ClassInfoAnalysisEngine.analyze(ClassInfoAnalysisEngine.java:38)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.AnalysisCache.getClassAnalysis(AnalysisCache.java:268)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.ba.XFactory.getXClass(XFactory.java:652)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.ba.AnalysisContext.setAppClassList(AnalysisContext.java:932)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.setAppClassList(FindBugs2.java:997)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.execute(FindBugs2.java:225)</StackTrace>
+      <StackTrace>org.sonar.plugins.findbugs.FindbugsExecutor$FindbugsTask.call(FindbugsExecutor.java:201)</StackTrace>
+      <StackTrace>java.util.concurrent.FutureTask.run(FutureTask.java:266)</StackTrace>
+      <StackTrace>java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)</StackTrace>
+      <StackTrace>java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)</StackTrace>
+      <StackTrace>java.lang.Thread.run(Thread.java:745)</StackTrace>
+    </Error>
+    <Error>
+      <ErrorMessage>Unable to get XClass for java/util/function/Predicate</ErrorMessage>
+      <Exception>java.lang.ArrayIndexOutOfBoundsException: 512</Exception>
+      <StackTrace>org.objectweb.asm.ClassReader.readClass(Unknown Source)</StackTrace>
+      <StackTrace>org.objectweb.asm.ClassReader.accept(Unknown Source)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.asm.FBClassReader.accept(FBClassReader.java:44)</StackTrace>
+      <StackTrace>org.objectweb.asm.ClassReader.accept(Unknown Source)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.engine.ClassParserUsingASM.parse(ClassParserUsingASM.java:110)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.engine.ClassParserUsingASM.parse(ClassParserUsingASM.java:587)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.engine.ClassInfoAnalysisEngine.analyze(ClassInfoAnalysisEngine.java:76)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.engine.ClassInfoAnalysisEngine.analyze(ClassInfoAnalysisEngine.java:38)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.AnalysisCache.getClassAnalysis(AnalysisCache.java:268)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.ba.XFactory.getXClass(XFactory.java:652)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.ba.AnalysisContext.setAppClassList(AnalysisContext.java:932)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.setAppClassList(FindBugs2.java:997)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.execute(FindBugs2.java:225)</StackTrace>
+      <StackTrace>org.sonar.plugins.findbugs.FindbugsExecutor$FindbugsTask.call(FindbugsExecutor.java:201)</StackTrace>
+      <StackTrace>java.util.concurrent.FutureTask.run(FutureTask.java:266)</StackTrace>
+      <StackTrace>java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)</StackTrace>
+      <StackTrace>java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)</StackTrace>
+      <StackTrace>java.lang.Thread.run(Thread.java:745)</StackTrace>
+    </Error>
+    <Error>
+      <ErrorMessage>Unable to get XClass for java/lang/String</ErrorMessage>
+      <Exception>java.lang.ArrayIndexOutOfBoundsException: 26721</Exception>
+      <StackTrace>org.objectweb.asm.ClassReader.readClass(Unknown Source)</StackTrace>
+      <StackTrace>org.objectweb.asm.ClassReader.accept(Unknown Source)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.asm.FBClassReader.accept(FBClassReader.java:44)</StackTrace>
+      <StackTrace>org.objectweb.asm.ClassReader.accept(Unknown Source)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.engine.ClassParserUsingASM.parse(ClassParserUsingASM.java:110)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.engine.ClassParserUsingASM.parse(ClassParserUsingASM.java:587)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.engine.ClassInfoAnalysisEngine.analyze(ClassInfoAnalysisEngine.java:76)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.engine.ClassInfoAnalysisEngine.analyze(ClassInfoAnalysisEngine.java:38)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.AnalysisCache.getClassAnalysis(AnalysisCache.java:268)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.ba.XFactory.getXClass(XFactory.java:652)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.ba.ch.Subtypes2.addInheritanceEdge(Subtypes2.java:1260)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.ba.ch.Subtypes2.addSupertypeEdges(Subtypes2.java:1233)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.ba.ch.Subtypes2.addClassAndGetClassVertex(Subtypes2.java:275)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.ba.ch.Subtypes2.addClass(Subtypes2.java:244)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.ba.AnalysisContext.setAppClassList(AnalysisContext.java:941)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.setAppClassList(FindBugs2.java:997)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.execute(FindBugs2.java:225)</StackTrace>
+      <StackTrace>org.sonar.plugins.findbugs.FindbugsExecutor$FindbugsTask.call(FindbugsExecutor.java:201)</StackTrace>
+      <StackTrace>java.util.concurrent.FutureTask.run(FutureTask.java:266)</StackTrace>
+      <StackTrace>java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)</StackTrace>
+      <StackTrace>java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)</StackTrace>
+      <StackTrace>java.lang.Thread.run(Thread.java:745)</StackTrace>
+    </Error>
+    <Error>
+      <ErrorMessage>Unable to get XClass for java/util/Map$Entry</ErrorMessage>
+      <Exception>java.lang.ArrayIndexOutOfBoundsException: 9216</Exception>
+      <StackTrace>org.objectweb.asm.ClassReader.readClass(Unknown Source)</StackTrace>
+      <StackTrace>org.objectweb.asm.ClassReader.accept(Unknown Source)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.asm.FBClassReader.accept(FBClassReader.java:44)</StackTrace>
+      <StackTrace>org.objectweb.asm.ClassReader.accept(Unknown Source)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.engine.ClassParserUsingASM.parse(ClassParserUsingASM.java:110)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.engine.ClassParserUsingASM.parse(ClassParserUsingASM.java:587)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.engine.ClassInfoAnalysisEngine.analyze(ClassInfoAnalysisEngine.java:76)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.engine.ClassInfoAnalysisEngine.analyze(ClassInfoAnalysisEngine.java:38)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.AnalysisCache.getClassAnalysis(AnalysisCache.java:268)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.ba.XFactory.getXClass(XFactory.java:652)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.ba.AnalysisContext.setAppClassList(AnalysisContext.java:932)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.setAppClassList(FindBugs2.java:997)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.execute(FindBugs2.java:225)</StackTrace>
+      <StackTrace>org.sonar.plugins.findbugs.FindbugsExecutor$FindbugsTask.call(FindbugsExecutor.java:201)</StackTrace>
+      <StackTrace>java.util.concurrent.FutureTask.run(FutureTask.java:266)</StackTrace>
+      <StackTrace>java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)</StackTrace>
+      <StackTrace>java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)</StackTrace>
+      <StackTrace>java.lang.Thread.run(Thread.java:745)</StackTrace>
+    </Error>
+    <Error>
+      <ErrorMessage>Unable to get XClass for java/lang/CharSequence</ErrorMessage>
+      <Exception>java.lang.ArrayIndexOutOfBoundsException: 26721</Exception>
+      <StackTrace>org.objectweb.asm.ClassReader.readClass(Unknown Source)</StackTrace>
+      <StackTrace>org.objectweb.asm.ClassReader.accept(Unknown Source)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.asm.FBClassReader.accept(FBClassReader.java:44)</StackTrace>
+      <StackTrace>org.objectweb.asm.ClassReader.accept(Unknown Source)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.engine.ClassParserUsingASM.parse(ClassParserUsingASM.java:110)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.engine.ClassParserUsingASM.parse(ClassParserUsingASM.java:587)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.engine.ClassInfoAnalysisEngine.analyze(ClassInfoAnalysisEngine.java:76)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.engine.ClassInfoAnalysisEngine.analyze(ClassInfoAnalysisEngine.java:38)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.AnalysisCache.getClassAnalysis(AnalysisCache.java:268)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.ba.XFactory.getXClass(XFactory.java:652)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.ba.ch.Subtypes2.addInheritanceEdge(Subtypes2.java:1260)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.ba.ch.Subtypes2.addSupertypeEdges(Subtypes2.java:1233)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.ba.ch.Subtypes2.addClassAndGetClassVertex(Subtypes2.java:275)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.ba.ch.Subtypes2.addClass(Subtypes2.java:244)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.ba.AnalysisContext.setAppClassList(AnalysisContext.java:941)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.setAppClassList(FindBugs2.java:997)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.execute(FindBugs2.java:225)</StackTrace>
+      <StackTrace>org.sonar.plugins.findbugs.FindbugsExecutor$FindbugsTask.call(FindbugsExecutor.java:201)</StackTrace>
+      <StackTrace>java.util.concurrent.FutureTask.run(FutureTask.java:266)</StackTrace>
+      <StackTrace>java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)</StackTrace>
+      <StackTrace>java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)</StackTrace>
+      <StackTrace>java.lang.Thread.run(Thread.java:745)</StackTrace>
+    </Error>
+    <Error>
+      <ErrorMessage>Unable to get XClass for java/lang/Class</ErrorMessage>
+      <Exception>java.lang.ArrayIndexOutOfBoundsException: 2560</Exception>
+      <StackTrace>org.objectweb.asm.ClassReader.readClass(Unknown Source)</StackTrace>
+      <StackTrace>org.objectweb.asm.ClassReader.accept(Unknown Source)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.asm.FBClassReader.accept(FBClassReader.java:44)</StackTrace>
+      <StackTrace>org.objectweb.asm.ClassReader.accept(Unknown Source)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.engine.ClassParserUsingASM.parse(ClassParserUsingASM.java:110)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.engine.ClassParserUsingASM.parse(ClassParserUsingASM.java:587)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.engine.ClassInfoAnalysisEngine.analyze(ClassInfoAnalysisEngine.java:76)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.engine.ClassInfoAnalysisEngine.analyze(ClassInfoAnalysisEngine.java:38)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.AnalysisCache.getClassAnalysis(AnalysisCache.java:268)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.ba.XFactory.getXClass(XFactory.java:652)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.ba.ch.Subtypes2.addInheritanceEdge(Subtypes2.java:1260)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.ba.ch.Subtypes2.addSupertypeEdges(Subtypes2.java:1233)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.ba.ch.Subtypes2.addClassAndGetClassVertex(Subtypes2.java:275)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.ba.ch.Subtypes2.addClass(Subtypes2.java:244)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.ba.AnalysisContext.setAppClassList(AnalysisContext.java:941)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.setAppClassList(FindBugs2.java:997)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.execute(FindBugs2.java:225)</StackTrace>
+      <StackTrace>org.sonar.plugins.findbugs.FindbugsExecutor$FindbugsTask.call(FindbugsExecutor.java:201)</StackTrace>
+      <StackTrace>java.util.concurrent.FutureTask.run(FutureTask.java:266)</StackTrace>
+      <StackTrace>java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)</StackTrace>
+      <StackTrace>java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)</StackTrace>
+      <StackTrace>java.lang.Thread.run(Thread.java:745)</StackTrace>
+    </Error>
+    <Error>
+      <ErrorMessage>Unable to get XClass for java/util/Arrays</ErrorMessage>
+      <Exception>java.lang.ArrayIndexOutOfBoundsException: 7352</Exception>
+      <StackTrace>org.objectweb.asm.ClassReader.readClass(Unknown Source)</StackTrace>
+      <StackTrace>org.objectweb.asm.ClassReader.accept(Unknown Source)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.asm.FBClassReader.accept(FBClassReader.java:44)</StackTrace>
+      <StackTrace>org.objectweb.asm.ClassReader.accept(Unknown Source)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.engine.ClassParserUsingASM.parse(ClassParserUsingASM.java:110)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.engine.ClassParserUsingASM.parse(ClassParserUsingASM.java:587)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.engine.ClassInfoAnalysisEngine.analyze(ClassInfoAnalysisEngine.java:76)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.engine.ClassInfoAnalysisEngine.analyze(ClassInfoAnalysisEngine.java:38)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.AnalysisCache.getClassAnalysis(AnalysisCache.java:268)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.ba.XFactory.getXClass(XFactory.java:652)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.ba.AnalysisContext.setAppClassList(AnalysisContext.java:932)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.setAppClassList(FindBugs2.java:997)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.execute(FindBugs2.java:225)</StackTrace>
+      <StackTrace>org.sonar.plugins.findbugs.FindbugsExecutor$FindbugsTask.call(FindbugsExecutor.java:201)</StackTrace>
+      <StackTrace>java.util.concurrent.FutureTask.run(FutureTask.java:266)</StackTrace>
+      <StackTrace>java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)</StackTrace>
+      <StackTrace>java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)</StackTrace>
+      <StackTrace>java.lang.Thread.run(Thread.java:745)</StackTrace>
+    </Error>
+    <Error>
+      <ErrorMessage>Unable to get XClass for java/util/function/UnaryOperator</ErrorMessage>
+      <Exception>java.lang.ArrayIndexOutOfBoundsException: 28527</Exception>
+      <StackTrace>org.objectweb.asm.ClassReader.readClass(Unknown Source)</StackTrace>
+      <StackTrace>org.objectweb.asm.ClassReader.accept(Unknown Source)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.asm.FBClassReader.accept(FBClassReader.java:44)</StackTrace>
+      <StackTrace>org.objectweb.asm.ClassReader.accept(Unknown Source)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.engine.ClassParserUsingASM.parse(ClassParserUsingASM.java:110)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.engine.ClassParserUsingASM.parse(ClassParserUsingASM.java:587)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.engine.ClassInfoAnalysisEngine.analyze(ClassInfoAnalysisEngine.java:76)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.engine.ClassInfoAnalysisEngine.analyze(ClassInfoAnalysisEngine.java:38)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.AnalysisCache.getClassAnalysis(AnalysisCache.java:268)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.ba.XFactory.getXClass(XFactory.java:652)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.ba.AnalysisContext.setAppClassList(AnalysisContext.java:932)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.setAppClassList(FindBugs2.java:997)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.execute(FindBugs2.java:225)</StackTrace>
+      <StackTrace>org.sonar.plugins.findbugs.FindbugsExecutor$FindbugsTask.call(FindbugsExecutor.java:201)</StackTrace>
+      <StackTrace>java.util.concurrent.FutureTask.run(FutureTask.java:266)</StackTrace>
+      <StackTrace>java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)</StackTrace>
+      <StackTrace>java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)</StackTrace>
+      <StackTrace>java.lang.Thread.run(Thread.java:745)</StackTrace>
+    </Error>
+    <Error>
+      <ErrorMessage>Unable to get XClass for java/util/BitSet</ErrorMessage>
+      <Exception>java.lang.ArrayIndexOutOfBoundsException: 35959</Exception>
+      <StackTrace>org.objectweb.asm.ClassReader.&lt;init&gt;(Unknown Source)</StackTrace>
+      <StackTrace>org.objectweb.asm.ClassReader.&lt;init&gt;(Unknown Source)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.asm.FBClassReader.&lt;init&gt;(FBClassReader.java:35)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.engine.asm.ClassReaderAnalysisEngine.analyze(ClassReaderAnalysisEngine.java:47)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.engine.asm.ClassReaderAnalysisEngine.analyze(ClassReaderAnalysisEngine.java:34)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.AnalysisCache.getClassAnalysis(AnalysisCache.java:268)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.engine.ClassInfoAnalysisEngine.analyze(ClassInfoAnalysisEngine.java:72)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.engine.ClassInfoAnalysisEngine.analyze(ClassInfoAnalysisEngine.java:38)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.AnalysisCache.getClassAnalysis(AnalysisCache.java:268)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.ba.XFactory.getXClass(XFactory.java:652)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.ba.AnalysisContext.setAppClassList(AnalysisContext.java:932)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.setAppClassList(FindBugs2.java:997)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.execute(FindBugs2.java:225)</StackTrace>
+      <StackTrace>org.sonar.plugins.findbugs.FindbugsExecutor$FindbugsTask.call(FindbugsExecutor.java:201)</StackTrace>
+      <StackTrace>java.util.concurrent.FutureTask.run(FutureTask.java:266)</StackTrace>
+      <StackTrace>java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)</StackTrace>
+      <StackTrace>java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)</StackTrace>
+      <StackTrace>java.lang.Thread.run(Thread.java:745)</StackTrace>
+    </Error>
+    <Error>
+      <ErrorMessage>Unable to get XClass for java/util/Comparator</ErrorMessage>
+      <Exception>java.lang.ArrayIndexOutOfBoundsException: 51966</Exception>
+      <StackTrace>org.objectweb.asm.ClassReader.readUTF8(Unknown Source)</StackTrace>
+      <StackTrace>org.objectweb.asm.ClassReader.readClass(Unknown Source)</StackTrace>
+      <StackTrace>org.objectweb.asm.ClassReader.accept(Unknown Source)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.asm.FBClassReader.accept(FBClassReader.java:44)</StackTrace>
+      <StackTrace>org.objectweb.asm.ClassReader.accept(Unknown Source)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.engine.ClassParserUsingASM.parse(ClassParserUsingASM.java:110)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.engine.ClassParserUsingASM.parse(ClassParserUsingASM.java:587)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.engine.ClassInfoAnalysisEngine.analyze(ClassInfoAnalysisEngine.java:76)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.engine.ClassInfoAnalysisEngine.analyze(ClassInfoAnalysisEngine.java:38)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.AnalysisCache.getClassAnalysis(AnalysisCache.java:268)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.ba.XFactory.getXClass(XFactory.java:652)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.ba.AnalysisContext.setAppClassList(AnalysisContext.java:932)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.setAppClassList(FindBugs2.java:997)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.execute(FindBugs2.java:225)</StackTrace>
+      <StackTrace>org.sonar.plugins.findbugs.FindbugsExecutor$FindbugsTask.call(FindbugsExecutor.java:201)</StackTrace>
+      <StackTrace>java.util.concurrent.FutureTask.run(FutureTask.java:266)</StackTrace>
+      <StackTrace>java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)</StackTrace>
+      <StackTrace>java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)</StackTrace>
+      <StackTrace>java.lang.Thread.run(Thread.java:745)</StackTrace>
+    </Error>
+    <Error>
+      <ErrorMessage>Couldn&apos;t get class info for java/util/function/Consumer</ErrorMessage>
+      <Exception>java.lang.ArrayIndexOutOfBoundsException: 28526</Exception>
+      <StackTrace>org.objectweb.asm.ClassReader.readClass(Unknown Source)</StackTrace>
+      <StackTrace>org.objectweb.asm.ClassReader.accept(Unknown Source)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.asm.FBClassReader.accept(FBClassReader.java:44)</StackTrace>
+      <StackTrace>org.objectweb.asm.ClassReader.accept(Unknown Source)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.engine.ClassParserUsingASM.parse(ClassParserUsingASM.java:110)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.engine.ClassParserUsingASM.parse(ClassParserUsingASM.java:587)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.engine.ClassInfoAnalysisEngine.analyze(ClassInfoAnalysisEngine.java:76)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.engine.ClassInfoAnalysisEngine.analyze(ClassInfoAnalysisEngine.java:38)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.AnalysisCache.getClassAnalysis(AnalysisCache.java:268)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.ba.XFactory.getXClass(XFactory.java:652)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.ba.AnalysisContext.setAppClassList(AnalysisContext.java:932)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.setAppClassList(FindBugs2.java:997)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.execute(FindBugs2.java:225)</StackTrace>
+      <StackTrace>org.sonar.plugins.findbugs.FindbugsExecutor$FindbugsTask.call(FindbugsExecutor.java:201)</StackTrace>
+      <StackTrace>java.util.concurrent.FutureTask.run(FutureTask.java:266)</StackTrace>
+      <StackTrace>java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)</StackTrace>
+      <StackTrace>java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)</StackTrace>
+      <StackTrace>java.lang.Thread.run(Thread.java:745)</StackTrace>
+    </Error>
+    <Error>
+      <ErrorMessage>Couldn&apos;t get class info for java/util/function/Predicate</ErrorMessage>
+      <Exception>java.lang.ArrayIndexOutOfBoundsException: 512</Exception>
+      <StackTrace>org.objectweb.asm.ClassReader.readClass(Unknown Source)</StackTrace>
+      <StackTrace>org.objectweb.asm.ClassReader.accept(Unknown Source)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.asm.FBClassReader.accept(FBClassReader.java:44)</StackTrace>
+      <StackTrace>org.objectweb.asm.ClassReader.accept(Unknown Source)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.engine.ClassParserUsingASM.parse(ClassParserUsingASM.java:110)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.engine.ClassParserUsingASM.parse(ClassParserUsingASM.java:587)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.engine.ClassInfoAnalysisEngine.analyze(ClassInfoAnalysisEngine.java:76)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.engine.ClassInfoAnalysisEngine.analyze(ClassInfoAnalysisEngine.java:38)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.AnalysisCache.getClassAnalysis(AnalysisCache.java:268)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.ba.XFactory.getXClass(XFactory.java:652)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.ba.AnalysisContext.setAppClassList(AnalysisContext.java:932)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.setAppClassList(FindBugs2.java:997)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.execute(FindBugs2.java:225)</StackTrace>
+      <StackTrace>org.sonar.plugins.findbugs.FindbugsExecutor$FindbugsTask.call(FindbugsExecutor.java:201)</StackTrace>
+      <StackTrace>java.util.concurrent.FutureTask.run(FutureTask.java:266)</StackTrace>
+      <StackTrace>java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)</StackTrace>
+      <StackTrace>java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)</StackTrace>
+      <StackTrace>java.lang.Thread.run(Thread.java:745)</StackTrace>
+    </Error>
+    <Error>
+      <ErrorMessage>Couldn&apos;t get class info for java/util/Map$Entry</ErrorMessage>
+      <Exception>java.lang.ArrayIndexOutOfBoundsException: 9216</Exception>
+      <StackTrace>org.objectweb.asm.ClassReader.readClass(Unknown Source)</StackTrace>
+      <StackTrace>org.objectweb.asm.ClassReader.accept(Unknown Source)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.asm.FBClassReader.accept(FBClassReader.java:44)</StackTrace>
+      <StackTrace>org.objectweb.asm.ClassReader.accept(Unknown Source)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.engine.ClassParserUsingASM.parse(ClassParserUsingASM.java:110)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.engine.ClassParserUsingASM.parse(ClassParserUsingASM.java:587)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.engine.ClassInfoAnalysisEngine.analyze(ClassInfoAnalysisEngine.java:76)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.engine.ClassInfoAnalysisEngine.analyze(ClassInfoAnalysisEngine.java:38)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.AnalysisCache.getClassAnalysis(AnalysisCache.java:268)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.ba.XFactory.getXClass(XFactory.java:652)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.ba.AnalysisContext.setAppClassList(AnalysisContext.java:932)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.setAppClassList(FindBugs2.java:997)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.execute(FindBugs2.java:225)</StackTrace>
+      <StackTrace>org.sonar.plugins.findbugs.FindbugsExecutor$FindbugsTask.call(FindbugsExecutor.java:201)</StackTrace>
+      <StackTrace>java.util.concurrent.FutureTask.run(FutureTask.java:266)</StackTrace>
+      <StackTrace>java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)</StackTrace>
+      <StackTrace>java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)</StackTrace>
+      <StackTrace>java.lang.Thread.run(Thread.java:745)</StackTrace>
+    </Error>
+    <Error>
+      <ErrorMessage>Couldn&apos;t get class info for java/lang/CharSequence</ErrorMessage>
+      <Exception>java.lang.ArrayIndexOutOfBoundsException: 26721</Exception>
+      <StackTrace>org.objectweb.asm.ClassReader.readClass(Unknown Source)</StackTrace>
+      <StackTrace>org.objectweb.asm.ClassReader.accept(Unknown Source)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.asm.FBClassReader.accept(FBClassReader.java:44)</StackTrace>
+      <StackTrace>org.objectweb.asm.ClassReader.accept(Unknown Source)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.engine.ClassParserUsingASM.parse(ClassParserUsingASM.java:110)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.engine.ClassParserUsingASM.parse(ClassParserUsingASM.java:587)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.engine.ClassInfoAnalysisEngine.analyze(ClassInfoAnalysisEngine.java:76)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.engine.ClassInfoAnalysisEngine.analyze(ClassInfoAnalysisEngine.java:38)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.AnalysisCache.getClassAnalysis(AnalysisCache.java:268)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.ba.XFactory.getXClass(XFactory.java:652)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.ba.ch.Subtypes2.addInheritanceEdge(Subtypes2.java:1260)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.ba.ch.Subtypes2.addSupertypeEdges(Subtypes2.java:1233)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.ba.ch.Subtypes2.addClassAndGetClassVertex(Subtypes2.java:275)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.ba.ch.Subtypes2.addClass(Subtypes2.java:244)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.ba.AnalysisContext.setAppClassList(AnalysisContext.java:941)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.setAppClassList(FindBugs2.java:997)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.execute(FindBugs2.java:225)</StackTrace>
+      <StackTrace>org.sonar.plugins.findbugs.FindbugsExecutor$FindbugsTask.call(FindbugsExecutor.java:201)</StackTrace>
+      <StackTrace>java.util.concurrent.FutureTask.run(FutureTask.java:266)</StackTrace>
+      <StackTrace>java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)</StackTrace>
+      <StackTrace>java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)</StackTrace>
+      <StackTrace>java.lang.Thread.run(Thread.java:745)</StackTrace>
+    </Error>
+    <Error>
+      <ErrorMessage>Couldn&apos;t get class info for java/util/Arrays</ErrorMessage>
+      <Exception>java.lang.ArrayIndexOutOfBoundsException: 7352</Exception>
+      <StackTrace>org.objectweb.asm.ClassReader.readClass(Unknown Source)</StackTrace>
+      <StackTrace>org.objectweb.asm.ClassReader.accept(Unknown Source)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.asm.FBClassReader.accept(FBClassReader.java:44)</StackTrace>
+      <StackTrace>org.objectweb.asm.ClassReader.accept(Unknown Source)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.engine.ClassParserUsingASM.parse(ClassParserUsingASM.java:110)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.engine.ClassParserUsingASM.parse(ClassParserUsingASM.java:587)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.engine.ClassInfoAnalysisEngine.analyze(ClassInfoAnalysisEngine.java:76)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.engine.ClassInfoAnalysisEngine.analyze(ClassInfoAnalysisEngine.java:38)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.AnalysisCache.getClassAnalysis(AnalysisCache.java:268)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.ba.XFactory.getXClass(XFactory.java:652)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.ba.AnalysisContext.setAppClassList(AnalysisContext.java:932)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.setAppClassList(FindBugs2.java:997)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.execute(FindBugs2.java:225)</StackTrace>
+      <StackTrace>org.sonar.plugins.findbugs.FindbugsExecutor$FindbugsTask.call(FindbugsExecutor.java:201)</StackTrace>
+      <StackTrace>java.util.concurrent.FutureTask.run(FutureTask.java:266)</StackTrace>
+      <StackTrace>java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)</StackTrace>
+      <StackTrace>java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)</StackTrace>
+      <StackTrace>java.lang.Thread.run(Thread.java:745)</StackTrace>
+    </Error>
+    <Error>
+      <ErrorMessage>Couldn&apos;t get class info for java/util/function/UnaryOperator</ErrorMessage>
+      <Exception>java.lang.ArrayIndexOutOfBoundsException: 28527</Exception>
+      <StackTrace>org.objectweb.asm.ClassReader.readClass(Unknown Source)</StackTrace>
+      <StackTrace>org.objectweb.asm.ClassReader.accept(Unknown Source)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.asm.FBClassReader.accept(FBClassReader.java:44)</StackTrace>
+      <StackTrace>org.objectweb.asm.ClassReader.accept(Unknown Source)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.engine.ClassParserUsingASM.parse(ClassParserUsingASM.java:110)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.engine.ClassParserUsingASM.parse(ClassParserUsingASM.java:587)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.engine.ClassInfoAnalysisEngine.analyze(ClassInfoAnalysisEngine.java:76)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.engine.ClassInfoAnalysisEngine.analyze(ClassInfoAnalysisEngine.java:38)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.AnalysisCache.getClassAnalysis(AnalysisCache.java:268)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.ba.XFactory.getXClass(XFactory.java:652)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.ba.AnalysisContext.setAppClassList(AnalysisContext.java:932)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.setAppClassList(FindBugs2.java:997)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.execute(FindBugs2.java:225)</StackTrace>
+      <StackTrace>org.sonar.plugins.findbugs.FindbugsExecutor$FindbugsTask.call(FindbugsExecutor.java:201)</StackTrace>
+      <StackTrace>java.util.concurrent.FutureTask.run(FutureTask.java:266)</StackTrace>
+      <StackTrace>java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)</StackTrace>
+      <StackTrace>java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)</StackTrace>
+      <StackTrace>java.lang.Thread.run(Thread.java:745)</StackTrace>
+    </Error>
+    <Error>
+      <ErrorMessage>Couldn&apos;t get class info for java/util/BitSet</ErrorMessage>
+      <Exception>java.lang.ArrayIndexOutOfBoundsException: 35959</Exception>
+      <StackTrace>org.objectweb.asm.ClassReader.&lt;init&gt;(Unknown Source)</StackTrace>
+      <StackTrace>org.objectweb.asm.ClassReader.&lt;init&gt;(Unknown Source)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.asm.FBClassReader.&lt;init&gt;(FBClassReader.java:35)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.engine.asm.ClassReaderAnalysisEngine.analyze(ClassReaderAnalysisEngine.java:47)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.engine.asm.ClassReaderAnalysisEngine.analyze(ClassReaderAnalysisEngine.java:34)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.AnalysisCache.getClassAnalysis(AnalysisCache.java:268)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.engine.ClassInfoAnalysisEngine.analyze(ClassInfoAnalysisEngine.java:72)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.engine.ClassInfoAnalysisEngine.analyze(ClassInfoAnalysisEngine.java:38)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.AnalysisCache.getClassAnalysis(AnalysisCache.java:268)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.ba.XFactory.getXClass(XFactory.java:652)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.ba.AnalysisContext.setAppClassList(AnalysisContext.java:932)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.setAppClassList(FindBugs2.java:997)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.execute(FindBugs2.java:225)</StackTrace>
+      <StackTrace>org.sonar.plugins.findbugs.FindbugsExecutor$FindbugsTask.call(FindbugsExecutor.java:201)</StackTrace>
+      <StackTrace>java.util.concurrent.FutureTask.run(FutureTask.java:266)</StackTrace>
+      <StackTrace>java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)</StackTrace>
+      <StackTrace>java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)</StackTrace>
+      <StackTrace>java.lang.Thread.run(Thread.java:745)</StackTrace>
+    </Error>
+    <Error>
+      <ErrorMessage>Couldn&apos;t get class info for java/util/Comparator</ErrorMessage>
+      <Exception>java.lang.ArrayIndexOutOfBoundsException: 51966</Exception>
+      <StackTrace>org.objectweb.asm.ClassReader.readUTF8(Unknown Source)</StackTrace>
+      <StackTrace>org.objectweb.asm.ClassReader.readClass(Unknown Source)</StackTrace>
+      <StackTrace>org.objectweb.asm.ClassReader.accept(Unknown Source)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.asm.FBClassReader.accept(FBClassReader.java:44)</StackTrace>
+      <StackTrace>org.objectweb.asm.ClassReader.accept(Unknown Source)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.engine.ClassParserUsingASM.parse(ClassParserUsingASM.java:110)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.engine.ClassParserUsingASM.parse(ClassParserUsingASM.java:587)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.engine.ClassInfoAnalysisEngine.analyze(ClassInfoAnalysisEngine.java:76)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.engine.ClassInfoAnalysisEngine.analyze(ClassInfoAnalysisEngine.java:38)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.classfile.impl.AnalysisCache.getClassAnalysis(AnalysisCache.java:268)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.ba.XFactory.getXClass(XFactory.java:652)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.ba.AnalysisContext.setAppClassList(AnalysisContext.java:932)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.setAppClassList(FindBugs2.java:997)</StackTrace>
+      <StackTrace>edu.umd.cs.findbugs.FindBugs2.execute(FindBugs2.java:225)</StackTrace>
+      <StackTrace>org.sonar.plugins.findbugs.FindbugsExecutor$FindbugsTask.call(FindbugsExecutor.java:201)</StackTrace>
+      <StackTrace>java.util.concurrent.FutureTask.run(FutureTask.java:266)</StackTrace>
+      <StackTrace>java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)</StackTrace>
+      <StackTrace>java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)</StackTrace>
+      <StackTrace>java.lang.Thread.run(Thread.java:745)</StackTrace>
+    </Error>
+  </Errors>
+  <FindBugsSummary timestamp="Mon, 19 Jan 2015 12:04:19 +0100" total_classes="0" referenced_classes="171" total_bugs="0" total_size="0" num_packages="0" vm_version="25.20-b23" cpu_seconds="4.66" clock_seconds="1.46" peak_mbytes="358.94" alloc_mbytes="1819.00" gc_seconds="0.03">
+    <FindBugsProfile>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.ClassInfoAnalysisEngine" totalMilliseconds="363" invocations="415" avgMicrosecondsPerInvocation="875" maxMicrosecondsPerInvocation="37955" standardDeviationMircosecondsPerInvocation="3169"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.ClassDataAnalysisEngine" totalMilliseconds="76" invocations="417" avgMicrosecondsPerInvocation="183" maxMicrosecondsPerInvocation="1202" standardDeviationMircosecondsPerInvocation="118"/>
+    </FindBugsProfile>
+  </FindBugsSummary>
+  <ClassFeatures></ClassFeatures>
+  <History></History>
+</BugCollection>

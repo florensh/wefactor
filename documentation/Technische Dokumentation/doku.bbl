@@ -25,4 +25,27 @@ Oracle.%
   \end{APACrefURL}
 \PrintBackRefs{\CurrentBib}
 
+\bibitem [\protect \citeauthoryear {%
+Thymeleaf%
+}{%
+Thymeleaf%
+}{%
+{\protect \APACyear {{\protect \bibnodate {}}}}%
+}]{%
+thymeleaf}
+\APACinsertmetastar {%
+thymeleaf}%
+\begin{APACrefauthors}%
+Thymeleaf.%
+\end{APACrefauthors}%
+\unskip\
+\newblock
+\APACrefYearMonthDay{{\protect \bibnodate {}}}{}{}.
+\newblock
+\APACrefbtitle {What is Thymeleaf?} {What is thymeleaf?}
+\newblock
+\begin{APACrefURL} [{19.01.2015}]\url{http://www.thymeleaf.org/}
+  \end{APACrefURL}
+\PrintBackRefs{\CurrentBib}
+
 \end{thebibliography}
