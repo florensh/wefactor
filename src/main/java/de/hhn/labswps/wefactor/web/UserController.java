@@ -191,4 +191,10 @@ public class UserController {
         return "profile";
     }
 
+    @RequestMapping(value = "/help", method = RequestMethod.GET)
+    public String showHelpPage(final HttpServletRequest request,
+            final Principal currentUser, final Model model) {
+        return "help";
+    }
+
 }
