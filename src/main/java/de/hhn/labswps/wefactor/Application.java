@@ -24,10 +24,10 @@ import de.hhn.labswps.wefactor.web.util.TimelineUtils;
 public class Application {
 
     /**
-     * The main method to start the web server.
+     * The main method to start the application.
      *
      * @param args
-     *            the arguments
+     *            the vm arguments
      */
     public static void main(final String[] args) {
         SpringApplication.run(Application.class, args);

@@ -1,0 +1,115 @@
+
+\thispagestyle{plain}
+
+\chapter{Installationsanleitung}\label{c_installationsanleitung}
+In diesem Kapitel werden die notwendigen Schritte erläutert die Anwendung zu installieren und zu starten. Dabei werden mehrere Alternativen aufgezeigt. Des Weiteren wird auf die erforderliche Hard- und Software eingegangen.
+
+
+\section{Erforderliche Hard- und Software}\label{s_erforderliche_hw_sw}
+Zum Betreiben der Anwendung ist ein \ac{JRE} bzw zum Entwickeln ein \ac{JDK} in der Version 8 erforderlich.
+Dafür gelten folgende Systemvoraussetzungen laut \cite{oraclejsv}
+
+\begin{description}
+   \item[Windows]~\par
+   \begin{itemize}
+
+    \item Windows 8 (Desktop)
+    \item Windows 7
+    \item Windows Vista SP2
+    \item Windows Server 2008 R2 SP1 (64-Bit)
+    \item Windows Server 2012 (64 Bit)
+    \item RAM: 128 MB
+    \item Datenträgerkapazität: 124 MB für JRE; 2 MB für Java Update
+    \item Prozessor: Mindestens Pentium 2 266 MHz-Prozessor
+    \item Browser: Internet Explorer 9 und höher, Firefox, Chrome
+   \end{itemize}
+   
+      \item[Mac OS X]~\par
+      \begin{itemize}
+    \item Intel-basierter Mac unter Mac OS X 10.8.3+, 10.9+
+    \item Administratorberechtigungen für die Installation
+    \item 64-Bit-Browser
+      \end{itemize}
+      
+      Ein 64-Bit-Browser (Beispiele: Safari, Firefox oder Chrome) ist zur Ausführung von Oracle Java auf Mac OS X erforderlich.
+      
+   \item[Linux]~\par
+   \begin{itemize}
+
+    \item Oracle Linux 5.5+1
+    \item Oracle Linux 6.x (32-Bit), 6.x (64-Bit)2
+    \item Oracle Linux 7.x (64-Bit)2
+    \item Red Hat Enterprise Linux 5.5+1, 6.x (32-Bit), 6.x (64-Bit)2
+    \item Ubuntu Linux 12.04 LTS, 13.x
+    \item Suse Linux Enterprise Server 10 SP2+, 11.x
+    \item Browser: Firefox
+
+   \end{itemize}
+      
+   
+\end{description}
+
+\section{Starten des Servers}\label{s_startserver}
+Das Starten des Servers kann grundsätzlich über einen java-Aufruf via Kommandozeile geschehen (siehe \ref{s_startserver_java}). Eine weitere Möglichkeit ist der Start des Servers über das Application-Plugin von gradle (siehe \ref{s_startserver_gradle}). 
+
+Im Auslieferungszustand wird eine interne HSQLDB-Datenbank verwendet. Daher ist ein direktes Starten des Servers möglich. Zur Verwendung einer anderen Datenbank siehe Abschnitt \ref{s_config_db}.
+
+\subsection{Starten des Servers über die Kommandozeile}\label{s_startserver_java}
+Zum Starten des Servers über einen direkten Java-Aufruf mit der Kommandozeile sind folgende Schritte durchzuführen:
+   \begin{enumerate}
+
+    \item Navigation mit der Kommandozeile in das Root-Verzeichnis von weFactor und Ausführen folgenden Befehls:
+    \begin{lstlisting}
+    gradlew assemble
+    \end{lstlisting}
+    Dadurch wird im Verzeichnis /build/libs die Datei wefactor.jar erzeugt. Gradle ist im Projekt integriert und muss nicht separat installiert werden (siehe \ref{s_gradle}).
+    \item Ausführen des jars über den Befehl:
+    \begin{lstlisting}
+    java -jar wefactor.jar
+    \end{lstlisting}
+
+   \end{enumerate}
+
+
+\subsection{Starten des Servers über Gradle}\label{s_startserver_gradle}
+Das Gradle Application-Plugin erweitert die Sprachen-Plugins um allgemeine anwendungsbezogene Tasks. Es erlaubt das Ausführen und Bündeln von Anwendungen für die \ac{JVM}.
+
+Für weitere Informationen zur Verwendung von Gradle innerhalb des weFactor-Projeks siehe \ref{s_gradle}.
+
+Für weitere Informationen zum Application-Plugin siehe
+Gradle Dokumentation\footnote{\url{http://www.gradle.org/docs/current/userguide/application_plugin.html}}.
+
+\subsubsection{Gradle-Plugin für Spring-Boot-Anwendungen}
+Zum Starten des Servers über den Gradle-Task \emph{bootRun} sind folgende Schritte durchzuführen:
+   \begin{enumerate}
+
+    \item Navigation mit der Kommandozeile in das Root-Verzeichnis von weFactor
+    \item Ausführen des Gradle-Befehls:
+    \begin{lstlisting}
+    gradlew bootRun
+    \end{lstlisting}
+
+   \end{enumerate}
+
+\subsubsection{Gradle distZip}
+Der Task distZip erzeugt ein Distributionsarchiv mit den erforderlichen Bibliotheken und entsprechenden Startskripten. Zur Erzeugung der Distribution sind folgende Schritte notwendig:
+
+   \begin{enumerate}
+
+    \item Navigation mit der Kommandozeile in das Root-Verzeichnis von weFactor und Ausführen folgenden Befehls:
+    \begin{lstlisting}
+    gradlew distZip
+    \end{lstlisting}
+    Dadurch wird im Verzeichnis /build/distributions die Datei wefactor.zip erzeugt.
+    \item Entpacken des zip-Archivs.
+    \item Starten der Anwendung über das Startskript
+    \begin{lstlisting}
+    wefactor.bat
+    \end{lstlisting}
+    Das Startscript ist im bin-Verzeichnis zu finden.
+        
+
+   \end{enumerate}
+
+
+

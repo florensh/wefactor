@@ -1,0 +1,41 @@
+
+\thispagestyle{plain}
+
+\chapter{Entwicklung mit Eclipse}\label{c_eclipse}
+In diesem Kapitel werden die Schritte beschrieben, die notwendig sind den Quellcode in Eclipse zu bearbeiten und die Anwendung darüber zu starten. Die Anleitung liegt zwar ausschließlich für Eclipse vor, es kann jedoch auch ein alternatives \ac{IDE} verwendet werden.
+\section{Initialisierung und Import des Projekts}\label{s_initEclipse}
+Zur Initialisierung des Projekts für Eclipse wird das Gradle-Plugin eclipse verwendet. Folgende Schritte sind durchzuführen:
+   \begin{enumerate}
+
+    \item Navigation mit der Kommandozeile in das Root-Verzeichnis von weFactor und Ausführen folgenden Befehls:
+    \begin{lstlisting}
+    gradlew eclipse
+    \end{lstlisting}
+    Dadurch werden folgende Dateien erstellt:
+    \begin{itemize}
+	    \item .project
+	    \item .classpath
+    \end{itemize}
+    Außerdem werden alle notwendigen Bibliotheken von Gradle aus dem Internet geladen.
+    \item Import des Projeks in Eclipse
+       \begin{enumerate}
+       	\item Über File/Import/Existing Project into Workspace Import-Dialog aufrufen.
+       	\item Über die Schaltfläche Browse neben der Auswahlliste zu Selcet Root Directory das Wurzelverzeichnis des weFactor-Projekts auswählen.
+       	\item Bestätigen über die Schaltfläche Finish.
+       \end{enumerate}
+
+   \end{enumerate}
+   \section{Starten der Anwendung}\label{s_startFromEclipse}
+   Die Anwendung wird über die main-Methode der Klasse \emph{de.hhn.labswps.wefactor.Application} gestartet (siehe Listing \ref{lst:label}).
+
+   
+   \begin{lstlisting}[caption={Main-Methode},label={lst:label},language=Java]
+    public static void main(final String[] args) {
+        SpringApplication.run(Application.class, args);
+    }
+    
+   \end{lstlisting}
+   
+   Durch die Mehtode \emph{SpringApplication.run()} wird der integrierte Tomcat-Server gestartet und anschließend die SpringMVC-Anwendung initialisiert. Innerhalb der Launch Configuration können Parameter für die \ac{JVM} eingegeben werden wie zum Beispiel das Setzen des aktiven Environments (siehe dazu Kapitel \ref{c_config}).
+   
+   Für weitere Informationen zum Thema Starten einer Spring Boot Anwendung siehe Spring Dokumentation\footnote{\url{https://spring.io/guides/gs/spring-boot/}}.

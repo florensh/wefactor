@@ -104,6 +104,8 @@
 							<li><a th:href="@{/user/profile/details(id=${currentUserProfile.id})}"><i class="fa fa-user fa-fw"></i>Profile</a></li>
 							<!--<li><a href="#">Another action</a></li>
             <li><a href="#">Something else here</a></li>  -->
+            				<li class="divider"></li>
+            				<li><a href="/help"><i class="fa fa-question fa-fw"></i>Help</a></li>
 							<li class="divider"></li>
 							<li><a href="/logout"><i class="fa fa-sign-out fa-fw"></i>Logout</a></li>
 						</ul></li>
@@ -158,10 +160,12 @@
 
 				<!-- sidebar -->
 				<div th:fragment="sidebar" class="col-xs-6 col-sm-2 sidebar-offcanvas" id="sidebar" role="navigation">
-					<a sec:authorize="hasRole('USER')" th:href="@{/user/entry/add}" class="btn btn-primary btn-md" role="button"><i class="fa fa-plus"></i> New entry</a>
+					<a th:href="@{/user/entry/add}" class="btn btn-primary btn-md" role="button"><i class="fa fa-plus"></i> New entry</a>
+					<!--  <a sec:authorize="hasRole('USER')" th:href="@{/user/entry/add}" class="btn btn-primary btn-md" role="button"><i class="fa fa-plus"></i> New entry</a>-->
 					<ul class="nav">
 						<li><a href="/entries/all">Explore</a></li>
-						<li sec:authorize="hasRole('USER')" class="active"><a th:href="@{/entries/user(id=${currentUserProfile.account.id})}">My Entries</a></li>
+						<!--<li sec:authorize="hasRole('USER')" class="active"><a th:href="@{/entries/user(id=${currentUserProfile.account.id})}">My Entries</a></li>  -->
+						<li class="active"><a th:href="@{/entries/user(id=${currentUserProfile.account.id})}">My Entries</a></li>
 						<li><a href="/user/timeline">Timeline <span class="badge" th:text="${unreadEvents}" th:if="${unreadEvents&gt;0}">0</span></a></li>
 					</ul>
 					<ul class="nav">

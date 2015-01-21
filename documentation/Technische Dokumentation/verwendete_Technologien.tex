@@ -1,0 +1,36 @@
+
+\thispagestyle{plain}
+
+\chapter{Verwendete Technologien}\label{c_verTech}
+In diesem Kapitel werden die grundlegenden Technologien genannt, die in diesem Projekt verwendet werden.
+
+\section{Gradle}\label{s_gradle}
+Als Build-Management-Werkzeug wurde in diesem Projekt Gradle in Version 1.11 verwendet. Für ausführliche Informationen siehe Gradle Dokumentation\footnote{\url{https://www.gradle.org/documentation}}
+
+Folgende Plugins sind derzeit im Buildskript integriert:\\
+\begin{tabularx}{\textwidth}{|l|X|} \hline
+       \textbf{Plugin}  	& \textbf{Beschreibung} \\ \hline
+
+       java           		& Das java-Plugin fügt dem Projekt Kompilierungs- und Test-Möglichkeiten hinzu.\\\hline
+       eclipse           	& Das eclipse-Plugin generiert Dateien die von der Eclipse \ac{IDE} verwendet werden.\\\hline
+	   spring-boot          & Das Spring-Boot-Plugin erlaubt das Erstellen von ausführbaren Spring Boot jar- und war-Dateien. Außerdem ist es möglich Spring Boot-Anwendungen direkt zu starten.\\\hline
+	   application          & Das Gradle Application-Plugin erweitert die Sprachenplugins um allgemeine anwendungsbezogene Tasks. Es erlaubt das Ausführen und Bündeln von Anwendungen für die \ac{JVM}.\\\hline
+       jacoco           	& Jacoco bietet Code-Coverage-Metriken für Java Code.\\\hline
+        
+\end{tabularx}
+
+\section{Spring MVC}\label{s_springmvc}
+Spring MVC in Version 4.0.3 wurde als Java Web Framework verwendet.
+Für detaillierte Informationen siehe Spring Dokumentation\footnote{\url{http://docs.spring.io/spring/docs/current/spring-framework-reference/html/mvc.html}}.
+
+\section{Thymeleaf}\label{s_thymeleaf}
+  \begin{quote}
+ "Thymeleaf is a Java library. It is an XML / XHTML / HTML5 template engine (extensible to other formats) that can work both in web and non-web environments. It is better suited for serving XHTML/HTML5 at the view layer of web applications, but it can process any XML file even in offline environments.
+
+It provides an optional module for integration with Spring MVC, so that you can use it as a complete substitute of JSP in your applications made with this technology, even with HTML5.
+
+The main goal of Thymeleaf is to provide an elegant and well-formed way of creating templates. Its Standard and SpringStandard dialects allow you to create powerful natural templates, that can be correctly displayed by browsers and therefore work also as static prototypes. You can also extend Thymeleaf by developing your own dialects (\cite{thymeleaf})." 
+  \end{quote}
+
+\section{Twitter Bootstrap}\label{s_bootstrap}
+Twitter Bootstrap in der Version 3.2.0 wurde als CSS-Framework verwendet. Für ausführliche Informationen siehe Bootstrap Dokumentation\footnote{\url{http://getbootstrap.com/}}
