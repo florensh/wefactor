@@ -1,23 +1,22 @@
 \select@language {ngerman}
 \contentsline {chapter}{\IeC {\"A}nderungshistorie}{I}
 \contentsline {chapter}{Inhaltsverzeichnis}{II}
-\contentsline {chapter}{Abk\IeC {\"u}rzungsverzeichnis}{III}
-\contentsline {chapter}{Abbildungsverzeichnis}{IV}
+\contentsline {chapter}{Abbildungsverzeichnis}{III}
 \contentsline {chapter}{\numberline {1}Einf\IeC {\"u}hrung}{1}
 \contentsline {chapter}{\numberline {2}Die Erstellung eines Accounts}{2}
 \contentsline {chapter}{\numberline {3}Login}{4}
 \contentsline {chapter}{\numberline {4}Startseite/Alle Funktionen im Schnelldurchlauf}{6}
-\contentsline {chapter}{\numberline {5}Profileigenschaften und Logout}{8}
-\contentsline {chapter}{\numberline {6}Profileigenschaften \IeC {\"a}ndern}{9}
-\contentsline {chapter}{\numberline {7}New Entry, einen neuen Eintrag erstellen/\IeC {\"a}ndern/l\IeC {\"o}schen}{11}
-\contentsline {chapter}{\numberline {8}Explore, alle Eintr\IeC {\"a}ge in der Anwendung einsehen}{14}
-\contentsline {chapter}{\numberline {9}Groups, eine/r neue Gruppe erstellen/beitreten/verlassen}{15}
-\contentsline {chapter}{\numberline {10}My Entries, alle vom Benutzer erstellten Eintr\IeC {\"a}ge}{17}
-\contentsline {chapter}{\numberline {11}Eintr\IeC {\"a}ge in eine andere Gruppe verschieben}{18}
-\contentsline {chapter}{\numberline {12}Suchfunktion mit/ohne Filter}{20}
-\contentsline {chapter}{\numberline {13}Proposals, Vorschl\IeC {\"a}ge f\IeC {\"u}r Eintr\IeC {\"a}ge}{21}
-\contentsline {section}{\numberline {13.1}Einen Vorschlag erstellen}{21}
-\contentsline {section}{\numberline {13.2}Einen Vorschlag bekommen}{22}
-\contentsline {subsection}{\numberline {13.2.1}Timeline, Auflistung aller des Benutzer betreffenden Neuigkeiten}{23}
-\contentsline {section}{\numberline {13.3}Einen Vorschlag akzeptieren/ablehnen}{24}
-\contentsline {chapter}{\numberline {14}Eine Bewertung abgegeben}{27}
+\contentsline {chapter}{\numberline {5}Profileigenschaften und Logout}{7}
+\contentsline {chapter}{\numberline {6}Profileigenschaften \IeC {\"a}ndern}{8}
+\contentsline {chapter}{\numberline {7}New Entry, einen neuen Eintrag erstellen/\IeC {\"a}ndern/l\IeC {\"o}schen}{10}
+\contentsline {chapter}{\numberline {8}Explore, alle Eintr\IeC {\"a}ge in der Anwendung einsehen}{13}
+\contentsline {chapter}{\numberline {9}Groups, eine/r neue Gruppe erstellen/beitreten/verlassen}{14}
+\contentsline {chapter}{\numberline {10}My Entries, alle vom Benutzer erstellten Eintr\IeC {\"a}ge}{16}
+\contentsline {chapter}{\numberline {11}Eintr\IeC {\"a}ge in eine andere Gruppe verschieben}{17}
+\contentsline {chapter}{\numberline {12}Suchfunktion mit/ohne Filter}{19}
+\contentsline {chapter}{\numberline {13}Proposals, Vorschl\IeC {\"a}ge f\IeC {\"u}r Eintr\IeC {\"a}ge}{20}
+\contentsline {section}{\numberline {13.1}Einen Vorschlag erstellen}{20}
+\contentsline {section}{\numberline {13.2}Einen Vorschlag bekommen}{21}
+\contentsline {subsection}{\numberline {13.2.1}Timeline, Auflistung aller des Benutzer betreffenden Neuigkeiten}{22}
+\contentsline {section}{\numberline {13.3}Einen Vorschlag akzeptieren/ablehnen}{23}
+\contentsline {chapter}{\numberline {14}Eine Bewertung abgegeben}{26}
