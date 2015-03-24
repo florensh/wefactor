@@ -175,6 +175,7 @@ public class UserProfile extends User implements Serializable {
         this.password = password;
         this.account = account;
         this.providerId = providerIdentification.name();
+        this.imageUrl = WeFactorValues.DEFAULT_IMAGE_URL;
         account.addProfile(this);
         this.account.setRoles("USER");
 

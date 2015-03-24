@@ -1,5 +1,6 @@
 package de.hhn.labswps.wefactor.config;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -28,6 +29,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     /** The Constant BCRYPT_PASSWORD_ENCODER_STRENGTH. */
     private static final int BCRYPT_PASSWORD_ENCODER_STRENGTH = 10;
+
+    @Value("${allowSignup}")
+    Boolean allowSignup;
 
     /*
      * (non-Javadoc)
@@ -118,9 +122,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         // ;
 
         // normal sign up
-        // DEAKTIVIERT: Nur LDAP im HS-Szenario
-        // auth.userDetailsService(this.userDetailsService()).passwordEncoder(
-        // this.passwordEncoder());
+        if (Boolean.TRUE.equals(this.allowSignup)) {
+            auth.userDetailsService(this.userDetailsService()).passwordEncoder(
+                    this.passwordEncoder());
+
+        }
 
     }
 

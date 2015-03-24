@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -81,6 +82,7 @@ public class UserController {
      *            the current user
      * @return the string
      */
+    @PreAuthorize("USER")
     @RequestMapping(value = "/user/profile/edit", method = RequestMethod.GET)
     public String showEditProfilePage(final Model model,
             final Principal currentUser) {
@@ -114,6 +116,7 @@ public class UserController {
      *            the current user
      * @return the string
      */
+    @PreAuthorize("USER")
     @RequestMapping(value = "/user/profile/save", method = RequestMethod.POST)
     public String submitUserEditProfileForm(
             @RequestParam("id") final String id,

@@ -43,8 +43,6 @@ public class CustomUserDetailsContextMapper implements UserDetailsContextMapper 
 
     @Override
     public void mapUserToContext(UserDetails user, DirContextAdapter ctx) {
-        // TODO Auto-generated method stub
-        System.out.println();
 
     }
 

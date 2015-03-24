@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.env.Environment;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -58,6 +59,7 @@ public class UserControllerAdvice {
      * @param model
      *            the model
      */
+    @PreAuthorize("USER")
     @ModelAttribute
     public void setModel(final HttpServletRequest request,
             final Principal currentUser, final Model model) {
