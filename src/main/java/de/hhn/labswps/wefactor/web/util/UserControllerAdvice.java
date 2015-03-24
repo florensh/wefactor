@@ -9,6 +9,8 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.core.env.Environment;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -30,6 +32,9 @@ public class UserControllerAdvice {
     /** The util. */
     @Autowired
     private SocialControllerUtil util;
+
+    @Autowired
+    private ApplicationContext applicationContext;
 
     /** The group repository. */
     @Autowired
@@ -59,6 +64,9 @@ public class UserControllerAdvice {
         this.util.setModel(request, currentUser, model);
         List<Group> groups = new ArrayList<Group>();
 
+        Environment env = applicationContext.getEnvironment();
+        model.addAttribute("env", env);
+
         int countEvents = 0;
         if (currentUser != null) {
             final String secUser = currentUser.getName();
@@ -79,7 +87,7 @@ public class UserControllerAdvice {
                 events = this.timelineEventRepository
                         .findByTargetAccountOrTargetGroupInAndReadByUser(
                                 profile.getAccount(), profile.getAccount()
-                                .getGroups(), false);
+                                        .getGroups(), false);
 
             }
 

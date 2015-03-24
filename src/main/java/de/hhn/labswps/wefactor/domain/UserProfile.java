@@ -163,6 +163,24 @@ public class UserProfile extends User implements Serializable {
         this.fixName();
     }
 
+    public UserProfile(final Account account, final String name,
+            final String firstName, final String lastName, final String email,
+            final String username, final String password,
+            final ProviderIdentification providerIdentification) {
+        this.name = name;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.username = username;
+        this.password = password;
+        this.account = account;
+        this.providerId = providerIdentification.name();
+        account.addProfile(this);
+        this.account.setRoles("USER");
+
+        this.fixName();
+    }
+
     /**
      * Fix image url.
      *
@@ -198,6 +216,9 @@ public class UserProfile extends User implements Serializable {
                     .getProviderIdAsType())) {
                 this.name = this.username;
 
+            } else if (ProviderIdentification.LDAP.equals(this
+                    .getProviderIdAsType())) {
+                this.name = this.firstName + " " + this.lastName;
             } else {
                 this.name = this.email;
             }

@@ -6,7 +6,11 @@
 
 		<div class="omb_login">
 			<h3 class="omb_authTitle">
-				Login or <a href="/signup">Sign up</a>
+				Login 
+				<span th:if="${env.getProperty('allowSignup') == 'true'}">
+					or <a href="/signup">Sign up</a>
+				</span>
+				
 			</h3>
 
 			<div class="row omb_row-sm-offset-3">
@@ -54,6 +58,11 @@
 			</div>
       -->
 
+
+<div th:if="${env.getProperty('allowSocialSignin') == 'true'}">
+
+
+
 			<div class="row omb_row-sm-offset-3 omb_loginOr">
 				<div class="col-xs-12 col-sm-6">
 					<hr class="omb_hrOr"></hr>
@@ -96,7 +105,10 @@
 						</button>
 					</form>
 				</div>
+				
+				
 				-->
+	</div>
 				
 			</div>
 

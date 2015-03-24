@@ -57,4 +57,24 @@ public class SignUpService {
 
     }
 
+    public String execute(final String username, final String email,
+            final String firstname, final String lastname) {
+        if ((username == null)
+        // || (email == null)
+
+        ) {
+            throw new IllegalArgumentException();
+        }
+
+        final Account account = this.accountRepository.save(new Account(
+                Role.USER));
+
+        UserProfile profile = new UserProfile(account, null, firstname,
+                lastname, email, username, "nopasswordforldapuser",
+                ProviderIdentification.LDAP);
+
+        profile = this.userProfileRepository.save(profile);
+        return profile.getUserId();
+
+    }
 }

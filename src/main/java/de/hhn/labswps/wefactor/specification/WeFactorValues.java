@@ -181,7 +181,7 @@ public class WeFactorValues {
 
         /** The google. */
         GOOGLE, /** The wefactor. */
-        WEFACTOR;
+        WEFACTOR, LDAP;
     }
 
     /**
