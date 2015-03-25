@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import de.hhn.labswps.wefactor.domain.UserProfile;
 import de.hhn.labswps.wefactor.domain.UserProfileRepository;
 import de.hhn.labswps.wefactor.service.SignUpService;
+import de.hhn.labswps.wefactor.specification.WeFactorValues.ProviderIdentification;
 import de.hhn.labswps.wefactor.web.DataObjects.RegisterFormDataObject;
 import de.hhn.labswps.wefactor.web.DataObjects.UserProfileFormDataObject;
 
@@ -131,8 +132,15 @@ public class UserController {
                 .findByUsername(currentUser.getName());
 
         up.setName(userProfileFormDataObject.getDisplayName());
-        up.setFirstName(userProfileFormDataObject.getFirstName());
-        up.setLastName(userProfileFormDataObject.getLastName());
+
+        // Name darf nur geändert werden wenn account über wefactor erzeugt
+        // wurde
+        if (up.getProviderIdAsType().equals(ProviderIdentification.WEFACTOR)) {
+            up.setFirstName(userProfileFormDataObject.getFirstName());
+            up.setLastName(userProfileFormDataObject.getLastName());
+
+        }
+
         up.setDescription(userProfileFormDataObject.getDescription());
 
         this.userProfileRepository.save(up);
