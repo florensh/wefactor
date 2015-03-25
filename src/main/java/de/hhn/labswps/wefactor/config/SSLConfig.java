@@ -12,6 +12,9 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class SSLConfig {
 
+    @Value("${enableHTTPS}")
+    Boolean enableHTTPS;
+
     @Value("${keystoreFile}")
     String keystoreFile;
 
@@ -35,19 +38,22 @@ public class SSLConfig {
         // keytool -list -v -keystore keystore.p12 -storetype pkcs12
 
         TomcatEmbeddedServletContainerFactory factory = new TomcatEmbeddedServletContainerFactory();
-        factory.addConnectorCustomizers((TomcatConnectorCustomizer) (
-                Connector con) -> {
-            con.setScheme("https");
-            con.setSecure(true);
-            Http11NioProtocol proto = (Http11NioProtocol) con
-                    .getProtocolHandler();
-            proto.setSSLEnabled(true);
-            proto.setKeystoreFile(keystoreFile);
-            proto.setKeystorePass(keystorePass);
-            proto.setKeystoreType(keystoreType);
-            proto.setProperty("keystoreProvider", keystoreProvider);
-            proto.setKeyAlias(keystoreAlias);
-        });
+
+        if (enableHTTPS) {
+            factory.addConnectorCustomizers((TomcatConnectorCustomizer) (
+                    Connector con) -> {
+                con.setScheme("https");
+                con.setSecure(true);
+                Http11NioProtocol proto = (Http11NioProtocol) con
+                        .getProtocolHandler();
+                proto.setSSLEnabled(true);
+                proto.setKeystoreFile(keystoreFile);
+                proto.setKeystorePass(keystorePass);
+                proto.setKeystoreType(keystoreType);
+                proto.setProperty("keystoreProvider", keystoreProvider);
+                proto.setKeyAlias(keystoreAlias);
+            });
+        }
 
         return factory;
     }

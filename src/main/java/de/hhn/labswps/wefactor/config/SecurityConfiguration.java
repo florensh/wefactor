@@ -33,6 +33,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Value("${allowSignup}")
     Boolean allowSignup;
 
+    @Value("${allowLDAP}")
+    Boolean allowLDAP;
+
     /*
      * (non-Javadoc)
      * @see org.springframework.security.config.annotation.web.configuration.
@@ -103,14 +106,17 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             throws Exception {
 
         // ldap
-        auth.ldapAuthentication()
-                .userDnPatterns("uid={0},ou=people,dc=hs-heilbronn, dc=de")
-                .groupSearchBase("dc=hs-heilbronn, dc=de").contextSource()
-                .url("ldaps://zld0-master.hs-heilbronn.de").port(636)
-                // .ldif("classpath:test-server.ldif")
-                .and().userDetailsContextMapper(userDetailsContextMapper())
+        if (Boolean.TRUE.equals(this.allowLDAP)) {
+            auth.ldapAuthentication()
+                    .userDnPatterns("uid={0},ou=people,dc=hs-heilbronn, dc=de")
+                    .groupSearchBase("dc=hs-heilbronn, dc=de").contextSource()
+                    .url("ldaps://zld0-master.hs-heilbronn.de").port(636)
+                    // .ldif("classpath:test-server.ldif")
+                    .and().userDetailsContextMapper(userDetailsContextMapper())
 
-        ;
+            ;
+
+        }
 
         // // ldap dummy
         // auth.ldapAuthentication().userDnPatterns("uid={0},ou=people")
