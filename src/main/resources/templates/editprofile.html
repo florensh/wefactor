@@ -27,15 +27,38 @@
 									seen by other users</span>
 							</div>
 							<div class="form-group">
-								<label for="firstname">First Name:</label> <input
+								<label for="firstname">First Name:</label> 
+								
+								
+								
+								
+								<input th:if="${currentUserProfile.providerId == 'WEFACTOR'}"
 									th:field="*{firstName}" type="text" class="form-control"
 									id="firstname" placeholder="Enter your first name"></input>
+									
+								<input th:unless="${currentUserProfile.providerId == 'WEFACTOR'}"
+									th:field="*{firstName}" disabled="disabled" type="text" class="form-control"
+									id="firstname" placeholder="Enter your first name"></input>
+									
+									
+									
 							</div>
 
 							<div class="form-group">
-								<label for="lastname">Last Name:</label> <input
-									th:field="*{lastName}" type="text" class="form-control"
+								<label for="lastname">Last Name:</label> 
+								
+								<input th:if="${currentUserProfile.providerId == 'WEFACTOR'}"
+								th:field="*{lastName}" type="text" class="form-control"
 									id="lastname" placeholder="Enter your last name"></input>
+									
+								<input th:unless="${currentUserProfile.providerId == 'WEFACTOR'}"
+								th:field="*{lastName}" disabled="disabled" type="text" class="form-control"
+									id="lastname" placeholder="Enter your last name"></input>
+									
+									
+									
+									
+									
 							</div>
 							
 							<div class="form-group" style="margin-bottom: 30px;">

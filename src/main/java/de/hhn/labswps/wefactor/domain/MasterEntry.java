@@ -144,18 +144,8 @@ public class MasterEntry extends Entry {
      * @return the amount of proposals by type
      */
     public int getAmountOfProposalsByType(final String status) {
-        int amount = 0;
-
-        if (!this.getProposals().isEmpty()) {
-            for (final ProposalEntry proposal : this.getProposals()) {
-                if (status.equals(proposal.getStatus())) {
-                    amount++;
-                }
-            }
-
-        }
-
-        return amount;
+        return (int) this.getProposals().stream()
+                .filter(x -> status.equals(x.getStatus())).count();
 
     }
 

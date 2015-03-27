@@ -1,0 +1,297 @@
+<!doctype html>
+<html lang="de" xmlns:th="http://www.thymeleaf.org">
+<head th:include="layout :: htmlhead" th:with="title='Hello'"></head>
+<body>
+	<div class="page-container">
+
+		<!-- top navbar -->
+		<div th:replace="layout :: top-navbar">(navbar)</div>
+
+		<div class="container">
+			<div class="row row-offcanvas row-offcanvas-left">
+
+				<div th:replace="layout :: sidebar">(navbar)</div>
+
+				<div class="col-xs-12 col-sm-10">
+				<!-- content ############################################################################################################# -->
+					
+					<div>
+						<h1>Benutzer Dokumentation</h1>
+						
+						<h3><strong>Kapitel 1: Einf&uuml;hrung</strong></h3>
+						<p>WeFactor ist eine Anwendung, die zur Refaktorisierung von Code-St&uuml;cken vieler verschiedener Programmiersprachen dient. Es ist gew&auml;hrleistet, dass Code immer weiter optimiert werden kann und dieser leicht und schnell auffindbar ist.</p>
+						<p>Im Folgenden werden alle Funktionen der Anwendung schrittweise beschrieben. Alle Schritte werden mit Screenshots bildlich dargestellt. Auf diesen Screenshots weisen gro&szlig;e gr&uuml;ne Pfeile darauf hin, welche Buttons gedr&uuml;ckt werden m&uuml;ssen um in der Anwendung zum n&auml;chsten Schritt zu kommen, welcher weiter im Dokument wieder als Screenshot dargestellt wird. Elemente die mit Nummerierungen versehen sind, werden weiter im Text genauer beschrieben.</p>
+						<p>Es ist m&ouml;glich die Benutzerdokumentation von Anfang bis Ende durchzulesen und hat somit alle Funktionen kennengelernt, ebenso ist es auch m&ouml;glich direkt zu einzelnen Funktionen zu springen die man gerade braucht, da es f&uuml;r jede Funktion ein eigenes Kapitel gibt.</p>
+						
+						<h3><strong>Kapitel 2: Die Erstellung eines Accounts</strong></h3>
+						<p>Wenn sie die Anwendung installiert und gestartet haben, wie in der Installationsdokumentation beschrieben, haben Sie nun die M&ouml;glichkeit einen neuen Account zu erstellen oder mit einem bereits bestehenden, auf der Anwendung erstellten Account, anzumelden. Ebenso ist es m&ouml;glich sich mit seinem Google+ Account anzumelden.</p>
+						<p><img src="images/1)Startseite.png" width="945" height="454" border="5" style="border:1px solid #BDBDBD; border-radius: 3px;"></img></p>
+						<p>Um auf die Seite der Accounterstellung zu gelangen, wird auf den Button &quot;Create Account&quot; geklickt.</p>
+						<p><img src="images/2)StartseiteGoToCreateAccount.png" width="945" height="454" style="border:1px solid #BDBDBD; border-radius: 3px;"></img></p>
+						<p>Wurde der Button geklickt gelangt man auf die gew&uuml;nschte Seite.</p>
+						<p><img src="images/4)CreateAccountSeite.png" width="945" height="454" style="border:1px solid #BDBDBD; border-radius: 3px;"></img></p>
+						<p>Um seinen neuen Account erstellen zu k&ouml;nnen, m&uuml;ssen die jeweiligen Felder korrekt ausgef&uuml;llt werden.</p>
+						<p><img src="images/5)CreateAccountSeiteFieldsFilled.png" width="945" height="454" style="border:1px solid #BDBDBD; border-radius: 3px;"></img></p>
+						<ol>
+  							<li>Der Benutzername muss mindestens drei und darf h&ouml;chstens 30 Zeichen lang sein.</li>
+  							<li>Die Eingabe muss eine g&uuml;ltige E-Mail Adresse sein.</li>
+ 							<li>Das Passwort muss mindestens 8 und darf h&ouml;chstens 30 Zeichen lang sein.</li>
+ 							<li>Die Passwortbest&auml;tigung muss mit dem zuvor eingegeben Passwort &uuml;bereinstimmen.</li>
+						</ol>
+						<p>Werden in der Anwendung alle Felder gr&uuml;n umrahmt und ein H&auml;kchen gesetzt, wurden alle Daten korrekt eingegeben und der &quot;Sign Up&quot; Button kann ohne Fehlermeldung geklickt werden.</p>
+						<p>Durch das Klicken des Buttons wird der Account erstellt. Anschlie&szlig;end wird man auf die Startseite weitergeleitet.</p>
+						
+						<h3><strong>Kapitel 3: Login</strong></h3>
+						<p>Um auf die Loginseite zu gelangen, wird auf den Button &quot;Login&quot; geklickt.</p>
+						<p><img src="images/3)StartseiteGoToLogin.png" width="945" height="454" style="border:1px solid #BDBDBD; border-radius: 3px;"></img></p>						
+						<p>Wurde der Button geklickt gelangt man auf die gew&uuml;nschte Seite.</p>
+						<p><img src="images/8)LoginSeite.png" width="945" height="454" style="border:1px solid #BDBDBD; border-radius: 3px;"></img></p>
+						<p>Um sich einloggen zu k&ouml;nnen, m&uuml;ssen die jeweiligen Felder korrekt ausgef&uuml;llt werden.</p>
+						<ol>
+  							<li>Benutzername und Passwort werden f&uuml;r einen erfolgreichen Login ben&ouml;tigt.</li>
+  							<li>Um die M&ouml;glichkeit sich mit einem Google+ Account anzumelden, kann dieser Button geklickt werden.</li>
+ 							<li>Hat man sich doch entschieden einen neuen Account zu erstellen, kann auf &quot;Sign Up&quot; die Seite wieder gewechselt werden.</li>
+						</ol>
+						<p>Entscheidet man sich, sich &uuml;ber Google+ einzuloggen wird man nach Klicken des Google+ Buttons direkt weitergeleitet.</p>
+						<p>Loggt man sich mit einem auf der Anwendung erstellten Accounts an, ist es n&ouml;tig den &quot;Login&quot; Button zu klicken um weitergeleitet zu werden.</p>	
+					
+						<h3><strong>Kapitel 4: Startseite/Alle Funktionen im Schnelldurchlauf</strong></h3>
+						<p><img src="images/6)ExploreAfterLogin.png" width="945" height="454" style="border:1px solid #BDBDBD; border-radius: 3px;"></img></p>
+						<ol>
+  							<li>Anzeige des zurzeit angemeldeten Benutzers.</li>
+  							<li>Suchfunktion: gesucht werden kann nach Benutzern, Tags, sowie Titel oder Beschreibung von Eintr&auml;gen.</li>
+ 							<li>Auf &quot;New Entry&quot; kann ein neuer Eintrag erstellt werden.</li>
+ 							<li>Auf &quot;Explore&quot; werden alle Eintr&auml;ge der Anwendung nach Erstellungsdatum sortiert aufgelistet.</li>
+ 							<li>Auf &quot;My Entries&quot; werden alle selbsterstellten Eintr&auml;ge nach Erstellungsdatum sortiert aufgelistet.</li>
+ 							<li>Auf &quot;Timeline&quot; werden alle, den angemeldeten Benutzer betreffenden, Ereignisse nach Ereignisdatum sortiert aufgelistet.</li>
+ 							<li>Auf &quot;Groups&quot; werden alle existierenden Gruppen der Anwendung aufgelistet. Zus&auml;tzlich gibt es eine Suchfunktion, sowie eine Filterfunktion f&uuml;r die Gruppe denen man beigetreten ist. Die schon beigetretenen Gruppen werden als Unterpunkte von &quot;Groups&quot; angezeigt.</li>
+						</ol>
+						<p><img src="images/39)UnterpunkteVonGroupsDarstellung.png" width="199" height="97" style="border:1px solid #BDBDBD; border-radius: 3px;"></img></p>
+					
+						<h3><strong>Kapitel 5: Profileigenschaften und Logout</strong></h3>
+						<p>Profileinstellungen und/oder ausloggen kann man sich, indem rechts oben auf den angemeldeten Benutzer geklickt wird und sich das Dropdownmenu &ouml;ffnet.</p>
+						<p><img src="images/7)ExploreLogoutAndProfil.png" width="945" height="454" style="border:1px solid #BDBDBD; border-radius: 3px;"></img></p>
+						<ol>
+  							<li>Wird auf &quot;Logout&quot; geklickt, wird man ausgeloggt und auf die Loginseite weitergeleitet.</li>
+  							<li>&quot;Profile&quot; leitet an die Profileigenschaftenseite weiter. Hier k&ouml;nnen alle Daten zum jeweiligen Benutzer eingesehen werden.</li>
+						</ol>
+					
+						<h3><strong>Kapitel 6: Profileigenschaften &auml;ndern</strong></h3>
+						<p>Wird im gerade erw&auml;hnten Dropdownmenu &quot;Profile&quot; ausgew&auml;hlt, wird man auf die Profileigenschaftenseite weitergeleitet.</p>
+						<p><img src="images/9)ProfilBearbeitenSeite.png" width="945" height="454" style="border:1px solid #BDBDBD; border-radius: 3px;"></img></p>
+						<ol>
+  							<li>Weiterleitung zur n&auml;chsten Seite, um Profileigenschaften erweitern oder gegebenenfalls &auml;ndern zu k&ouml;nnen.</li>
+  							<li>Infos zum jeweiligen Benutzer, welche ge&auml;ndert werden k&ouml;nnen.</li>
+  							<li>Profilfoto des Benutzers. Wird &uuml;ber Google+ eingeloggt, so wird eben diese Profilfoto auch auf der Anwendung angezeigt.</li>
+						</ol>
+						<p>Wird auf den Button &quot;Edit profile&quot; geklickt, k&ouml;nnen die jeweiligen Eigenschaften neu ausgef&uuml;llt werden.</p>
+						<p><img src="images/10)ProfilBearbeitenSeiteDatenAendern.png" width="945" height="454" style="border:1px solid #BDBDBD; border-radius: 3px;"></img></p>
+						<ol>
+  							<li>Der Name, mit dem man f&uuml;r andere Benutzer angezeigt wird.</li>
+  							<li>Der Vorname des Benutzers.</li>
+  							<li>Der Nachname des Benutzers.</li>
+  							<li>Die Beschreibung, um gegebenenfalls noch mehr Information preiszugeben.</li>
+  							<li>M&ouml;glichkeit das Ge&auml;nderte auf &quot;Submit&quot; zu speichern, oder auf &quot;Cancel&quot; zu verwerfen.</li>
+						</ol>
+						<p>Als n&auml;chsten Schritt wird ein neuer Eintrag erstellt.</p>
+						
+						<h3><strong>Kapitel 7: New Entry, einen neuen Eintrag erstellen/&auml;ndern/l&ouml;schen</strong></h3>
+						<p>Wird in der Navigationsbar links auf &quot;New Entry&quot; geklickt, wird man auf die Eintragserstellungsseite weitergeleitet.</p>
+						<p><img src="images/11)EntryErstellenSeiteOben.png" width="945" height="454" style="border:1px solid #BDBDBD; border-radius: 3px;"></img></p>
+						<p><img src="images/12)EntryErstellenSeiteUnten.png" width="945" height="454" style="border:1px solid #BDBDBD; border-radius: 3px;"></img></p>
+						<ol>
+  							<li>M&ouml;glichkeit das Eingegebene auf &quot;Save&quot; zu speichern, oder auf &quot;Cancel&quot; zu verwerfen.</li>
+  							<li>Titel des Eintrages.</li>
+  							<li>Teaser des Eintrages, um andere Mitglieder der Anwendung auf den Eintrag aufmerksam zu machen.</li>
+  							<li>Den Eintrag mit Tags versehen, damit dieser einfacher gefunden werden kann.</li>
+  							<li>Beschreibung, um den Programm-Code des Eintrages besser erl&auml;utern zu k&ouml;nnen.</li>
+  							<li>Eine der beigetretenen Gruppen ausw&auml;hlen, damit dieser Eintrag nur von Benutzern in der jeweilig ausgew&auml;hlten Gruppe angesehen werden kann.</li>
+  						</ol>
+  						<p><img src="images/13)EntryErstellenGruppeAuswaehlen.png" width="606" height="84"></img></p>
+  						<ol start="7">	
+  							<li>Sprache ausw&auml;hlen, in der Programm-Code, in diesem Eintrag verfasst wurde.</li>
+  						</ol>
+  						<p><img src="images/14)EntryErstellenSpracheAuswaehlen.png" width="606" height="256"></img></p>
+  						<ol start="8">	
+  							<li>Editor in dem der Programm-Code geschrieben werden kann.</li>
+  							<li>M&ouml;glichkeit das Eingegebene auf &quot;Save&quot; zu speichern, oder auf &quot;Cancel&quot; zu verwerfen.</li>
+						</ol>
+						<p>Wird nun auf den Button &quot;Save&quot; geklickt, wird man auf Eintrags&uuml;bersichtseite weitergeleitet.</p>
+						<p><img src="images/15)EintragWurdeErstelltSeiteGoToExplore.png" width="945" height="454" style="border:1px solid #BDBDBD; border-radius: 3px;"></img></p>
+						<ol>	
+  							<li>Name des Benutzers/ Name des Eintrags, sowie der Erstellungszeitpunkt.</li>
+  							<li>M&ouml;glichkeit den Eintrag auf &quot;Edit&quot; zu bearbeiten, oder auf &quot;Delete&quot; zu l&ouml;schen.</li>
+							<li>Beim Reiter &quot;Entry&quot; die Eintrags&uuml;bersicht anzeigen lassen und beim Reiter &quot;Proposals&quot; die Vorschl&auml;ge andere Mitglieder f&uuml;r diesen Eintrag einsehen.</li>
+							<li>Wurden weitere Vorschl&auml;ge f&uuml;r diesen Eintrag erstellt, kann man zwischen diesen durchwechseln.</li>
+							<li>F&uuml;r jeden dieser Vorschl&auml;ge wird angezeigt, wann und von wem der jeweilige Vorschlag erstellt wurde.</li>
+							<li>Eintr&auml;ge und Vorschl&auml;ge k&ouml;nnen auf einer Sterneskala von eins bis f&uuml;nf bewertet werden.</li>
+							<li>Tags unter denen der Eintrag oder Vorschlag gefunden werden kann.</li>
+							<li>Den Button &quot;Raw&quot; klicken um auf eine Seite weitergeleitet zu werden, welche nur den Programm-Code anzeigt. Dieser kann dann in die Zwischenablage kopiert werden.</li>
+							<li>Programmiersprache in der der Programm-Code geschrieben wurde.</li>
+						</ol>
+						<p>Nach Erstellung des ersten Eintrages zu &quot;Explore&quot; wechseln.</p>
+					
+						<h3><strong>Kapitel 8: Explore, alle Eintr&auml;ge in der Anwendung einsehen</strong></h3>
+						<p>Wird links in der Navigationsbar auf &quot;Explore&quot; geklickt, werden alle Eintr&auml;ge in der Anwendung nach Erstellungsdatum aufgelistet. Die Auflistung kann durch dich Suchfunktion, sowie der Filterung(welche in Kapitel erl&auml;utert wird) auf genauere Ergebnisse begrenzt werden.</p>
+						<p><img src="images/16)ExploreSeiteMitTesteintragGoToGroups.png" width="945" height="454" style="border:1px solid #BDBDBD; border-radius: 3px;"></img></p>
+						<ol>	
+  							<li>Die drei Icons haben folgende Bedeutung:
+  								<ul>
+  									<li>Das kleine Auge zeigt an, wie oft des Eintrages angeschaut wurde.</li>
+  									<li>Der kleine Stern zeigt an, wie oft der Eintrag bewertet wurde.</li>
+  									<li>Der kleine Zweig zeigt an, wie viele Vorschl&auml;ge es f&uuml;r diesen Eintrag gibt.</li>
+  								</ul>
+  							</li>
+  							<li>Anzeige wie viele Eintr&auml;ge es in der Anwendung in den jeweiligen Programmiersprachen gibt. </li>
+						</ol>
+						<p>Als n&auml;chsten Schritt wird eine neue Gruppe erstellt.</p>
+						
+						<h3><strong>Kapitel 9: Groups, eine/r neue Gruppe erstellen/beitreten/verlassen</strong></h3>
+						<p>Wird links in der Navigationsbar auf &quot;Groups&quot; geklickt, werden alle Gruppen denen man beigetreten ist, aufgelistet.</p>
+						<p><img src="images/17)GroupsAuswahlSeiteGoToGruppeErstellenSeite.png" width="945" height="454" style="border:1px solid #BDBDBD; border-radius: 3px;"></img></p>
+						<ol>	
+  							<li>Eine Suchfunktion speziell f&uuml;r Gruppen.</li>
+  							<li>Schnelle Filterungsfunktion, um nur Gruppen anzeigen zu lassen, denen der Benutzer beigetreten ist.</li>
+						</ol>
+						<p>Um eine neue Gruppe zu erstellen, wird auf den Button &quot;New Group&quot; geklickt.</p>
+						<p><img src="images/18)GruppeErstellenSeiteGoToGroupsAuswahlSeite.png" width="945" height="454" style="border:1px solid #BDBDBD; border-radius: 3px;"></img></p>
+						<p>Um die Erstellung abzuschlie&szlig;en, muss einen Name und eine Beschreibung eingegeben werden.</p>
+						<ol>	
+  							<li>Der Gruppenname muss mindestens drei und darf h&ouml;chstens 50 Zeichen lang sein.</li>
+  							<li>Die Gruppenbeschreibung muss mindestens zehn und darf h&ouml;chstens 300 Zeichen lang sein.</li>
+							<li>M&ouml;glichkeit die Gruppe auf &quot;Submit&quot; zu erstellen, oder auf &quot;Cancel&quot; zu verwerfen.</li>
+						</ol>
+						<p>Wird jetzt in der Navigationsbar wieder auf &quot;Groups&quot; geklickt, erscheint in der Gruppen&uuml;bersicht die gerade erstellte Gruppe.</p>
+						<p><img src="images/19)GroupsAuswahlSeiteMitErstellterGruppe.png" width="945" height="454" style="border:1px solid #BDBDBD; border-radius: 3px;"></img></p>
+						<ol>	
+  							<li>Gruppen, denen der Benutzer beigetreten ist, werden in der Navigationsbar als Untergruppen von &quot;Groups&quot; aufgelistet.</li>
+  							<li>Die Beschreibung der Gruppe.</li>
+							<li>Die M&ouml;glichkeit, die Gruppe wieder zu verlassen.</li>
+						</ol>
+						<p>Als n&auml;chsten Schritt alle Eintr&auml;ge, die vom Benutzer erstellt wurde, anzeigen lassen.</p>
+					
+						<h3><strong>Kapitel 10: My Entries, alle vom Benutzer erstellten Eintr&auml;ge</strong></h3>
+						<p>Wird links in der Navigationsbar auf &quot;My Entries&quot; geklickt, werden alle Eintr&auml;ge nach Erstellungsdatum aufgelistet, die der angemeldete Benutzer erstellt hat.</p>
+						<p><img src="images/20)ErstelltenEintragAendernGoToEintrag.png" width="945" height="454" style="border:1px solid #BDBDBD; border-radius: 3px;"></img></p>
+						<p>Als n&auml;chsten Schritt wird der Testeintrag in die erstellte Testgruppe verschoben.</p>
+						
+						<h3><strong>Kapitel 11: Eintr&auml;ge in eine andere Gruppe verschieben.</strong></h3>
+						<p>Wird auf den erstellten Testeintrag geklickt, wird dessen Eintrags&uuml;bersichtsseite angezeigt.</p>
+						<p><img src="images/21)ErstellterEintragGoToEdit.png" width="945" height="454" style="border:1px solid #BDBDBD; border-radius: 3px;"></img></p>
+						<p>Wird auf den Button &quot;Edit&quot; geklickt, wird man auf die Eintragsbearbeitungsseite weitergeleitet.</p>
+						<p><img src="images/22)ErstellterEintragGeaendertGoToSave.png" width="945" height="454" style="border:1px solid #BDBDBD; border-radius: 3px;"></img></p>
+						<ol>	
+  							<li>Im Dropdownmenu &quot;Select a Group&quot; kann nun die erstellte Testgruppe angegeben werden.</li>
+						</ol>
+						<p>Wird auf den Button &quot;Save&quot; geklickt, wird die &AUML;nderung gespeichert und man wird auf die Eintrags&uuml;bersichtsseite weitergeleitet.</p>
+						<p>Als n&auml;chsten Schritt wird in der Navigationsbar links die Testgruppe aufgerufen.</p>
+						<p><img src="images/23)ErstellterEintragGesavedGoToTestGruppe.png" width="945" height="454" style="border:1px solid #BDBDBD; border-radius: 3px;"></img></p>
+						<p>Danach wird &UUML;bersicht der Testgruppe aufgerufen.</p>
+						<p><img src="images/24)ErstellteGruppenDetailsGoToExplore.png" width="945" height="454" style="border:1px solid #BDBDBD; border-radius: 3px;"></img></p>
+						<ol>	
+  							<li>Gibt es eine des Benutzer betreffende Neuigkeit, wird diese jedes Mal in der Timeline angezeigt und sowie hier auch in der betreffenden Gruppe. Dargestellt als eine Zahl, entsprechend der Menge an Neuigkeiten.</li>
+  							<li>Da dem Testeintrag in den dessen Details die Testgruppe hinzugef&uuml;gt wurde, wird dieser Eintrag jetzt nur noch in der Testgruppe angezeigt und f&uuml;r Mitglieder die dieser Gruppe nicht angeh&ouml;ren nicht mehr einsehbar. Da die Verschiebung des Eintrages eine Neuigkeit in der Gruppe ist, wird dies im Reiter &quot;News&quot; angezeigt.</li>
+  							<li>Hier werden alle Eintr&auml;ge nach Erstellungsdatum sortiert aufgelistet, welche in der Gruppe eingestellt wurden.</li>
+  							<li>Hier werden alle Mitglieder dieser Gruppe angezeigt.</li>
+						</ol>
+						<p>Als n&auml;chsten Schritt wird auf der &quot;Explore&quot;-Seite die Filterfunktion gezeigt.</p>
+						
+						<h3><strong>Kapitel 12: Suchfunktion mit/ohne Filter</strong></h3>
+						<p><img src="images/26)SprachenFiltern.png" width="945" height="454" style="border:1px solid #BDBDBD; border-radius: 3px;"></img></p>
+						<p>Auf der &quot;Explore&quot;-Seite wir rechts oben auf bei &quot;Languages&quot; auf die Programmiersprache HTML geklickt.</p>
+						<p><img src="images/27)SpracheGefiltert.png" width="945" height="454" style="border:1px solid #BDBDBD; border-radius: 3px;"></img></p>
+						<ol>	
+  							<li>Wird auf eine oder mehrere der Sprachen geklickt, werden diese ausgegraut. Das bedeutet, dass diese bei Anzeige der Eintr&auml;ge nicht mehr ber&uuml;cksichtigt werden.</li>
+						</ol>
+						<p>Danach wird wieder auf HTML geklickt, um die Filterung r&uuml;ckg&auml;ngig zu machen.</p>
+						<p>Als n&auml;chsten Schritt wird ein Vorschlag f&uuml;r einen Eintrag eines anderen Mitglieds erstellt.</p>
+						
+						<h3><strong>Kapitel 13: Proposals, Vorschl&auml;ge f&uuml;r Eintr&auml;ge</strong></h3>
+						<h4><strong>13.1: Einen Vorschlag erstellen</strong></h4>
+						<p>Um einen Vorschlag zu erstellen wird auf einen beliebigen Eintrag eines anderen Mitglieds geklickt.</p>
+						<p><img src="images/28)AufExploreGoToEintragVonWefactormitglied.png" width="945" height="454" style="border:1px solid #BDBDBD; border-radius: 3px;"></img></p>
+						<p>Auf der Eintrags&uuml;bersicht klickt man nun auf &quot;New Version&quot;.</p>
+						<p><img src="images/29)NeueVersionErstellen.png" width="945" height="454" style="border:1px solid #BDBDBD; border-radius: 3px;"></img></p>
+						<p>Um einen neuen Vorschlag zu erstellen, muss es eine m&ouml;glichst sinnvolle &AUML;nderung geben. Beispielsweise eine Verbesserung f&uuml;r den bisherigen Programmcode.</p>
+						<p><img src="images/30)NeueVersionSeiteOben.png" width="945" height="454" style="border:1px solid #BDBDBD; border-radius: 3px;"></img></p>
+						<p><img src="images/31)NeueVersionSeiteUnten.png" width="945" height="454" style="border:1px solid #BDBDBD; border-radius: 3px;"></img></p>
+						<ol>	
+  							<li>Wurde eine &AUML;nderung get&auml;tigt, muss das im Textfeld &quot;Changes&quot; entsprechend angegeben werden.</li>
+						</ol>
+						<p>Um die Erstellung des neuen Vorschlages abzuschlie&szlig;en, wird auf den Button &quot;Save&quot; geklickt.</p>
+						<h4><strong>13.2: Einen Vorschlag bekommen</strong></h4>
+						<p>Hat der Benutzer einen Vorschlag f&uuml;r einen seiner Eintr&auml;ge bekommen, wird dies mit einer neuen Meldung in der &quot;Timeline&quot; in der Navigationsbar links, wie alle anderen den Benutzer betreffenden Neuigkeiten, angezeigt.</p>
+						<p><img src="images/32)ExploreGoToTimeline.png" width="945" height="454" style="border:1px solid #BDBDBD; border-radius: 3px;"></img></p>
+						<h4><strong>13.2.1: Timeline, Auflistung aller des Benutzer betreffenden Neuigkeiten</strong></h4>
+						<p>Um die Neuigkeiten anzeigen lassen zu k&ouml;nnen, klickt man in der Navigationsbar links auf &quot;Timeline&quot;. Zu Neuigkeiten z&auml;hlen Vorschl&auml;ge f&uuml;r Eintr&auml;ge des Benutzers und der Beitritt anderer Mitglieder in Gruppen, denen der Benutzer beigetreten ist.</p>
+						<p><img src="images/33)TimelineGoToEintragMitNeuenVorschlag.png" width="945" height="454" style="border:1px solid #BDBDBD; border-radius: 3px;"></img></p>
+						<p>Rechts vom Namen des Mitglieds wird die entsprechende Aktion angezeigt.</p>
+						<ol>	
+  							<li>&quot;made a new proposal&quot;, es wurde ein neuer Vorschlag f&uuml;r den Eintrag des Benutzers erstellt.</li>
+							<li>&quot;joined the group&quot;, ein Mitglied ist der Testgruppe beigetreten.</li>
+						</ol>
+						<p>Als n&auml;chsten Schritt wird auf den Eintrag mit dem neuen Vorschlag geklickt.</p>
+						<h4><strong>13.3: Einen Vorschlag akzeptieren/ablehnen</strong></h4>
+						<p>Wird auf einen Eintrag mit einem neuen Vorschlag geklickt, wird man wie gewohnt auf die Eintrags&uuml;bersichtsseite weitergeleitet.</p>
+						<p><img src="images/34)EintragGoToProposals.png" width="945" height="454" style="border:1px solid #BDBDBD; border-radius: 3px;"></img></p>
+						<ol>	
+  							<li>Auch hier wird mit einer entsprechenden Nummer symbolisiert, dass es einen/mehrere Vorschlag/Vorschl&auml;ge f&uuml;r den Eintrag gibt.</li>
+						</ol>
+						<p>Wird auf den Reiter &quot;Proposals&quot; geklickt, wird man auf die Vorschlags&uuml;bersichtsseite weitergeleitet.</p>
+						<p><img src="images/35)ProposalsGoToNewProposalDetail.png" width="945" height="454" style="border:1px solid #BDBDBD; border-radius: 3px;"></img></p>
+						<ol>	
+  							<li>Informationstext, dass es neuer Vorschlag abgegeben wurde.</li>
+							<li>Eine &UUML;bersicht, wie viele neue, akzeptierte und abgelehnte Vorschlage es gibt.</li>
+							<li>Name des Mitglieds, welcher den Vorschlag erstellt hat.</li>
+							<li>Die Beschreibung der &AUML;nderung, &quot;Changes&quot;.</li>
+							<li>Zeitpunkt der Erstellung des Vorschlags.</li>
+							<li>Status des Vorschlags.</li>
+						</ol>
+						<p>Um die &AUML;nderungen genauer betrachten zu k&ouml;nnen, wird auf die Beschreibung der &AUML;nderung geklickt.</p>
+						<p><img src="images/36)NewProposalDetailGoToAccept.png" width="945" height="454" style="border:1px solid #BDBDBD; border-radius: 3px;"></img></p>
+						<ol>	
+  							<li>Informationsmeldung ob die &AUML;nderung anerkannt wird.</li>
+							<li>Nochmals die Angabe von Name des Mitglieds das den Vorschlag erstellt hatte, den Zeitpunkt der Erstellung und die Beschreibung der &AUML;nderung.</li>
+							<li>Name des Mitglieds das den Vorschlag erstellt hatte/ Name des Eintrags f&uuml;r den ein Vorschlag erstellt wurde.</li>
+						</ol>
+						<p>Nun gibt es die M&ouml;glichkeit den Vorschlag anzunehmen oder abzulehnen. Hier wird der Vorschlag akzeptiert.</p>
+						<p><img src="images/37)ProposalDetailVersionenWechseln.png" width="945" height="454" style="border:1px solid #BDBDBD; border-radius: 3px;"></img></p>
+						<p>Wird der Vorschlag akzeptiert wird man auf die Eintrags&uuml;bersichtsseite weitergeleitet. Hier gibt es nun die M&ouml;glichkeit zwischen den verschieden Versionen zu wechseln.</p>
+						<ol>	
+  							<li>Anzahl der Versionen die es f&uuml;r diesen Eintrag gibt. Zwischen den Versionen kann beliebig gewechselt werden.</li>
+						</ol>
+						<p>Als n&auml;chsten Schritt wird f&uuml;r einen beliebigen Eintrag eine Bewertung abgegeben.</p>
+					
+						<h3><strong>Kapitel 14: Eine Bewertung abgegeben</strong></h3>
+						<p>Bewertungen k&ouml;nnen von eins bis f&uuml;nf Sterne abgegeben werden.</p>
+						<p>Auf der &quot;Explore&quot;-Seite wird ein beliebiger Eintrag gew&auml;hlt und auf ihn geklickt.</p>
+						<p><img src="images/40)BewertungGoToAnEntry.png" width="945" height="454" style="border:1px solid #BDBDBD; border-radius: 3px;"></img></p>
+						<p>Wird auf einen Eintrag geklickt, wird man auf die Eintrags&uuml;bersichtsseite weitergeleitet.</p>
+						<p><img src="images/41)BewertungEineBewertungAbgeben.png" width="945" height="454" style="border:1px solid #BDBDBD; border-radius: 3px;"></img></p>
+						<ol>	
+  							<li>Anzahl der bisherigen Bewertungen.</li>
+  							<li>Mit Klicken auf die gew&uuml;nschte Anzahl der Sterne kann die Bewertung abgegeben werden.</li>
+						</ol>
+						<p><img src="images/42)BewertungBewerungAbgegeben.png" width="945" height="454" style="border:1px solid #BDBDBD; border-radius: 3px;"></img></p>
+						<ol>	
+  							<li>Es wurde eine 5-Sterne Bewertung abgegeben.</li>
+  							<li>Es wurde nun insgesamt eine Bewertung abgegeben.</li>
+						</ol>
+					</div>
+					
+
+				<!-- content ############################################################################################################# -->
+				</div>
+			</div>
+			<!--/.row-->
+		</div>
+		<!--/.container-->
+	</div>
+	<!--/.page-container-->
+	<!-- script references -->
+	<script
+		src="//ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
+	<script th:src="@{/webjars/bootstrap/3.2.0/js/bootstrap.min.js}"></script>
+	<script th:src="@{/js/scripts.js}"></script>
+</body>
+</html>

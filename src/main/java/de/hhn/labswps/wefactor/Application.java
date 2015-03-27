@@ -1,6 +1,7 @@
 package de.hhn.labswps.wefactor;
 
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.actuate.system.ApplicationPidListener;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -29,8 +30,16 @@ public class Application {
      * @param args
      *            the vm arguments
      */
-    public static void main(final String[] args) {
-        SpringApplication.run(Application.class, args);
+    // public static void main(final String[] args) {
+    // SpringApplication.run(Application.class, args);
+    // }
+
+    public static void main(String[] args) {
+        SpringApplication springApplication = new SpringApplication(
+                Application.class);
+        springApplication.addListeners(new ApplicationPidListener(
+                "wefactor.pid"));
+        springApplication.run(args);
     }
 
     /**
