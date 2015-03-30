@@ -804,31 +804,46 @@ public class EntryController {
             @PathVariable final Long id, @PathVariable final Integer rating,
             final Principal currentUser) {
 
-        final UserProfile up = this.userProfileRepository
-                .findByUsername(currentUser.getName());
-        final Account account = up.getAccount();
-
         Entry entry = null;
-        final EntryRating entryRating = new EntryRating();
-        entryRating.setValue(rating);
-        entryRating.setAccount(account);
 
         if (MasterEntry.class.getSimpleName().equals(type)) {
             final MasterEntry me = this.entryRepository.findOne(id);
-            me.addRating(entryRating);
+            final EntryRating entryRating = addRating(me, rating, currentUser);
             this.entryRatingRepository.save(entryRating);
             this.entryRepository.save(me);
             entry = me;
 
         } else if (VersionEntry.class.getSimpleName().equals(type)) {
             final VersionEntry ve = this.versionEntryRepository.findOne(id);
-            ve.addRating(entryRating);
+            final EntryRating entryRating = addRating(ve, rating, currentUser);
             this.entryRatingRepository.save(entryRating);
             this.versionEntryRepository.save(ve);
             entry = ve;
 
         }
         return entry;
+
+    }
+
+    private EntryRating addRating(Entry me, Integer rating,
+            Principal currentUser) {
+
+        final UserProfile up = this.userProfileRepository
+                .findByUsername(currentUser.getName());
+
+        final Account account = up.getAccount();
+        EntryRating entryRating = me.getRatingOfUser(account);
+
+        if (entryRating == null) {
+            entryRating = new EntryRating();
+            entryRating.setAccount(account);
+            me.addRating(entryRating);
+
+        }
+
+        entryRating.setValue(rating);
+
+        return entryRating;
 
     }
 

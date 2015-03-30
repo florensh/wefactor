@@ -23,7 +23,8 @@
 							<div class="col-xs-3 col-sm-2 col-lg-2">
 							
 
-									<img th:if="${entry.account.primaryProfile.imageUrl == null}" src="http://www.localcrimenews.com/wp-content/uploads/2013/07/default-user-icon-profile.png" alt="" class="img-circle img-responsive"></img> <img th:unless="${entry.account.primaryProfile.imageUrl == null}" th:src="${entry.account.primaryProfile.imageUrl}" alt="" class="img-entryProfil-responsive "></img>
+									<img th:if="${entry.account.primaryProfile.imageUrl == null}" src="/images/default-user-icon-profile.png" alt="" class="img-circle img-responsive"></img> 	
+									<img th:unless="${entry.account.primaryProfile.imageUrl == null}" th:src="${entry.account.primaryProfile.imageUrl}" alt="" class="img-entryProfil-responsive "></img>
 
 								</div>
 

@@ -232,7 +232,7 @@ public class UserProfile extends User implements Serializable {
      *
      * @return the account
      */
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "myAccount", nullable = false)
     public Account getAccount() {
         return this.account;

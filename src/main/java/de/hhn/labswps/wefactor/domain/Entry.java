@@ -532,4 +532,14 @@ public abstract class Entry extends BaseSoftDeletableEntity implements
         return this.name;
     }
 
+    public EntryRating getRatingOfUser(Account account) {
+        for (EntryRating rating : ratings) {
+            if (rating.getAccount().equals(account)) {
+                return rating;
+            }
+        }
+        return null;
+
+    }
+
 }
