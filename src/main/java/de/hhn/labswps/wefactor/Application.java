@@ -10,6 +10,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 import de.hhn.labswps.wefactor.web.util.DateFormatter;
+import de.hhn.labswps.wefactor.web.util.LabelChecker;
 import de.hhn.labswps.wefactor.web.util.StringUtil;
 import de.hhn.labswps.wefactor.web.util.TimelineUtils;
 
@@ -50,6 +51,11 @@ public class Application {
     @Bean
     public DateFormatter dateFormatter() {
         return new DateFormatter();
+    }
+
+    @Bean
+    public LabelChecker labelChecker() {
+        return new LabelChecker();
     }
 
     /**

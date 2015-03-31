@@ -79,10 +79,17 @@
 								<h3 style="margin-bottom:0px;">
 									<a th:href="@{/entry/details(id=${entry.id})}"><span
 										th:text="${entry.name}">name</span></a>
-<!--
-								<span class="label label-info">new</span>
-  -->								
+
+								<span th:if="${beans.labelChecker.isNew(entry)}" class="label label-success">new</span>
+  								
 								</h3>
+							</div>
+							
+							<div class="col-xs-12 col-sm-2">
+								<span class="fa-stack fa-lg pull-right">
+								  <i class="fa fa-circle fa-stack-2x" style="color: #31B0D5"></i>
+								  <i class="fa fa-flag fa-stack-1x fa-inverse"></i>
+								</span>
 							</div>
 
 							<div class="col-xs-12 col-sm-10 pull-right">
