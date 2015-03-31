@@ -46,6 +46,11 @@
 									<h5>
 										<small>by&nbsp;</small> <a th:href="@{/user/profile/details(id=${entry.account.primaryProfile.id})}"> <span th:text="${beans.stringUtil.getCutString(entry.account.primaryProfile.name, 15)}" th:alt-title="${entry.account.primaryProfile.name}">udo</span>
 										</a> <small>&nbsp;created</small> <small style="color: black;" th:text="${beans.dateFormatter.format(entry.createdDate)}">10.11.2014</small> <small style="margin-left: 4px;">|</small> <small th:alt-title="'watched ' + ${entry.statistics.views} + ' times'" style="margin-left: 4px;"><i class="fa fa-eye  fa-lg"></i>&nbsp;<span th:text="${entry.statistics.views}">0</span></small> <small th:alt-title="${entry.ratingCount} + ' ratings'" style="margin-left: 4px;"><i class="fa fa-star  fa-lg"></i>&nbsp;<span th:text="${entry.ratingCount}">0</span></small> <small th:alt-title="${entry.versions.size()} + ' versions'" style="margin-left: 4px;"><i class="fa fa-code-fork  fa-lg"></i>&nbsp;<span th:text="${entry.versions.size()}">0</span></small>
+										
+										<small th:each="icon : ${beans.labelChecker.resolveIcons(entry, currentUserProfile.account)}">
+											<span  th:replace="icon :: icon(${icon})"></span>
+										</small>
+										
 									</h5>
 
 									<kbd th:text="${entry.getLanguageAsType().getDisplayName()}">language</kbd>
@@ -85,12 +90,7 @@
 								</h3>
 							</div>
 							
-							<div class="col-xs-12 col-sm-2">
-								<span class="fa-stack fa-lg pull-right">
-								  <i class="fa fa-circle fa-stack-2x" style="color: #31B0D5"></i>
-								  <i class="fa fa-flag fa-stack-1x fa-inverse"></i>
-								</span>
-							</div>
+							
 
 							<div class="col-xs-12 col-sm-10 pull-right">
 								<h3 style="margin-top: 0px; margin-bottom: 0px;">
