@@ -315,6 +315,17 @@ public class EntryController {
     public String showEntryEditPage(@RequestParam("id") final Long id,
             final ModelMap model, final Principal currentUser) {
 
+        UserProfile profile = this.userProfileRepository
+                .findByUsername(currentUser.getName());
+        Account account = profile.getAccount();
+
+        MasterEntry entry = this.entryRepository.findOne(id);
+        if (!entry.getVersions().isEmpty() || !entry.getProposals().isEmpty()
+                || !account.equals(entry.getAccount())) {
+            throw new IllegalArgumentException();
+
+        }
+
         this.fillupModelForEntryEdit(model, currentUser, id,
                 EntryEditMode.MASTER);
         return "entryedit";
@@ -417,7 +428,13 @@ public class EntryController {
     public String deleteEntryPage(@RequestParam("id") final Long id,
             final ModelMap model, final Principal currentUser) {
 
-        this.entryRepository.delete(id);
+        MasterEntry entry = this.entryRepository.findOne(id);
+        if (entry.getVersions().isEmpty() && entry.getProposals().isEmpty()) {
+            this.entryRepository.delete(id);
+
+        } else {
+            throw new IllegalArgumentException();
+        }
 
         return "forward:/";
     }
@@ -654,6 +671,19 @@ public class EntryController {
         final UserProfile profile = this.userProfileRepository
                 .findByUsername(secUser);
 
+        List<ProposalEntry> list = this.proposalEntryRepository
+                .findByAccountAndNameAndEntryDescriptionAndLanguageAndChangesAndTeaserAndEntryCodeTextAndMasterOfProposalAndStatus(
+                        profile.getAccount(), entryDataObject.getTitle(),
+                        entryDataObject.getDescription(),
+                        entryDataObject.getLanguage(),
+                        entryDataObject.getChanges(),
+                        entryDataObject.getTeaser(), entryDataObject.getCode(),
+                        toSave, Status.NEW.name());
+
+        if (list != null && !list.isEmpty()) {
+            return list.get(0);
+        }
+
         final ProposalEntry pe = new ProposalEntry();
 
         this.fillupWithPersistedTags(pe, entryDataObject.getTags());
@@ -694,47 +724,66 @@ public class EntryController {
     private MasterEntry saveAsMasterEntry(
             final EntryDataObject entryDataObject, final Principal currentUser) {
         MasterEntry toSave;
-        if (entryDataObject.getId() != null) {
-            toSave = this.entryRepository.findOne(entryDataObject.getId());
-
-        } else {
-            toSave = new MasterEntry();
-        }
-
+        boolean doubleEntry = false;
         final String secUser = currentUser.getName();
         final UserProfile profile = this.userProfileRepository
                 .findByUsername(secUser);
 
-        this.fillupWithPersistedTags(toSave, entryDataObject.getTags());
+        if (entryDataObject.getId() != null) {
+            toSave = this.entryRepository.findOne(entryDataObject.getId());
 
-        toSave.setEntryCodeText(entryDataObject.getCode());
-        toSave.setLanguage(entryDataObject.getLanguage());
-        toSave.setTeaser(entryDataObject.getTeaser());
-        toSave.setEntryDate(new Date());
-        toSave.setEntryDescription(entryDataObject.getDescription());
-        toSave.setName(entryDataObject.getTitle());
-        toSave.setAccount(profile.getAccount());
-        toSave.setChanges(entryDataObject.getChanges());
-
-        if ((entryDataObject.getGroup() != null)
-                && !entryDataObject.getGroup().isEmpty()) {
-            toSave.setGroup(this.groupRepository.findOne(Long
-                    .valueOf(entryDataObject.getGroup())));
         } else {
-            toSave.setGroup(null);
+            List<Entry> list = this.entryRepository
+                    .findByAccountAndNameAndEntryDescriptionAndLanguageAndChangesAndTeaserAndEntryCodeText(
+                            profile.getAccount(), entryDataObject.getTitle(),
+                            entryDataObject.getDescription(),
+                            entryDataObject.getLanguage(),
+                            entryDataObject.getChanges(),
+                            entryDataObject.getTeaser(),
+                            entryDataObject.getCode());
+
+            if (list != null && !list.isEmpty()) {
+                doubleEntry = true;
+                toSave = (MasterEntry) list.get(0);
+            } else {
+                toSave = new MasterEntry();
+
+            }
         }
 
-        toSave = this.entryRepository.save(toSave);
+        if (!doubleEntry) {
+            this.fillupWithPersistedTags(toSave, entryDataObject.getTags());
 
-        // store event if entry in group
-        if (toSave.getGroup() != null) {
-            final ObjectIdentification oid = DataUtils
-                    .createObjectIdentification(toSave,
-                            Entry.class.getSimpleName());
-            final TimelineEvent event = new TimelineEvent(new Date(),
-                    toSave.getAccount(), toSave.getGroup(),
-                    EventType.MADE_ENTRY, oid);
-            this.timelineEventRepository.save(event);
+            toSave.setEntryCodeText(entryDataObject.getCode());
+            toSave.setLanguage(entryDataObject.getLanguage());
+            toSave.setTeaser(entryDataObject.getTeaser());
+            toSave.setEntryDate(new Date());
+            toSave.setEntryDescription(entryDataObject.getDescription());
+            toSave.setName(entryDataObject.getTitle());
+            toSave.setAccount(profile.getAccount());
+            toSave.setChanges(entryDataObject.getChanges());
+
+            if ((entryDataObject.getGroup() != null)
+                    && !entryDataObject.getGroup().isEmpty()) {
+                toSave.setGroup(this.groupRepository.findOne(Long
+                        .valueOf(entryDataObject.getGroup())));
+            } else {
+                toSave.setGroup(null);
+            }
+
+            toSave = this.entryRepository.save(toSave);
+
+            // store event if entry in group
+            if (toSave.getGroup() != null) {
+                final ObjectIdentification oid = DataUtils
+                        .createObjectIdentification(toSave,
+                                Entry.class.getSimpleName());
+                final TimelineEvent event = new TimelineEvent(new Date(),
+                        toSave.getAccount(), toSave.getGroup(),
+                        EventType.MADE_ENTRY, oid);
+                this.timelineEventRepository.save(event);
+            }
+
         }
 
         return toSave;

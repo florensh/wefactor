@@ -89,4 +89,8 @@ public interface MasterEntryRepository extends
     List<Entry> findDistinctByTagsNameOrVersionsTagsName(String mTag,
             String vTag);
 
+    List<Entry> findByAccountAndNameAndEntryDescriptionAndLanguageAndChangesAndTeaserAndEntryCodeText(
+            Account account, String title, String description, String language,
+            String changes, String teaser, String code);
+
 }
