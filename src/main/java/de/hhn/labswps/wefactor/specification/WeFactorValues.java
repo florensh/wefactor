@@ -14,10 +14,10 @@ import de.hhn.labswps.wefactor.web.GroupController;
 public class WeFactorValues {
 
     /** The Constant DEFAULT_IMAGE_URL. */
-    public static final String DEFAULT_IMAGE_URL = "http://www.localcrimenews.com/wp-content/uploads/2013/07/default-user-icon-profile.png";
+    public static final String DEFAULT_IMAGE_URL = "/images/default-user-icon-profile.png";
 
     /** The Constant DEFAULT_GROUP_IMAGE_URL. */
-    public static final String DEFAULT_GROUP_IMAGE_URL = "http://cdn.flaticon.com/png/256/32441.png";
+    public static final String DEFAULT_GROUP_IMAGE_URL = "/images/groupprofileimage.png";
 
     /**
      * The Enum ProgrammingLanguage.

@@ -23,7 +23,8 @@
 							<div class="col-xs-3 col-sm-2 col-lg-2">
 							
 
-									<img th:if="${entry.account.primaryProfile.imageUrl == null}" src="http://www.localcrimenews.com/wp-content/uploads/2013/07/default-user-icon-profile.png" alt="" class="img-circle img-responsive"></img> <img th:unless="${entry.account.primaryProfile.imageUrl == null}" th:src="${entry.account.primaryProfile.imageUrl}" alt="" class="img-entryProfil-responsive "></img>
+									<img th:if="${entry.account.primaryProfile.imageUrl == null}" src="/images/default-user-icon-profile.png" alt="" class="img-circle img-responsive"></img> 	
+									<img th:unless="${entry.account.primaryProfile.imageUrl == null}" th:src="${entry.account.primaryProfile.imageUrl}" alt="" class="img-entryProfil-responsive "></img>
 
 								</div>
 
@@ -45,6 +46,11 @@
 									<h5>
 										<small>by&nbsp;</small> <a th:href="@{/user/profile/details(id=${entry.account.primaryProfile.id})}"> <span th:text="${beans.stringUtil.getCutString(entry.account.primaryProfile.name, 15)}" th:alt-title="${entry.account.primaryProfile.name}">udo</span>
 										</a> <small>&nbsp;created</small> <small style="color: black;" th:text="${beans.dateFormatter.format(entry.createdDate)}">10.11.2014</small> <small style="margin-left: 4px;">|</small> <small th:alt-title="'watched ' + ${entry.statistics.views} + ' times'" style="margin-left: 4px;"><i class="fa fa-eye  fa-lg"></i>&nbsp;<span th:text="${entry.statistics.views}">0</span></small> <small th:alt-title="${entry.ratingCount} + ' ratings'" style="margin-left: 4px;"><i class="fa fa-star  fa-lg"></i>&nbsp;<span th:text="${entry.ratingCount}">0</span></small> <small th:alt-title="${entry.versions.size()} + ' versions'" style="margin-left: 4px;"><i class="fa fa-code-fork  fa-lg"></i>&nbsp;<span th:text="${entry.versions.size()}">0</span></small>
+										
+										<small th:each="icon : ${beans.labelChecker.resolveIcons(entry, currentUserProfile.account)}">
+											<span  th:replace="icon :: icon(${icon})"></span>
+										</small>
+										
 									</h5>
 
 									<kbd th:text="${entry.getLanguageAsType().getDisplayName()}">language</kbd>
@@ -78,11 +84,13 @@
 								<h3 style="margin-bottom:0px;">
 									<a th:href="@{/entry/details(id=${entry.id})}"><span
 										th:text="${entry.name}">name</span></a>
-<!--
-								<span class="label label-info">new</span>
-  -->								
+
+								<span th:if="${beans.labelChecker.isNew(entry)}" class="label label-success">new</span>
+  								
 								</h3>
 							</div>
+							
+							
 
 							<div class="col-xs-12 col-sm-10 pull-right">
 								<h3 style="margin-top: 0px; margin-bottom: 0px;">

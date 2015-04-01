@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -43,6 +44,9 @@ public class UserController {
     @Autowired
     private SignUpService signUpService;
 
+    @Value("${allowSignup}")
+    Boolean allowSignup;
+
     /**
      * Show signin page.
      *
@@ -69,6 +73,11 @@ public class UserController {
      */
     @RequestMapping(value = "/signup", method = RequestMethod.GET)
     public String showSignupPage(final Model model) {
+
+        if (!Boolean.TRUE.equals(allowSignup)) {
+            throw new ResourceNotFoundException();
+        }
+
         model.addAttribute("registerFormDataObject",
                 new RegisterFormDataObject());
         return "registration";
