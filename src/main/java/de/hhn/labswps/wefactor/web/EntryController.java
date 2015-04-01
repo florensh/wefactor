@@ -438,6 +438,26 @@ public class EntryController {
             final ModelMap model, final Principal currentUser) {
 
         final ProposalEntry pe = this.proposalEntryRepository.findOne(id);
+        doAcceptProposal(pe, currentUser);
+
+        final UserProfile up = this.userProfileRepository
+                .findByUsername(currentUser.getName());
+        final Account account = up.getAccount();
+
+        final MasterEntry me = pe.getMasterOfProposal();
+
+        final ObjectIdentification oid = DataUtils.createObjectIdentification(
+                me, Entry.class.getSimpleName());
+        final TimelineEvent event = new TimelineEvent(new Date(), account,
+                pe.getAccount(), EventType.PROPOSAL_ACCEPTED, oid);
+
+        this.timelineEventRepository.save(event);
+
+        return "forward:/entry/details?id="
+                + String.valueOf(pe.getMasterOfProposal().getId());
+    }
+
+    private void doAcceptProposal(ProposalEntry pe, Principal currentUser) {
 
         final UserProfile up = this.userProfileRepository
                 .findByUsername(currentUser.getName());
@@ -450,16 +470,6 @@ public class EntryController {
         this.proposalEntryRepository.save(pe);
         this.versionEntryRepository.save(ve);
         this.entryRepository.save(me);
-
-        final ObjectIdentification oid = DataUtils.createObjectIdentification(
-                me, Entry.class.getSimpleName());
-        final TimelineEvent event = new TimelineEvent(new Date(), account,
-                pe.getAccount(), EventType.PROPOSAL_ACCEPTED, oid);
-
-        this.timelineEventRepository.save(event);
-
-        return "forward:/entry/details?id="
-                + String.valueOf(pe.getMasterOfProposal().getId());
     }
 
     /**
@@ -591,6 +601,9 @@ public class EntryController {
             final Principal currentUser) {
 
         Entry retVal = null;
+        final String secUser = currentUser.getName();
+        final UserProfile profile = this.userProfileRepository
+                .findByUsername(secUser);
 
         switch (EntryEditMode.valueOf(entryDataObject.getEditMode())) {
             case MASTER:
@@ -601,9 +614,13 @@ public class EntryController {
                 break;
 
             case PROPOSAL:
-                final MasterEntry entryWithProposal = this.saveAsProposalEntry(
+                final ProposalEntry proposal = this.saveAsProposalEntry(
                         entryDataObject, currentUser);
-                retVal = entryWithProposal;
+                retVal = proposal.getMasterOfProposal();
+                if (profile.getAccount().equals(retVal.getAccount())) {
+                    this.doAcceptProposal(proposal, currentUser);
+
+                }
 
                 break;
 
@@ -623,7 +640,7 @@ public class EntryController {
      *            the current user
      * @return the master entry
      */
-    private MasterEntry saveAsProposalEntry(
+    private ProposalEntry saveAsProposalEntry(
             final EntryDataObject entryDataObject, final Principal currentUser) {
         MasterEntry toSave;
         if (entryDataObject.getId() != null) {
@@ -662,7 +679,7 @@ public class EntryController {
                 EventType.MADE_PROPOSAL, oid);
         this.timelineEventRepository.save(event);
 
-        return toSave;
+        return pe;
     }
 
     /**
