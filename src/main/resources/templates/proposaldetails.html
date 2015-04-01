@@ -53,7 +53,7 @@
 
 									<!-- versions panel -->
 									<div
-										th:replace="entrydetails_template :: version_panel (${entry.orderedVersions.get(0)})">(description)</div>
+										th:replace="entrydetails_template :: version_panel (${entry.orderedVersions.get(0)})">(version_panel)</div>
 									<!-- end versions panel -->
 
 								</div>
@@ -66,13 +66,13 @@
 
 								<div class="row">
 									<div
-										th:replace="entrydetails_template :: editor (${entry.orderedVersions.get(0)})">(description)</div>
+										th:replace="entrydetails_template :: editor (${entry.orderedVersions.get(0)})">(editor)</div>
 								</div>
 							</div>
 
 
 							<div
-								th:replace="entrydetails_template :: right_sidebar (${entry.orderedVersions.get(0)})">(description)</div>
+								th:replace="entrydetails_template :: right_sidebar (${entry.orderedVersions.get(0)}, false)">(right_sidebar)</div>
 
 
 						</div>
