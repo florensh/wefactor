@@ -17,7 +17,7 @@ public class LabelChecker {
     private static final String PROPSAL_REJECTED_ICON = "fa-times";
 
     public boolean isNew(Entry entry) {
-        return entry.getCreatedDate().getTime() - System.currentTimeMillis() < 1000
+        return System.currentTimeMillis() - entry.getCreatedDate().getTime() < 1000
                 * 60 * 60 * 24 * 3;
     }
 
