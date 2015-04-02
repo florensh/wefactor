@@ -112,8 +112,11 @@ public class UserControllerAdvice {
         }
         model.addAttribute("usergroups", gr);
 
-        final SearchBoxDataObject sbda = new SearchBoxDataObject();
-        model.addAttribute("searchBoxDataObject", sbda);
+        if (!model.containsAttribute("searchBoxDataObject")) {
+            final SearchBoxDataObject sbda = new SearchBoxDataObject();
+            model.addAttribute("searchBoxDataObject", sbda);
+
+        }
 
     }
 }

@@ -1,11 +1,13 @@
 package de.hhn.labswps.wefactor.web;
 
 import java.security.Principal;
-import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -16,6 +18,7 @@ import de.hhn.labswps.wefactor.domain.Entry;
 import de.hhn.labswps.wefactor.domain.MasterEntryRepository;
 import de.hhn.labswps.wefactor.domain.UserProfile;
 import de.hhn.labswps.wefactor.domain.UserProfileRepository;
+import de.hhn.labswps.wefactor.service.EntryService;
 import de.hhn.labswps.wefactor.web.DataObjects.EntryList;
 import de.hhn.labswps.wefactor.web.DataObjects.ScreenMessageObject;
 import de.hhn.labswps.wefactor.web.DataObjects.SearchBoxDataObject;
@@ -34,6 +37,9 @@ public class SearchController {
     @Autowired
     private UserProfileRepository userProfileRepository;
 
+    @Autowired
+    private EntryService entryService;
+
     /**
      * Execute search.
      *
@@ -47,30 +53,34 @@ public class SearchController {
      *            the current user
      * @return the string
      */
-    @RequestMapping(value = "/search/entries", method = RequestMethod.POST)
+    @RequestMapping(value = "/search/entries", method = RequestMethod.GET)
     public String executeSearch(
             @Valid final SearchBoxDataObject searchBoxDataObject,
             final BindingResult result, final Model m,
-            final Principal currentUser) {
+            final HttpServletRequest request, final Principal currentUser,
+            final Pageable pageable) {
         if (result.hasErrors()) {
             return "editprofile";
         }
 
+        String p = request.getParameter("searchtext");
+
         final UserProfile profile = this.userProfileRepository
                 .findByUsername(currentUser.getName());
 
-        final List<Entry> entries = this.masterEntryRepository.search(
-                searchBoxDataObject.getSearchtext(), profile.getAccount());
+        final Page<Entry> entries = this.entryService.search(
+                searchBoxDataObject.getSearchtext(), profile.getAccount(),
+                pageable);
 
-        final EntryList elist = new EntryList(entries);
+        final EntryList elist = new EntryList(entries, "?searchtext=" + p);
 
         final ScreenMessageObject sm = new ScreenMessageObject("We've found "
-                + elist.size() + " results for "
+                + elist.getTotalElements() + " results for "
                 + searchBoxDataObject.getSearchtext());
         sm.setStrong(searchBoxDataObject.getSearchtext());
         m.addAttribute(ScreenMessageObject.MODEL_NAME, sm);
 
-        m.addAttribute("entries", elist);
+        m.addAttribute("page", elist);
 
         return "entries";
     }

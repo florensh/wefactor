@@ -17,9 +17,9 @@
 					<!-- content ############################################################################################################# -->
 
 					<!-- start entries -->
-					<div th:fragment="entryList (entries)">
+					<div th:fragment="entryList (page)">
 					<div class="col-xs-12 col-sm-9">
-						<div class="row" th:each="entry : ${entries}" th:classappend="${entry.language}">
+						<div class="row" th:each="entry : ${page.content}" th:classappend="${entry.language}">
 							<div class="col-xs-3 col-sm-2 col-lg-2">
 							
 
@@ -85,7 +85,7 @@
 									<a th:href="@{/entry/details(id=${entry.id})}"><span
 										th:text="${entry.name}">name</span></a>
 
-								<span th:if="${beans.labelChecker.isNew(entry)}" class="label label-success">new</span>
+								<span th:if="${beans.labelChecker.isNew(entry)}" class="label label-info">new</span>
   								
 								</h3>
 							</div>
@@ -108,13 +108,42 @@
 							</div>
 						</div>
 
+						<nav th:if="${page.totalPages &gt; 1}" style="text-align: center;">
+						<!-- Pagination Bar -->
+						    <ul class="pagination">
+						      <li th:class="${page.firstPage}? 'disabled' : ''">
+						        <span th:if="${page.firstPage}">← First</span>
+						        <a th:if="${not page.firstPage}" th:href="@{${page.url}(page=0,size=${page.size})}">← First</a>
+						      </li>
+						      <li th:class="${page.hasPreviousPage}? '' : 'disabled'">
+						        <span th:if="${not page.hasPreviousPage}">«</span>
+						        <a th:if="${page.hasPreviousPage}" th:href="@{${page.url}(page=${page.number-2},size=${page.size})}" title='Go to previous page'>«</a>
+						      </li>
+						      <li th:each="item : ${page.items}" th:class="${item.current}? 'active' : ''">
+						        <span th:if="${item.current}" th:text="${item.number}">1</span>
+						        <a th:if="${not item.current}" th:href="@{${page.url}(page=${item.number-1},size=${page.size})}"><span th:text="${item.number}">1</span></a>
+						      </li>
+						      <li th:class="${page.hasNextPage}? '' : 'disabled'">
+						        <span th:if="${not page.hasNextPage}">»</span>
+						        <a th:if="${page.hasNextPage}" th:href="@{${page.url}(page=${page.number},size=${page.size})}" title='Go to next page'>»</a>
+						      </li>
+						      <li th:class="${page.lastPage}? 'disabled' : ''">
+						        <span th:if="${page.lastPage}">Last →</span>
+						        <a th:if="${not page.lastPage}" th:href="@{${page.url}(page=${page.totalPages-1},size=${page.size})}">Last →</a>
+						      </li>
+						    </ul>
+						</nav>
 					</div>
+					
+					
+					
+					
 					<div class="col-xs-12 col-sm-3">
 						<h5 style="margin-top: 0px;">Languages</h5>
 						<ul style="list-style-type: none; padding: 4px 0px;">
-							<li th:each="langCountElem : ${entries.numberByLanguage}">
+							<li th:each="langCountElem : ${page.numberByLanguage}">
 								<div class="col-md-12" style="padding: 0px; height: 24px;">
-								<span id="languageSidebarProgress" class="col-md-12 pull-right" th:style="' width:'+${entries.getPercentageOfLanguage(langCountElem.key)}+'%;'"></span>
+								<span id="languageSidebarProgress" class="col-md-12 pull-right" th:style="' width:'+${page.getPercentageOfLanguage(langCountElem.key)}+'%;'"></span>
 								<a th:attr="data-langCl=${langCountElem.key.mode}" id="languageSidebar" class="col-md-12 langfilter" style="padding: 0px 10px; text-decoration: none; color: #777; cursor: pointer; bottom: 20px;">
 									
 									<span th:text="${langCountElem.value}" class="count" style="font-weight: bold; float: right;">18</span>

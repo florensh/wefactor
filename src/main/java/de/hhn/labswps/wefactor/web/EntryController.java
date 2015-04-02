@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -40,9 +41,9 @@ import de.hhn.labswps.wefactor.domain.UserProfile;
 import de.hhn.labswps.wefactor.domain.UserProfileRepository;
 import de.hhn.labswps.wefactor.domain.VersionEntry;
 import de.hhn.labswps.wefactor.domain.VersionEntryRepository;
+import de.hhn.labswps.wefactor.service.EntryService;
 import de.hhn.labswps.wefactor.specification.WeFactorValues;
 import de.hhn.labswps.wefactor.specification.WeFactorValues.EventType;
-import de.hhn.labswps.wefactor.web.DataObjects.EntriesFilterDataObject;
 import de.hhn.labswps.wefactor.web.DataObjects.EntryDataObject;
 import de.hhn.labswps.wefactor.web.DataObjects.EntryList;
 import de.hhn.labswps.wefactor.web.util.DataUtils;
@@ -59,7 +60,7 @@ public class EntryController {
     /**
      * The Enum EntryScope.
      */
-    private enum EntryScope {
+    public enum EntryScope {
 
         /** The all. */
         ALL,
@@ -79,6 +80,9 @@ public class EntryController {
         /** The master. */
         MASTER;
     }
+
+    @Autowired
+    private EntryService entryService;
 
     /** The entry repository. */
     @Autowired
@@ -131,43 +135,39 @@ public class EntryController {
     public String showEntries(
             @RequestParam(value = "id", required = false) final String id,
             @PathVariable final String scope, final HttpServletRequest request,
-            final Principal currentUser, final Model model) {
+            final Principal currentUser, final Model model, Pageable pageable) {
 
         final UserProfile profile = this.userProfileRepository
                 .findByUsername(currentUser.getName());
 
-        final EntriesFilterDataObject filter = new EntriesFilterDataObject();
-        model.addAttribute("entriesFilterDataObject", filter);
+        String uri = request.getRequestURI();
 
         final EntryScope entryScope = EntryScope.valueOf(scope.toUpperCase());
 
         switch (entryScope) {
             case ALL:
-                final List<Entry> list = this.entryRepository
-                        .findDistinctByGroupIsNullOrGroupMembersOrderByEntryDateDesc(profile
-                                .getAccount());
-                final EntryList eList = new EntryList();
-                eList.addAll(list);
-                model.addAttribute("entries", eList);
+
+                EntryList page = new EntryList(this.entryService.getEntryList(
+                        profile.getAccount(), pageable), uri);
+
+                model.addAttribute("page", page);
 
                 break;
 
             case USER:
-                model.addAttribute("entries", new EntryList(
-                        this.entryRepository.findByAccountId(Long.valueOf(id))));
+                model.addAttribute(
+                        "page",
+                        new EntryList(this.entryService.getEntryListByUser(
+                                Long.valueOf(id), pageable), uri));
 
                 break;
 
             case TAG:
 
-                // model.addAttribute("entries", new EntryList(tagRepository
-                // .findByName(id).getEntries()));
-
                 model.addAttribute(
-                        "entries",
-                        new EntryList(this.entryRepository
-                                .findDistinctByTagsNameOrVersionsTagsName(id,
-                                        id)));
+                        "page",
+                        new EntryList(this.entryService.getEntryListByTag(id,
+                                pageable), uri));
 
                 break;
 
@@ -178,32 +178,32 @@ public class EntryController {
         return "entries";
     }
 
-    /**
-     * Show all entries.
-     *
-     * @param request
-     *            the request
-     * @param currentUser
-     *            the current user
-     * @param model
-     *            the model
-     * @return the string
-     */
-    @RequestMapping(value = "/entries/explore", method = RequestMethod.GET)
-    public String showAllEntries(final HttpServletRequest request,
-            final Principal currentUser, final Model model) {
-
-        final EntriesFilterDataObject filter = new EntriesFilterDataObject();
-        model.addAttribute("entriesFilterDataObject", filter);
-
-        final List<MasterEntry> list = (List<MasterEntry>) this.entryRepository
-                .findAll();
-        final EntryList eList = new EntryList();
-        eList.addAll(list);
-        model.addAttribute("entries", eList);
-
-        return "entries";
-    }
+    // /**
+    // * Show all entries.
+    // *
+    // * @param request
+    // * the request
+    // * @param currentUser
+    // * the current user
+    // * @param model
+    // * the model
+    // * @return the string
+    // */
+    // @RequestMapping(value = "/entries/explore", method = RequestMethod.GET)
+    // public String showAllEntries(final HttpServletRequest request,
+    // final Principal currentUser, final Model model) {
+    //
+    // final EntriesFilterDataObject filter = new EntriesFilterDataObject();
+    // model.addAttribute("entriesFilterDataObject", filter);
+    //
+    // final List<MasterEntry> list = (List<MasterEntry>) this.entryRepository
+    // .findAll();
+    // final EntryList eList = new EntryList();
+    // eList.addAll(list);
+    // model.addAttribute("entries", eList);
+    //
+    // return "entries";
+    // }
 
     /**
      * Show entry.
