@@ -12,6 +12,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -132,6 +133,8 @@ public class EntryController {
      *            the model
      * @return the string
      */
+
+    @PreAuthorize("USER")
     @RequestMapping(value = "/entries/{scope}", method = RequestMethod.GET)
     public String showEntries(
             @RequestParam(value = "id", required = false) final String id,
@@ -668,7 +671,7 @@ public class EntryController {
                 }
 
                 ViewUtil.showMessage(
-                        "You successfully created new proposal for  "
+                        "You successfully created a new proposal for  "
                                 + proposal.getMasterOfProposal().getName(),
                         proposal.getMasterOfProposal().getName(), m);
 
