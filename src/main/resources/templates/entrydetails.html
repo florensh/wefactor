@@ -28,12 +28,12 @@
 								<!-- Button Desktop -->
 								<a		
 										class="btn btn-default btn-md pull-right hidden-sm hidden-xs visible-md visible-lg" 
-										th:if="${entry.account.primaryProfile.id != currentUserProfile.id or (entry.orderedVersions.size() &gt; 1 and entry.proposals.size() &gt; 0)}" th:href="@{/user/entry/propose(id=${entry.id})}">
+										th:if="${entry.account.primaryProfile.id != currentUserProfile.id or (entry.orderedVersions.size() &gt; 1 or entry.proposals.size() &gt; 0)}" th:href="@{/user/entry/propose(id=${entry.id})}">
 										<i class="fa fa-code-fork"></i> New version</a>
 								<!-- Button Mobile -->
 								<a		
 										class="btn btn-default col-xs-12 btn-md pull-right visible-sm visible-xs hidden-md hidden-lg" 
-										th:if="${entry.account.primaryProfile.id != currentUserProfile.id or (entry.orderedVersions.size() &gt; 1 and entry.proposals.size() &gt; 0)}" th:href="@{/user/entry/propose(id=${entry.id})}">
+										th:if="${entry.account.primaryProfile.id != currentUserProfile.id or (entry.orderedVersions.size() &gt; 1 or entry.proposals.size() &gt; 0)}" th:href="@{/user/entry/propose(id=${entry.id})}">
 										<i class="fa fa-code-fork"></i> New version</a>
 								<a
 									class="btn btn-default btn-md pull-right" th:if="${entry.account.primaryProfile.id == currentUserProfile.id and entry.orderedVersions.size() == 1 and entry.proposals.size() == 0}"

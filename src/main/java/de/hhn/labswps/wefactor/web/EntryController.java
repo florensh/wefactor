@@ -152,23 +152,35 @@ public class EntryController {
                         profile.getAccount(), pageable), uri);
 
                 model.addAttribute("page", page);
+                ViewUtil.showMessage("Explore weFactor! There are currently "
+                        + page.getTotalElements() + " entries.",
+                        String.valueOf(page.getTotalElements()), model);
 
                 break;
 
             case USER:
-                model.addAttribute(
-                        "page",
-                        new EntryList(this.entryService.getEntryListByUser(
-                                Long.valueOf(id), pageable), uri));
+
+                EntryList page2 = new EntryList(
+                        this.entryService.getEntryListByUser(Long.valueOf(id),
+                                pageable), "");
+                model.addAttribute("page", page2);
+
+                ViewUtil.showMessage(
+                        "Your entries! You have " + page2.getTotalElements()
+                                + " entries created yet.",
+                        String.valueOf(page2.getTotalElements()), model);
 
                 break;
 
             case TAG:
 
-                model.addAttribute(
-                        "page",
-                        new EntryList(this.entryService.getEntryListByTag(id,
-                                pageable), uri));
+                EntryList page3 = new EntryList(
+                        this.entryService.getEntryListByTag(id, pageable), uri);
+                model.addAttribute("page", page3);
+
+                ViewUtil.showMessage("We've found " + page3.getTotalElements()
+                        + " entries for the tag " + id,
+                        String.valueOf(page3.getTotalElements()), model);
 
                 break;
 
@@ -184,10 +196,15 @@ public class EntryController {
             @RequestParam(value = "id", required = true) final String id,
             final Model model, Pageable pageable) {
 
-        model.addAttribute(
-                "page",
-                new EntryList(this.entryService.getProposalListByUser(
-                        Long.valueOf(id), pageable), ""));
+        EntryList page = new EntryList(this.entryService.getProposalListByUser(
+                Long.valueOf(id), pageable), "");
+
+        model.addAttribute("page", page);
+
+        ViewUtil.showMessage(
+                "Your proposals! You have " + page.getTotalElements()
+                        + " proposals created yet.",
+                String.valueOf(page.getTotalElements()), model);
 
         return "entries";
 
@@ -198,10 +215,15 @@ public class EntryController {
             @RequestParam(value = "id", required = true) final String id,
             final Model model, Pageable pageable) {
 
-        model.addAttribute(
-                "page",
-                new EntryList(this.entryService.getVersionListByUser(
-                        Long.valueOf(id), pageable), ""));
+        EntryList page = new EntryList(this.entryService.getVersionListByUser(
+                Long.valueOf(id), pageable), "");
+
+        model.addAttribute("page", page);
+
+        ViewUtil.showMessage(
+                "Your versions! You have " + page.getTotalElements()
+                        + " versions created yet.",
+                String.valueOf(page.getTotalElements()), model);
 
         return "entries";
 

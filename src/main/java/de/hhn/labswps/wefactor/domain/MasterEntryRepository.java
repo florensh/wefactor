@@ -92,8 +92,8 @@ public interface MasterEntryRepository extends
 
     Page<Entry> findByGroup(Group group, Pageable pageable);
 
-    Page<Entry> findByProposalsAccountId(Long id, Pageable pageable);
+    Page<Entry> findByProposalsAccountIdOrderByProposalsCreatedDateDesc(Long id, Pageable pageable);
 
-    Page<Entry> findByVersionsAccountId(Long id, Pageable pageable);
+    Page<Entry> findByVersionsAccountIdOrderByVersionsCreatedDateDesc(Long id, Pageable pageable);
 
 }

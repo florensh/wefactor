@@ -36,13 +36,13 @@ public class EntryService {
 
     public Page<Entry> getProposalListByUser(Long id, Pageable pageable) {
         final Page<Entry> list = this.masterEntryRepository
-                .findByProposalsAccountId(id, pageable);
+                .findByProposalsAccountIdOrderByProposalsCreatedDateDesc(id, pageable);
         return list;
     }
 
     public Page<Entry> getVersionListByUser(Long id, Pageable pageable) {
         final Page<Entry> list = this.masterEntryRepository
-                .findByVersionsAccountId(id, pageable);
+                .findByVersionsAccountIdOrderByVersionsCreatedDateDesc(id, pageable);
         return list;
     }
 
