@@ -20,8 +20,8 @@ import de.hhn.labswps.wefactor.domain.UserProfile;
 import de.hhn.labswps.wefactor.domain.UserProfileRepository;
 import de.hhn.labswps.wefactor.service.EntryService;
 import de.hhn.labswps.wefactor.web.DataObjects.EntryList;
-import de.hhn.labswps.wefactor.web.DataObjects.ScreenMessageObject;
 import de.hhn.labswps.wefactor.web.DataObjects.SearchBoxDataObject;
+import de.hhn.labswps.wefactor.web.util.ViewUtil;
 
 /**
  * The controller for search requests.
@@ -74,11 +74,9 @@ public class SearchController {
 
         final EntryList elist = new EntryList(entries, "?searchtext=" + p);
 
-        final ScreenMessageObject sm = new ScreenMessageObject("We've found "
-                + elist.getTotalElements() + " results for "
-                + searchBoxDataObject.getSearchtext());
-        sm.setStrong(searchBoxDataObject.getSearchtext());
-        m.addAttribute(ScreenMessageObject.MODEL_NAME, sm);
+        ViewUtil.showMessage("We've found " + elist.getTotalElements()
+                + " results for " + searchBoxDataObject.getSearchtext(),
+                searchBoxDataObject.getSearchtext(), m);
 
         m.addAttribute("page", elist);
 

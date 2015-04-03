@@ -47,6 +47,7 @@ import de.hhn.labswps.wefactor.specification.WeFactorValues.EventType;
 import de.hhn.labswps.wefactor.web.DataObjects.EntryDataObject;
 import de.hhn.labswps.wefactor.web.DataObjects.EntryList;
 import de.hhn.labswps.wefactor.web.util.DataUtils;
+import de.hhn.labswps.wefactor.web.util.ViewUtil;
 
 /**
  * The controller for entry related requests.
@@ -600,7 +601,7 @@ public class EntryController {
             return "entryedit";
         }
 
-        final Entry toSave = this.saveEntry(entryDataObject, currentUser);
+        final Entry toSave = this.saveEntry(entryDataObject, currentUser, m);
 
         return this.showEntryDetails(toSave.getId(), m, currentUser);
     }
@@ -612,10 +613,11 @@ public class EntryController {
      *            the entry data object
      * @param currentUser
      *            the current user
+     * @param m
      * @return the entry
      */
     private Entry saveEntry(final EntryDataObject entryDataObject,
-            final Principal currentUser) {
+            final Principal currentUser, ModelMap m) {
 
         Entry retVal = null;
         final String secUser = currentUser.getName();
@@ -628,6 +630,9 @@ public class EntryController {
                         entryDataObject, currentUser);
                 retVal = toSave;
 
+                ViewUtil.showMessage("You successfully created new entry "
+                        + toSave.getName(), toSave.getName(), m);
+
                 break;
 
             case PROPOSAL:
@@ -638,6 +643,11 @@ public class EntryController {
                     this.doAcceptProposal(proposal, currentUser);
 
                 }
+
+                ViewUtil.showMessage(
+                        "You successfully created new proposal for  "
+                                + proposal.getMasterOfProposal().getName(),
+                        proposal.getMasterOfProposal().getName(), m);
 
                 break;
 
