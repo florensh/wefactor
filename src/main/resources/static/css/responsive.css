@@ -51,6 +51,15 @@
 		width: 90px;
 	}
 	
+	.mini-img-entryProfile  {
+		position: relative;
+		border-radius: 50%;
+		width: 50px;
+		top: -40px;
+		right: -45px;
+		border: 5px solid #FFF;
+	}
+	
 	#rating-responsive {
 		margin-bottom: 0px;
 	}

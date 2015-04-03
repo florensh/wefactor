@@ -27,6 +27,7 @@
 
 									<img th:if="${entry.account.primaryProfile.imageUrl == null}" src="/images/default-user-icon-profile.png" alt="" class="img-circle img-responsive"></img> 	
 									<img th:unless="${entry.account.primaryProfile.imageUrl == null}" th:src="${entry.account.primaryProfile.imageUrl}" alt="" class="img-entryProfil-responsive "></img>
+									<img th:if="${entry.getHeadVersion().account.primaryProfile.username != entry.account.primaryProfile.username}" th:src="${entry.getHeadVersion().account.primaryProfile.imageUrl}" alt="" class="mini-img-entryProfile hidden-sm hidden-xs"></img>
 
 								</div>
 
