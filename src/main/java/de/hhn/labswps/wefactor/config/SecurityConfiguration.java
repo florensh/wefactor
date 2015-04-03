@@ -1,5 +1,6 @@
 package de.hhn.labswps.wefactor.config;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -10,6 +11,7 @@ import org.springframework.security.config.annotation.web.servlet.configuration.
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.ldap.userdetails.UserDetailsContextMapper;
 import org.springframework.security.web.csrf.CsrfFilter;
 import org.springframework.social.security.SocialUserDetailsService;
 import org.springframework.social.security.SpringSocialConfigurer;
@@ -27,6 +29,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     /** The Constant BCRYPT_PASSWORD_ENCODER_STRENGTH. */
     private static final int BCRYPT_PASSWORD_ENCODER_STRENGTH = 10;
+
+    @Value("${allowSignup}")
+    Boolean allowSignup;
+
+    @Value("${allowLDAP}")
+    Boolean allowLDAP;
 
     /*
      * (non-Javadoc)
@@ -96,8 +104,36 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(final AuthenticationManagerBuilder auth)
             throws Exception {
-        auth.userDetailsService(this.userDetailsService()).passwordEncoder(
-                this.passwordEncoder());
+
+        // ldap
+        if (Boolean.TRUE.equals(this.allowLDAP)) {
+            auth.ldapAuthentication()
+                    .userDnPatterns("uid={0},ou=people,dc=hs-heilbronn, dc=de")
+                    .groupSearchBase("dc=hs-heilbronn, dc=de").contextSource()
+                    .url("ldaps://zld0-master.hs-heilbronn.de").port(636)
+                    // .ldif("classpath:test-server.ldif")
+                    .and().userDetailsContextMapper(userDetailsContextMapper())
+
+            ;
+
+        }
+
+        // // ldap dummy
+        // auth.ldapAuthentication().userDnPatterns("uid={0},ou=people")
+        // .userDnPatterns("uid={0},ou=people")
+        // .groupSearchBase("ou=groups").contextSource()
+        // .ldif("classpath:test-server.ldif").and()
+        // .userDetailsContextMapper(userDetailsContextMapper())
+        //
+        // ;
+
+        // normal sign up
+        if (Boolean.TRUE.equals(this.allowSignup)) {
+            auth.userDetailsService(this.userDetailsService()).passwordEncoder(
+                    this.passwordEncoder());
+
+        }
+
     }
 
     /**
@@ -129,6 +165,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Bean
     public UserDetailsService userDetailsService() {
         return new RepositoryUserDetailsService();
+    }
+
+    @Bean
+    public UserDetailsContextMapper userDetailsContextMapper() {
+        return new CustomUserDetailsContextMapper();
     }
 
 }

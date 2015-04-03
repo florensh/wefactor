@@ -1,13 +1,13 @@
 package de.hhn.labswps.wefactor.web;
 
 import java.security.Principal;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import de.hhn.labswps.wefactor.domain.AccountRepository;
+import de.hhn.labswps.wefactor.domain.Entry;
 import de.hhn.labswps.wefactor.domain.Group;
 import de.hhn.labswps.wefactor.domain.GroupRepository;
 import de.hhn.labswps.wefactor.domain.ObjectIdentification;
@@ -26,6 +27,7 @@ import de.hhn.labswps.wefactor.domain.TimelineEvent;
 import de.hhn.labswps.wefactor.domain.TimelineEventRepository;
 import de.hhn.labswps.wefactor.domain.UserProfile;
 import de.hhn.labswps.wefactor.domain.UserProfileRepository;
+import de.hhn.labswps.wefactor.service.EntryService;
 import de.hhn.labswps.wefactor.specification.WeFactorValues.EventType;
 import de.hhn.labswps.wefactor.web.DataObjects.EntryList;
 import de.hhn.labswps.wefactor.web.DataObjects.GroupDataObject;
@@ -58,6 +60,9 @@ public class GroupController {
     @Autowired
     private GroupRepository groupRepository;
 
+    @Autowired
+    private EntryService entryService;
+
     /**
      * Go to group.
      *
@@ -71,7 +76,8 @@ public class GroupController {
      */
     @RequestMapping(GROUP_DETAILS_LINK)
     public String goToGroup(@RequestParam("id") final Long id,
-            final ModelMap model, final Principal currentUser) {
+            final ModelMap model, final Principal currentUser,
+            final Pageable pageable) {
 
         // Laden der groupe
         final Group group = this.groupRepository.findOne(id);
@@ -83,9 +89,9 @@ public class GroupController {
         model.addAttribute("events", this.timelineEventRepository
                 .findByTargetGroupOrderByEventDateDesc(group, topFive));
 
-        final EntryList entries = new EntryList(group.getEntries());
-        Collections.sort(entries);
-        model.addAttribute("entries", entries);
+        final Page<Entry> page = this.entryService.getEntryListByGroup(group,
+                pageable);
+        model.addAttribute("entries", new EntryList(page, ""));
 
         return "group";
 

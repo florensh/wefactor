@@ -28,18 +28,18 @@
 								<!-- Button Desktop -->
 								<a		
 										class="btn btn-default btn-md pull-right hidden-sm hidden-xs visible-md visible-lg" 
-										th:unless="${entry.account.primaryProfile.id == currentUserProfile.id}" th:href="@{/user/entry/propose(id=${entry.id})}">
+										th:if="${entry.account.primaryProfile.id != currentUserProfile.id or (entry.orderedVersions.size() &gt; 1 or entry.proposals.size() &gt; 0)}" th:href="@{/user/entry/propose(id=${entry.id})}">
 										<i class="fa fa-code-fork"></i> New version</a>
 								<!-- Button Mobile -->
 								<a		
 										class="btn btn-default col-xs-12 btn-md pull-right visible-sm visible-xs hidden-md hidden-lg" 
-										th:unless="${entry.account.primaryProfile.id == currentUserProfile.id}" th:href="@{/user/entry/propose(id=${entry.id})}">
+										th:if="${entry.account.primaryProfile.id != currentUserProfile.id or (entry.orderedVersions.size() &gt; 1 or entry.proposals.size() &gt; 0)}" th:href="@{/user/entry/propose(id=${entry.id})}">
 										<i class="fa fa-code-fork"></i> New version</a>
 								<a
-									class="btn btn-default btn-md pull-right" th:if="${entry.account.primaryProfile.id == currentUserProfile.id}"
+									class="btn btn-default btn-md pull-right" th:if="${entry.account.primaryProfile.id == currentUserProfile.id and entry.orderedVersions.size() == 1 and entry.proposals.size() == 0}"
 									th:href="@{/user/entry/edit(id=${entry.id})}" role="button"><i class="fa fa-wrench"></i> Edit</a>
 								<a
-										class="btn btn-default btn-md pull-right" th:if="${entry.account.primaryProfile.id == currentUserProfile.id}" th:href="@{/user/entry/remove(id=${entry.id})}">
+										class="btn btn-default btn-md pull-right" th:if="${entry.account.primaryProfile.id == currentUserProfile.id and entry.orderedVersions.size() == 1 and entry.proposals.size() == 0}" th:href="@{/user/entry/remove(id=${entry.id})}">
 										<i class="fa fa-trash"></i> Delete
 								</a>
 							</div>
@@ -82,7 +82,7 @@
 										</div>
 
 
-										<div th:replace="entrydetails_template :: right_sidebar (${entry.orderedVersions.get(0)})">(description)</div>
+										<div th:replace="entrydetails_template :: right_sidebar (${entry.orderedVersions.get(0)}, true)">(description)</div>
 
 
 									</div>

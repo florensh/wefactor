@@ -10,7 +10,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -40,12 +42,13 @@ import de.hhn.labswps.wefactor.domain.UserProfile;
 import de.hhn.labswps.wefactor.domain.UserProfileRepository;
 import de.hhn.labswps.wefactor.domain.VersionEntry;
 import de.hhn.labswps.wefactor.domain.VersionEntryRepository;
+import de.hhn.labswps.wefactor.service.EntryService;
 import de.hhn.labswps.wefactor.specification.WeFactorValues;
 import de.hhn.labswps.wefactor.specification.WeFactorValues.EventType;
-import de.hhn.labswps.wefactor.web.DataObjects.EntriesFilterDataObject;
 import de.hhn.labswps.wefactor.web.DataObjects.EntryDataObject;
 import de.hhn.labswps.wefactor.web.DataObjects.EntryList;
 import de.hhn.labswps.wefactor.web.util.DataUtils;
+import de.hhn.labswps.wefactor.web.util.ViewUtil;
 
 /**
  * The controller for entry related requests.
@@ -59,7 +62,7 @@ public class EntryController {
     /**
      * The Enum EntryScope.
      */
-    private enum EntryScope {
+    public enum EntryScope {
 
         /** The all. */
         ALL,
@@ -79,6 +82,9 @@ public class EntryController {
         /** The master. */
         MASTER;
     }
+
+    @Autowired
+    private EntryService entryService;
 
     /** The entry repository. */
     @Autowired
@@ -127,47 +133,57 @@ public class EntryController {
      *            the model
      * @return the string
      */
+
+    @PreAuthorize("USER")
     @RequestMapping(value = "/entries/{scope}", method = RequestMethod.GET)
     public String showEntries(
             @RequestParam(value = "id", required = false) final String id,
             @PathVariable final String scope, final HttpServletRequest request,
-            final Principal currentUser, final Model model) {
+            final Principal currentUser, final Model model, Pageable pageable) {
 
         final UserProfile profile = this.userProfileRepository
                 .findByUsername(currentUser.getName());
 
-        final EntriesFilterDataObject filter = new EntriesFilterDataObject();
-        model.addAttribute("entriesFilterDataObject", filter);
+        String uri = request.getRequestURI();
 
         final EntryScope entryScope = EntryScope.valueOf(scope.toUpperCase());
 
         switch (entryScope) {
             case ALL:
-                final List<Entry> list = this.entryRepository
-                        .findDistinctByGroupIsNullOrGroupMembersOrderByEntryDateDesc(profile
-                                .getAccount());
-                final EntryList eList = new EntryList();
-                eList.addAll(list);
-                model.addAttribute("entries", eList);
+
+                EntryList page = new EntryList(this.entryService.getEntryList(
+                        profile.getAccount(), pageable), uri);
+
+                model.addAttribute("page", page);
+                ViewUtil.showMessage("Explore weFactor! There are currently "
+                        + page.getTotalElements() + " entries.",
+                        String.valueOf(page.getTotalElements()), model);
 
                 break;
 
             case USER:
-                model.addAttribute("entries", new EntryList(
-                        this.entryRepository.findByAccountId(Long.valueOf(id))));
+
+                EntryList page2 = new EntryList(
+                        this.entryService.getEntryListByUser(Long.valueOf(id),
+                                pageable), "");
+                model.addAttribute("page", page2);
+
+                ViewUtil.showMessage(
+                        "Your entries! You have " + page2.getTotalElements()
+                                + " entries created yet.",
+                        String.valueOf(page2.getTotalElements()), model);
 
                 break;
 
             case TAG:
 
-                // model.addAttribute("entries", new EntryList(tagRepository
-                // .findByName(id).getEntries()));
+                EntryList page3 = new EntryList(
+                        this.entryService.getEntryListByTag(id, pageable), uri);
+                model.addAttribute("page", page3);
 
-                model.addAttribute(
-                        "entries",
-                        new EntryList(this.entryRepository
-                                .findDistinctByTagsNameOrVersionsTagsName(id,
-                                        id)));
+                ViewUtil.showMessage("We've found " + page3.getTotalElements()
+                        + " entries for the tag " + id,
+                        String.valueOf(page3.getTotalElements()), model);
 
                 break;
 
@@ -178,31 +194,42 @@ public class EntryController {
         return "entries";
     }
 
-    /**
-     * Show all entries.
-     *
-     * @param request
-     *            the request
-     * @param currentUser
-     *            the current user
-     * @param model
-     *            the model
-     * @return the string
-     */
-    @RequestMapping(value = "/entries/explore", method = RequestMethod.GET)
-    public String showAllEntries(final HttpServletRequest request,
-            final Principal currentUser, final Model model) {
+    @RequestMapping(value = "/entries/user/proposals", method = RequestMethod.GET)
+    public String showProposals(
+            @RequestParam(value = "id", required = true) final String id,
+            final Model model, Pageable pageable) {
 
-        final EntriesFilterDataObject filter = new EntriesFilterDataObject();
-        model.addAttribute("entriesFilterDataObject", filter);
+        EntryList page = new EntryList(this.entryService.getProposalListByUser(
+                Long.valueOf(id), pageable), "");
 
-        final List<MasterEntry> list = (List<MasterEntry>) this.entryRepository
-                .findAll();
-        final EntryList eList = new EntryList();
-        eList.addAll(list);
-        model.addAttribute("entries", eList);
+        model.addAttribute("page", page);
+
+        ViewUtil.showMessage(
+                "Your proposals! You have " + page.getTotalElements()
+                        + " proposals created yet.",
+                String.valueOf(page.getTotalElements()), model);
 
         return "entries";
+
+    }
+
+    @RequestMapping(value = "/entries/user/versions", method = RequestMethod.GET)
+    public String showVersions(
+            @RequestParam(value = "id", required = true) final String id,
+            final Model model, Pageable pageable) {
+
+        EntryList page = new EntryList(this.entryService.getVersionListByUser(
+                Long.valueOf(id), pageable), "");
+
+        model.addAttribute("page", page);
+
+        ViewUtil.showMessage(
+                "Your versions! You have " + page.getTotalElements()
+                        + " versions created yet.",
+                String.valueOf(page.getTotalElements()), model);
+
+        return "entries";
+
     }
 
     /**
@@ -315,6 +342,17 @@ public class EntryController {
     public String showEntryEditPage(@RequestParam("id") final Long id,
             final ModelMap model, final Principal currentUser) {
 
+        UserProfile profile = this.userProfileRepository
+                .findByUsername(currentUser.getName());
+        Account account = profile.getAccount();
+
+        MasterEntry entry = this.entryRepository.findOne(id);
+        if (!entry.getVersions().isEmpty() || !entry.getProposals().isEmpty()
+                || !account.equals(entry.getAccount())) {
+            throw new IllegalArgumentException();
+
+        }
+
         this.fillupModelForEntryEdit(model, currentUser, id,
                 EntryEditMode.MASTER);
         return "entryedit";
@@ -417,7 +455,13 @@ public class EntryController {
     public String deleteEntryPage(@RequestParam("id") final Long id,
             final ModelMap model, final Principal currentUser) {
 
-        this.entryRepository.delete(id);
+        MasterEntry entry = this.entryRepository.findOne(id);
+        if (entry.getVersions().isEmpty() && entry.getProposals().isEmpty()) {
+            this.entryRepository.delete(id);
+
+        } else {
+            throw new IllegalArgumentException();
+        }
 
         return "forward:/";
     }
@@ -438,6 +482,26 @@ public class EntryController {
             final ModelMap model, final Principal currentUser) {
 
         final ProposalEntry pe = this.proposalEntryRepository.findOne(id);
+        doAcceptProposal(pe, currentUser);
+
+        final UserProfile up = this.userProfileRepository
+                .findByUsername(currentUser.getName());
+        final Account account = up.getAccount();
+
+        final MasterEntry me = pe.getMasterOfProposal();
+
+        final ObjectIdentification oid = DataUtils.createObjectIdentification(
+                me, Entry.class.getSimpleName());
+        final TimelineEvent event = new TimelineEvent(new Date(), account,
+                pe.getAccount(), EventType.PROPOSAL_ACCEPTED, oid);
+
+        this.timelineEventRepository.save(event);
+
+        return "forward:/entry/details?id="
+                + String.valueOf(pe.getMasterOfProposal().getId());
+    }
+
+    private void doAcceptProposal(ProposalEntry pe, Principal currentUser) {
 
         final UserProfile up = this.userProfileRepository
                 .findByUsername(currentUser.getName());
@@ -450,16 +514,6 @@ public class EntryController {
         this.proposalEntryRepository.save(pe);
         this.versionEntryRepository.save(ve);
         this.entryRepository.save(me);
-
-        final ObjectIdentification oid = DataUtils.createObjectIdentification(
-                me, Entry.class.getSimpleName());
-        final TimelineEvent event = new TimelineEvent(new Date(), account,
-                pe.getAccount(), EventType.PROPOSAL_ACCEPTED, oid);
-
-        this.timelineEventRepository.save(event);
-
-        return "forward:/entry/details?id="
-                + String.valueOf(pe.getMasterOfProposal().getId());
     }
 
     /**
@@ -573,7 +627,7 @@ public class EntryController {
             return "entryedit";
         }
 
-        final Entry toSave = this.saveEntry(entryDataObject, currentUser);
+        final Entry toSave = this.saveEntry(entryDataObject, currentUser, m);
 
         return this.showEntryDetails(toSave.getId(), m, currentUser);
     }
@@ -585,12 +639,16 @@ public class EntryController {
      *            the entry data object
      * @param currentUser
      *            the current user
+     * @param m
      * @return the entry
      */
     private Entry saveEntry(final EntryDataObject entryDataObject,
-            final Principal currentUser) {
+            final Principal currentUser, ModelMap m) {
 
         Entry retVal = null;
+        final String secUser = currentUser.getName();
+        final UserProfile profile = this.userProfileRepository
+                .findByUsername(secUser);
 
         switch (EntryEditMode.valueOf(entryDataObject.getEditMode())) {
             case MASTER:
@@ -598,12 +656,24 @@ public class EntryController {
                         entryDataObject, currentUser);
                 retVal = toSave;
 
+                ViewUtil.showMessage("You successfully created new entry "
+                        + toSave.getName(), toSave.getName(), m);
+
                 break;
 
             case PROPOSAL:
-                final MasterEntry entryWithProposal = this.saveAsProposalEntry(
+                final ProposalEntry proposal = this.saveAsProposalEntry(
                         entryDataObject, currentUser);
-                retVal = entryWithProposal;
+                retVal = proposal.getMasterOfProposal();
+                if (profile.getAccount().equals(retVal.getAccount())) {
+                    this.doAcceptProposal(proposal, currentUser);
+
+                }
+
+                ViewUtil.showMessage(
+                        "You successfully created a new proposal for  "
+                                + proposal.getMasterOfProposal().getName(),
+                        proposal.getMasterOfProposal().getName(), m);
 
                 break;
 
@@ -623,7 +693,7 @@ public class EntryController {
      *            the current user
      * @return the master entry
      */
-    private MasterEntry saveAsProposalEntry(
+    private ProposalEntry saveAsProposalEntry(
             final EntryDataObject entryDataObject, final Principal currentUser) {
         MasterEntry toSave;
         if (entryDataObject.getId() != null) {
@@ -636,6 +706,19 @@ public class EntryController {
         final String secUser = currentUser.getName();
         final UserProfile profile = this.userProfileRepository
                 .findByUsername(secUser);
+
+        List<ProposalEntry> list = this.proposalEntryRepository
+                .findByAccountAndNameAndEntryDescriptionAndLanguageAndChangesAndTeaserAndEntryCodeTextAndMasterOfProposalAndStatus(
+                        profile.getAccount(), entryDataObject.getTitle(),
+                        entryDataObject.getDescription(),
+                        entryDataObject.getLanguage(),
+                        entryDataObject.getChanges(),
+                        entryDataObject.getTeaser(), entryDataObject.getCode(),
+                        toSave, Status.NEW.name());
+
+        if (list != null && !list.isEmpty()) {
+            return list.get(0);
+        }
 
         final ProposalEntry pe = new ProposalEntry();
 
@@ -662,7 +745,7 @@ public class EntryController {
                 EventType.MADE_PROPOSAL, oid);
         this.timelineEventRepository.save(event);
 
-        return toSave;
+        return pe;
     }
 
     /**
@@ -677,47 +760,66 @@ public class EntryController {
     private MasterEntry saveAsMasterEntry(
             final EntryDataObject entryDataObject, final Principal currentUser) {
         MasterEntry toSave;
-        if (entryDataObject.getId() != null) {
-            toSave = this.entryRepository.findOne(entryDataObject.getId());
-
-        } else {
-            toSave = new MasterEntry();
-        }
-
+        boolean doubleEntry = false;
         final String secUser = currentUser.getName();
         final UserProfile profile = this.userProfileRepository
                 .findByUsername(secUser);
 
-        this.fillupWithPersistedTags(toSave, entryDataObject.getTags());
+        if (entryDataObject.getId() != null) {
+            toSave = this.entryRepository.findOne(entryDataObject.getId());
 
-        toSave.setEntryCodeText(entryDataObject.getCode());
-        toSave.setLanguage(entryDataObject.getLanguage());
-        toSave.setTeaser(entryDataObject.getTeaser());
-        toSave.setEntryDate(new Date());
-        toSave.setEntryDescription(entryDataObject.getDescription());
-        toSave.setName(entryDataObject.getTitle());
-        toSave.setAccount(profile.getAccount());
-        toSave.setChanges(entryDataObject.getChanges());
-
-        if ((entryDataObject.getGroup() != null)
-                && !entryDataObject.getGroup().isEmpty()) {
-            toSave.setGroup(this.groupRepository.findOne(Long
-                    .valueOf(entryDataObject.getGroup())));
         } else {
-            toSave.setGroup(null);
+            List<Entry> list = this.entryRepository
+                    .findByAccountAndNameAndEntryDescriptionAndLanguageAndChangesAndTeaserAndEntryCodeText(
+                            profile.getAccount(), entryDataObject.getTitle(),
+                            entryDataObject.getDescription(),
+                            entryDataObject.getLanguage(),
+                            entryDataObject.getChanges(),
+                            entryDataObject.getTeaser(),
+                            entryDataObject.getCode());
+
+            if (list != null && !list.isEmpty()) {
+                doubleEntry = true;
+                toSave = (MasterEntry) list.get(0);
+            } else {
+                toSave = new MasterEntry();
+
+            }
         }
 
-        toSave = this.entryRepository.save(toSave);
+        if (!doubleEntry) {
+            this.fillupWithPersistedTags(toSave, entryDataObject.getTags());
 
-        // store event if entry in group
-        if (toSave.getGroup() != null) {
-            final ObjectIdentification oid = DataUtils
-                    .createObjectIdentification(toSave,
-                            Entry.class.getSimpleName());
-            final TimelineEvent event = new TimelineEvent(new Date(),
-                    toSave.getAccount(), toSave.getGroup(),
-                    EventType.MADE_ENTRY, oid);
-            this.timelineEventRepository.save(event);
+            toSave.setEntryCodeText(entryDataObject.getCode());
+            toSave.setLanguage(entryDataObject.getLanguage());
+            toSave.setTeaser(entryDataObject.getTeaser());
+            toSave.setEntryDate(new Date());
+            toSave.setEntryDescription(entryDataObject.getDescription());
+            toSave.setName(entryDataObject.getTitle());
+            toSave.setAccount(profile.getAccount());
+            toSave.setChanges(entryDataObject.getChanges());
+
+            if ((entryDataObject.getGroup() != null)
+                    && !entryDataObject.getGroup().isEmpty()) {
+                toSave.setGroup(this.groupRepository.findOne(Long
+                        .valueOf(entryDataObject.getGroup())));
+            } else {
+                toSave.setGroup(null);
+            }
+
+            toSave = this.entryRepository.save(toSave);
+
+            // store event if entry in group
+            if (toSave.getGroup() != null) {
+                final ObjectIdentification oid = DataUtils
+                        .createObjectIdentification(toSave,
+                                Entry.class.getSimpleName());
+                final TimelineEvent event = new TimelineEvent(new Date(),
+                        toSave.getAccount(), toSave.getGroup(),
+                        EventType.MADE_ENTRY, oid);
+                this.timelineEventRepository.save(event);
+            }
+
         }
 
         return toSave;
@@ -804,31 +906,46 @@ public class EntryController {
             @PathVariable final Long id, @PathVariable final Integer rating,
             final Principal currentUser) {
 
-        final UserProfile up = this.userProfileRepository
-                .findByUsername(currentUser.getName());
-        final Account account = up.getAccount();
-
         Entry entry = null;
-        final EntryRating entryRating = new EntryRating();
-        entryRating.setValue(rating);
-        entryRating.setAccount(account);
 
         if (MasterEntry.class.getSimpleName().equals(type)) {
             final MasterEntry me = this.entryRepository.findOne(id);
-            me.addRating(entryRating);
+            final EntryRating entryRating = addRating(me, rating, currentUser);
             this.entryRatingRepository.save(entryRating);
             this.entryRepository.save(me);
             entry = me;
 
         } else if (VersionEntry.class.getSimpleName().equals(type)) {
             final VersionEntry ve = this.versionEntryRepository.findOne(id);
-            ve.addRating(entryRating);
+            final EntryRating entryRating = addRating(ve, rating, currentUser);
             this.entryRatingRepository.save(entryRating);
             this.versionEntryRepository.save(ve);
             entry = ve;
 
         }
         return entry;
+
+    }
+
+    private EntryRating addRating(Entry me, Integer rating,
+            Principal currentUser) {
+
+        final UserProfile up = this.userProfileRepository
+                .findByUsername(currentUser.getName());
+
+        final Account account = up.getAccount();
+        EntryRating entryRating = me.getRatingOfUser(account);
+
+        if (entryRating == null) {
+            entryRating = new EntryRating();
+            entryRating.setAccount(account);
+            me.addRating(entryRating);
+
+        }
+
+        entryRating.setValue(rating);
+
+        return entryRating;
 
     }
 

@@ -18,20 +18,20 @@
 
 					<form role="form" th:action="@{/user/entry/save}" method="post"
 						th:object="${entryDataObject}">
-						<div class="col-md-12" id="entryEditContainerResponsive">
+						<div class="col-md-12" id="entryEditContainerResponsive" style="padding: 0px;">
 
 							<div class="row">
-								<div class="col-xs-4 col-sm-2 col-md-1">
+								<div class="col-xs-3 col-sm-2 col-md-1">
 									<a th:if="${entry == null}" th:href="@{/user/profile/details(id=${currentUserProfile.id})}">
 									<img 
 										th:src="${currentUserProfile.imageUrl}"										
-										class="img-circle img-responsive"></img></a>
+										class="img-rounded" style="width: 50px"></img></a>
 									<a th:unless="${entry == null}" th:href="@{/user/profile/details(id=${entry.account.primaryProfile.id})}">	 
 									<img 
-										th:src="${entry.account.primaryProfile.imageUrl}"										
-										class="img-circle img-responsive"></img></a>
+										th:src="${currentUserProfile.imageUrl}"										
+										class="img-rounded" style="width: 50px"></img></a>
 								</div>
-								<div class="col-xs-4 col-md-4 pull-left" id="userNameProfil">
+								<div class="col-xs-4 col-md-4 pull-left" id="userNameProfil" style="margin-top: 15px; padding-left: 8px;">
 									<h4><a th:href="@{/user/profile/details(id=${currentUserProfile.id})}"><span th:text="${currentUserProfile.name}">name</span></a></h4>
 								</div>
 								<div class="btn-toolbar col-md-3 col-md-offset-6 pull-right col-xs-12">

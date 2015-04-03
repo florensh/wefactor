@@ -6,8 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
 <meta name="description" content=""></meta>
 <meta name="author" content=""></meta>
-<link rel="shortcut icon" type="image/png"
-	th:href="@{/images/favicon.png}"></link>
+
 <title th:text="#{page.title}">(title)</title>
 
 
@@ -41,6 +40,8 @@
 <link th:href="@{/css/responsive.css}" rel="stylesheet"></link>
 <link th:href="@{/css/bootstrap-tags.css}" rel="stylesheet"></link>
 <link th:href="@{/select2-3.5.2/select2.css}" rel="stylesheet"></link>
+<link rel="shortcut icon" th:href="@{/images/weFactor-Logo.ico}" type="image/x-icon"></link>
+<link rel="icon" th:href="@{/images/weFactor-Logo.ico}" type="image/x-icon"></link>
 
 </head>
 <body>
@@ -125,7 +126,7 @@
 						</div>
 					</form>
 				-->
-					<form class="navbar-form" th:action="@{/search/entries}" method="post"
+					<form class="navbar-form" th:action="@{/search/entries}" method="get"
 						th:object="${searchBoxDataObject}">
 						<div class="form-group" style="display: inline;">
 							<div class="input-group">
@@ -166,6 +167,8 @@
 						<li><a href="/entries/all">Explore</a></li>
 						<!--<li sec:authorize="hasRole('USER')" class="active"><a th:href="@{/entries/user(id=${currentUserProfile.account.id})}">My Entries</a></li>  -->
 						<li class="active"><a th:href="@{/entries/user(id=${currentUserProfile.account.id})}">My Entries</a></li>
+						<li class="active"><a th:href="@{/entries/user/proposals(id=${currentUserProfile.account.id})}">Propsals</a></li>
+						<li class="active"><a th:href="@{/entries/user/versions(id=${currentUserProfile.account.id})}">Versions</a></li>
 						<li><a href="/user/timeline">Timeline <span class="badge" th:text="${unreadEvents}" th:if="${unreadEvents&gt;0}">0</span></a></li>
 					</ul>
 					<ul class="nav">

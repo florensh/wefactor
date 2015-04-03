@@ -9,6 +9,9 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.core.env.Environment;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -30,6 +33,9 @@ public class UserControllerAdvice {
     /** The util. */
     @Autowired
     private SocialControllerUtil util;
+
+    @Autowired
+    private ApplicationContext applicationContext;
 
     /** The group repository. */
     @Autowired
@@ -53,11 +59,15 @@ public class UserControllerAdvice {
      * @param model
      *            the model
      */
+    @PreAuthorize("USER")
     @ModelAttribute
     public void setModel(final HttpServletRequest request,
             final Principal currentUser, final Model model) {
         this.util.setModel(request, currentUser, model);
         List<Group> groups = new ArrayList<Group>();
+
+        Environment env = applicationContext.getEnvironment();
+        model.addAttribute("env", env);
 
         int countEvents = 0;
         if (currentUser != null) {
@@ -79,7 +89,7 @@ public class UserControllerAdvice {
                 events = this.timelineEventRepository
                         .findByTargetAccountOrTargetGroupInAndReadByUser(
                                 profile.getAccount(), profile.getAccount()
-                                .getGroups(), false);
+                                        .getGroups(), false);
 
             }
 
@@ -102,8 +112,11 @@ public class UserControllerAdvice {
         }
         model.addAttribute("usergroups", gr);
 
-        final SearchBoxDataObject sbda = new SearchBoxDataObject();
-        model.addAttribute("searchBoxDataObject", sbda);
+        if (!model.containsAttribute("searchBoxDataObject")) {
+            final SearchBoxDataObject sbda = new SearchBoxDataObject();
+            model.addAttribute("searchBoxDataObject", sbda);
+
+        }
 
     }
 }

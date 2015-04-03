@@ -12,10 +12,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import org.junit.Test;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.MediaType;
 
 import de.hhn.labswps.wefactor.BaseWebTest;
@@ -59,11 +60,11 @@ public class EntryControllerTest extends BaseWebTest {
         testSaveEntry(entryDO);
 
         String searchText = entryDO.getDescription();
-        List<Entry> entries = this.masterEntryRepository.search(searchText,
-                getTestProfile().getAccount());
+        Page<Entry> entries = this.masterEntryRepository.search(searchText,
+                getTestProfile().getAccount(), new PageRequest(0, 6));
 
-        assertThat(entries, not(empty()));
-        MasterEntry entry = (MasterEntry) entries.get(0);
+        assertThat(entries.getContent(), not(empty()));
+        MasterEntry entry = (MasterEntry) entries.getContent().get(0);
         entryDO.setId(entry.getId());
 
         // request edit page

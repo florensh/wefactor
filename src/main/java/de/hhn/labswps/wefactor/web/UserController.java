@@ -6,6 +6,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import de.hhn.labswps.wefactor.domain.UserProfile;
 import de.hhn.labswps.wefactor.domain.UserProfileRepository;
 import de.hhn.labswps.wefactor.service.SignUpService;
+import de.hhn.labswps.wefactor.specification.WeFactorValues.ProviderIdentification;
 import de.hhn.labswps.wefactor.web.DataObjects.RegisterFormDataObject;
 import de.hhn.labswps.wefactor.web.DataObjects.UserProfileFormDataObject;
 
@@ -40,6 +43,9 @@ public class UserController {
     /** The sign up service. */
     @Autowired
     private SignUpService signUpService;
+
+    @Value("${allowSignup}")
+    Boolean allowSignup;
 
     /**
      * Show signin page.
@@ -67,6 +73,11 @@ public class UserController {
      */
     @RequestMapping(value = "/signup", method = RequestMethod.GET)
     public String showSignupPage(final Model model) {
+
+        if (!Boolean.TRUE.equals(allowSignup)) {
+            throw new ResourceNotFoundException();
+        }
+
         model.addAttribute("registerFormDataObject",
                 new RegisterFormDataObject());
         return "registration";
@@ -81,6 +92,7 @@ public class UserController {
      *            the current user
      * @return the string
      */
+    @PreAuthorize("USER")
     @RequestMapping(value = "/user/profile/edit", method = RequestMethod.GET)
     public String showEditProfilePage(final Model model,
             final Principal currentUser) {
@@ -114,6 +126,7 @@ public class UserController {
      *            the current user
      * @return the string
      */
+    @PreAuthorize("USER")
     @RequestMapping(value = "/user/profile/save", method = RequestMethod.POST)
     public String submitUserEditProfileForm(
             @RequestParam("id") final String id,
@@ -128,8 +141,15 @@ public class UserController {
                 .findByUsername(currentUser.getName());
 
         up.setName(userProfileFormDataObject.getDisplayName());
-        up.setFirstName(userProfileFormDataObject.getFirstName());
-        up.setLastName(userProfileFormDataObject.getLastName());
+
+        // Name darf nur geändert werden wenn account über wefactor erzeugt
+        // wurde
+        if (up.getProviderIdAsType().equals(ProviderIdentification.WEFACTOR)) {
+            up.setFirstName(userProfileFormDataObject.getFirstName());
+            up.setLastName(userProfileFormDataObject.getLastName());
+
+        }
+
         up.setDescription(userProfileFormDataObject.getDescription());
 
         this.userProfileRepository.save(up);

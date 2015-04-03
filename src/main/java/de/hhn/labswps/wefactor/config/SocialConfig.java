@@ -3,6 +3,7 @@ package de.hhn.labswps.wefactor.config;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
@@ -32,6 +33,9 @@ import de.hhn.labswps.wefactor.service.SimpleSignInAdapter;
 @Configuration
 @EnableSocial
 public class SocialConfig implements SocialConfigurer {
+
+    @Value("${allowSocialSignin}")
+    Boolean allowSocialSignin;
 
     /** The data source. */
     @Autowired
@@ -65,10 +69,15 @@ public class SocialConfig implements SocialConfigurer {
             final ConnectionFactoryConfigurer connectionFactoryConfigurer,
             final Environment environment) {
 
-        connectionFactoryConfigurer
-                .addConnectionFactory(new GoogleConnectionFactory(environment
-                        .getProperty("spring.social.google.appId"), environment
-                        .getProperty("spring.social.google.appSecret")));
+        if (Boolean.TRUE.equals(this.allowSocialSignin)) {
+            connectionFactoryConfigurer
+                    .addConnectionFactory(new GoogleConnectionFactory(
+                            environment
+                                    .getProperty("spring.social.google.appId"),
+                            environment
+                                    .getProperty("spring.social.google.appSecret")));
+
+        }
 
     }
 

@@ -1,6 +1,7 @@
 package de.hhn.labswps.wefactor;
 
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.actuate.system.ApplicationPidListener;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -9,6 +10,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 import de.hhn.labswps.wefactor.web.util.DateFormatter;
+import de.hhn.labswps.wefactor.web.util.LabelChecker;
 import de.hhn.labswps.wefactor.web.util.StringUtil;
 import de.hhn.labswps.wefactor.web.util.TimelineUtils;
 
@@ -29,8 +31,16 @@ public class Application {
      * @param args
      *            the vm arguments
      */
-    public static void main(final String[] args) {
-        SpringApplication.run(Application.class, args);
+    // public static void main(final String[] args) {
+    // SpringApplication.run(Application.class, args);
+    // }
+
+    public static void main(String[] args) {
+        SpringApplication springApplication = new SpringApplication(
+                Application.class);
+        springApplication.addListeners(new ApplicationPidListener(
+                "wefactor.pid"));
+        springApplication.run(args);
     }
 
     /**
@@ -41,6 +51,11 @@ public class Application {
     @Bean
     public DateFormatter dateFormatter() {
         return new DateFormatter();
+    }
+
+    @Bean
+    public LabelChecker labelChecker() {
+        return new LabelChecker();
     }
 
     /**

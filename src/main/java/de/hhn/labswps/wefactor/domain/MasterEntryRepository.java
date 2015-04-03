@@ -2,6 +2,8 @@ package de.hhn.labswps.wefactor.domain;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
@@ -19,7 +21,7 @@ public interface MasterEntryRepository extends
      *            the account id
      * @return the list
      */
-    List<Entry> findByAccountId(Long accountId);
+    Page<Entry> findByAccountId(Long accountId, Pageable pageable);
 
     /**
      * Find distinct by group is null or group members.
@@ -28,8 +30,8 @@ public interface MasterEntryRepository extends
      *            the a
      * @return the list
      */
-    List<Entry> findDistinctByGroupIsNullOrGroupMembersOrderByEntryDateDesc(
-            Account a);
+    Page<Entry> findDistinctByGroupIsNullOrGroupMembersOrderByEntryDateDesc(
+            Account a, Pageable pageable);
 
     /**
      * Find distinct by entry description containing or name containing or
@@ -53,13 +55,8 @@ public interface MasterEntryRepository extends
             String pn_searchtext, Account a);
 
     // @formatter:off
-    /**
-     * Search.
-     *
-     * @param searchText the search text
-     * @param account the account
-     * @return the list
-     */
+
+
     @Query("select e "
             + "from MasterEntry e "
             + "left join e.group.members account "
@@ -74,8 +71,8 @@ public interface MasterEntryRepository extends
             + "or "
             + "account = :account)")
     // @formatter:on
-    List<Entry> search(@Param("searchText") String searchText,
-            @Param("account") Account account);
+    Page<Entry> search(@Param("searchText") String searchText,
+            @Param("account") Account account, Pageable pageable);
 
     /**
      * Find distinct by tags name or versions tags name.
@@ -86,7 +83,17 @@ public interface MasterEntryRepository extends
      *            the v tag
      * @return the list
      */
-    List<Entry> findDistinctByTagsNameOrVersionsTagsName(String mTag,
-            String vTag);
+    Page<Entry> findDistinctByTagsNameOrVersionsTagsName(String mTag,
+            String vTag, Pageable pageable);
+
+    List<Entry> findByAccountAndNameAndEntryDescriptionAndLanguageAndChangesAndTeaserAndEntryCodeText(
+            Account account, String title, String description, String language,
+            String changes, String teaser, String code);
+
+    Page<Entry> findByGroup(Group group, Pageable pageable);
+
+    Page<Entry> findByProposalsAccountIdOrderByProposalsCreatedDateDesc(Long id, Pageable pageable);
+
+    Page<Entry> findByVersionsAccountIdOrderByVersionsCreatedDateDesc(Long id, Pageable pageable);
 
 }

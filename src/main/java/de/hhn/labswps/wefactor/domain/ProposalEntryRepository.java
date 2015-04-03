@@ -1,5 +1,7 @@
 package de.hhn.labswps.wefactor.domain;
 
+import java.util.List;
+
 import org.springframework.data.repository.CrudRepository;
 
 /**
@@ -7,5 +9,10 @@ import org.springframework.data.repository.CrudRepository;
  */
 public interface ProposalEntryRepository extends
         CrudRepository<ProposalEntry, Long> {
+
+    List<ProposalEntry> findByAccountAndNameAndEntryDescriptionAndLanguageAndChangesAndTeaserAndEntryCodeTextAndMasterOfProposalAndStatus(
+            Account account, String title, String description, String language,
+            String changes, String teaser, String code, MasterEntry toSave,
+            String name);
 
 }
