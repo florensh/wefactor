@@ -9,12 +9,16 @@ import de.hhn.labswps.wefactor.domain.Account;
 import de.hhn.labswps.wefactor.domain.Entry;
 import de.hhn.labswps.wefactor.domain.Group;
 import de.hhn.labswps.wefactor.domain.MasterEntryRepository;
+import de.hhn.labswps.wefactor.domain.ProposalEntryRepository;
 
 @Service
 public class EntryService {
 
     @Autowired
     private MasterEntryRepository masterEntryRepository;
+
+    @Autowired
+    private ProposalEntryRepository proposalEntryRepository;
 
     public Page<Entry> getEntryList(Account account, Pageable pageable) {
 
@@ -27,6 +31,18 @@ public class EntryService {
     public Page<Entry> getEntryListByUser(Long id, Pageable pageable) {
         final Page<Entry> list = this.masterEntryRepository.findByAccountId(id,
                 pageable);
+        return list;
+    }
+
+    public Page<Entry> getProposalListByUser(Long id, Pageable pageable) {
+        final Page<Entry> list = this.masterEntryRepository
+                .findByProposalsAccountId(id, pageable);
+        return list;
+    }
+
+    public Page<Entry> getVersionListByUser(Long id, Pageable pageable) {
+        final Page<Entry> list = this.masterEntryRepository
+                .findByVersionsAccountId(id, pageable);
         return list;
     }
 

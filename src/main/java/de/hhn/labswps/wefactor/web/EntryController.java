@@ -179,32 +179,33 @@ public class EntryController {
         return "entries";
     }
 
-    // /**
-    // * Show all entries.
-    // *
-    // * @param request
-    // * the request
-    // * @param currentUser
-    // * the current user
-    // * @param model
-    // * the model
-    // * @return the string
-    // */
-    // @RequestMapping(value = "/entries/explore", method = RequestMethod.GET)
-    // public String showAllEntries(final HttpServletRequest request,
-    // final Principal currentUser, final Model model) {
-    //
-    // final EntriesFilterDataObject filter = new EntriesFilterDataObject();
-    // model.addAttribute("entriesFilterDataObject", filter);
-    //
-    // final List<MasterEntry> list = (List<MasterEntry>) this.entryRepository
-    // .findAll();
-    // final EntryList eList = new EntryList();
-    // eList.addAll(list);
-    // model.addAttribute("entries", eList);
-    //
-    // return "entries";
-    // }
+    @RequestMapping(value = "/entries/user/proposals", method = RequestMethod.GET)
+    public String showProposals(
+            @RequestParam(value = "id", required = true) final String id,
+            final Model model, Pageable pageable) {
+
+        model.addAttribute(
+                "page",
+                new EntryList(this.entryService.getProposalListByUser(
+                        Long.valueOf(id), pageable), ""));
+
+        return "entries";
+
+    }
+
+    @RequestMapping(value = "/entries/user/versions", method = RequestMethod.GET)
+    public String showVersions(
+            @RequestParam(value = "id", required = true) final String id,
+            final Model model, Pageable pageable) {
+
+        model.addAttribute(
+                "page",
+                new EntryList(this.entryService.getVersionListByUser(
+                        Long.valueOf(id), pageable), ""));
+
+        return "entries";
+
+    }
 
     /**
      * Show entry.

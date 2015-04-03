@@ -167,6 +167,8 @@
 						<li><a href="/entries/all">Explore</a></li>
 						<!--<li sec:authorize="hasRole('USER')" class="active"><a th:href="@{/entries/user(id=${currentUserProfile.account.id})}">My Entries</a></li>  -->
 						<li class="active"><a th:href="@{/entries/user(id=${currentUserProfile.account.id})}">My Entries</a></li>
+						<li class="active"><a th:href="@{/entries/user/proposals(id=${currentUserProfile.account.id})}">Propsals</a></li>
+						<li class="active"><a th:href="@{/entries/user/versions(id=${currentUserProfile.account.id})}">Versions</a></li>
 						<li><a href="/user/timeline">Timeline <span class="badge" th:text="${unreadEvents}" th:if="${unreadEvents&gt;0}">0</span></a></li>
 					</ul>
 					<ul class="nav">
