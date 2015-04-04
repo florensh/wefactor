@@ -24,7 +24,7 @@
 							<div
 								th:replace="entrydetails_template :: entry_head (${entry.orderedVersions.get(0)})">(description)</div>
 						</div>
-						<div th:if="${entry.status == 'NEW'}" class="row" style="margin-bottom: 20px;">
+						<div th:if="${entry.status == 'NEW' and entry.masterOfProposal.account.primaryProfile.id == currentUserProfile.id}" class="row" style="margin-bottom: 20px;">
 							<div class="col-md-10">
 							<h4 class="pull-left">Do you like that solution?</h4>
 								<div class=" pull-right">

@@ -51,6 +51,7 @@
 								<ul class="nav nav-tabs" role="tablist">
 									<li role="presentation" class="active"><a href="#entry" aria-controls="entry" role="tab" data-toggle="tab">Entry</a></li>
 									<li th:if="${entry.account.primaryProfile.id == currentUserProfile.id}" role="presentation"><a href="#proposals" aria-controls="proposals" role="tab" data-toggle="tab">Proposals <span th:unless="${entry.getAmountOfProposalsByType('NEW')==0}" class="badge" th:text="${entry.getAmountOfProposalsByType('NEW')}">4</span></a></li>
+									<li th:unless="${entry.account.primaryProfile.id == currentUserProfile.id}" role="presentation"><a href="#proposals" aria-controls="proposals" role="tab" data-toggle="tab">History</a></li>
 								</ul>
 
 								<!-- Tab panes -->
@@ -88,7 +89,7 @@
 									</div>
 									<!-- end tab content for entry -->
 									<div role="tabpanel" class="tab-pane fade" id="proposals">
-										<div th:if="${entry.getAmountOfProposalsByType('NEW')&gt; 0}" class="row">
+										<div th:if="${entry.getAmountOfProposalsByType('NEW')&gt; 0 and entry.account.primaryProfile.id == currentUserProfile.id}" class="row">
 											<div class="col-md-12">
 												<div class="alert alert-warning" role="alert"><strong>you have
 													new proposals.</strong><span> Proposals are refactored versions of your code.</span></div>
@@ -105,7 +106,7 @@
 															<table class="table"
 																style="margin-bottom: 0px; font-size: 13px;">
 																<tbody>
-																	<tr th:each="proposal : ${entry.proposals}">
+																	<tr th:each="proposal : ${entry.sortedProposals}">
 																		<td style="width: 20px; padding-right: 0px;"><a
 																			style="vertical-align: middle;"
 																			th:unless="${proposal.account.primaryProfile.imageUrl == null}"
@@ -120,7 +121,10 @@
 																				<strong
 																				th:text="${proposal.account.primaryProfile.name}">Mark</strong>
 																		</a></td>
-																		<td><a  style="color: #999;" th:text="${proposal.changes}" th:href="@{/proposal/details(id=${proposal.id})}">Otto</a></td>
+																		<td>
+																		<h6  th:unless="${entry.account.primaryProfile.id == currentUserProfile.id or proposal.account.primaryProfile.id == currentUserProfile.id}" style="color: #999;" th:text="${proposal.changes}">Otto</h6>
+																		<a th:if="${entry.account.primaryProfile.id == currentUserProfile.id or proposal.account.primaryProfile.id == currentUserProfile.id}" th:text="${proposal.changes}" th:href="@{/proposal/details(id=${proposal.id})}">Otto</a>
+																		</td>
 																		<td style="text-align: right;"><span
 																			style="color: #999;"
 																			th:text="${beans.dateFormatter.format(proposal.createdDate)}">just

@@ -233,24 +233,6 @@ public class EntryController {
     }
 
     /**
-     * Show entry.
-     *
-     * @param request
-     *            the request
-     * @param currentUser
-     *            the current user
-     * @param model
-     *            the model
-     * @return the string
-     */
-    @RequestMapping(value = "/user/entry", method = RequestMethod.GET)
-    public String showEntry(final HttpServletRequest request,
-            final Principal currentUser, final Model model) {
-
-        return "entrydetails";
-    }
-
-    /**
      * Show entry details.
      *
      * @param id
@@ -320,10 +302,27 @@ public class EntryController {
     @RequestMapping(value = "/proposal/details", method = RequestMethod.GET)
     public String showProposalDetails(@RequestParam("id") final Long id,
             final ModelMap model, final Principal currentUser) {
+
         final Entry entry = this.proposalEntryRepository.findOne(id);
+
+        // checkForOwner(entry, currentUser);
 
         model.addAttribute("entry", entry);
         return "proposaldetails";
+    }
+
+    private void checkForOwner(Entry entry, Principal currentUser) {
+
+        UserProfile up = this.userProfileRepository.findByUsername(currentUser
+                .getName());
+        Account account = up.getAccount();
+
+        if (!account.equals(entry.getAccount())) {
+            throw new IllegalArgumentException(
+                    "User is not allowed to do that!");
+
+        }
+
     }
 
     /**
@@ -456,6 +455,7 @@ public class EntryController {
             final ModelMap model, final Principal currentUser) {
 
         MasterEntry entry = this.entryRepository.findOne(id);
+        checkForOwner(entry, currentUser);
         if (entry.getVersions().isEmpty() && entry.getProposals().isEmpty()) {
             this.entryRepository.delete(id);
 
@@ -489,6 +489,7 @@ public class EntryController {
         final Account account = up.getAccount();
 
         final MasterEntry me = pe.getMasterOfProposal();
+        checkForOwner(me, currentUser);
 
         final ObjectIdentification oid = DataUtils.createObjectIdentification(
                 me, Entry.class.getSimpleName());
@@ -536,6 +537,7 @@ public class EntryController {
         final Account account = up.getAccount();
 
         final ProposalEntry pe = this.proposalEntryRepository.findOne(id);
+        checkForOwner(pe.getMasterOfProposal(), currentUser);
 
         pe.setStatus(Status.REJECTED.name());
 
