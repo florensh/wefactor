@@ -23,4 +23,14 @@ public class JournalService {
                 eventType));
     }
 
+    public void writeEntry(String currentUser, EventType eventType, String info) {
+        if (currentUser == null || currentUser.isEmpty()) {
+            return;
+        }
+
+        this.journalEntryRepository.save(new JournalEntry(currentUser,
+                eventType, info));
+
+    }
+
 }
