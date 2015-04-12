@@ -55,7 +55,7 @@ public class AccountService {
                     .findByUsername("SYSTEM");
 
             if (up == null) {
-                Account acc = new Account(Role.USER);
+                Account acc = new Account(Role.ROLE_USER);
                 this.accountRepository.save(acc);
                 up = new UserProfile(acc, "", "SYSTEM", "",
                         ProviderIdentification.WEFACTOR);

@@ -55,7 +55,7 @@ public class AccountConnectionSignUpService implements ConnectionSignUp {
                 .fetchUserProfile();
 
         UserProfile userProfile = new UserProfile(
-                accountRepository.save(new Account(Role.USER)), profile,
+                accountRepository.save(new Account(Role.ROLE_USER)), profile,
                 connection.getImageUrl(),
                 ProviderIdentification.valueOf(connection.getKey()
                         .getProviderId().toUpperCase()));

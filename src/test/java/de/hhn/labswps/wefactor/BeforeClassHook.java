@@ -37,7 +37,7 @@ public class BeforeClassHook extends AbstractTestExecutionListener {
         final UserProfileRepository userProfileRepository = testContext
                 .getApplicationContext().getBean(UserProfileRepository.class);
 
-        final Account account = new Account(Role.USER);
+        final Account account = new Account(Role.ROLE_USER);
         accountRepository.save(account);
         final UserProfile profile = new UserProfile(account, "mail@mail.de",
                 "weFactor_testuser", "password",

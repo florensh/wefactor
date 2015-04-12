@@ -48,7 +48,7 @@ public class SignUpService extends BaseSignUpService {
         }
 
         final Account account = this.accountRepository.save(new Account(
-                Role.USER));
+                Role.ROLE_USER));
 
         UserProfile profile = new UserProfile(account, email, username,
                 this.passwordEncoder.encode(password),
@@ -69,7 +69,7 @@ public class SignUpService extends BaseSignUpService {
         }
 
         final Account account = this.accountRepository.save(new Account(
-                Role.USER));
+                Role.ROLE_USER));
 
         UserProfile profile = new UserProfile(account, null, firstname,
                 lastname, email, username, "nopasswordforldapuser",

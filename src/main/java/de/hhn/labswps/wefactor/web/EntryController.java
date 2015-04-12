@@ -11,7 +11,6 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -138,7 +137,7 @@ public class EntryController {
      * @return the string
      */
 
-    @PreAuthorize("USER")
+    @PreAuthorize("hasRole('ROLE_USER')")
     @RequestMapping(value = "/entries/{scope}", method = RequestMethod.GET)
     public String showEntries(
             @RequestParam(value = "id", required = false) final String id,
@@ -340,7 +339,7 @@ public class EntryController {
      *            the current user
      * @return the string
      */
-    @Secured({ "USER" })
+    @PreAuthorize("hasRole('ROLE_USER')")
     @RequestMapping(value = "user/entry/edit", method = RequestMethod.GET)
     public String showEntryEditPage(@RequestParam("id") final Long id,
             final ModelMap model, final Principal currentUser) {
@@ -372,7 +371,7 @@ public class EntryController {
      *            the current user
      * @return the string
      */
-    @Secured({ "USER" })
+    @PreAuthorize("hasRole('ROLE_USER')")
     @RequestMapping(value = "user/entry/propose", method = RequestMethod.GET)
     public String showEntryEditPageForNewPropose(
             @RequestParam("id") final Long id, final ModelMap model,
@@ -453,7 +452,7 @@ public class EntryController {
      *            the current user
      * @return the string
      */
-    @Secured({ "USER" })
+    @PreAuthorize("hasRole('ROLE_USER')")
     @RequestMapping(value = "user/entry/remove", method = RequestMethod.GET)
     public String deleteEntryPage(@RequestParam("id") final Long id,
             final ModelMap model, final Principal currentUser) {
