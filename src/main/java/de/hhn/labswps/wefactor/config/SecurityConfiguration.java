@@ -12,11 +12,13 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.ldap.userdetails.UserDetailsContextMapper;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.csrf.CsrfFilter;
 import org.springframework.social.security.SocialUserDetailsService;
 import org.springframework.social.security.SpringSocialConfigurer;
 import org.springframework.web.filter.CharacterEncodingFilter;
 
+import de.hhn.labswps.wefactor.CustomAuthenticationSuccessHandler;
 import de.hhn.labswps.wefactor.service.RepositoryUserDetailsService;
 import de.hhn.labswps.wefactor.service.SimpleSocialUserDetailSevice;
 
@@ -71,6 +73,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         .formLogin()
                 .loginPage("/signin")
                 .loginProcessingUrl("/login/authenticate")
+                .successHandler(authenticationSuccessHandler())
                 .failureUrl("/signin?error=bad_credentials")
                 // Configures the logout function
                 .and()
@@ -170,6 +173,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Bean
     public UserDetailsContextMapper userDetailsContextMapper() {
         return new CustomUserDetailsContextMapper();
+    }
+
+    @Bean
+    public AuthenticationSuccessHandler authenticationSuccessHandler() {
+        return new CustomAuthenticationSuccessHandler();
     }
 
 }

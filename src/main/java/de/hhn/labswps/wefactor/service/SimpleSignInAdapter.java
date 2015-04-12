@@ -16,6 +16,8 @@ import org.springframework.social.connect.web.SignInAdapter;
 import org.springframework.social.security.SocialUserDetailsService;
 import org.springframework.web.context.request.NativeWebRequest;
 
+import de.hhn.labswps.wefactor.domain.JournalEntry.EventType;
+
 /**
  * The weFactor implementation of {@link SignInAdapter}.
  */
@@ -23,6 +25,8 @@ public class SimpleSignInAdapter implements SignInAdapter {
 
     /** The request cache. */
     private final RequestCache requestCache;
+
+    private final JournalService journalService;
 
     /** The social user details service. */
     private SocialUserDetailsService socialUserDetailsService;
@@ -38,9 +42,10 @@ public class SimpleSignInAdapter implements SignInAdapter {
     @Inject
     public SimpleSignInAdapter(
             SocialUserDetailsService socialUserDetailsService,
-            RequestCache requestCache) {
+            RequestCache requestCache, JournalService journalService) {
         this.requestCache = requestCache;
         this.socialUserDetailsService = socialUserDetailsService;
+        this.journalService = journalService;
     }
 
     /*
@@ -60,6 +65,7 @@ public class SimpleSignInAdapter implements SignInAdapter {
                 new UsernamePasswordAuthenticationToken(user, null, user
                         .getAuthorities()));
 
+        this.journalService.writeEntry(user.getUsername(), EventType.LOGIN);
         return extractOriginalUrl(request);
     }
 

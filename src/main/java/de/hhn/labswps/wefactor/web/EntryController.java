@@ -43,6 +43,7 @@ import de.hhn.labswps.wefactor.domain.UserProfileRepository;
 import de.hhn.labswps.wefactor.domain.VersionEntry;
 import de.hhn.labswps.wefactor.domain.VersionEntryRepository;
 import de.hhn.labswps.wefactor.service.EntryService;
+import de.hhn.labswps.wefactor.service.JournalService;
 import de.hhn.labswps.wefactor.specification.WeFactorValues;
 import de.hhn.labswps.wefactor.specification.WeFactorValues.EventType;
 import de.hhn.labswps.wefactor.web.DataObjects.EntryDataObject;
@@ -93,6 +94,9 @@ public class EntryController {
     /** The version entry repository. */
     @Autowired
     private VersionEntryRepository versionEntryRepository;
+
+    @Autowired
+    private JournalService journalService;
 
     /** The entry rating repository. */
     @Autowired
@@ -458,6 +462,10 @@ public class EntryController {
         checkForOwner(entry, currentUser);
         if (entry.getVersions().isEmpty() && entry.getProposals().isEmpty()) {
             this.entryRepository.delete(id);
+            this.journalService
+                    .writeEntry(
+                            currentUser.getName(),
+                            de.hhn.labswps.wefactor.domain.JournalEntry.EventType.REMOVE_ENTRY);
 
         } else {
             throw new IllegalArgumentException();
@@ -497,6 +505,10 @@ public class EntryController {
                 pe.getAccount(), EventType.PROPOSAL_ACCEPTED, oid);
 
         this.timelineEventRepository.save(event);
+        this.journalService
+                .writeEntry(
+                        currentUser.getName(),
+                        de.hhn.labswps.wefactor.domain.JournalEntry.EventType.ACCEPT_PROPOSAL);
 
         return "forward:/entry/details?id="
                 + String.valueOf(pe.getMasterOfProposal().getId());
@@ -549,6 +561,11 @@ public class EntryController {
                 pe.getAccount(), EventType.PROPOSAL_REJECTED, oid);
 
         this.timelineEventRepository.save(event);
+
+        this.journalService
+                .writeEntry(
+                        currentUser.getName(),
+                        de.hhn.labswps.wefactor.domain.JournalEntry.EventType.REJECT_PROPSAL);
 
         return "forward:/entry/details?id="
                 + String.valueOf(pe.getMasterOfProposal().getId());
@@ -677,6 +694,11 @@ public class EntryController {
                                 + proposal.getMasterOfProposal().getName(),
                         proposal.getMasterOfProposal().getName(), m);
 
+                this.journalService
+                        .writeEntry(
+                                currentUser.getName(),
+                                de.hhn.labswps.wefactor.domain.JournalEntry.EventType.NEW_PROPOSAL);
+
                 break;
 
             default:
@@ -761,6 +783,7 @@ public class EntryController {
      */
     private MasterEntry saveAsMasterEntry(
             final EntryDataObject entryDataObject, final Principal currentUser) {
+        boolean edit = false;
         MasterEntry toSave;
         boolean doubleEntry = false;
         final String secUser = currentUser.getName();
@@ -769,6 +792,7 @@ public class EntryController {
 
         if (entryDataObject.getId() != null) {
             toSave = this.entryRepository.findOne(entryDataObject.getId());
+            edit = true;
 
         } else {
             List<Entry> list = this.entryRepository
@@ -820,6 +844,18 @@ public class EntryController {
                         toSave.getAccount(), toSave.getGroup(),
                         EventType.MADE_ENTRY, oid);
                 this.timelineEventRepository.save(event);
+            }
+
+            if (edit) {
+                this.journalService
+                        .writeEntry(
+                                currentUser.getName(),
+                                de.hhn.labswps.wefactor.domain.JournalEntry.EventType.EDIT_ENTRY);
+            } else {
+                this.journalService
+                        .writeEntry(
+                                currentUser.getName(),
+                                de.hhn.labswps.wefactor.domain.JournalEntry.EventType.NEW_ENTRY);
             }
 
         }
@@ -925,6 +961,11 @@ public class EntryController {
             entry = ve;
 
         }
+
+        this.journalService
+                .writeEntry(
+                        currentUser.getName(),
+                        de.hhn.labswps.wefactor.domain.JournalEntry.EventType.RATE_ENTRY);
         return entry;
 
     }

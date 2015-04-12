@@ -30,7 +30,7 @@ import de.hhn.labswps.wefactor.web.DataObjects.UserProfileFormDataObject;
  * The controller for user related requests.
  */
 @Controller
-public class UserController {
+public class UserController extends BaseController {
 
     /** The user details service. */
     @Autowired

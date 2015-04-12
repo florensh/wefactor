@@ -28,6 +28,7 @@ import de.hhn.labswps.wefactor.domain.TimelineEventRepository;
 import de.hhn.labswps.wefactor.domain.UserProfile;
 import de.hhn.labswps.wefactor.domain.UserProfileRepository;
 import de.hhn.labswps.wefactor.service.EntryService;
+import de.hhn.labswps.wefactor.service.JournalService;
 import de.hhn.labswps.wefactor.specification.WeFactorValues.EventType;
 import de.hhn.labswps.wefactor.web.DataObjects.EntryList;
 import de.hhn.labswps.wefactor.web.DataObjects.GroupDataObject;
@@ -62,6 +63,9 @@ public class GroupController {
 
     @Autowired
     private EntryService entryService;
+
+    @Autowired
+    private JournalService journalService;
 
     /**
      * Go to group.
@@ -130,6 +134,11 @@ public class GroupController {
 
         this.timelineEventRepository.save(event);
 
+        this.journalService
+                .writeEntry(
+                        currentUser.getName(),
+                        de.hhn.labswps.wefactor.domain.JournalEntry.EventType.JOIN_GROUP);
+
         return this.goToGroupBrowser(model, currentUser);
 
     }
@@ -166,6 +175,11 @@ public class GroupController {
                 profile.getAccount(), group, EventType.USER_LEFT_GROUP, oid);
 
         this.timelineEventRepository.save(event);
+
+        this.journalService
+                .writeEntry(
+                        currentUser.getName(),
+                        de.hhn.labswps.wefactor.domain.JournalEntry.EventType.LEAVE_GROUP);
 
         return this.goToGroupBrowser(model, currentUser);
 
@@ -204,13 +218,7 @@ public class GroupController {
      * @return the string
      */
     @RequestMapping("/user/group/add")
-    public String goToGroupEdit(final ModelMap model,
-            final Principal currentUser) {
-
-        final String secUser = currentUser.getName();
-        final UserProfile profile = this.userProfileRepository
-                .findByUsername(secUser);
-
+    public String goToGroupEdit(final ModelMap model) {
         model.addAttribute("groupDataObject", new GroupDataObject());
 
         return "groupedit";
@@ -248,6 +256,11 @@ public class GroupController {
 
         this.groupRepository.save(group);
         this.accountRepository.save(up.getAccount());
+
+        this.journalService
+                .writeEntry(
+                        currentUser.getName(),
+                        de.hhn.labswps.wefactor.domain.JournalEntry.EventType.CREATE_GROUP);
 
         return this.goToGroupBrowser(m, currentUser);
     }

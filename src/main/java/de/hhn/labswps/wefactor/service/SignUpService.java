@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import de.hhn.labswps.wefactor.domain.Account;
 import de.hhn.labswps.wefactor.domain.AccountRepository;
+import de.hhn.labswps.wefactor.domain.JournalEntry.EventType;
 import de.hhn.labswps.wefactor.domain.UserProfile;
 import de.hhn.labswps.wefactor.domain.UserProfileRepository;
 import de.hhn.labswps.wefactor.specification.WeFactorValues.ProviderIdentification;
@@ -15,7 +16,7 @@ import de.hhn.labswps.wefactor.specification.WeFactorValues.Role;
  * The Class SignUpService.
  */
 @Service
-public class SignUpService {
+public class SignUpService extends BaseSignUpService {
 
     /** The user profile repository. */
     @Autowired
@@ -53,6 +54,7 @@ public class SignUpService {
                 this.passwordEncoder.encode(password),
                 ProviderIdentification.WEFACTOR);
         profile = this.userProfileRepository.save(profile);
+        writeEventToJournal(profile.getUsername(), EventType.REGISTER);
         return profile.getUserId();
 
     }
@@ -74,6 +76,7 @@ public class SignUpService {
                 ProviderIdentification.LDAP);
 
         profile = this.userProfileRepository.save(profile);
+        writeEventToJournal(profile.getUsername(), EventType.REGISTER);
         return profile.getUserId();
 
     }
