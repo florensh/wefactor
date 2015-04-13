@@ -45,7 +45,7 @@ public class JournalService {
         }
 
         List<Object[]> items = this.journalEntryRepository
-                .get24HourStatistic(EventType.RATE_ENTRY);
+                .get24HourStatistic(EventType.REQUEST);
 
         if (items != null && !items.isEmpty()) {
 
