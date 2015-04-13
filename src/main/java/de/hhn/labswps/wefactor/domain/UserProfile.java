@@ -125,7 +125,7 @@ public class UserProfile extends User implements Serializable {
         this.password = password;
         this.account = account;
         account.addProfile(this);
-        this.account.setRoles(WeFactorValues.Role.ROLE_USER.name());
+        // this.account.setRoles(WeFactorValues.Role.ROLE_USER.name());
         this.providerId = providerIdentification.name();
         this.imageUrl = WeFactorValues.DEFAULT_IMAGE_URL;
 
@@ -158,7 +158,7 @@ public class UserProfile extends User implements Serializable {
         this.username = username;
         this.account = account;
         account.addProfile(this);
-        this.account.setRoles(WeFactorValues.Role.ROLE_USER.name());
+        // this.account.setRoles(WeFactorValues.Role.ROLE_USER.name());
 
         this.fixName();
     }
@@ -177,7 +177,7 @@ public class UserProfile extends User implements Serializable {
         this.providerId = providerIdentification.name();
         this.imageUrl = WeFactorValues.DEFAULT_IMAGE_URL;
         account.addProfile(this);
-        this.account.setRoles(WeFactorValues.Role.ROLE_USER.name());
+        // this.account.setRoles(WeFactorValues.Role.ROLE_USER.name());
 
         this.fixName();
     }

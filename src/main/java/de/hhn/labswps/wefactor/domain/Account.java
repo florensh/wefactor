@@ -157,7 +157,7 @@ public class Account {
         if (this.roles != null) {
             for (final String role : this.roles.split(",")) {
                 final SimpleGrantedAuthority authority = new SimpleGrantedAuthority(
-                        role);
+                        role.trim());
                 authorities.add(authority);
             }
 
