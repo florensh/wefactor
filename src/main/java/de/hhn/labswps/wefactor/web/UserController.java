@@ -92,7 +92,7 @@ public class UserController extends BaseController {
      *            the current user
      * @return the string
      */
-    @PreAuthorize("USER")
+    @PreAuthorize("hasRole('ROLE_USER')")
     @RequestMapping(value = "/user/profile/edit", method = RequestMethod.GET)
     public String showEditProfilePage(final Model model,
             final Principal currentUser) {
@@ -126,7 +126,7 @@ public class UserController extends BaseController {
      *            the current user
      * @return the string
      */
-    @PreAuthorize("USER")
+    @PreAuthorize("hasRole('ROLE_USER')")
     @RequestMapping(value = "/user/profile/save", method = RequestMethod.POST)
     public String submitUserEditProfileForm(
             @RequestParam("id") final String id,

@@ -1,6 +1,7 @@
 package de.hhn.labswps.wefactor.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -30,6 +31,9 @@ public class SignUpService extends BaseSignUpService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Value("${registerAsAdmin}")
+    Boolean registerAsAdmin;
+
     /**
      * Execute.
      *
@@ -47,8 +51,13 @@ public class SignUpService extends BaseSignUpService {
             throw new IllegalArgumentException();
         }
 
-        final Account account = this.accountRepository.save(new Account(
-                Role.USER));
+        Account account = new Account();
+        account.addRole(Role.ROLE_USER);
+        if (registerAsAdmin) {
+            account.addRole(Role.ROLE_ADMIN);
+        }
+
+        account = this.accountRepository.save(account);
 
         UserProfile profile = new UserProfile(account, email, username,
                 this.passwordEncoder.encode(password),
@@ -68,8 +77,13 @@ public class SignUpService extends BaseSignUpService {
             throw new IllegalArgumentException();
         }
 
-        final Account account = this.accountRepository.save(new Account(
-                Role.USER));
+        Account account = new Account();
+        account.addRole(Role.ROLE_USER);
+        if (registerAsAdmin) {
+            account.addRole(Role.ROLE_ADMIN);
+        }
+
+        account = this.accountRepository.save(account);
 
         UserProfile profile = new UserProfile(account, null, firstname,
                 lastname, email, username, "nopasswordforldapuser",

@@ -26,6 +26,7 @@ public class JournalService {
                 eventType));
     }
 
+<<<<<<< HEAD
     public void writeEntry(String currentUser, EventType eventType, String info) {
         if (currentUser == null || currentUser.isEmpty()) {
             return;
@@ -36,6 +37,7 @@ public class JournalService {
 
     }
 
+=======
     public List<StatisticValue> getStatistic() {
 
         List<StatisticValue> list = new ArrayList<StatisticValue>();
@@ -88,4 +90,5 @@ public class JournalService {
         public Long users = 0L;
         public Long value = 0L;
     }
+>>>>>>> feature/Admin_Page
 }
