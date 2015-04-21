@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -12,11 +13,13 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.ldap.userdetails.UserDetailsContextMapper;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.csrf.CsrfFilter;
 import org.springframework.social.security.SocialUserDetailsService;
 import org.springframework.social.security.SpringSocialConfigurer;
 import org.springframework.web.filter.CharacterEncodingFilter;
 
+import de.hhn.labswps.wefactor.CustomAuthenticationSuccessHandler;
 import de.hhn.labswps.wefactor.service.RepositoryUserDetailsService;
 import de.hhn.labswps.wefactor.service.SimpleSocialUserDetailSevice;
 
@@ -25,6 +28,7 @@ import de.hhn.labswps.wefactor.service.SimpleSocialUserDetailSevice;
  */
 @Configuration
 @EnableWebMvcSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     /** The Constant BCRYPT_PASSWORD_ENCODER_STRENGTH. */
@@ -71,6 +75,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         .formLogin()
                 .loginPage("/signin")
                 .loginProcessingUrl("/login/authenticate")
+                .successHandler(authenticationSuccessHandler())
                 .failureUrl("/signin?error=bad_credentials")
                 // Configures the logout function
                 .and()
@@ -110,7 +115,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             auth.ldapAuthentication()
                     .userDnPatterns("uid={0},ou=people,dc=hs-heilbronn, dc=de")
                     .groupSearchBase("dc=hs-heilbronn, dc=de").contextSource()
-                    .url("ldaps://zld0-master.hs-heilbronn.de").port(636)
+                    .url("ldaps://ldap-master.hs-heilbronn.de").port(636)
                     // .ldif("classpath:test-server.ldif")
                     .and().userDetailsContextMapper(userDetailsContextMapper())
 
@@ -170,6 +175,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Bean
     public UserDetailsContextMapper userDetailsContextMapper() {
         return new CustomUserDetailsContextMapper();
+    }
+
+    @Bean
+    public AuthenticationSuccessHandler authenticationSuccessHandler() {
+        return new CustomAuthenticationSuccessHandler();
     }
 
 }

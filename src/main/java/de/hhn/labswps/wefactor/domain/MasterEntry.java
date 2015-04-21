@@ -26,8 +26,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 // @SQLDelete(sql = "UPDATE entry set inactive = 'Y' WHERE Id = ?")
 @JsonIgnoreProperties({ "id", "parent", "softDeleted", "createdBy",
         "lastModifiedBy", "orderedVersions", "orderedVersionIds",
-        "orderedVersionTypes", "versions", "proposals", "ratings",
-        "hibernateLazyInitializer", "handler", "headVersion", "group" })
+        "orderedVersionTypes", "versions", "proposals", "sortedProposals",
+        "ratings", "hibernateLazyInitializer", "handler", "headVersion",
+        "group" })
 public class MasterEntry extends Entry {
 
     /** The versions. */
@@ -114,6 +115,13 @@ public class MasterEntry extends Entry {
     @OneToMany(mappedBy = "masterOfProposal")
     public Set<ProposalEntry> getProposals() {
         return this.proposals;
+    }
+
+    @Transient
+    public List<ProposalEntry> getSortedProposals() {
+        List<ProposalEntry> list = new ArrayList<ProposalEntry>(this.proposals);
+        Collections.sort(list);
+        return list;
     }
 
     /**

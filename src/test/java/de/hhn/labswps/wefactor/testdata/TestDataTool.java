@@ -192,7 +192,7 @@ public class TestDataTool extends BaseTest {
      */
     private void makeAccountAndStore(String[] user) {
 
-        Account account = new Account(Role.USER);
+        Account account = new Account(Role.ROLE_USER);
         Group group = this.groupRepository.findByNameContaining(THE_GROUP).get(
                 0);
         this.accountRepository.save(account);

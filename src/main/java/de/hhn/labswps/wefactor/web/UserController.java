@@ -30,7 +30,7 @@ import de.hhn.labswps.wefactor.web.DataObjects.UserProfileFormDataObject;
  * The controller for user related requests.
  */
 @Controller
-public class UserController {
+public class UserController extends BaseController {
 
     /** The user details service. */
     @Autowired
@@ -92,7 +92,7 @@ public class UserController {
      *            the current user
      * @return the string
      */
-    @PreAuthorize("USER")
+    @PreAuthorize("hasRole('ROLE_USER')")
     @RequestMapping(value = "/user/profile/edit", method = RequestMethod.GET)
     public String showEditProfilePage(final Model model,
             final Principal currentUser) {
@@ -126,7 +126,7 @@ public class UserController {
      *            the current user
      * @return the string
      */
-    @PreAuthorize("USER")
+    @PreAuthorize("hasRole('ROLE_USER')")
     @RequestMapping(value = "/user/profile/save", method = RequestMethod.POST)
     public String submitUserEditProfileForm(
             @RequestParam("id") final String id,

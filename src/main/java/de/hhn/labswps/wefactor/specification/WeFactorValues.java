@@ -190,9 +190,9 @@ public class WeFactorValues {
     public enum Role {
 
         /** The user. */
-        USER, /** The admin. */
-        ADMIN, /** The moderator. */
-        MODERATOR
+        ROLE_USER, /** The admin. */
+        ROLE_ADMIN, /** The moderator. */
+        ROLE_MODERATOR
     }
 
     /**

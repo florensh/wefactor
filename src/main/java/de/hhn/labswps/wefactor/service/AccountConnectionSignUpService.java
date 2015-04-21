@@ -7,6 +7,7 @@ import org.springframework.social.connect.ConnectionSignUp;
 
 import de.hhn.labswps.wefactor.domain.Account;
 import de.hhn.labswps.wefactor.domain.AccountRepository;
+import de.hhn.labswps.wefactor.domain.JournalEntry.EventType;
 import de.hhn.labswps.wefactor.domain.UserProfile;
 import de.hhn.labswps.wefactor.domain.UserProfileRepository;
 import de.hhn.labswps.wefactor.specification.WeFactorValues.ProviderIdentification;
@@ -30,9 +31,10 @@ public class AccountConnectionSignUpService implements ConnectionSignUp {
      *            the account repository
      */
     public AccountConnectionSignUpService(UserProfileRepository repository,
-            AccountRepository accountRepository) {
+            AccountRepository accountRepository, JournalService journalService) {
         this.userProfileRepository = repository;
         this.accountRepository = accountRepository;
+        this.journalService = journalService;
     }
 
     /** The user profile repository. */
@@ -40,6 +42,8 @@ public class AccountConnectionSignUpService implements ConnectionSignUp {
 
     /** The account repository. */
     private AccountRepository accountRepository;
+
+    private JournalService journalService;
 
     /*
      * (non-Javadoc)
@@ -51,12 +55,14 @@ public class AccountConnectionSignUpService implements ConnectionSignUp {
                 .fetchUserProfile();
 
         UserProfile userProfile = new UserProfile(
-                accountRepository.save(new Account(Role.USER)), profile,
+                accountRepository.save(new Account(Role.ROLE_USER)), profile,
                 connection.getImageUrl(),
                 ProviderIdentification.valueOf(connection.getKey()
                         .getProviderId().toUpperCase()));
 
         userProfile = userProfileRepository.save(userProfile);
+        this.journalService.writeEntry(profile.getUsername(),
+                EventType.REGISTER);
         return userProfile.getUserId();
     }
 

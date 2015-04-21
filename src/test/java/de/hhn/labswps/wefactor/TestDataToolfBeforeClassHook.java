@@ -39,7 +39,7 @@ public class TestDataToolfBeforeClassHook extends AbstractTestExecutionListener 
                 .findByUsername("weFactor_testuser");
 
         if (up == null) {
-            final Account account = new Account(Role.USER);
+            final Account account = new Account(Role.ROLE_USER);
             accountRepository.save(account);
             final UserProfile profile = new UserProfile(account,
                     "mail@mail.de", "weFactor_testuser", "password",

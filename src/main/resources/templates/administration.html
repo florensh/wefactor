@@ -1,0 +1,404 @@
+<!doctype html>
+<html lang="de" xmlns:th="http://www.thymeleaf.org">
+<head th:include="layout :: htmlhead" th:with="title='Hello'"></head>
+<body>
+	<div class="page-container">
+
+		<!-- top navbar -->
+		<div th:replace="layout :: top-navbar">(navbar)</div>
+
+		<div class="container">
+			<div class="row row-offcanvas row-offcanvas-left">
+
+				<div th:replace="layout :: sidebar">(navbar)</div>
+
+				<div class="col-xs-12 col-sm-10">
+				<!-- content ############################################################################################################# -->
+					<div class="row">
+						<div class="col-xs-12 col-sm-12">
+							<h2 style="margin-top:0px;">Administration</h2>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-xs-12 col-sm-12">
+							
+
+							<form role="form" th:action="@{/administration}" method="get" th:object="${adminStatisticsDataObject}">
+							<div class="row">
+							<div class="col-md-6">
+								<div id="NewCombobox" style="float: left;">
+									<!--  Combobox NEW  -->
+									<select th:field="*{eventType}" id="e1">
+										<option th:each="type : ${types}" th:attr="value=${type}" th:text="${type.displayName}">type</option>
+									</select>
+								</div>
+								<h4 style="margin-top:5px;">&nbsp;per day</h4>
+								<div style="clear: both;"></div>
+							</div>
+							
+							
+									<div class="pull-right">
+									<button type="submit" class="btn btn-info">
+										<i class="fa fa-refresh"></i>
+									</button>
+									</div>
+							
+							
+							<div class="col-md-2 pull-right">
+								<div class="datepicker fuelux" id="myDatepicker" style="width: 140px">
+								  <div class="input-group">
+								      <input th:field="*{day}" class="form-control" id="myDatepickerInput" type="text" />
+								    <div class="input-group-btn">
+								      <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+								        <span class="glyphicon glyphicon-calendar"></span>
+								        <span class="sr-only">Toggle Calendar</span>
+								      </button>
+								      <div class="dropdown-menu dropdown-menu-right datepicker-calendar-wrapper" role="menu">
+								        <div class="datepicker-calendar">
+								          <div class="datepicker-calendar-header">
+								            <button type="button" class="prev"><span class="glyphicon glyphicon-chevron-left"></span><span class="sr-only">Previous Month</span></button>
+								            <button type="button" class="next"><span class="glyphicon glyphicon-chevron-right"></span><span class="sr-only">Next Month</span></button>
+								            <button type="button" class="title" data-month="11" data-year="2014">
+								                <span class="month">
+								                  <span data-month="0">January</span>
+								                  <span data-month="1">February</span>
+								                  <span data-month="2">March</span>
+								                  <span data-month="3">April</span>
+								                  <span data-month="4">May</span>
+								                  <span data-month="5">June</span>
+								                  <span data-month="6">July</span>
+								                  <span data-month="7">August</span>
+								                  <span data-month="8">September</span>
+								                  <span data-month="9">October</span>
+								                  <span data-month="10">November</span>
+								                  <span data-month="11" class="current">December</span>
+								                </span> <span class="year">2014</span>
+								            </button>
+								          </div>
+								          <table class="datepicker-calendar-days">
+								            <thead>
+								            <tr>
+								              <th>Su</th>
+								              <th>Mo</th>
+								              <th>Tu</th>
+								              <th>We</th>
+								              <th>Th</th>
+								              <th>Fr</th>
+								              <th>Sa</th>
+								            </tr>
+								            </thead>
+								            <tbody></tbody>
+								          </table>
+								          <div class="datepicker-calendar-footer">
+								            <button type="button" class="datepicker-today">Today</button>
+								          </div>
+								        </div>
+								        <div class="datepicker-wheels" aria-hidden="true">
+								          <div class="datepicker-wheels-month">
+								            <h2 class="header">Month</h2>
+								            <ul>
+								              <li data-month="0"><button type="button">Jan</button></li>
+								              <li data-month="1"><button type="button">Feb</button></li>
+								              <li data-month="2"><button type="button">Mar</button></li>
+								              <li data-month="3"><button type="button">Apr</button></li>
+								              <li data-month="4"><button type="button">May</button></li>
+								              <li data-month="5"><button type="button">Jun</button></li>
+								              <li data-month="6"><button type="button">Jul</button></li>
+								              <li data-month="7"><button type="button">Aug</button></li>
+								              <li data-month="8"><button type="button">Sep</button></li>
+								              <li data-month="9"><button type="button">Oct</button></li>
+								              <li data-month="10"><button type="button">Nov</button></li>
+								              <li data-month="11"><button type="button">Dec</button></li>
+								            </ul>
+								          </div>
+								          <div class="datepicker-wheels-year">
+								            <h2 class="header">Year</h2>
+								            <ul></ul>
+								          </div>
+								          <div class="datepicker-wheels-footer clearfix">
+								            <button type="button" class="btn datepicker-wheels-back"><span class="glyphicon glyphicon-arrow-left"></span><span class="sr-only">Return to Calendar</span></button>
+								            <button type="button" class="btn datepicker-wheels-select">Select <span class="sr-only">Month and Year</span></button>
+								          </div>
+								        </div>
+								      </div>
+								    </div>
+								  </div>
+								</div>
+</div>
+
+
+
+
+
+
+
+								
+							</div>
+							</form>
+
+
+							<canvas id="myChart" width="400" height="100"></canvas>
+						</div>
+						
+						<!--  
+						<div class="col-xs-12 col-sm-4">
+
+							<h4>Registered Users: 105</h4>
+							<h4>Users online: 15</h4>
+
+
+						</div>
+						-->
+					</div>
+					<!-- content ############################################################################################################# -->
+				</div>
+			</div>
+			<!--/.row-->
+		</div>
+		<!--/.container-->
+	</div>
+	<!--/.page-container-->
+	<!-- script references -->
+	<script
+		src="//ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
+	<script th:src="@{/webjars/bootstrap/3.2.0/js/bootstrap.min.js}"></script>
+	<script th:src="@{/webjars/fuelux/3.0.2/js/fuelux.min.js}"></script>
+	<script th:src="@{/js/scripts.js}"></script>
+	<script th:src="@{/js/Chart.js}"></script>
+	<script th:src="@{/select2-3.5.2/select2.js}"></script>
+
+	<script th:inline="javascript">
+		/*<![CDATA[*/
+		           
+		           
+		Chart.defaults.global = {
+		    // Boolean - Whether to animate the chart
+		    animation: true,
+		
+		    // Number - Number of animation steps
+		    animationSteps: 60,
+		
+		    // String - Animation easing effect
+		    animationEasing: "easeOutQuart",
+		
+		    // Boolean - If we should show the scale at all
+		    showScale: true,
+		
+		    // Boolean - If we want to override with a hard coded scale
+		    scaleOverride: false,
+		
+		    // ** Required if scaleOverride is true **
+		    // Number - The number of steps in a hard coded scale
+		    scaleSteps: null,
+		    // Number - The value jump in the hard coded scale
+		    scaleStepWidth: null,
+		    // Number - The scale starting value
+		    scaleStartValue: null,
+		
+		    // String - Colour of the scale line
+		    scaleLineColor: "rgba(0,0,0,.1)",
+		
+		    // Number - Pixel width of the scale line
+		    scaleLineWidth: 1,
+		
+		    // Boolean - Whether to show labels on the scale
+		    scaleShowLabels: true,
+		
+		    // Interpolated JS string - can access value
+		    scaleLabel: "<%=value%>",
+		
+		    // Boolean - Whether the scale should stick to integers, not floats even if drawing space is there
+		    scaleIntegersOnly: true,
+		
+		    // Boolean - Whether the scale should start at zero, or an order of magnitude down from the lowest value
+		    scaleBeginAtZero: false,
+		
+		    // String - Scale label font declaration for the scale label
+		    scaleFontFamily: "'Helvetica Neue', 'Helvetica', 'Arial', sans-serif",
+		
+		    // Number - Scale label font size in pixels
+		    scaleFontSize: 12,
+		
+		    // String - Scale label font weight style
+		    scaleFontStyle: "normal",
+		
+		    // String - Scale label font colour
+		    scaleFontColor: "#666",
+		
+		    // Boolean - whether or not the chart should be responsive and resize when the browser does.
+		    responsive: true,
+		
+		    // Boolean - whether to maintain the starting aspect ratio or not when responsive, if set to false, will take up entire container
+		    maintainAspectRatio: true,
+		
+		    // Boolean - Determines whether to draw tooltips on the canvas or not
+		    showTooltips: true,
+		
+		    // Function - Determines whether to execute the customTooltips function instead of drawing the built in tooltips (See [Advanced - External Tooltips](#advanced-usage-custom-tooltips))
+		    customTooltips: false,
+		
+		    // Array - Array of string names to attach tooltip events
+		    tooltipEvents: ["mousemove", "touchstart", "touchmove"],
+		
+		    // String - Tooltip background colour
+		    tooltipFillColor: "rgba(0,0,0,0.8)",
+		
+		    // String - Tooltip label font declaration for the scale label
+		    tooltipFontFamily: "'Helvetica Neue', 'Helvetica', 'Arial', sans-serif",
+		
+		    // Number - Tooltip label font size in pixels
+		    tooltipFontSize: 14,
+		
+		    // String - Tooltip font weight style
+		    tooltipFontStyle: "normal",
+		
+		    // String - Tooltip label font colour
+		    tooltipFontColor: "#fff",
+		
+		    // String - Tooltip title font declaration for the scale label
+		    tooltipTitleFontFamily: "'Helvetica Neue', 'Helvetica', 'Arial', sans-serif",
+		
+		    // Number - Tooltip title font size in pixels
+		    tooltipTitleFontSize: 14,
+		
+		    // String - Tooltip title font weight style
+		    tooltipTitleFontStyle: "bold",
+		
+		    // String - Tooltip title font colour
+		    tooltipTitleFontColor: "#fff",
+		
+		    // Number - pixel width of padding around tooltip text
+		    tooltipYPadding: 6,
+		
+		    // Number - pixel width of padding around tooltip text
+		    tooltipXPadding: 6,
+		
+		    // Number - Size of the caret on the tooltip
+		    tooltipCaretSize: 8,
+		
+		    // Number - Pixel radius of the tooltip border
+		    tooltipCornerRadius: 6,
+		
+		    // Number - Pixel offset from point x to tooltip edge
+		    tooltipXOffset: 10,
+		
+		    // String - Template string for single tooltips
+		    tooltipTemplate: "<%if (label){%><%=label%>: <%}%><%= value %>",
+		
+		    // String - Template string for multiple tooltips
+		    multiTooltipTemplate: "<%= value %>",
+		
+		    // Function - Will fire on animation progression.
+		    onAnimationProgress: function(){},
+		
+		    // Function - Will fire on animation completion.
+		    onAnimationComplete: function(){}
+		}		           
+		var ctx = document.getElementById("myChart").getContext("2d");
+		
+		var options = {
+
+			    ///Boolean - Whether grid lines are shown across the chart
+			    scaleShowGridLines : true,
+
+			    //String - Colour of the grid lines
+			    scaleGridLineColor : "rgba(0,0,0,.05)",
+
+			    //Number - Width of the grid lines
+			    scaleGridLineWidth : 1,
+
+			    //Boolean - Whether to show horizontal lines (except X axis)
+			    scaleShowHorizontalLines: true,
+
+			    //Boolean - Whether to show vertical lines (except Y axis)
+			    scaleShowVerticalLines: true,
+
+			    //Boolean - Whether the line is curved between points
+			    bezierCurve : true,
+
+			    //Number - Tension of the bezier curve between points
+			    bezierCurveTension : 0.4,
+
+			    //Boolean - Whether to show a dot for each point
+			    pointDot : true,
+
+			    //Number - Radius of each point dot in pixels
+			    pointDotRadius : 4,
+
+			    //Number - Pixel width of point dot stroke
+			    pointDotStrokeWidth : 1,
+
+			    //Number - amount extra to add to the radius to cater for hit detection outside the drawn point
+			    pointHitDetectionRadius : 20,
+
+			    //Boolean - Whether to show a stroke for datasets
+			    datasetStroke : true,
+
+			    //Number - Pixel width of dataset stroke
+			    datasetStrokeWidth : 2,
+
+			    //Boolean - Whether to fill the dataset with a colour
+			    datasetFill : true,
+
+			    //String - A legend template
+			    legendTemplate : "<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<datasets.length; i++){%><li><span style=\"background-color:<%=datasets[i].strokeColor%>\"></span><%if(datasets[i].label){%><%=datasets[i].label%><%}%></li><%}%></ul>"
+
+			};
+		
+		var data = {
+			    labels: ["00:00", "01:00", "02:00", "03:00", "04:00", "05:00", "06:00", "07:00", "08:00", "09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00", "22:00", "23:00"],
+			    datasets: [
+			        {
+			            label: "requests",
+			            fillColor: "rgba(220,220,220,0.2)",
+			            strokeColor: "rgba(220,220,220,1)",
+			            pointColor: "rgba(220,220,220,1)",
+			            pointStrokeColor: "#fff",
+			            pointHighlightFill: "#fff",
+			            pointHighlightStroke: "rgba(220,220,220,1)",
+			        	data: /*[[${data}]]*/'data'
+			        },
+			        {
+			            label: "online users",
+			            fillColor: "rgba(151,187,205,0.2)",
+			            strokeColor: "rgba(151,187,205,1)",
+			            pointColor: "rgba(151,187,205,1)",
+			            pointStrokeColor: "#fff",
+			            pointHighlightFill: "#fff",
+			            pointHighlightStroke: "rgba(151,187,205,1)",
+			            data: /*[[${users}]]*/'data'
+			        }
+			    ]
+			};
+		
+		var myLineChart = new Chart(ctx).Line(data, options);
+		
+
+		/*]]>*/
+	</script>
+	
+	
+	
+	<!-- Javascript Combobox, Datepicker -->
+	<script th:inline="javascript">
+		/*<![CDATA[*/
+		           
+
+		$(document).ready(function() {
+			$("#e1").select2({
+				allowClear : false
+			});
+		});
+
+		$(document).ready(function() {
+			$('#myDatepicker').datepicker({
+				allowPastDates: true
+			});
+		});
+
+		/*]]>*/
+	</script>
+	
+	
+</body>
+</html>

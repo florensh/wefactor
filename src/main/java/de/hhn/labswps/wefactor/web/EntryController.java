@@ -11,7 +11,6 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -43,6 +42,7 @@ import de.hhn.labswps.wefactor.domain.UserProfileRepository;
 import de.hhn.labswps.wefactor.domain.VersionEntry;
 import de.hhn.labswps.wefactor.domain.VersionEntryRepository;
 import de.hhn.labswps.wefactor.service.EntryService;
+import de.hhn.labswps.wefactor.service.JournalService;
 import de.hhn.labswps.wefactor.specification.WeFactorValues;
 import de.hhn.labswps.wefactor.specification.WeFactorValues.EventType;
 import de.hhn.labswps.wefactor.web.DataObjects.EntryDataObject;
@@ -94,6 +94,9 @@ public class EntryController {
     @Autowired
     private VersionEntryRepository versionEntryRepository;
 
+    @Autowired
+    private JournalService journalService;
+
     /** The entry rating repository. */
     @Autowired
     private EntryRatingRepository entryRatingRepository;
@@ -134,7 +137,7 @@ public class EntryController {
      * @return the string
      */
 
-    @PreAuthorize("USER")
+    @PreAuthorize("hasRole('ROLE_USER')")
     @RequestMapping(value = "/entries/{scope}", method = RequestMethod.GET)
     public String showEntries(
             @RequestParam(value = "id", required = false) final String id,
@@ -233,24 +236,6 @@ public class EntryController {
     }
 
     /**
-     * Show entry.
-     *
-     * @param request
-     *            the request
-     * @param currentUser
-     *            the current user
-     * @param model
-     *            the model
-     * @return the string
-     */
-    @RequestMapping(value = "/user/entry", method = RequestMethod.GET)
-    public String showEntry(final HttpServletRequest request,
-            final Principal currentUser, final Model model) {
-
-        return "entrydetails";
-    }
-
-    /**
      * Show entry details.
      *
      * @param id
@@ -320,10 +305,27 @@ public class EntryController {
     @RequestMapping(value = "/proposal/details", method = RequestMethod.GET)
     public String showProposalDetails(@RequestParam("id") final Long id,
             final ModelMap model, final Principal currentUser) {
+
         final Entry entry = this.proposalEntryRepository.findOne(id);
+
+        // checkForOwner(entry, currentUser);
 
         model.addAttribute("entry", entry);
         return "proposaldetails";
+    }
+
+    private void checkForOwner(Entry entry, Principal currentUser) {
+
+        UserProfile up = this.userProfileRepository.findByUsername(currentUser
+                .getName());
+        Account account = up.getAccount();
+
+        if (!account.equals(entry.getAccount())) {
+            throw new IllegalArgumentException(
+                    "User is not allowed to do that!");
+
+        }
+
     }
 
     /**
@@ -337,7 +339,7 @@ public class EntryController {
      *            the current user
      * @return the string
      */
-    @Secured({ "USER" })
+    @PreAuthorize("hasRole('ROLE_USER')")
     @RequestMapping(value = "user/entry/edit", method = RequestMethod.GET)
     public String showEntryEditPage(@RequestParam("id") final Long id,
             final ModelMap model, final Principal currentUser) {
@@ -369,7 +371,7 @@ public class EntryController {
      *            the current user
      * @return the string
      */
-    @Secured({ "USER" })
+    @PreAuthorize("hasRole('ROLE_USER')")
     @RequestMapping(value = "user/entry/propose", method = RequestMethod.GET)
     public String showEntryEditPageForNewPropose(
             @RequestParam("id") final Long id, final ModelMap model,
@@ -450,14 +452,19 @@ public class EntryController {
      *            the current user
      * @return the string
      */
-    @Secured({ "USER" })
+    @PreAuthorize("hasRole('ROLE_USER')")
     @RequestMapping(value = "user/entry/remove", method = RequestMethod.GET)
     public String deleteEntryPage(@RequestParam("id") final Long id,
             final ModelMap model, final Principal currentUser) {
 
         MasterEntry entry = this.entryRepository.findOne(id);
+        checkForOwner(entry, currentUser);
         if (entry.getVersions().isEmpty() && entry.getProposals().isEmpty()) {
             this.entryRepository.delete(id);
+            this.journalService
+                    .writeEntry(
+                            currentUser.getName(),
+                            de.hhn.labswps.wefactor.domain.JournalEntry.EventType.REMOVE_ENTRY);
 
         } else {
             throw new IllegalArgumentException();
@@ -489,6 +496,7 @@ public class EntryController {
         final Account account = up.getAccount();
 
         final MasterEntry me = pe.getMasterOfProposal();
+        checkForOwner(me, currentUser);
 
         final ObjectIdentification oid = DataUtils.createObjectIdentification(
                 me, Entry.class.getSimpleName());
@@ -496,6 +504,10 @@ public class EntryController {
                 pe.getAccount(), EventType.PROPOSAL_ACCEPTED, oid);
 
         this.timelineEventRepository.save(event);
+        this.journalService
+                .writeEntry(
+                        currentUser.getName(),
+                        de.hhn.labswps.wefactor.domain.JournalEntry.EventType.ACCEPT_PROPOSAL);
 
         return "forward:/entry/details?id="
                 + String.valueOf(pe.getMasterOfProposal().getId());
@@ -536,6 +548,7 @@ public class EntryController {
         final Account account = up.getAccount();
 
         final ProposalEntry pe = this.proposalEntryRepository.findOne(id);
+        checkForOwner(pe.getMasterOfProposal(), currentUser);
 
         pe.setStatus(Status.REJECTED.name());
 
@@ -547,6 +560,11 @@ public class EntryController {
                 pe.getAccount(), EventType.PROPOSAL_REJECTED, oid);
 
         this.timelineEventRepository.save(event);
+
+        this.journalService
+                .writeEntry(
+                        currentUser.getName(),
+                        de.hhn.labswps.wefactor.domain.JournalEntry.EventType.REJECT_PROPSAL);
 
         return "forward:/entry/details?id="
                 + String.valueOf(pe.getMasterOfProposal().getId());
@@ -675,6 +693,11 @@ public class EntryController {
                                 + proposal.getMasterOfProposal().getName(),
                         proposal.getMasterOfProposal().getName(), m);
 
+                this.journalService
+                        .writeEntry(
+                                currentUser.getName(),
+                                de.hhn.labswps.wefactor.domain.JournalEntry.EventType.NEW_PROPOSAL);
+
                 break;
 
             default:
@@ -759,6 +782,7 @@ public class EntryController {
      */
     private MasterEntry saveAsMasterEntry(
             final EntryDataObject entryDataObject, final Principal currentUser) {
+        boolean edit = false;
         MasterEntry toSave;
         boolean doubleEntry = false;
         final String secUser = currentUser.getName();
@@ -767,6 +791,7 @@ public class EntryController {
 
         if (entryDataObject.getId() != null) {
             toSave = this.entryRepository.findOne(entryDataObject.getId());
+            edit = true;
 
         } else {
             List<Entry> list = this.entryRepository
@@ -818,6 +843,18 @@ public class EntryController {
                         toSave.getAccount(), toSave.getGroup(),
                         EventType.MADE_ENTRY, oid);
                 this.timelineEventRepository.save(event);
+            }
+
+            if (edit) {
+                this.journalService
+                        .writeEntry(
+                                currentUser.getName(),
+                                de.hhn.labswps.wefactor.domain.JournalEntry.EventType.EDIT_ENTRY);
+            } else {
+                this.journalService
+                        .writeEntry(
+                                currentUser.getName(),
+                                de.hhn.labswps.wefactor.domain.JournalEntry.EventType.NEW_ENTRY);
             }
 
         }
@@ -923,6 +960,11 @@ public class EntryController {
             entry = ve;
 
         }
+
+        this.journalService
+                .writeEntry(
+                        currentUser.getName(),
+                        de.hhn.labswps.wefactor.domain.JournalEntry.EventType.RATE_ENTRY);
         return entry;
 
     }

@@ -25,6 +25,7 @@ import de.hhn.labswps.wefactor.domain.UserConnectionRepository;
 import de.hhn.labswps.wefactor.domain.UserProfileRepository;
 import de.hhn.labswps.wefactor.domain.UsersConnectionRepositoryDelegate;
 import de.hhn.labswps.wefactor.service.AccountConnectionSignUpService;
+import de.hhn.labswps.wefactor.service.JournalService;
 import de.hhn.labswps.wefactor.service.SimpleSignInAdapter;
 
 /**
@@ -56,6 +57,9 @@ public class SocialConfig implements SocialConfigurer {
     /** The user connection repository. */
     @Autowired
     private UserConnectionRepository userConnectionRepository;
+
+    @Autowired
+    private JournalService journalService;
 
     /*
      * (non-Javadoc)
@@ -105,7 +109,8 @@ public class SocialConfig implements SocialConfigurer {
                 connectionFactoryLocator, Encryptors.noOpText(),
                 this.userConnectionRepository);
         repository.setConnectionSignUp(new AccountConnectionSignUpService(
-                this.userProfileRepository, this.accountRepository));
+                this.userProfileRepository, this.accountRepository,
+                this.journalService));
         return repository;
     }
 
@@ -125,6 +130,6 @@ public class SocialConfig implements SocialConfigurer {
         return new ProviderSignInController(connectionFactoryLocator,
                 usersConnectionRepository, new SimpleSignInAdapter(
                         this.socialUserDetailsService,
-                        new HttpSessionRequestCache()));
+                        new HttpSessionRequestCache(), this.journalService));
     }
 }
