@@ -1,3 +1,31 @@
+#adminSelection ul
+{
+margin: 0;
+padding: 0;
+list-style-type: none;
+text-align: center;
+}
+
+#adminSelection ul li { display: inline; }
+
+#adminSelection ul li a
+{
+text-decoration: none;
+padding: .2em 1em;
+color: #fff;
+background-color: #036;
+}
+
+#adminSelection ul li a:hover
+{
+color: #fff;
+background-color: #369;
+}
+
+
+
+
+
 #userNameProfil {
   padding-left: 0px;
 }

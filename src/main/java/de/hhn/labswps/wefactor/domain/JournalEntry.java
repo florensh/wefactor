@@ -15,7 +15,32 @@ import org.springframework.data.annotation.CreatedDate;
 public class JournalEntry {
 
     public enum EventType {
-        REGISTER, LOGIN, NEW_ENTRY, EDIT_ENTRY, REMOVE_ENTRY, NEW_PROPOSAL, ACCEPT_PROPOSAL, REJECT_PROPSAL, JOIN_GROUP, CREATE_GROUP, LEAVE_GROUP, RATE_ENTRY, REQUEST
+        // @formatter:off
+        REGISTER("Register"), 
+        LOGIN("Login"), 
+        NEW_ENTRY("New entry"), 
+        EDIT_ENTRY("Edit entry"), 
+        REMOVE_ENTRY("Remove entry"), 
+        NEW_PROPOSAL("New proposal"), 
+        ACCEPT_PROPOSAL("Accept proposal"), 
+        REJECT_PROPSAL("Reject proposal"), 
+        JOIN_GROUP("Join group"), 
+        CREATE_GROUP("Create group"), 
+        LEAVE_GROUP("Leave group"), 
+        RATE_ENTRY("Rate entry"), 
+        REQUEST("Request");
+        // @formatter:on
+
+        private String displayName;
+
+        EventType(String displayName) {
+            this.displayName = displayName;
+        }
+
+        public String getDisplayName() {
+            return this.displayName;
+        }
+
     }
 
     private Long id;

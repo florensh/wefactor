@@ -115,7 +115,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             auth.ldapAuthentication()
                     .userDnPatterns("uid={0},ou=people,dc=hs-heilbronn, dc=de")
                     .groupSearchBase("dc=hs-heilbronn, dc=de").contextSource()
-                    .url("ldaps://zld0-master.hs-heilbronn.de").port(636)
+                    .url("ldaps://ldap-master.hs-heilbronn.de").port(636)
                     // .ldif("classpath:test-server.ldif")
                     .and().userDetailsContextMapper(userDetailsContextMapper())
 

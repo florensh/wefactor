@@ -1,6 +1,8 @@
 package de.hhn.labswps.wefactor.service;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,16 +38,28 @@ public class JournalService {
 
     }
 
-    public List<StatisticValue> getStatistic() {
+    public List<StatisticValue> getStatistic(Date date, EventType eventType) {
 
         List<StatisticValue> list = new ArrayList<StatisticValue>();
+        Calendar day = Calendar.getInstance();
+        day.setTime(date);
+        day.set(Calendar.HOUR_OF_DAY, 0);
+        day.set(Calendar.MINUTE, 0);
+        day.set(Calendar.SECOND, 0);
+        day.set(Calendar.MILLISECOND, 0);
+
+        Date beginDate = day.getTime();
+        Calendar c_end = Calendar.getInstance();
+        c_end.setTime(beginDate);
+        c_end.add(Calendar.DAY_OF_MONTH, 1);
+        Date endDate = c_end.getTime();
 
         for (int i = 0; i < 24; i++) {
             list.add(new StatisticValue(transformToHour(i)));
         }
 
-        List<Object[]> items = this.journalEntryRepository
-                .get24HourStatistic(EventType.REQUEST);
+        List<Object[]> items = this.journalEntryRepository.get24HourStatistic(
+                eventType, beginDate, endDate);
 
         if (items != null && !items.isEmpty()) {
 
