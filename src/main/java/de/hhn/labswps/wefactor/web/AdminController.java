@@ -12,7 +12,10 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import de.hhn.labswps.wefactor.SessionCounterListener;
+import de.hhn.labswps.wefactor.domain.AccountRepository;
 import de.hhn.labswps.wefactor.domain.JournalEntry.EventType;
+import de.hhn.labswps.wefactor.domain.MasterEntryRepository;
 import de.hhn.labswps.wefactor.service.JournalService;
 import de.hhn.labswps.wefactor.service.JournalService.StatisticValue;
 import de.hhn.labswps.wefactor.web.DataObjects.AdminStatisticsDataObject;
@@ -26,6 +29,12 @@ public class AdminController extends BaseController {
     @Autowired
     private JournalService journalService;
 
+    @Autowired
+    private AccountRepository accountRepository;
+
+    @Autowired
+    private MasterEntryRepository masterEntryRepository;
+
     @RequestMapping(method = RequestMethod.GET)
     public String admin(final Model model,
             @Valid AdminStatisticsDataObject adminStatisticsDataObject,
@@ -35,9 +44,9 @@ public class AdminController extends BaseController {
             return "administration";
         }
 
-        ViewUtil.showMessage(
-                "Manage weFactor! There are currently ? users online.", "?",
-                model);
+        int sessions = SessionCounterListener.getTotalActiveSessions();
+        ViewUtil.showMessage("Manage weFactor! There are currently " + sessions
+                + " users online.", Integer.toString(sessions), model);
 
         List<StatisticValue> l = this.journalService.getStatistic(
                 adminStatisticsDataObject.getDay(),
@@ -60,6 +69,11 @@ public class AdminController extends BaseController {
         model.addAttribute("types", EventType.values());
         model.addAttribute("adminStatisticsDataObject",
                 adminStatisticsDataObject);
+
+        model.addAttribute("countSessions", sessions);
+        model.addAttribute("countUsers", this.accountRepository.count());
+        model.addAttribute("countEntries", this.masterEntryRepository.count());
+
         return "administration";
     }
 
