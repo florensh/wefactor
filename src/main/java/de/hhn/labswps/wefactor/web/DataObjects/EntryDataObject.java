@@ -64,7 +64,7 @@ public class EntryDataObject {
 
     /** The title. */
     @NotEmpty
-    @Size(min = 5, max = 50)
+    @Size(min = 5, max = 200)
     private String title;
 
     /**

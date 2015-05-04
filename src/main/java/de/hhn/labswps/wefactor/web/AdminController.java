@@ -6,6 +6,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -30,6 +31,9 @@ public class AdminController extends BaseController {
     private JournalService journalService;
 
     @Autowired
+    private SessionRegistry sessionRegistry;
+
+    @Autowired
     private AccountRepository accountRepository;
 
     @Autowired
@@ -45,6 +49,8 @@ public class AdminController extends BaseController {
         }
 
         int sessions = SessionCounterListener.getTotalActiveSessions();
+        // sessions = this.sessionRegistry.getAllPrincipals().size();
+
         ViewUtil.showMessage("Manage weFactor! There are currently " + sessions
                 + " users online.", Integer.toString(sessions), model);
 

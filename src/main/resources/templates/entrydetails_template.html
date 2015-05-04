@@ -29,7 +29,7 @@
 									alt="" class="img-rounded"></img></a>
 							</div>
 							
-							<div class="col-xs-8 col-md-5 pull-left" id="userNameProfil">
+							<div class="col-xs-8 col-md-8 pull-left" id="userNameProfil">
 								<h4><a th:href="@{/user/profile/details(id=${the_entry.parent.account.primaryProfile.id})}"> <span  th:text="${the_entry.parent.account.primaryProfile.name}">name</span></a><span> / </span><strong><a th:href="@{/entry/details(id=${the_entry.parent.id})}"> <span  th:text="${the_entry.parent.name}">name</span></a></strong></h4>
 								<h4><small th:text="${beans.dateFormatter.format(the_entry.parent.createdDate)}">created just now</small></h4>
 							</div>
