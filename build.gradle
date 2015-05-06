@@ -13,6 +13,7 @@ apply plugin: 'application'
 apply plugin: 'jacoco'
 
 test {
+	enabled = false
 	exclude '**/TestDataTool.class'
 }
 
