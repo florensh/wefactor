@@ -12,6 +12,11 @@
 	margin: 10px;
 }
 
+.test {
+	position: absolute;
+	background: rgba(255, 0, 0, 0.5);
+	z-index: 20;
+}
 
 /*
 .ace_active_line {
