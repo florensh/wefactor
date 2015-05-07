@@ -142,9 +142,13 @@
 											<div class="row">
 												<div th:fragment="editor (the_entry)" class="panel panel-default" id="editor-panel">
 													<div class="panel-heading">
-														<div class="pull-left" style="padding-top:4px;"><kbd th:text="${the_entry.getLanguageAsType().getDisplayName()}">language</kbd></div>
-														<div class="btn-toolbar pull-right" role="toolbar" aria-label="...">
-															<a th:href="@{/entry/details/raw(id=${the_entry.id},type=${the_entry.type})}" class="btn btn-default btn-sm" role="button">Raw</a>
+														<div class="pull-left" style="padding-top:4px;">
+															<kbd th:text="${the_entry.getLanguageAsType().getDisplayName()}">language</kbd>
+															<a th:href="@{/entry/details/raw(id=${the_entry.id},type=${the_entry.type})}" class="btn btn-link btn-sm" role="button">Raw</a>
+														</div>
+														<div class="btn-toolbar pull-right" style="margin-top:7px;" role="toolbar" aria-label="...">
+															<span style="vertical-align:middle; padding-right:10px; color:#777;">diff</span>
+															<input type="checkbox" class="js-switch js-check-change" value="diff"></input>
 														</div>
 														<div class="clearfix"></div>
 														

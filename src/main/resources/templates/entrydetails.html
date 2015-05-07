@@ -185,6 +185,8 @@
 	<script th:src="@{/webjars/tinymce-jquery/4.0.16/tinymce.min.js}"></script>
 	<script th:src="@{/js/star-rating.js}"></script>
 	<script th:src="@{/js/bootstrap-tags.js}"></script>
+	<script th:src="@{/js/switchery.js}"></script>
+	
 	
 	
 		<script th:inline="javascript">
@@ -267,8 +269,30 @@
 
 	/* ]]> */
 </script>
-	
-	
+
+
+
+	<script th:inline="javascript">
+		/*<![CDATA[*/
+		    var elem = document.querySelector('.js-switch');
+		    var init = new Switchery(elem, { size: 'small' });  
+			
+			var changeCheckbox = document.querySelector('.js-check-change');
+
+			changeCheckbox.onchange = function() {
+				if(changeCheckbox.checked){
+			  		alert('an');
+					
+				}else{
+					alert('aus');
+				}
+				
+			};
+			
+		/* ]]> */
+	</script>
+
+
 	<script th:inline="javascript">
 		/*<![CDATA[*/
 		           
