@@ -1,6 +1,14 @@
 <!doctype html>
 <html lang="de" xmlns:th="http://www.thymeleaf.org">
-<head th:include="layout :: htmlhead" th:with="title='Hello'"></head>
+<head th:include="layout :: htmlhead" th:with="title='Hello'">
+	<style type="text/css">
+		.test {
+			position:absolute;
+    		background:rgba(255,0,0,0.5);
+    		z-index:20
+		}
+</style>
+</head>
 <body>
 	<div class="page-container">
 
@@ -167,7 +175,7 @@
 										role="button"><i class="fa fa-times"></i> Cancel</a>
 								</div>
 							</div>
-							
+
 						</div>
 
 					</form>
@@ -186,9 +194,11 @@
 	<script th:src="@{/js/scripts.js}"></script>
 	<script th:src="@{/webjars/fuelux/3.0.2/js/fuelux.min.js}"></script>
 	<script th:src="@{/webjars/tinymce-jquery/4.0.16/tinymce.min.js}"></script>
-	<script th:src="@{/webjars/ace/01.08.2014/src-min-noconflict/ace.js}"></script>
+	<!-- <script th:src="@{/webjars/ace/01.08.2014/src-min-noconflict/ace.js}"></script> -->
 	<script th:src="@{/select2-3.5.2/select2.js}"></script>
 	<script th:src="@{/js/bootstrap-tags.min.js}"></script>
+	<script th:src="@{/js/diff_match_patch.js}"></script>
+	<script th:src="@{/js/ace.js}"></script>
 
 	<script>
 		$('.pull-down').each(
@@ -263,25 +273,68 @@
 
 		/*]]>*/
 	</script>
+	
+	<script th:inline="javascript">
+		/*<![CDATA[*/
+		     
+		
+		function diff(oldValue, newValue) {
+			var dmp = new diff_match_patch();
+			var a = dmp.diff_linesToChars_(oldValue, newValue);
+			var lineText1 = a.chars1;
+			var lineText2 = a.chars2;
+			var lineArray = a.lineArray;
 
+			var diffs = dmp.diff_main(lineText1, lineText2, false);
+
+			dmp.diff_charsToLines_(diffs, lineArray);
+			dmp.diff_cleanupSemantic(diffs);
+
+			var newCode = "";
+			diffs.forEach(function(chunk) {
+				var op = chunk[0];
+				var text = chunk[1];
+				
+				if(op === -1){
+					var change = "-";
+					newCode += change + " " + text;	
+				}else if(op === 1){
+					var change = "+";
+					newCode += change + " " + text;
+				}else{
+					newCode += text;
+				}
+				
+	
+			});
+			return newCode;
+		}
+
+		/*]]>*/
+	</script>
 
 	<script th:inline="javascript">
 		/*<![CDATA[*/
 		var editor = ace.edit("editor");
 		var textarea = $('textarea[name="acearea"]').hide();
-		var modelAttributeValue = /*[[${entryDataObject.code}]]*/'Code';
+//		editor.setValue(oldValue);
+//		var modelAttributeValue = /*[[${entryDataObject.code}]]*/'Code';
 		editor.setTheme("ace/theme/github");
-		editor.setValue(modelAttributeValue); // or session.setValue
-		editor.getValue(); // or session.getValue
-		editor.getSession().setMode("ace/mode/html");
+//		editor.setValue(modelAttributeValue); // or session.setValue
+//		editor.getValue(); // or session.getValue
+//		editor.getSession().setMode("ace/mode/html");
 		editor.setFontSize("12px");
+		var Range = ace.require("ace/range").Range
+		editor.session.addMarker(new Range(1, 0, 2, 3), 'test', 'fullLine');
+		
+		var oldValue = "alter Text \n  irgendwas";
+		var newValue = "neuer Text \n  irgendwas";
+		editor.setValue(diff(oldValue, newValue));
+		
+		
+//		editor.getSession().on('change', function() {
+//			document.getElementById("acearea").value = editor.getValue();
 
-		editor.getSession().on('change', function() {
-			document.getElementById("acearea").value = editor.getValue();
-		});
-		
-		
-		
 		/*]]>*/
 	</script>
 </body>
