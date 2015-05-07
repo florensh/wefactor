@@ -57,9 +57,9 @@ public interface MasterEntryRepository extends
     // @formatter:off
 
 
-    @Query("select e "
+    @Query("select distinct e "
             + "from MasterEntry e "
-            + "left join e.group.members account "
+            + "left join e.group.members groupMembers "
             + "where ("
             + "e.entryDescription like %:searchText% "
             + "or e.name like %:searchText% "
@@ -67,9 +67,11 @@ public interface MasterEntryRepository extends
             + "or exists(from UserProfile u where u.name like %:searchText% and u.account = e.account )"
             + ") "
             + "and ("
-            + "e.group is null "
-            + "or "
-            + "account = :account)")
+            + "e.privateEntry = false "
+            + "or e.account = :account "
+            + "or groupMembers = :account) "
+            + "order by e.createdDate desc"
+            )
     // @formatter:on
     Page<Entry> search(@Param("searchText") String searchText,
             @Param("account") Account account, Pageable pageable);
@@ -92,8 +94,10 @@ public interface MasterEntryRepository extends
 
     Page<Entry> findByGroup(Group group, Pageable pageable);
 
-    Page<Entry> findByProposalsAccountIdOrderByProposalsCreatedDateDesc(Long id, Pageable pageable);
+    Page<Entry> findByProposalsAccountIdOrderByProposalsCreatedDateDesc(
+            Long id, Pageable pageable);
 
-    Page<Entry> findByVersionsAccountIdOrderByVersionsCreatedDateDesc(Long id, Pageable pageable);
+    Page<Entry> findByVersionsAccountIdOrderByVersionsCreatedDateDesc(Long id,
+            Pageable pageable);
 
 }

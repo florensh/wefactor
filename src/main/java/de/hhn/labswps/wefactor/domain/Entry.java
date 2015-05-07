@@ -9,6 +9,7 @@ import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
@@ -80,6 +81,17 @@ public abstract class Entry extends BaseSoftDeletableEntity implements
 
     /** The teaser. */
     private String teaser;
+
+    private boolean privateEntry = true;
+
+    @Column(name = "privateEntry", nullable = false, columnDefinition = "BOOLEAN DEFAULT true")
+    public boolean isPrivateEntry() {
+        return privateEntry;
+    }
+
+    public void setPrivateEntry(boolean privateEntry) {
+        this.privateEntry = privateEntry;
+    }
 
     /**
      * Adds the rating.
