@@ -268,7 +268,7 @@
 	
 	<script th:inline="javascript">
 		/*<![CDATA[*/
-		     
+		var Range = ace.require("ace/range").Range
 		
 		function diff(oldValue, newValue) {
 			var dmp = new diff_match_patch();
@@ -283,20 +283,26 @@
 			dmp.diff_cleanupSemantic(diffs);
 
 			var newCode = "";
+			
+			var row = 0;
 			diffs.forEach(function(chunk) {
 				var op = chunk[0];
 				var text = chunk[1];
 				
 				if(op === -1){
 					var change = "-";
-					newCode += change + " " + text;	
+					newCode += change + " " + text;
+					console.log(editor.selection.getLineRange(text))
+					editor.session.addMarker(new Range(row, 0, row, 1), 'highlightingRed', 'fullLine'); 
 				}else if(op === 1){
 					var change = "+";
 					newCode += change + " " + text;
+					console.log(editor.selection.getLineRange(text))
+					editor.session.addMarker(new Range(row, 0, row, 1), 'highlightingGreen', 'fullLine'); 
 				}else{
 					newCode += text;
 				}
-				
+				row++;
 	
 			});
 			return newCode;
