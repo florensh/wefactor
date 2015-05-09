@@ -1,0 +1,124 @@
+package de.wnck.hhn.gvs.client.fxgui.helpers.tasks;
+
+import java.util.logging.Logger;
+
+import de.hhn.seb.gvs.sso.shared.basics.User;
+import de.wnck.hhn.gvs.client.Identity;
+import de.wnck.hhn.gvs.client.SSOKernel;
+import javafx.application.Platform;
+import javafx.concurrent.Task;
+
+public class AttributesTask extends Task<Void> {
+	/** Standard class logger. **/
+	private static Logger logger = Logger
+			.getLogger(AttributesTask.class.getName());
+	
+	private final AttributeTaskType type;
+	
+	private String oldkey;
+	private String key;
+	private String value;
+	private SSOKernel kernel;
+	private String taskDescription;
+	private Identity identity;
+	private User resultingUser;
+
+	public AttributesTask(AttributeTaskType type) {
+		this.type = type;
+		kernel = SSOKernel.getReference();
+	}
+	
+	public void configAddAttribute(String key, String value, Identity identity) {
+		this.key = key;
+		this.value = value;
+		this.identity = identity;
+	}
+
+	public void configUpdateAttribute(String oldkey, String key, String value, Identity identity) {
+		this.oldkey = oldkey;
+		this.key = key;
+		this.value = value;
+		this.identity = identity;
+	}
+	
+
+	public void configRemoveAttribute(String key2, Identity identity) {
+		this.key = key2;
+		this.identity = identity;
+	}
+	
+	public void configGetAttributes(Identity identity) {
+		this.identity = identity;
+	}
+	
+	@Override
+	protected Void call() throws Exception {
+		switch (type) {
+		case GET:
+			taskDescription = "Getting Attributes for identity " + identity;
+			resultingUser = kernel.getAllAttributes(identity);
+		
+ 			break;
+
+		case ADD:
+			taskDescription = "Adding Attribute " + key + " / " + value + " for identity " + identity;
+			resultingUser = kernel.addAttribute(identity, key, value);
+			break;
+
+		case REMOVE:
+			taskDescription = "Removing Attribute " + key + " for identity " + identity;
+			resultingUser = kernel.removeAttribute(identity, key);
+			break;
+
+		case UPDATE:
+			taskDescription = "Update Attribute " + oldkey + " with " + key + " and " + value + " for identity " + identity;
+			kernel.removeAttribute(identity, oldkey);
+			resultingUser = kernel.addAttribute(identity, key, value);
+			break;
+			
+		default:
+			logger.severe("Unknown Task Type: " + type);
+			return null;
+			
+		}
+		
+		logger.info("resulting user = " + resultingUser);
+		// OK, the  calls succeeded now lets copy the actual attribute list into the identity object
+        Platform.runLater(new Runnable() {
+            @Override public void run() {
+                identity.setAttributes(resultingUser);
+            }
+        });
+			
+		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return taskDescription;
+	}
+
+	public void updateDescription() {
+		taskDescription = this.getState() + " - " + taskDescription;
+		logger.fine(taskDescription);
+	}
+
+	@Override
+	protected void failed() {
+		logger.finer("FAILURE " + this);
+		super.failed();
+		updateDescription();
+	}
+
+	@Override
+	protected void succeeded() {
+		logger.finer("SUCCESS " + this);
+		super.succeeded();
+		updateDescription();
+	}
+
+	
+}
