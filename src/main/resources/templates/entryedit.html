@@ -265,74 +265,21 @@
 
 		/*]]>*/
 	</script>
-	
-	<script th:inline="javascript">
-		/*<![CDATA[*/
-		var Range = ace.require("ace/range").Range
-		
-		function diff(oldValue, newValue) {
-			var dmp = new diff_match_patch();
-			var a = dmp.diff_linesToChars_(oldValue, newValue);
-			var lineText1 = a.chars1;
-			var lineText2 = a.chars2;
-			var lineArray = a.lineArray;
-
-			var diffs = dmp.diff_main(lineText1, lineText2, false);
-
-			dmp.diff_charsToLines_(diffs, lineArray);
-			dmp.diff_cleanupSemantic(diffs);
-
-			var newCode = "";
-			
-			var row = 0;
-			diffs.forEach(function(chunk) {
-				var op = chunk[0];
-				var text = chunk[1];
-				
-				if(op === -1){
-					var change = "-";
-					newCode += change + " " + text;
-					console.log(editor.selection.getLineRange(text))
-					editor.session.addMarker(new Range(row, 0, row, 1), 'highlightingRed', 'fullLine'); 
-				}else if(op === 1){
-					var change = "+";
-					newCode += change + " " + text;
-					console.log(editor.selection.getLineRange(text))
-					editor.session.addMarker(new Range(row, 0, row, 1), 'highlightingGreen', 'fullLine'); 
-				}else{
-					newCode += text;
-				}
-				row++;
-	
-			});
-			return newCode;
-		}
-
-		/*]]>*/
-	</script>
 
 	<script th:inline="javascript">
 		/*<![CDATA[*/
 		var editor = ace.edit("editor");
 		var textarea = $('textarea[name="acearea"]').hide();
-//		editor.setValue(oldValue);
-//		var modelAttributeValue = /*[[${entryDataObject.code}]]*/'Code';
+		var modelAttributeValue = /*[[${entryDataObject.code}]]*/'Code';
 		editor.setTheme("ace/theme/github");
-//		editor.setValue(modelAttributeValue); // or session.setValue
-//		editor.getValue(); // or session.getValue
-//		editor.getSession().setMode("ace/mode/html");
+		editor.setValue(modelAttributeValue); // or session.setValue
+		editor.getValue(); // or session.getValue
+		editor.getSession().setMode("ace/mode/html");
 		editor.setFontSize("12px");
-		var Range = ace.require("ace/range").Range
-		editor.session.addMarker(new Range(1, 0, 2, 3), 'test', 'fullLine');
 		
-		var oldValue = "alter Text \n  irgendwas";
-		var newValue = "neuer Text \n  irgendwas";
-		editor.setValue(diff(oldValue, newValue));
-		
-		
-//		editor.getSession().on('change', function() {
-//			document.getElementById("acearea").value = editor.getValue();
-
+ 		editor.getSession().on('change', function() {
+			document.getElementById("acearea").value = editor.getValue();
+		}); 
 		/*]]>*/
 	</script>
 </body>

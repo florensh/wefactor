@@ -180,8 +180,9 @@
 		src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 	<script th:src="@{/webjars/bootstrap/3.2.0/js/bootstrap.min.js}"></script>
 	<script th:src="@{/js/scripts.js}"></script>
-			<script th:src="@{/webjars/fuelux/3.0.2/js/fuelux.min.js}"></script>
-	<script th:src="@{/webjars/ace/01.08.2014/src-min-noconflict/ace.js}"></script>
+	<script th:src="@{/webjars/fuelux/3.0.2/js/fuelux.min.js}"></script>
+	<script th:src="@{/js/diff_match_patch.js}"></script>
+	<script th:src="@{/js/ace.js}"></script>
 	<script th:src="@{/webjars/tinymce-jquery/4.0.16/tinymce.min.js}"></script>
 	<script th:src="@{/js/star-rating.js}"></script>
 	<script th:src="@{/js/bootstrap-tags.js}"></script>
@@ -239,6 +240,10 @@
 			highlightActiveLine : false
 		})
 		editor.renderer.$cursorLayer.element.style.opacity = 0;
+		
+ 		var oldValue = /*[[${entry.orderedVersions.get(1).entryCodeText}]]*/'Code';
+		var newValue = /*[[${entry.orderedVersions.get(0).entryCodeText}]]*/'Code';
+		editor.setDiffAsValue(oldValue, newValue);
 
 		/*]]>*/
 	</script>	

@@ -6106,11 +6106,9 @@ var Document = function(text) {
         this.remove(new Range(0, 0, len, this.getLine(len-1).length));
         this.insert({row: 0, column:0}, text);
     };
-    this.setValue = function(text, lineNumbers) {
-        var len = this.getLength();
-        this.remove(new Range(0, 0, len, this.getLine(len-1).length));
-        this.insert({row: 0, column:0}, text);
-    };
+    
+	
+    
     this.getValue = function() {
         return this.getAllLines().join(this.getNewLineCharacter());
     };
@@ -11463,6 +11461,40 @@ var Editor = function(renderer, session) {
     };
     this.getValue = function() {
         return this.session.getValue();
+    };
+    this.setDiffAsValue = function(oldValue, newValue) {
+    		var dmp = new diff_match_patch();
+    		var a = dmp.diff_linesToChars_(oldValue, newValue);
+    		var lineText1 = a.chars1;
+    		var lineText2 = a.chars2;
+    		var lineArray = a.lineArray;
+
+    		var diffs = dmp.diff_main(lineText1, lineText2, false);
+
+    		dmp.diff_charsToLines_(diffs, lineArray);
+    		dmp.diff_cleanupSemantic(diffs);
+
+    		var newCode = "";
+    		
+    		diffs.forEach(function(chunk) {
+    			var op = chunk[0];
+    			var text = chunk[1];
+    			
+    			if(op === -1){
+    				var change = "-";
+    				newCode += change + " " + text;
+    				//var range = editor.find(change + " " + text,{});
+    				//editor.session.addMarker(new Range(row, 0, row, 1), 'highlightingRed', 'fullLine'); 
+    			}else if(op === 1){
+    				var change = "+";
+    				newCode += change + " " + text;
+    				//editor.session.addMarker(new Range(row, 0, row, 1), 'highlightingGreen', 'fullLine'); 
+    			}else{
+    				newCode += text;
+    			}
+
+    		});
+    		this.setValue(newCode);
     };
     this.getSelection = function() {
         return this.selection;
@@ -18374,4 +18406,5 @@ exports.UndoManager = UndoManager;
                         window.ace[key] = a[key];
                 });
             })();
-        
+            
+    
