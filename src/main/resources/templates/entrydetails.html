@@ -237,13 +237,14 @@
 		editor.setFontSize("13px");
 		editor.setOptions({
 			readOnly : true,
-			highlightActiveLine : false
+			highlightActiveLine : false,
+			showPrintMargin: false,
+			highlightGutterLine: false,
+			highlightActiveLine: false,
+			highlightSelectedWord: false
 		})
 		editor.renderer.$cursorLayer.element.style.opacity = 0;
-		
- 		var oldValue = /*[[${entry.orderedVersions.get(1).entryCodeText}]]*/'Code';
-		var newValue = /*[[${entry.orderedVersions.get(0).entryCodeText}]]*/'Code';
-		editor.setDiffAsValue(oldValue, newValue);
+
 
 		/*]]>*/
 	</script>	
@@ -287,10 +288,56 @@
 
 			changeCheckbox.onchange = function() {
 				if(changeCheckbox.checked){
-			  		alert('an');
+					var editor = ace.edit("editor");
+					var modelAttributeValue = /*[[${entry.orderedVersions.get(0).entryCodeText}]]*/'Code';
+					var language = /*[[${entry.language}]]*/'language';
+			/*		editor.setTheme("ace/theme/wefactor");*/
+					editor.setValue(modelAttributeValue); // or session.setValue
+					editor.getValue(); // or session.getValue
+					editor.setValue(editor.getValue(), 1);
+					editor.getSession().setMode("ace/mode/" + language);
+					editor.setTheme("ace/theme/github");
+					editor.setFontSize("13px");
+					editor.setOptions({
+						readOnly : true,
+						highlightActiveLine : false,
+						showPrintMargin: false,
+						highlightGutterLine: false,
+						highlightActiveLine: false,
+						highlightSelectedWord: false
+					})
+					editor.renderer.$cursorLayer.element.style.opacity = 0;
+					
+			 		var oldValue = /*[[${entry.orderedVersions.get(1).entryCodeText}]]*/'Code';
+					var newValue = /*[[${entry.orderedVersions.get(0).entryCodeText}]]*/'Code';
+					editor.setDiffAsValue(oldValue, newValue);
 					
 				}else{
-					alert('aus');
+					var editor = ace.edit("editor");
+					var modelAttributeValue = /*[[${entry.orderedVersions.get(0).entryCodeText}]]*/'Code';
+					var language = /*[[${entry.language}]]*/'language';
+			/*		editor.setTheme("ace/theme/wefactor");*/
+					editor.setValue(modelAttributeValue); // or session.setValue
+					editor.getValue(); // or session.getValue
+					editor.setValue(editor.getValue(), 1);
+					editor.getSession().setMode("ace/mode/" + language);
+					editor.setTheme("ace/theme/github");
+					editor.setFontSize("13px");
+					editor.setOptions({
+						readOnly : true,
+						highlightActiveLine : false,
+						showPrintMargin: false,
+						highlightGutterLine: false,
+						highlightActiveLine: false,
+						highlightSelectedWord: false
+					})
+					editor.renderer.$cursorLayer.element.style.opacity = 0;
+					editor.renderer.setPadding(4);
+					var markers = editor.session.$backMarkers;
+					for (var i in markers) {
+						  editor.session.removeMarker(i);
+					};
+					
 				}
 				
 			};

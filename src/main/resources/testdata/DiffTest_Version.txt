@@ -6,14 +6,14 @@ import de.hhn.seb.gvs.sso.shared.basics.User;
 import de.wnck.hhn.gvs.client.Identity;
 import de.wnck.hhn.gvs.client.SSOKernel;
 import javafx.application.Platform;
-import javafx.concurrent.Task;
+importe javafx.concurrent.Task;
 
 public class AttributesTask extends Task<Void> {
 	/** Standard class logger. **/
 	private static Logger logger = Logger
 			.getLogger(AttributesTask.class.getName());
 	
-	private final AttributeTaskType type;
+	private AttributeTaskType type;
 	
 	private String oldkey;
 	private String key;
@@ -71,6 +71,12 @@ public class AttributesTask extends Task<Void> {
 			break;
 
 		case UPDATE:
+			taskDescription = "Update Attribute " + oldkey + " with " + key + " and " + value + " for identity " + identity;
+			kernel.removeAttribute(identity, oldkey);
+			resultingUser = kernel.addAttribute(identity, key, value);
+			break;
+			
+		case BOBO:
 			taskDescription = "Update Attribute " + oldkey + " with " + key + " and " + value + " for identity " + identity;
 			kernel.removeAttribute(identity, oldkey);
 			resultingUser = kernel.addAttribute(identity, key, value);

@@ -14,13 +14,13 @@
 
 .highlightingRed {
 	position: absolute;
-	background: rgba(255, 0, 0, 0.5);
+	background: #FDD;
 	z-index: 20;
 }
 
 .highlightingGreen {
 	position: absolute;
-	background: rgba(0, 255, 0, 0.5);
+	background: #DBFFDB;
 	z-index: 20;
 }
 

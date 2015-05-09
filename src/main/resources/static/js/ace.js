@@ -11463,6 +11463,7 @@ var Editor = function(renderer, session) {
         return this.session.getValue();
     };
     this.setDiffAsValue = function(oldValue, newValue) {
+    		editor.renderer.setPadding(50);
     		var dmp = new diff_match_patch();
     		var a = dmp.diff_linesToChars_(oldValue, newValue);
     		var lineText1 = a.chars1;
@@ -11473,28 +11474,25 @@ var Editor = function(renderer, session) {
 
     		dmp.diff_charsToLines_(diffs, lineArray);
     		dmp.diff_cleanupSemantic(diffs);
-
-    		var newCode = "";
+    		this.setValue('');
     		
     		diffs.forEach(function(chunk) {
     			var op = chunk[0];
     			var text = chunk[1];
-    			
+    			editor.session.insert({row: editor.getCursorPosition().row, column:0}, text);
+    			var insertRange = editor.find(text,{
+    				backwards: true
+    			});
+    			insertRange.start.column = 0;
+    			insertRange.end.column = Number.MAX_VALUE;
     			if(op === -1){
-    				var change = "-";
-    				newCode += change + " " + text;
-    				//var range = editor.find(change + " " + text,{});
-    				//editor.session.addMarker(new Range(row, 0, row, 1), 'highlightingRed', 'fullLine'); 
+        			editor.session.addMarker(insertRange, 'highlightingRed', 'fullLine');
     			}else if(op === 1){
-    				var change = "+";
-    				newCode += change + " " + text;
-    				//editor.session.addMarker(new Range(row, 0, row, 1), 'highlightingGreen', 'fullLine'); 
+    				insertRange.end.row = insertRange.end.row-1;
+        			editor.session.addMarker(insertRange, 'highlightingGreen', 'fullLine');
     			}else{
-    				newCode += text;
     			}
-
     		});
-    		this.setValue(newCode);
     };
     this.getSelection = function() {
         return this.selection;
