@@ -100,6 +100,43 @@ public class TestDataUtil {
         generateProposals();
         generateVersions();
         generateEntryRankings();
+        generateTestEntryForDiff();
+
+    }
+
+    private void generateTestEntryForDiff() {
+        List<UserProfile> allUser = this.userProfileRepository
+                .findByPassword(PW);
+
+        UserProfile up = allUser.iterator().next();
+
+        Tag tag1 = new Tag();
+        tag1.setName("DiffTest");
+        tag1 = this.tagRepository.save(tag1);
+
+        Tag tag2 = new Tag();
+        tag2.setName("JavaFX");
+        tag2 = this.tagRepository.save(tag2);
+
+        ProgrammingLanguage[] langs = WeFactorValues.ProgrammingLanguage
+                .values();
+
+        MasterEntry e = new MasterEntry();
+        e.setName("Diff Test");
+        e.setEntryDescription(ENTRY_DESCRIPTION);
+        e.setEntryCodeText("sf");
+        e.setEntryDate(new Date(System.currentTimeMillis()));
+        e.setAccount(up.getAccount());
+        e.setLanguage(WeFactorValues.ProgrammingLanguage.Java.getMode());
+        e.setTeaser(ENTRY_TEASER);
+        EntryRating rating = new EntryRating();
+        rating.setAccount(up.getAccount());
+        rating.setValue((int) (Math.random() * 5));
+        e.addRating(rating);
+        e.addTag(tag1);
+        e.addTag(tag2);
+        this.masterEntryRepository.save(e);
+        this.entryRatingRepository.save(rating);
 
     }
 
