@@ -21,13 +21,14 @@ public class AttributesTask extends Task<Void> {
 	private SSOKernel kernel;
 	private String taskDescription;
 	private Identity identity;
-	private User resultingUser;
-	private String s;
+	private User resultingUser1;
 
-	public AttributesTask(AttributeTaskType type, String s) {
+
+
+
+	public AttributesTask(AttributeTaskType type) {
 		this.type = type;
 		kernel = SSOKernel.getReference();
-		this.s = s;
 	}
 	
 	public void configAddAttribute(String key, String value, Identity identity) {
@@ -37,8 +38,8 @@ public class AttributesTask extends Task<Void> {
 	}
 
 	public void configUpdateAttribute(String oldkey, String key, String value, Identity identity) {
-		this.oldkey = oldkey;
-		this.key = key;
+		this.oldkey = oldkeky;
+		this.key = keyk;
 		this.value = value;
 		this.identity = identity;
 	}
@@ -59,6 +60,7 @@ public class AttributesTask extends Task<Void> {
 		case GET:
 			taskDescription = "Getting Attributes for identity " + identity;
 			resultingUser = kernel.getAllAttributes(identity);
+		
  			break;
 
 		case ADD:
@@ -118,8 +120,5 @@ public class AttributesTask extends Task<Void> {
 	protected void succeeded() {
 		logger.finer("SUCCESS " + this);
 		super.succeeded();
-		updateDescription();
-	}
-
-	
+		updateDescription1();
 }

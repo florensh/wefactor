@@ -11463,7 +11463,7 @@ var Editor = function(renderer, session) {
         return this.session.getValue();
     };
     this.setDiffAsValue = function(oldValue, newValue) {
-    		editor.renderer.setPadding(50);
+    		editor.renderer.setPadding(30);
     		var dmp = new diff_match_patch();
     		var a = dmp.diff_linesToChars_(oldValue, newValue);
     		var lineText1 = a.chars1;
@@ -11479,20 +11479,33 @@ var Editor = function(renderer, session) {
     		diffs.forEach(function(chunk) {
     			var op = chunk[0];
     			var text = chunk[1];
-    			editor.session.insert({row: editor.getCursorPosition().row, column:0}, text);
-    			var insertRange = editor.find(text,{
+    			editor.session.insert({row: editor.getCursorPosition().row, column:editor.getCursorPosition().column}, text);
+    			var trimText = text;
+    			var insertRange = editor.find(trimText,{
     				backwards: true
     			});
     			insertRange.start.column = 0;
-    			insertRange.end.column = Number.MAX_VALUE;
+    			
+    			var markerClass;
+    			
     			if(op === -1){
-        			editor.session.addMarker(insertRange, 'highlightingRed', 'fullLine');
+        			markerClass = 'highlightingRed';
     			}else if(op === 1){
-    				insertRange.end.row = insertRange.end.row-1;
-        			editor.session.addMarker(insertRange, 'highlightingGreen', 'fullLine');
-    			}else{
+        			markerClass = 'highlightingGreen';
     			}
+    			
+    			if(markerClass){
+    				for (var i = insertRange.start.row; i < insertRange.end.row; i++) {
+    					var myRange = new Range(i,0,i,Number.MAX_VALUE);
+    					editor.session.addMarker(myRange, markerClass, 'fullLine');
+    				}
+    				
+    			}
+    			
     		});
+    		
+    		editor.setValue(editor.getValue(), -1);
+    		
     };
     this.getSelection = function() {
         return this.selection;

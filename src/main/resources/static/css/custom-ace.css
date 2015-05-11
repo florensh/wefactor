@@ -24,6 +24,14 @@
 	z-index: 20;
 }
 
+.highlightingRed:before {
+   content: "- ";
+}
+
+.highlightingGreen:before {
+   content: "+ ";
+}
+
 /*
 .ace_active_line {
   
