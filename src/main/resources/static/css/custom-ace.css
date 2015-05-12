@@ -32,6 +32,36 @@
    content: "+ ";
 }
 
+.ace_gutter-cell-td-left-diff {
+	padding-left: 19px;
+	padding-right: 19px;
+}
+
+.ace_gutter-cell-td-right-diff {
+	padding-left: 0px;
+	padding-right: 19px;
+}
+
+.ace_gutter-cell-td-left {
+	padding-left: 19px;
+	padding-right: 19px;
+}
+
+.ace_gutter-cell-td-right {
+	padding-left: 0px;
+	padding-right: 0px;
+}
+
+.ace_gutter-cell-diff {
+	padding-left: 19px;
+	padding-right: 19px;
+}
+
+.ace_gutter-cell {
+	padding-left: 19px;
+	padding-right: 19px;
+}
+
 /*
 .ace_active_line {
   

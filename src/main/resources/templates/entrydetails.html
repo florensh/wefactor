@@ -319,7 +319,7 @@
 			/*		editor.setTheme("ace/theme/wefactor");*/
 					editor.setValue(modelAttributeValue); // or session.setValue
 					editor.getValue(); // or session.getValue
-					editor.setValue(editor.getValue(), -1);
+					editor.setValue(editor.getValue(), -1, false);
 					editor.getSession().setMode("ace/mode/" + language);
 					editor.setTheme("ace/theme/github");
 					editor.setFontSize("13px");

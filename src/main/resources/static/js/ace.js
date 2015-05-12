@@ -8110,6 +8110,7 @@ var EditSession = function(text, mode) {
     this.$backMarkers = {};
     this.$markerId = 1;
     this.$undoSelect = true;
+	this.$isInDiffMode = false;
 
     this.$foldData = [];
     this.$foldData.toString = function() {
@@ -11447,7 +11448,8 @@ var Editor = function(renderer, session) {
     this.getSession = function() {
         return this.session;
     };
-    this.setValue = function(val, cursorPos) {
+    this.setValue = function(val, cursorPos, diffMode) {
+    	this.session.$isInDiffMode = diffMode;
         this.session.doc.setValue(val);
 
         if (!cursorPos)
@@ -11464,6 +11466,7 @@ var Editor = function(renderer, session) {
     };
     this.setDiffAsValue = function(oldValue, newValue) {
     		editor.renderer.setPadding(30);
+    		this.session.$isInDiffMode = true;
     		var dmp = new diff_match_patch();
     		var a = dmp.diff_linesToChars_(oldValue, newValue);
     		var lineText1 = a.chars1;
@@ -11504,7 +11507,7 @@ var Editor = function(renderer, session) {
     			
     		});
     		
-    		editor.setValue(editor.getValue(), -1);
+    		editor.setValue(editor.getValue(), -1, true);
     		
     };
     this.getSelection = function() {
@@ -13114,7 +13117,7 @@ var lang = require("../lib/lang");
 var EventEmitter = require("../lib/event_emitter").EventEmitter;
 
 var Gutter = function(parentEl) {
-    this.element = dom.createElement("div");
+    this.element = dom.createElement("table");
     this.element.className = "ace_layer ace_gutter-layer";
     parentEl.appendChild(this.element);
     this.setShowFoldWidgets(this.$showFoldWidgets);
@@ -13194,6 +13197,7 @@ var Gutter = function(parentEl) {
     };
 
     this.update = function(config) {
+//    	var isInDiffMode = true; //TODO muss global sein
         var session = this.session;
         var firstRow = config.firstRow;
         var lastRow = Math.min(config.lastRow + config.gutterOffset,  // needed to compensate for hor scollbar
@@ -13227,15 +13231,33 @@ var Gutter = function(parentEl) {
 
             cell = this.$cells[++index];
             if (!cell) {
-                cell = {element: null, textNode: null, foldWidget: null};
-                cell.element = dom.createElement("div");
+                cell = {element: null, textNode: null, textNode_right: null, foldWidget: null, cell_left: null, cell_right: null};
+                cell.element = dom.createElement("tr");
+                cell.cell_left = dom.createElement("td");
+                cell.cell_right = dom.createElement("td");
                 cell.textNode = document.createTextNode('');
-                cell.element.appendChild(cell.textNode);
+                cell.textNode_right = document.createTextNode('');
+                cell.element.appendChild(cell.cell_left);
+                cell.element.appendChild(cell.cell_right);
+                cell.cell_left.appendChild(cell.textNode);
+                cell.cell_right.appendChild(cell.textNode_right);
                 this.element.appendChild(cell.element);
                 this.$cells[index] = cell;
             }
+            
+            if(this.session.$isInDiffMode){
+            	cell.cell_left.className = "ace_gutter-cell-td-left-diff ";
+            	cell.cell_right.className = "ace_gutter-cell-td-right-diff ";
+            }else{
+            	cell.cell_left.className = "ace_gutter-cell-td-left ";
+            	cell.cell_right.className = "ace_gutter-cell-td-right ";
+            	
+            }
 
             var className = "ace_gutter-cell ";
+//            if(isInDiffMode){
+//            	className = "ace_gutter-cell-diff ";
+//            }
             if (breakpoints[row])
                 className += breakpoints[row];
             if (decorations[row])
@@ -13281,8 +13303,15 @@ var Gutter = function(parentEl) {
             var text = lastLineNumber = gutterRenderer
                 ? gutterRenderer.getText(session, row)
                 : row + firstLineNumber;
-            if (text != cell.textNode.data)
-                cell.textNode.data = text;
+            if (text != cell.textNode.data){
+            	cell.textNode.data = text;
+            	
+            }
+            if(this.session.$isInDiffMode){
+            	cell.textNode_right.data = text;
+            }else{
+            	cell.textNode_right.data = "";
+            }
 
             row++;
         }
