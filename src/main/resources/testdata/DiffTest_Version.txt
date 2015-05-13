@@ -23,9 +23,6 @@ public class AttributesTask extends Task<Void> {
 	private Identity identity;
 	private User resultingUser1;
 
-
-
-
 	public AttributesTask(AttributeTaskType type) {
 		this.type = type;
 		kernel = SSOKernel.getReference();
@@ -38,8 +35,8 @@ public class AttributesTask extends Task<Void> {
 	}
 
 	public void configUpdateAttribute(String oldkey, String key, String value, Identity identity) {
-		this.oldkey = oldkeky;
-		this.key = keyk;
+		this.oldkey = oldkey;
+		this.key = key;
 		this.value = value;
 		this.identity = identity;
 	}
@@ -60,7 +57,6 @@ public class AttributesTask extends Task<Void> {
 		case GET:
 			taskDescription = "Getting Attributes for identity " + identity;
 			resultingUser = kernel.getAllAttributes(identity);
-		
  			break;
 
 		case ADD:
@@ -71,6 +67,7 @@ public class AttributesTask extends Task<Void> {
 		case REMOVE:
 			taskDescription = "Removing Attribute " + key + " for identity " + identity;
 			resultingUser = kernel.removeAttribute(identity, key);
+			
 			break;
 
 		case UPDATE:
@@ -120,5 +117,6 @@ public class AttributesTask extends Task<Void> {
 	protected void succeeded() {
 		logger.finer("SUCCESS " + this);
 		super.succeeded();
-		updateDescription1();
+		updateDescription();
+	}
 }

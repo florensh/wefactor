@@ -8111,6 +8111,9 @@ var EditSession = function(text, mode) {
     this.$markerId = 1;
     this.$undoSelect = true;
 	this.$isInDiffMode = false;
+	this.$diffLineNumbers = [];
+	this.$lineHelperLeft = [];
+	this.$lineHelperRight = [];
 
     this.$foldData = [];
     this.$foldData.toString = function() {
@@ -11450,6 +11453,14 @@ var Editor = function(renderer, session) {
     };
     this.setValue = function(val, cursorPos, diffMode) {
     	this.session.$isInDiffMode = diffMode;
+    	this.session.$lineHelperLeft = [];
+    	this.session.$lineHelperRight = [];
+    	if(this.session.$isInDiffMode){
+    		this.renderer.setPadding(30);
+    	}else{
+    		this.renderer.setPadding(3);
+    		
+    	}
         this.session.doc.setValue(val);
 
         if (!cursorPos)
@@ -11465,7 +11476,10 @@ var Editor = function(renderer, session) {
         return this.session.getValue();
     };
     this.setDiffAsValue = function(oldValue, newValue) {
-    		editor.renderer.setPadding(30);
+//    		editor.renderer.setPadding(30);
+    	var lines = [];
+    	this.session.$lineHelperLeft = [];
+    	this.session.$lineHelperRight = [];
     		this.session.$isInDiffMode = true;
     		var dmp = new diff_match_patch();
     		var a = dmp.diff_linesToChars_(oldValue, newValue);
@@ -11501,12 +11515,14 @@ var Editor = function(renderer, session) {
     				for (var i = insertRange.start.row; i < insertRange.end.row; i++) {
     					var myRange = new Range(i,0,i,Number.MAX_VALUE);
     					editor.session.addMarker(myRange, markerClass, 'fullLine');
+    					lines[i]=op;
     				}
     				
     			}
     			
     		});
     		
+    		this.session.$diffLineNumbers = lines;
     		editor.setValue(editor.getValue(), -1, true);
     		
     };
@@ -13115,6 +13131,8 @@ var dom = require("../lib/dom");
 var oop = require("../lib/oop");
 var lang = require("../lib/lang");
 var EventEmitter = require("../lib/event_emitter").EventEmitter;
+var lineHelperLeft = [];
+var lineHelperRight = [];
 
 var Gutter = function(parentEl) {
     this.element = dom.createElement("table");
@@ -13215,6 +13233,8 @@ var Gutter = function(parentEl) {
         var cell = null;
         var index = -1;
         var row = firstRow;
+//        var rowt1 = firstRow;
+//        var rowt2 = firstRow;
         while (true) {
             if (row > foldStart) {
                 row = fold.end.row + 1;
@@ -13299,21 +13319,62 @@ var Gutter = function(parentEl) {
                     cell.foldWidget = null;
                 }
             }
+
             
-            var text = lastLineNumber = gutterRenderer
-                ? gutterRenderer.getText(session, row)
-                : row + firstLineNumber;
-            if (text != cell.textNode.data){
-            	cell.textNode.data = text;
-            	
-            }
             if(this.session.$isInDiffMode){
-            	cell.textNode_right.data = text;
+            	
+            	var rowt1 = this.session.$lineHelperLeft[row];
+            	var rowt2 = this.session.$lineHelperRight[row];
+            	
+            	if(!rowt1 || !rowt2){
+            		rowt1 = row;
+            		rowt2 = row;
+            	}
+            	
+            	var text = rowt1 + firstLineNumber;
+            	var text2 = rowt2 + firstLineNumber;
+
+            	if(this.session.$diffLineNumbers[row] === -1){
+            		cell.textNode.data = text;
+            		cell.textNode_right.data = "";
+            		rowt1++;
+
+            	} else if(this.session.$diffLineNumbers[row] === 1){
+            		cell.textNode.data = "";
+            		cell.textNode_right.data = text2;
+            		rowt2++;
+            	} else {
+            		cell.textNode.data = text;
+            		if(this.session.$isInDiffMode && text2 !== text){
+            			cell.textNode_right.data = text2;
+            		}else{
+            			cell.textNode_right.data = "";
+            		}
+            		rowt1++;
+            		rowt2++;
+
+
+            	}
+                row++;
+                this.session.$lineHelperLeft[row]=rowt1;
+                this.session.$lineHelperRight[row]=rowt2;
+            	
             }else{
-            	cell.textNode_right.data = "";
+            	
+            	var text = lastLineNumber = gutterRenderer
+            	? gutterRenderer.getText(session, row)
+            			: row + firstLineNumber;
+            	
+            	
+            	if (text != cell.textNode.data){
+        			cell.textNode.data = text;
+        			cell.textNode_right.data = "";
+        			
+        		}
+            	row++;
             }
 
-            row++;
+
         }
 
         this.element.style.height = config.minHeight + "px";
@@ -13327,7 +13388,8 @@ var Gutter = function(parentEl) {
         
         var padding = this.$padding || this.$computePadding();
         gutterWidth += padding.left + padding.right;
-        if (((gutterWidth !== this.gutterWidth) || this.session.$isInDiffMode) && !isNaN(gutterWidth)) {
+        var forceRefreshGutter = true;
+        if (((gutterWidth !== this.gutterWidth) || forceRefreshGutter) && !isNaN(gutterWidth)) {
             this.gutterWidth = gutterWidth;
             this.element.style.width = Math.ceil(this.gutterWidth) + "px";
             this._emit("changeGutterWidth", gutterWidth);

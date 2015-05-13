@@ -283,6 +283,7 @@
 		    var disabled = /*[[${entry.orderedVersions.size()==1}]]*/'false';
 		    var elem = document.querySelector('.js-switch');
 		    var init = new Switchery(elem, { size: 'small', disabled: disabled });
+		    var diffMode = false;
 			
 			var changeCheckbox = document.querySelector('.js-check-change');
 
@@ -310,7 +311,14 @@
 					
 			 		var oldValue = /*[[${entry.orderedVersions.get(1).entryCodeText}]]*/'Code';
 					var newValue = /*[[${entry.orderedVersions.get(0).entryCodeText}]]*/'Code';
+					
+					if(curEntry && prevEntry){
+						oldValue = prevEntry.entryCodeText;
+						newValue = curEntry.entryCodeText;
+					}
+					
 					editor.setDiffAsValue(oldValue, newValue);
+					diffMode = true;
 					
 				}else{
 					var editor = ace.edit("editor");
@@ -338,6 +346,8 @@
 						  editor.session.removeMarker(i);
 					};
 					
+					diffMode = false;
+					
 				}
 				
 			};
@@ -348,6 +358,10 @@
 
 	<script th:inline="javascript">
 		/*<![CDATA[*/
+		           
+	var currentId = /*[[${entry.orderedVersions.get(0).id}]]*/'Code';
+	var curEntry =  null;
+	var prevEntry = null;
 		           
 	function updateVersion(prev) {
 		var versionsize = /*[[${entry.orderedVersions.size()}]]*/'size';
@@ -374,7 +388,7 @@
 			}
 		}
 		
-		var currentId = ids[nextIndex];
+		currentId = ids[nextIndex];
 		var nextType = types[nextIndex];
 		var server_url  = /*[[@{~/entryajax/}]]*/'url';
 		var relative_url = nextType +"/" + currentId;
@@ -383,7 +397,7 @@
 		 $.ajax({
 		        url: url
 		    }).then(function(data) {
-		    	
+		    	curEntry = data;
 		    	var m_names = new Array("January", "February", "March", 
 		    			"April", "May", "June", "July", "August", "September", 
 		    			"October", "November", "December");
@@ -405,8 +419,19 @@
 		   			$("#version-changes").html(data.versionDisplayText);
 		   			$("#versionnumber").html(data.versionnumber);
 		   			var editor = ace.edit("editor");
-		   			editor.setValue(data.entryCodeText);
-		   			editor.setValue(editor.getValue(), 1);
+		   			editor.renderer.$cursorLayer.element.style.opacity = 0;
+					editor.renderer.setPadding(4);
+					var markers = editor.session.$backMarkers;
+					for (var i in markers) {
+						  editor.session.removeMarker(i);
+					};
+					 if(diffMode && curEntry && prevEntry){
+							editor.setDiffAsValue(prevEntry.entryCodeText, curEntry.entryCodeText);
+							 
+						 }else{
+		   					editor.setValue(data.entryCodeText, -1);
+							 
+						 }
 		   			$('#input-id').rating('update', data.rankingValue);
 		   			$("#ratingcount").html(data.rankingCount);
 		   			
@@ -434,6 +459,31 @@
 		   			
 		   			
 		    });
+		 
+		 
+		 var toDiffId = ids[nextIndex+1];
+			var nextTypeToDiff = types[nextIndex+1];
+			var server_url_ToDiff  = /*[[@{~/entryajax/}]]*/'url';
+			var relative_url_ToDiff = nextTypeToDiff +"/" + toDiffId;
+			var url_ToDiff = server_url_ToDiff + relative_url_ToDiff;
+		 $.ajax({
+		        url: url_ToDiff
+		    }).then(function(data) {
+				prevEntry = data;
+				editor.renderer.$cursorLayer.element.style.opacity = 0;
+				editor.renderer.setPadding(4);
+				var markers = editor.session.$backMarkers;
+				for (var i in markers) {
+					  editor.session.removeMarker(i);
+				};
+				 if(diffMode && curEntry && prevEntry){
+						editor.setDiffAsValue(prevEntry.entryCodeText, curEntry.entryCodeText);
+						 
+					 }
+
+		    });
+		 
+
 }
 		           
 	$(document).ready(function(){
