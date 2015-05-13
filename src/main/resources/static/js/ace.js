@@ -13327,7 +13327,7 @@ var Gutter = function(parentEl) {
         
         var padding = this.$padding || this.$computePadding();
         gutterWidth += padding.left + padding.right;
-        if (gutterWidth !== this.gutterWidth && !isNaN(gutterWidth)) {
+        if (((gutterWidth !== this.gutterWidth) || this.session.$isInDiffMode) && !isNaN(gutterWidth)) {
             this.gutterWidth = gutterWidth;
             this.element.style.width = Math.ceil(this.gutterWidth) + "px";
             this._emit("changeGutterWidth", gutterWidth);
