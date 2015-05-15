@@ -15,6 +15,7 @@ import de.hhn.labswps.wefactor.domain.MasterEntryRepository;
 import de.hhn.labswps.wefactor.domain.TagRepository;
 import de.hhn.labswps.wefactor.domain.TimelineEventRepository;
 import de.hhn.labswps.wefactor.domain.UserProfileRepository;
+import de.hhn.labswps.wefactor.domain.VersionEntryRepository;
 import de.hhn.labswps.wefactor.service.util.TestDataUtil;
 
 /**
@@ -50,6 +51,9 @@ public class TestDataService {
     @Autowired
     private MasterEntryRepository masterEntryRepository;
 
+    @Autowired
+    private VersionEntryRepository versionEntryRepository;
+
     /**
      * Generate data.
      *
@@ -62,7 +66,8 @@ public class TestDataService {
             TestDataUtil util = new TestDataUtil(this.accountRepository,
                     this.entryRatingRepository, this.groupRepository,
                     this.masterEntryRepository, this.tagRepository,
-                    this.userProfileRepository, this.timelineEventRepository);
+                    this.userProfileRepository, this.timelineEventRepository,
+                    this.versionEntryRepository);
 
             util.generateData();
 
