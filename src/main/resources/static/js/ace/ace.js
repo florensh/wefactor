@@ -11494,10 +11494,20 @@ var Editor = function(renderer, session) {
     		this.setValue("");
     		var test = "";
     		var lastOp = null;
+    		var emptyString = false;
     		diffs.forEach(function(chunk) {
     			var op = chunk[0];
     			var text = chunk[1];
+    			
+    			if(text === ""){
+    				emptyString = true;
+    				return;
+    			}
+    			
     			test = test+text;
+    			console.log(text);
+    			console.log(test);
+    			
 
     			/*editor.session.insert({row: editor.getCursorPosition().row, column:editor.getCursorPosition().column}, text);*/
     			editor.setValue(test,1,true);
@@ -11514,15 +11524,26 @@ var Editor = function(renderer, session) {
     			
     			var markerClass;
     			
-    			if(op === -1){
-        			markerClass = 'highlightingRed';
-    			}else if(op === 1){
-        			markerClass = 'highlightingGreen';
-        			if(lastOp!==null && lastOp === 0){
-        				insertRange.start.row = insertRange.start.row+1;
-        			}
-    			}
+				if(emptyString){
+					insertRange.end.row = insertRange.end.row+1;
+					
+				}
     			
+    			if(op === -1){
+    				if(emptyString){
+    					insertRange.start.row = insertRange.start.row+1;
+    				}
+    				markerClass = 'highlightingRed';
+    				emptyString = false;
+    			}else if(op === 1){
+    				markerClass = 'highlightingGreen';
+    				if(lastOp!==null && lastOp === 0){
+    					insertRange.start.row = insertRange.start.row+1;
+    				}
+    				emptyString = false;
+
+    			}
+
     			if(markerClass){
     				for (var i = insertRange.start.row; i < insertRange.end.row; i++) {
     					var myRange = new Range(i,0,i,Number.MAX_VALUE);

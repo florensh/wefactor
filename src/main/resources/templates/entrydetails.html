@@ -309,16 +309,17 @@
 					})
 					editor.renderer.$cursorLayer.element.style.opacity = 0;
 					
-			 		var oldValue = /*[[${entry.orderedVersions.get(1).entryCodeText}]]*/'Code';
-					var newValue = /*[[${entry.orderedVersions.get(0).entryCodeText}]]*/'Code';
-					
-					if(curEntry && prevEntry){
-						oldValue = prevEntry.entryCodeText;
-						newValue = curEntry.entryCodeText;
-					}
-					
-					editor.setDiffAsValue(oldValue, newValue);
-					diffMode = true;
+				 		var oldValue = /*[[${entry.orderedVersions.size()&gt;1?entry.orderedVersions.get(1).entryCodeText:''}]]*/'Code';
+						var newValue = /*[[${entry.orderedVersions.get(0).entryCodeText}]]*/'Code';
+						
+						if(curEntry && prevEntry){
+							oldValue = prevEntry.entryCodeText;
+							newValue = curEntry.entryCodeText;
+						}
+						
+						editor.setDiffAsValue(oldValue, newValue);
+						diffMode = true;
+						
 					
 				}else{
 					var editor = ace.edit("editor");

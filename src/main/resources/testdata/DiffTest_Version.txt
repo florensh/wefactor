@@ -16,7 +16,7 @@ public class AttributesTask extends Task<Void> {
 	private AttributeTaskType type;
 	
 	private String oldkey;
-	private String key;
+	private String newKey;
 	private String value;
 	private SSOKernel kernel;
 	private String taskDescription;
@@ -81,6 +81,13 @@ public class AttributesTask extends Task<Void> {
 			
 		}
 		
+		logger.info("resulting user = " + resultingUser);
+		// OK, the  calls succeeded now lets copy the actual attribute list into the identity object
+        Platform.runLater(new Runnable() {
+            @Override public void run() {
+                identity.setAttributes(resultingUser);
+            }
+        });
 			
 		return null;
 	}
@@ -101,6 +108,7 @@ public class AttributesTask extends Task<Void> {
 	@Override
 	protected void failed() {
 		logger.finer("FAILURE " + this);
+		super.failed();
 		updateDescription();
 	}
 
