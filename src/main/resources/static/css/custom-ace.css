@@ -14,22 +14,24 @@
 
 .highlightingRed {
 	position: absolute;
-	background: #FDD;
+	background: #FFECEC;
 	z-index: 20;
+	color: #AAA;
 }
 
 .highlightingGreen {
 	position: absolute;
-	background: #DBFFDB;
+	background: #EAFFEA;
 	z-index: 20;
+	color: #AAA;
 }
 
 .highlightingRed:before {
-   content: "- ";
+   content: " - ";
 }
 
 .highlightingGreen:before {
-   content: "+ ";
+   content: " + ";
 }
 
 .ace_gutter-cell-td-left-diff {

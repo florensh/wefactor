@@ -11487,21 +11487,30 @@ var Editor = function(renderer, session) {
     		var lineText2 = a.chars2;
     		var lineArray = a.lineArray;
 
-    		var diffs = dmp.diff_main(lineText1, lineText2, false);
+    		var diffs = dmp.diff_main(lineText1, lineText2);
 
     		dmp.diff_charsToLines_(diffs, lineArray);
     		dmp.diff_cleanupSemantic(diffs);
-    		this.setValue('');
-    		
+    		this.setValue("");
+    		var test = "";
+    		var lastOp = null;
     		diffs.forEach(function(chunk) {
     			var op = chunk[0];
     			var text = chunk[1];
-    			editor.session.insert({row: editor.getCursorPosition().row, column:editor.getCursorPosition().column}, text);
+    			test = test+text;
+
+    			/*editor.session.insert({row: editor.getCursorPosition().row, column:editor.getCursorPosition().column}, text);*/
+    			editor.setValue(test,1,true);
     			var trimText = text;
+    			
+    			editor.$search.set({ needle: trimText, backwards: true});
+    			var insertRange = editor.$search.find(editor.getSession());
+    			
+    			/*
     			var insertRange = editor.find(trimText,{
-    				backwards: true
+    				backwards: false
     			});
-    			insertRange.start.column = 0;
+    			*/
     			
     			var markerClass;
     			
@@ -11509,6 +11518,9 @@ var Editor = function(renderer, session) {
         			markerClass = 'highlightingRed';
     			}else if(op === 1){
         			markerClass = 'highlightingGreen';
+        			if(lastOp!==null && lastOp === 0){
+        				insertRange.start.row = insertRange.start.row+1;
+        			}
     			}
     			
     			if(markerClass){
@@ -11516,12 +11528,14 @@ var Editor = function(renderer, session) {
     					var myRange = new Range(i,0,i,Number.MAX_VALUE);
     					editor.session.addMarker(myRange, markerClass, 'fullLine');
     					lines[i]=op;
+    	    			console.log(i);
     				}
     				
     			}
     			
+    			lastOp = op;
+    			
     		});
-    		
     		this.session.$diffLineNumbers = lines;
     		editor.setValue(editor.getValue(), -1, true);
     		
@@ -13135,9 +13149,11 @@ var lineHelperLeft = [];
 var lineHelperRight = [];
 
 var Gutter = function(parentEl) {
+	this.elementParent = dom.createElement("div");
     this.element = dom.createElement("table");
-    this.element.className = "ace_layer ace_gutter-layer";
-    parentEl.appendChild(this.element);
+    this.elementParent.className = "ace_layer ace_gutter-layer";
+    parentEl.appendChild(this.elementParent);
+    this.elementParent.appendChild(this.element);
     this.setShowFoldWidgets(this.$showFoldWidgets);
     
     this.gutterWidth = 0;
@@ -13333,7 +13349,7 @@ var Gutter = function(parentEl) {
             	
             	var text = rowt1 + firstLineNumber;
             	var text2 = rowt2 + firstLineNumber;
-
+            	
             	if(this.session.$diffLineNumbers[row] === -1){
             		cell.textNode.data = text;
             		cell.textNode_right.data = "";
@@ -13377,7 +13393,7 @@ var Gutter = function(parentEl) {
 
         }
 
-        this.element.style.height = config.minHeight + "px";
+        this.elementParent.style.height = config.minHeight + "px";
 
         if (this.$fixedWidth || session.$useWrapMode)
             lastLineNumber = session.getLength() + firstLineNumber;

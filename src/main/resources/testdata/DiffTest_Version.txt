@@ -21,7 +21,7 @@ public class AttributesTask extends Task<Void> {
 	private SSOKernel kernel;
 	private String taskDescription;
 	private Identity identity;
-	private User resultingUser1;
+	private User resultingUser;
 
 	public AttributesTask(AttributeTaskType type) {
 		this.type = type;
@@ -67,7 +67,6 @@ public class AttributesTask extends Task<Void> {
 		case REMOVE:
 			taskDescription = "Removing Attribute " + key + " for identity " + identity;
 			resultingUser = kernel.removeAttribute(identity, key);
-			
 			break;
 
 		case UPDATE:
@@ -82,13 +81,6 @@ public class AttributesTask extends Task<Void> {
 			
 		}
 		
-		logger.info("resulting user = " + resultingUser);
-		// OK, the  calls succeeded now lets copy the actual attribute list into the identity object
-        Platform.runLater(new Runnable() {
-            @Override public void run() {
-                identity.setAttributes(resultingUser);
-            }
-        });
 			
 		return null;
 	}
@@ -109,7 +101,6 @@ public class AttributesTask extends Task<Void> {
 	@Override
 	protected void failed() {
 		logger.finer("FAILURE " + this);
-		super.failed();
 		updateDescription();
 	}
 
@@ -119,4 +110,6 @@ public class AttributesTask extends Task<Void> {
 		super.succeeded();
 		updateDescription();
 	}
+
+	
 }
