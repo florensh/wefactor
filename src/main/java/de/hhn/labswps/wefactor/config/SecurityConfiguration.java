@@ -9,11 +9,15 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.servlet.configuration.EnableWebMvcSecurity;
+import org.springframework.security.core.session.SessionRegistry;
+import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.ldap.userdetails.UserDetailsContextMapper;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.session.ConcurrentSessionControlAuthenticationStrategy;
+import org.springframework.security.web.authentication.session.SessionAuthenticationStrategy;
 import org.springframework.security.web.csrf.CsrfFilter;
 import org.springframework.social.security.SocialUserDetailsService;
 import org.springframework.social.security.SpringSocialConfigurer;
@@ -72,18 +76,23 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
         http
         // Configures form login
-        .formLogin()
-                .loginPage("/signin")
+        .formLogin().loginPage("/signin")
                 .loginProcessingUrl("/login/authenticate")
                 .successHandler(authenticationSuccessHandler())
                 .failureUrl("/signin?error=bad_credentials")
-                // Configures the logout function
                 .and()
                 .logout()
                 .deleteCookies("JSESSIONID")
                 .logoutUrl("/logout")
                 .logoutSuccessUrl("/signin")
-                // Configures url based authorization
+                .and()
+                .sessionManagement()
+                .sessionAuthenticationStrategy(sessionAuthenticationStrategy())
+                .sessionFixation()
+                .migrateSession()
+                .maximumSessions(1)
+                .sessionRegistry(sessionRegistry())
+                .and()
                 .and()
                 .authorizeRequests()
                 // Anyone can access the urls
@@ -181,5 +190,23 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     public AuthenticationSuccessHandler authenticationSuccessHandler() {
         return new CustomAuthenticationSuccessHandler();
     }
+
+    @Bean
+    public SessionRegistry sessionRegistry() {
+        return new SessionRegistryImpl();
+    }
+
+    @Bean
+    public SessionAuthenticationStrategy sessionAuthenticationStrategy() {
+        return new ConcurrentSessionControlAuthenticationStrategy(
+                sessionRegistry());
+    }
+
+    // @Bean
+    // public ServletListenerRegistrationBean<HttpSessionEventPublisher>
+    // httpSessionEventPublisher() {
+    // return new ServletListenerRegistrationBean<HttpSessionEventPublisher>(
+    // new HttpSessionEventPublisher());
+    // }
 
 }

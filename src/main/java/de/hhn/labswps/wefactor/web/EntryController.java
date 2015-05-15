@@ -401,7 +401,8 @@ public class EntryController {
         final UserProfile profile = this.userProfileRepository
                 .findByUsername(secUser);
 
-        final Entry entry = this.entryRepository.findOne(id);
+        final Entry master = this.entryRepository.findOne(id);
+        Entry entry = master.getHeadVersion();
 
         // if (entry.getAccount().getId() != profile.getAccount().getId()) {
         // throw new BadCredentialsException(
@@ -718,9 +719,14 @@ public class EntryController {
      */
     private ProposalEntry saveAsProposalEntry(
             final EntryDataObject entryDataObject, final Principal currentUser) {
-        MasterEntry toSave;
+        MasterEntry master;
         if (entryDataObject.getId() != null) {
-            toSave = this.entryRepository.findOne(entryDataObject.getId());
+            master = this.entryRepository.findOne(entryDataObject.getId());
+            if (master == null) {
+                VersionEntry version = this.versionEntryRepository
+                        .findOne(entryDataObject.getId());
+                master = version.getMasterOfVersion();
+            }
 
         } else {
             throw new IllegalArgumentException();
@@ -737,7 +743,7 @@ public class EntryController {
                         entryDataObject.getLanguage(),
                         entryDataObject.getChanges(),
                         entryDataObject.getTeaser(), entryDataObject.getCode(),
-                        toSave, Status.NEW.name());
+                        master, Status.NEW.name());
 
         if (list != null && !list.isEmpty()) {
             return list.get(0);
@@ -757,9 +763,9 @@ public class EntryController {
         pe.setChanges(entryDataObject.getChanges());
 
         this.proposalEntryRepository.save(pe);
-        toSave.addProposal(pe);
+        master.addProposal(pe);
 
-        toSave = this.entryRepository.save(toSave);
+        master = this.entryRepository.save(master);
 
         final ObjectIdentification oid = DataUtils.createObjectIdentification(
                 pe.getMasterOfProposal(), Entry.class.getSimpleName());

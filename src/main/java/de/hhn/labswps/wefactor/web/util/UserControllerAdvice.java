@@ -9,6 +9,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.env.Environment;
 import org.springframework.ui.Model;
@@ -47,6 +48,9 @@ public class UserControllerAdvice {
     /** The timeline event repository. */
     @Autowired
     private TimelineEventRepository timelineEventRepository;
+
+    @Value("${feedback_mail_link}")
+    String feedbackMailLink;
 
     /**
      * Sets the model.
@@ -114,6 +118,10 @@ public class UserControllerAdvice {
             final SearchBoxDataObject sbda = new SearchBoxDataObject();
             model.addAttribute("searchBoxDataObject", sbda);
 
+        }
+
+        if (this.feedbackMailLink != null && !this.feedbackMailLink.isEmpty()) {
+            model.addAttribute("feedbackLink", this.feedbackMailLink);
         }
 
     }

@@ -86,16 +86,20 @@
 			<!--/.row-->
 		</div>
 		<!--/.container-->
+		<div th:replace="layout :: page_footer">(footer)</div>
 	</div>
 	<!--/.page-container-->
 	<!-- script references -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 	<script th:src="@{/webjars/bootstrap/3.2.0/js/bootstrap.min.js}"></script>
 	<script th:src="@{/js/scripts.js}"></script>
+		<script th:src="@{/js/diff_match_patch.js}"></script>
 	<script th:src="@{/webjars/fuelux/3.0.2/js/fuelux.min.js}"></script>
-	<script th:src="@{/webjars/ace/01.08.2014/src-min-noconflict/ace.js}"></script>
+	<script th:src="@{/js/ace/ace.js}"></script>
 	<script th:src="@{/webjars/tinymce-jquery/4.0.16/tinymce.min.js}"></script>
 	<script th:src="@{/js/bootstrap-tags.min.js}"></script>
+	<script th:src="@{/js/switchery.js}"></script>
+	
 
 
 	<script th:inline="javascript">
@@ -225,6 +229,80 @@
 
 	/* ]]> */
 </script>
+
+
+	<script th:inline="javascript">
+		/*<![CDATA[*/
+		    var disabled = /*[[${entry.orderedVersions.size()==1}]]*/'false';
+		    var elem = document.querySelector('.js-switch');
+		    var init = new Switchery(elem, { size: 'small', disabled: disabled });
+		    var diffMode = false;
+			
+			var changeCheckbox = document.querySelector('.js-check-change');
+
+			changeCheckbox.onchange = function() {
+				if(changeCheckbox.checked){
+					var editor = ace.edit("editor");
+					var modelAttributeValue = /*[[${entry.orderedVersions.get(0).entryCodeText}]]*/'Code';
+					var language = /*[[${entry.language}]]*/'language';
+			/*		editor.setTheme("ace/theme/wefactor");*/
+					editor.setValue(modelAttributeValue); // or session.setValue
+					editor.getValue(); // or session.getValue
+					editor.setValue(editor.getValue(), 1);
+					editor.getSession().setMode("ace/mode/" + language);
+					editor.setTheme("ace/theme/github");
+					editor.setFontSize("13px");
+					editor.setOptions({
+						readOnly : true,
+						highlightActiveLine : false,
+						showPrintMargin: false,
+						highlightGutterLine: false,
+						highlightActiveLine: false,
+						highlightSelectedWord: false
+					})
+					editor.renderer.$cursorLayer.element.style.opacity = 0;
+					
+				 		var oldValue = /*[[${entry.orderedVersions.size()&gt;1?entry.orderedVersions.get(1).entryCodeText:''}]]*/'Code';
+						var newValue = /*[[${entry.orderedVersions.get(0).entryCodeText}]]*/'Code';
+						
+						editor.setDiffAsValue(oldValue, newValue);
+						diffMode = true;
+						
+					
+				}else{
+					var editor = ace.edit("editor");
+					var modelAttributeValue = /*[[${entry.orderedVersions.get(0).entryCodeText}]]*/'Code';
+					var language = /*[[${entry.language}]]*/'language';
+			/*		editor.setTheme("ace/theme/wefactor");*/
+					editor.setValue(modelAttributeValue); // or session.setValue
+					editor.getValue(); // or session.getValue
+					editor.setValue(editor.getValue(), -1, false);
+					editor.getSession().setMode("ace/mode/" + language);
+					editor.setTheme("ace/theme/github");
+					editor.setFontSize("13px");
+					editor.setOptions({
+						readOnly : true,
+						highlightActiveLine : false,
+						showPrintMargin: false,
+						highlightGutterLine: false,
+						highlightActiveLine: false,
+						highlightSelectedWord: false
+					})
+					editor.renderer.$cursorLayer.element.style.opacity = 0;
+					editor.renderer.setPadding(4);
+					var markers = editor.session.$backMarkers;
+					for (var i in markers) {
+						  editor.session.removeMarker(i);
+					};
+					
+					diffMode = false;
+					
+				}
+				
+			};
+			
+		/* ]]> */
+	</script>
 
 
 </body>

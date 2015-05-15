@@ -29,7 +29,7 @@
 									alt="" class="img-rounded"></img></a>
 							</div>
 							
-							<div class="col-xs-8 col-md-5 pull-left" id="userNameProfil">
+							<div class="col-xs-8 col-md-8 pull-left" id="userNameProfil">
 								<h4><a th:href="@{/user/profile/details(id=${the_entry.parent.account.primaryProfile.id})}"> <span  th:text="${the_entry.parent.account.primaryProfile.name}">name</span></a><span> / </span><strong><a th:href="@{/entry/details(id=${the_entry.parent.id})}"> <span  th:text="${the_entry.parent.name}">name</span></a></strong></h4>
 								<h4><small th:text="${beans.dateFormatter.format(the_entry.parent.createdDate)}">created just now</small></h4>
 							</div>
@@ -142,9 +142,13 @@
 											<div class="row">
 												<div th:fragment="editor (the_entry)" class="panel panel-default" id="editor-panel">
 													<div class="panel-heading">
-														<div class="pull-left" style="padding-top:4px;"><kbd th:text="${the_entry.getLanguageAsType().getDisplayName()}">language</kbd></div>
-														<div class="btn-toolbar pull-right" role="toolbar" aria-label="...">
-															<a th:href="@{/entry/details/raw(id=${the_entry.id},type=${the_entry.type})}" class="btn btn-default btn-sm" role="button">Raw</a>
+														<div class="pull-left" style="padding-top:0px;">
+															<kbd th:text="${the_entry.getLanguageAsType().getDisplayName()}">language</kbd>
+															<a th:href="@{/entry/details/raw(id=${the_entry.id},type=${the_entry.type})}" class="btn btn-link btn-sm" role="button">Raw</a>
+														</div>
+														<div class="btn-toolbar pull-right" style="margin-top:4px;" role="toolbar" aria-label="...">
+															<span style="vertical-align:middle; padding-right:10px; color:#777;">diff to previous</span>
+															<input type="checkbox" class="js-switch js-check-change" value="diff"></input>
 														</div>
 														<div class="clearfix"></div>
 														
