@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
@@ -39,7 +40,7 @@ import de.hhn.labswps.wefactor.specification.WeFactorValues;
 @Where(clause = "inactive = 'N'")
 // @SQLDelete(sql = "UPDATE entry set inactive = 'Y' WHERE Id = ?")
 @JsonIgnoreProperties({ "id", "softDeleted", "Account", "createdBy",
-        "lastModifiedBy" })
+        "lastModifiedBy", "watchers" })
 @DiscriminatorColumn(name = "ENTRY_TYPE")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public abstract class Entry extends BaseSoftDeletableEntity implements
@@ -71,6 +72,8 @@ public abstract class Entry extends BaseSoftDeletableEntity implements
 
     /** The ratings. */
     private Set<EntryRating> ratings = new HashSet<EntryRating>();
+
+    private Set<Account> watchers = new HashSet<Account>();
 
     /** The statistics. */
     private EntryStatistics statistics = new EntryStatistics();
@@ -320,9 +323,57 @@ public abstract class Entry extends BaseSoftDeletableEntity implements
     }
 
     /**
-     * Gets the ratings.
+     * Gets the watchers.
      *
-     * @return the ratings
+     * @return the watchers
+     */
+    @ManyToMany(mappedBy = "watchedEntries", fetch = FetchType.EAGER)
+    public Set<Account> getWatchers() {
+        return this.watchers;
+    }
+
+    @Transient
+    @JsonProperty("watchCount")
+    public int getWatchCount() {
+        return this.watchers.size();
+    }
+
+    /**
+     * Sets the watchers.
+     *
+     * @param watchers
+     *            the new watchers
+     */
+    public void setWatchers(final Set<Account> watchers) {
+        this.watchers = watchers;
+    }
+
+    /**
+     * Adds the watcher.
+     *
+     * @param theAccount
+     *            the the account
+     */
+    public void addWatcher(final Account theAccount) {
+        this.watchers.add(theAccount);
+        theAccount.addWatchedEntry(this);
+    }
+
+    /**
+     * Removes the watcher.
+     *
+     * @param theAccount
+     *            the the account
+     */
+    public void removeWatcher(final Account theAccount) {
+        this.watchers.remove(theAccount);
+        theAccount.removeWatchedEntry(this);
+    }
+
+    /**
+     * Gets the watchers.
+     *
+     * @return the watchers
      */
     @OneToMany(mappedBy = "entry")
     public Set<EntryRating> getRatings() {

@@ -26,6 +26,7 @@ import de.hhn.labswps.wefactor.domain.Account;
 import de.hhn.labswps.wefactor.domain.Entry;
 import de.hhn.labswps.wefactor.domain.EntryRating;
 import de.hhn.labswps.wefactor.domain.EntryRatingRepository;
+import de.hhn.labswps.wefactor.domain.Group;
 import de.hhn.labswps.wefactor.domain.GroupRepository;
 import de.hhn.labswps.wefactor.domain.MasterEntry;
 import de.hhn.labswps.wefactor.domain.MasterEntryRepository;
@@ -35,14 +36,13 @@ import de.hhn.labswps.wefactor.domain.ProposalEntry.Status;
 import de.hhn.labswps.wefactor.domain.ProposalEntryRepository;
 import de.hhn.labswps.wefactor.domain.Tag;
 import de.hhn.labswps.wefactor.domain.TagRepository;
-import de.hhn.labswps.wefactor.domain.TimelineEvent;
-import de.hhn.labswps.wefactor.domain.TimelineEventRepository;
 import de.hhn.labswps.wefactor.domain.UserProfile;
 import de.hhn.labswps.wefactor.domain.UserProfileRepository;
 import de.hhn.labswps.wefactor.domain.VersionEntry;
 import de.hhn.labswps.wefactor.domain.VersionEntryRepository;
 import de.hhn.labswps.wefactor.service.EntryService;
 import de.hhn.labswps.wefactor.service.JournalService;
+import de.hhn.labswps.wefactor.service.NotificationService;
 import de.hhn.labswps.wefactor.specification.WeFactorValues;
 import de.hhn.labswps.wefactor.specification.WeFactorValues.EventType;
 import de.hhn.labswps.wefactor.web.DataObjects.EntryDataObject;
@@ -117,9 +117,8 @@ public class EntryController {
     @Autowired
     private TagRepository tagRepository;
 
-    /** The timeline event repository. */
     @Autowired
-    private TimelineEventRepository timelineEventRepository;
+    private NotificationService notificationService;
 
     /**
      * Show entries.
@@ -501,10 +500,13 @@ public class EntryController {
 
         final ObjectIdentification oid = DataUtils.createObjectIdentification(
                 me, Entry.class.getSimpleName());
-        final TimelineEvent event = new TimelineEvent(new Date(), account,
-                pe.getAccount(), EventType.PROPOSAL_ACCEPTED, oid);
 
-        this.timelineEventRepository.save(event);
+        sendNotificationToTimeline(account, pe.getAccount(),
+                EventType.PROPOSAL_ACCEPTED, oid);
+
+        sendNotificationMail(account, pe.getAccount(),
+                EventType.PROPOSAL_ACCEPTED, oid);
+
         this.journalService
                 .writeEntry(
                         currentUser.getName(),
@@ -557,10 +559,12 @@ public class EntryController {
 
         final ObjectIdentification oid = DataUtils.createObjectIdentification(
                 pe.getMasterOfProposal(), Entry.class.getSimpleName());
-        final TimelineEvent event = new TimelineEvent(new Date(), account,
-                pe.getAccount(), EventType.PROPOSAL_REJECTED, oid);
 
-        this.timelineEventRepository.save(event);
+        sendNotificationToTimeline(account, pe.getAccount(),
+                EventType.PROPOSAL_REJECTED, oid);
+
+        sendNotificationMail(account, pe.getAccount(),
+                EventType.PROPOSAL_REJECTED, oid);
 
         this.journalService
                 .writeEntry(
@@ -769,10 +773,13 @@ public class EntryController {
 
         final ObjectIdentification oid = DataUtils.createObjectIdentification(
                 pe.getMasterOfProposal(), Entry.class.getSimpleName());
-        final TimelineEvent event = new TimelineEvent(new Date(),
-                profile.getAccount(), pe.getMasterOfProposal().getAccount(),
-                EventType.MADE_PROPOSAL, oid);
-        this.timelineEventRepository.save(event);
+
+        sendNotificationToTimeline(profile.getAccount(), pe
+                .getMasterOfProposal().getAccount(), EventType.MADE_PROPOSAL,
+                oid);
+
+        sendNotificationMail(profile.getAccount(), pe.getMasterOfProposal()
+                .getAccount(), EventType.MADE_PROPOSAL, oid);
 
         return pe;
     }
@@ -845,10 +852,12 @@ public class EntryController {
                 final ObjectIdentification oid = DataUtils
                         .createObjectIdentification(toSave,
                                 Entry.class.getSimpleName());
-                final TimelineEvent event = new TimelineEvent(new Date(),
-                        toSave.getAccount(), toSave.getGroup(),
+
+                sendNotificationToTimeline(toSave.getAccount(),
+                        toSave.getGroup(), EventType.MADE_ENTRY, oid);
+
+                sendNotificationMail(toSave.getAccount(), toSave.getGroup(),
                         EventType.MADE_ENTRY, oid);
-                this.timelineEventRepository.save(event);
             }
 
             if (edit) {
@@ -975,6 +984,26 @@ public class EntryController {
 
     }
 
+    @RequestMapping(value = "/watch/{type}/{id}")
+    public @ResponseBody Entry saveWatcher(@PathVariable final String type,
+            @PathVariable final Long id, final Principal currentUser) {
+
+        Entry entry = this.entryService.addWatcher(id, type, currentUser);
+
+        return entry;
+
+    }
+
+    @RequestMapping(value = "/stopwatch/{type}/{id}")
+    public @ResponseBody Entry removeWatcher(@PathVariable final String type,
+            @PathVariable final Long id, final Principal currentUser) {
+
+        Entry entry = this.entryService.removeWatcher(id, type, currentUser);
+
+        return entry;
+
+    }
+
     private EntryRating addRating(Entry me, Integer rating,
             Principal currentUser) {
 
@@ -994,6 +1023,37 @@ public class EntryController {
         entryRating.setValue(rating);
 
         return entryRating;
+
+    }
+
+    private void sendNotificationMail(Account source, Account target,
+            EventType eventType, ObjectIdentification oid) {
+
+        this.notificationService.sendMailNotificationsForEvent(source, target,
+                eventType, oid);
+
+    }
+
+    private void sendNotificationMail(Account account, Group group,
+            EventType madeEntry, ObjectIdentification oid) {
+
+        this.notificationService.sendMailNotificationsForEvent(account, group,
+                EventType.MADE_ENTRY, oid);
+
+    }
+
+    private void sendNotificationToTimeline(Account source, Account target,
+            EventType eventType, ObjectIdentification oid) {
+
+        this.notificationService.sendToTimeline(source, target, eventType, oid);
+
+    }
+
+    private void sendNotificationToTimeline(Account account, Group group,
+            EventType madeEntry, ObjectIdentification oid) {
+
+        this.notificationService.sendToTimeline(account, group,
+                EventType.MADE_ENTRY, oid);
 
     }
 

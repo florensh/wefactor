@@ -37,7 +37,7 @@ import de.hhn.labswps.wefactor.specification.WeFactorValues.Role;
 @Entity
 @Table(name = "account")
 @JsonIgnoreProperties({ "id", "entries", "createdBy", "lastModifiedBy",
-        "hibernateLazyInitializer", "handler", "groups" })
+        "hibernateLazyInitializer", "handler", "groups", "watchedEntries" })
 public class Account {
 
     @Override
@@ -70,6 +70,9 @@ public class Account {
 
     /** The groups. */
     private Set<Group> groups = new HashSet<Group>();
+
+    /** The watchedEntries. */
+    private Set<Entry> watchedEntries = new HashSet<Entry>();
 
     /** The id. */
     private Long id;
@@ -115,6 +118,16 @@ public class Account {
      */
     public void addGroup(final Group group) {
         this.groups.add(group);
+    }
+
+    /**
+     * Adds the watchedEntry.
+     *
+     * @param Entry
+     *            the watchedEntry
+     */
+    public void addWatchedEntry(final Entry watchedEntry) {
+        this.watchedEntries.add(watchedEntry);
     }
 
     /**
@@ -187,6 +200,17 @@ public class Account {
     }
 
     /**
+     * Gets the watchedEntries.
+     *
+     * @return the watchedEntries
+     */
+    @ManyToMany
+    @JoinTable(name = "WATCHED_ENTRIES", joinColumns = { @JoinColumn(name = "ACCOUNT_ID", referencedColumnName = "ID") }, inverseJoinColumns = { @JoinColumn(name = "ENTRY_ID", referencedColumnName = "ID") })
+    public Set<Entry> getWatchedEntries() {
+        return this.watchedEntries;
+    }
+
+    /**
      * Gets the id.
      *
      * @return the id
@@ -248,6 +272,16 @@ public class Account {
     }
 
     /**
+     * Removes the watchedEntry.
+     *
+     * @param watchedEntry
+     *            the watchedEntry
+     */
+    public void removeWatchedEntry(final Entry watchedEntry) {
+        this.watchedEntries.remove(watchedEntry);
+    }
+
+    /**
      * Removes the profile.
      *
      * @param profile
@@ -278,6 +312,16 @@ public class Account {
     }
 
     /**
+     * Sets the watchedEntries.
+     *
+     * @param watchedEntries
+     *            the new watchedEntries
+     */
+    public void setWatchedEntries(final Set<Entry> watchedEntries) {
+        this.watchedEntries = watchedEntries;
+    }
+
+    /**
      * Sets the id.
      *
      * @param id
@@ -305,6 +349,10 @@ public class Account {
      */
     public void setRoles(final String roles) {
         this.roles = roles;
+    }
+
+    public boolean watcherOf(Entry entry) {
+        return this.watchedEntries.contains(entry);
     }
 
 }

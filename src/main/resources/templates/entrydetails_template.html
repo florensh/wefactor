@@ -148,7 +148,7 @@
 														</div>
 														<div class="btn-toolbar pull-right" style="margin-top:4px;" role="toolbar" aria-label="...">
 															<span style="vertical-align:middle; padding-right:10px; color:#777;">diff to previous</span>
-															<input type="checkbox" class="js-switch js-check-change" value="diff"></input>
+															<input type="checkbox" class="js-switch js-switch-diff js-check-change" value="diff"></input>
 														</div>
 														<div class="clearfix"></div>
 														
@@ -159,7 +159,8 @@
 										</div>
 
 
-										<div th:fragment="right_sidebar (the_entry, showRating)" class="col-md-2 col-sm-2" id="right-sidebar">
+
+										<div th:fragment="right_sidebar (the_entry, showRating)">
 											<p th:if="${the_entry.group}"  style="margin-bottom: 22px;">
 												<span class="badge-text-light">Published in</span><br></br>
 												<a th:href="@{/user/group/(id=${the_entry.group.id})}"> <strong th:text="${the_entry.group.name}">group name</strong>
@@ -176,12 +177,14 @@
                                 			</span>
                                 			
                                 			<div class="clearfix"></div>
-                             <div class="row" style="margin-top:20px;">
-								<div class="col-md-12" id="tagInput">
-									<div id="my-tag-list" class="tag-list"></div>
-								</div>
-							</div>
+				                             <div class="row" style="margin-top:20px;">
+												<div class="col-md-12" id="tagInput">
+													<div id="my-tag-list" class="tag-list"></div>
+												</div>
+											</div>
 										</div>
+										
+										
 									</div>
 									<!-- end tab content for entry -->
 									<div role="tabpanel" class="tab-pane fade" id="proposals">
