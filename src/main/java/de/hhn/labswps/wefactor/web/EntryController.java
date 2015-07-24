@@ -22,6 +22,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.google.common.collect.Sets;
+
 import de.hhn.labswps.wefactor.domain.Account;
 import de.hhn.labswps.wefactor.domain.Entry;
 import de.hhn.labswps.wefactor.domain.EntryRating;
@@ -486,7 +488,8 @@ public class EntryController {
      */
     @RequestMapping(value = "/proposal/accept", method = RequestMethod.GET)
     public String acceptProposal(@RequestParam("id") final Long id,
-            final ModelMap model, final Principal currentUser) {
+            final ModelMap model, final Principal currentUser,
+            final HttpServletRequest request) {
 
         final ProposalEntry pe = this.proposalEntryRepository.findOne(id);
         doAcceptProposal(pe, currentUser);
@@ -505,7 +508,10 @@ public class EntryController {
                 EventType.PROPOSAL_ACCEPTED, oid);
 
         sendNotificationMail(account, pe.getAccount(),
-                EventType.PROPOSAL_ACCEPTED, oid);
+                EventType.PROPOSAL_ACCEPTED, oid, request, false, currentUser);
+
+        sendNotificationMail(account, pe.getMasterOfProposal().getWatchers(),
+                EventType.NEW_VERSION, oid, request, false, currentUser);
 
         this.journalService
                 .writeEntry(
@@ -520,7 +526,6 @@ public class EntryController {
 
         final UserProfile up = this.userProfileRepository
                 .findByUsername(currentUser.getName());
-        final Account account = up.getAccount();
 
         final MasterEntry me = pe.getMasterOfProposal();
         final VersionEntry ve = new VersionEntry(pe);
@@ -544,7 +549,8 @@ public class EntryController {
      */
     @RequestMapping(value = "/proposal/reject", method = RequestMethod.GET)
     public String rejectProposal(@RequestParam("id") final Long id,
-            final ModelMap model, final Principal currentUser) {
+            final ModelMap model, final Principal currentUser,
+            final HttpServletRequest request) {
 
         final UserProfile up = this.userProfileRepository
                 .findByUsername(currentUser.getName());
@@ -564,7 +570,7 @@ public class EntryController {
                 EventType.PROPOSAL_REJECTED, oid);
 
         sendNotificationMail(account, pe.getAccount(),
-                EventType.PROPOSAL_REJECTED, oid);
+                EventType.PROPOSAL_REJECTED, oid, request, false, currentUser);
 
         this.journalService
                 .writeEntry(
@@ -643,14 +649,16 @@ public class EntryController {
     @RequestMapping(value = "/user/entry/save", method = RequestMethod.POST)
     public String submitEntryForm(@Valid final EntryDataObject entryDataObject,
             final BindingResult result, final ModelMap m,
-            final Principal currentUser) {
+            final Principal currentUser, final HttpServletRequest request) {
+
         if (result.hasErrors()) {
             m.addAttribute("languages",
                     WeFactorValues.ProgrammingLanguage.values());
             return "entryedit";
         }
 
-        final Entry toSave = this.saveEntry(entryDataObject, currentUser, m);
+        final Entry toSave = this.saveEntry(entryDataObject, currentUser, m,
+                request);
 
         return this.showEntryDetails(toSave.getId(), m, currentUser);
     }
@@ -663,10 +671,11 @@ public class EntryController {
      * @param currentUser
      *            the current user
      * @param m
+     * @param request
      * @return the entry
      */
     private Entry saveEntry(final EntryDataObject entryDataObject,
-            final Principal currentUser, ModelMap m) {
+            final Principal currentUser, ModelMap m, HttpServletRequest request) {
 
         Entry retVal = null;
         final String secUser = currentUser.getName();
@@ -676,7 +685,7 @@ public class EntryController {
         switch (EntryEditMode.valueOf(entryDataObject.getEditMode())) {
             case MASTER:
                 final MasterEntry toSave = this.saveAsMasterEntry(
-                        entryDataObject, currentUser);
+                        entryDataObject, currentUser, request);
                 retVal = toSave;
 
                 ViewUtil.showMessage("You successfully created new entry "
@@ -686,7 +695,7 @@ public class EntryController {
 
             case PROPOSAL:
                 final ProposalEntry proposal = this.saveAsProposalEntry(
-                        entryDataObject, currentUser);
+                        entryDataObject, currentUser, request);
                 retVal = proposal.getMasterOfProposal();
                 if (profile.getAccount().equals(retVal.getAccount())) {
                     this.doAcceptProposal(proposal, currentUser);
@@ -719,10 +728,12 @@ public class EntryController {
      *            the entry data object
      * @param currentUser
      *            the current user
+     * @param request
      * @return the master entry
      */
     private ProposalEntry saveAsProposalEntry(
-            final EntryDataObject entryDataObject, final Principal currentUser) {
+            final EntryDataObject entryDataObject, final Principal currentUser,
+            HttpServletRequest request) {
         MasterEntry master;
         if (entryDataObject.getId() != null) {
             master = this.entryRepository.findOne(entryDataObject.getId());
@@ -779,7 +790,8 @@ public class EntryController {
                 oid);
 
         sendNotificationMail(profile.getAccount(), pe.getMasterOfProposal()
-                .getAccount(), EventType.MADE_PROPOSAL, oid);
+                .getAccount(), EventType.MADE_PROPOSAL, oid, request, false,
+                currentUser);
 
         return pe;
     }
@@ -791,10 +803,12 @@ public class EntryController {
      *            the entry data object
      * @param currentUser
      *            the current user
+     * @param request
      * @return the master entry
      */
     private MasterEntry saveAsMasterEntry(
-            final EntryDataObject entryDataObject, final Principal currentUser) {
+            final EntryDataObject entryDataObject, final Principal currentUser,
+            HttpServletRequest request) {
         boolean edit = false;
         MasterEntry toSave;
         boolean doubleEntry = false;
@@ -857,7 +871,7 @@ public class EntryController {
                         toSave.getGroup(), EventType.MADE_ENTRY, oid);
 
                 sendNotificationMail(toSave.getAccount(), toSave.getGroup(),
-                        EventType.MADE_ENTRY, oid);
+                        EventType.MADE_ENTRY, oid, request, false, currentUser);
             }
 
             if (edit) {
@@ -865,6 +879,13 @@ public class EntryController {
                         .writeEntry(
                                 currentUser.getName(),
                                 de.hhn.labswps.wefactor.domain.JournalEntry.EventType.EDIT_ENTRY);
+
+                sendNotificationMail(toSave.getAccount(), toSave.getWatchers(),
+                        EventType.NEW_VERSION,
+                        DataUtils.createObjectIdentification(toSave,
+                                Entry.class.getSimpleName()), request, false,
+                        currentUser);
+
             } else {
                 this.journalService
                         .writeEntry(
@@ -984,6 +1005,7 @@ public class EntryController {
 
     }
 
+    @PreAuthorize("hasRole('ROLE_USER')")
     @RequestMapping(value = "/watch/{type}/{id}")
     public @ResponseBody Entry saveWatcher(@PathVariable final String type,
             @PathVariable final Long id, final Principal currentUser) {
@@ -994,6 +1016,7 @@ public class EntryController {
 
     }
 
+    @PreAuthorize("hasRole('ROLE_USER')")
     @RequestMapping(value = "/stopwatch/{type}/{id}")
     public @ResponseBody Entry removeWatcher(@PathVariable final String type,
             @PathVariable final Long id, final Principal currentUser) {
@@ -1027,18 +1050,40 @@ public class EntryController {
     }
 
     private void sendNotificationMail(Account source, Account target,
-            EventType eventType, ObjectIdentification oid) {
+            EventType eventType, ObjectIdentification oid,
+            HttpServletRequest request, boolean sendToCurrentUser,
+            Principal currentUser) {
 
-        this.notificationService.sendMailNotificationsForEvent(source, target,
-                eventType, oid);
+        this.notificationService.sendMailNotificationsForEvent(source,
+                Sets.newHashSet(target), eventType, oid,
+                createServerUrl(request), sendToCurrentUser, currentUser);
 
     }
 
-    private void sendNotificationMail(Account account, Group group,
-            EventType madeEntry, ObjectIdentification oid) {
+    private void sendNotificationMail(Account source, Set<Account> targets,
+            EventType eventType, ObjectIdentification oid,
+            HttpServletRequest request, boolean sendToCurrentUser,
+            Principal currentUser) {
 
-        this.notificationService.sendMailNotificationsForEvent(account, group,
-                EventType.MADE_ENTRY, oid);
+        this.notificationService.sendMailNotificationsForEvent(source, targets,
+                eventType, oid, createServerUrl(request), sendToCurrentUser,
+                currentUser);
+
+    }
+
+    private String createServerUrl(HttpServletRequest request) {
+        return request.getScheme() + "://" + request.getServerName() + ":"
+                + request.getServerPort();
+    }
+
+    private void sendNotificationMail(Account account, Group group,
+            EventType eventType, ObjectIdentification oid,
+            HttpServletRequest request, boolean sendToCurrentUser,
+            Principal currentUser) {
+
+        this.notificationService.sendMailNotificationsForEvent(account,
+                Sets.newHashSet(group.getMembers()), eventType, oid,
+                createServerUrl(request), sendToCurrentUser, currentUser);
 
     }
 

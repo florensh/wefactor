@@ -202,27 +202,36 @@ public class WeFactorValues {
 
         // @formatter:off
         /** The made proposal. */
-        MADE_PROPOSAL("made a new proposal",EntryController.ENTRY_DETAILS_LINK),
+        MADE_PROPOSAL("made a new proposal",EntryController.ENTRY_DETAILS_LINK, "New proposal"),
         
         /** The proposal accepted. */
-        PROPOSAL_ACCEPTED("accepted your proposal",EntryController.ENTRY_DETAILS_LINK),
+        PROPOSAL_ACCEPTED("accepted your proposal",EntryController.ENTRY_DETAILS_LINK, "Proposal accepted"),
         
         /** The proposal rejected. */
-        PROPOSAL_REJECTED("rejected your proposal",EntryController.ENTRY_DETAILS_LINK),
+        PROPOSAL_REJECTED("rejected your proposal",EntryController.ENTRY_DETAILS_LINK, "Proposal rejected"),
         
         /** The user joined group. */
-        USER_JOINED_GROUP("joined the group",GroupController.GROUP_DETAILS_LINK),
+        USER_JOINED_GROUP("joined the group",GroupController.GROUP_DETAILS_LINK, "New user in group"),
         
         /** The user left group. */
-        USER_LEFT_GROUP("left the group",GroupController.GROUP_DETAILS_LINK),
+        USER_LEFT_GROUP("left the group",GroupController.GROUP_DETAILS_LINK, "User left group"),
+        
+        /** New version. */
+        NEW_VERSION("made a new version",EntryController.ENTRY_DETAILS_LINK, "New Version"),
         
         /** The made entry. */
-        MADE_ENTRY("made an entry",EntryController.ENTRY_DETAILS_LINK)
+        MADE_ENTRY("made an entry",EntryController.ENTRY_DETAILS_LINK,"New entry in group")
         ;
         // @formatter:on
 
+        public String getMailSubject() {
+            return mailSubject;
+        }
+
         /** The event text. */
         private final String text;
+
+        private final String mailSubject;
 
         /** The event link. */
         private final String link;
@@ -235,9 +244,11 @@ public class WeFactorValues {
          * @param theLink
          *            the link
          */
-        EventType(final String theText, final String theLink) {
+        EventType(final String theText, final String theLink,
+                final String theSubject) {
             this.text = theText;
             this.link = theLink;
+            this.mailSubject = theSubject;
 
         }
 

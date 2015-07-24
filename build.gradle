@@ -37,6 +37,10 @@ dependencies {
     compile("org.springframework.boot:spring-boot-starter-thymeleaf")
     compile("org.springframework.boot:spring-boot-starter-security")
     compile("org.springframework.boot:spring-boot-starter-actuator")
+    compile('javax.mail:mail:1.4.7')
+
+    
+    compile("com.google.guava:guava:18.0")
 
 
     compile("org.springframework.social:spring-social-security:1.1.0.RELEASE")
