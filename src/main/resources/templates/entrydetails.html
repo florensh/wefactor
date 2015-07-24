@@ -83,7 +83,24 @@
 										</div>
 
 
-										<div th:replace="entrydetails_template :: right_sidebar (${entry.orderedVersions.get(0)}, true)">(description)</div>
+										<div class="col-md-2 col-sm-2" id="right-sidebar">
+											<div class="clearfix" style="margin-bottom:20px;">
+											
+											
+												<p style="margin-bottom: 3px;">
+													<span id="watchcount" class="badge badge-light" th:text="${entry.watchCount}">0</span> <span
+														class="badge-text-light">Watchers</span>
+												</p>
+												<span style="float: left;" class="badge-text-light">watch entry</span>
+												<div style = "float: right;">
+												
+
+												<input th:if="${currentUserProfile.account.watcherOf(entry)}" type="checkbox" class="js-switch js-switch-follow js-check-change-follow" style="float:right;" value="follow" checked="checked"></input>
+												<input th:unless="${currentUserProfile.account.watcherOf(entry)}" type="checkbox" class="js-switch js-switch-follow js-check-change-follow" style="float:right;" value="follow"></input>
+												</div>
+											</div>
+											<div th:replace="entrydetails_template :: right_sidebar (${entry.orderedVersions.get(0)}, true)">(description)</div>
+										</div>
 
 
 									</div>
@@ -257,7 +274,7 @@
 	<script th:inline="javascript">
 	/* <![CDATA[ */
 	           
-	
+
 
 	$(function() {
 		// If using Bootstrap 2, be sure to include:
@@ -279,10 +296,72 @@
 
 
 
+
+
+	<script th:inline="javascript">
+		/*<![CDATA[*/
+		           
+		    var disabled = /*[[${entry.account.primaryProfile.id == currentUserProfile.id}]]*/'false';
+		           
+		    var elem = document.querySelector('.js-switch-follow');
+		    var init = new Switchery(elem, { size: 'small', disabled: disabled }); 
+		    
+		    
+		    var ra = /*[[${entry.watchCount}]]*/'watchers';
+	    
+			function startWatching() {
+				
+				var id = /*[[${entry.id}]]*/'ids';
+				var url = "/watch/" + 'MasterEntry' + "/" + id +"/";
+				
+				 $.ajax({
+				        url: url
+				    }).then(function(data) {
+
+				    	$("#watchcount").fadeOut('fast', function(){
+				    		$("#watchcount").html(data.watchCount).fadeIn('fast');
+				    	}); 
+				    });
+
+			}
+			
+			function stopWatching() {
+				var id = /*[[${entry.id}]]*/'ids';
+				
+				var url = "/stopwatch/" + 'MasterEntry' + "/" + id +"/";
+				
+				 $.ajax({
+				        url: url
+				    }).then(function(data) {
+
+				    	$("#watchcount").fadeOut('fast', function(){
+				    		$("#watchcount").html(data.watchCount).fadeIn('fast');
+				    	}); 
+				    });
+
+			}
+			
+			
+			var changeCheckboxFollow = document.querySelector('.js-check-change-follow');
+
+			changeCheckboxFollow.onchange = function() {
+				if(changeCheckboxFollow.checked){
+					startWatching();
+				}else{
+					stopWatching();
+				}
+				
+			}
+		    
+		    
+		    
+		/* ]]> */
+	</script>
+
 	<script th:inline="javascript">
 		/*<![CDATA[*/
 		    var disabled = /*[[${entry.orderedVersions.size()==1}]]*/'false';
-		    var elem = document.querySelector('.js-switch');
+		    var elem = document.querySelector('.js-switch-diff');
 		    var init = new Switchery(elem, { size: 'small', disabled: disabled });
 		    var diffMode = false;
 			

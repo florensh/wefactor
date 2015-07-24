@@ -70,9 +70,10 @@
 								</div>
 							</div>
 
-
-							<div
-								th:replace="entrydetails_template :: right_sidebar (${entry.orderedVersions.get(0)}, false)">(right_sidebar)</div>
+								
+							<div class="col-md-2 col-sm-2" id="right-sidebar">
+								<div th:replace="entrydetails_template :: right_sidebar (${entry.orderedVersions.get(0)}, false)">(right_sidebar)</div>
+							</div>
 
 
 						</div>
@@ -234,7 +235,7 @@
 	<script th:inline="javascript">
 		/*<![CDATA[*/
 		    var disabled = /*[[${entry.orderedVersions.size()==1}]]*/'false';
-		    var elem = document.querySelector('.js-switch');
+		    var elem = document.querySelector('.js-switch-diff');
 		    var init = new Switchery(elem, { size: 'small', disabled: disabled });
 		    var diffMode = false;
 			
